@@ -6,14 +6,14 @@ const ClientProjectsPage = () => {
   const handleNavigateProject = () => {
     //router.push("/clients/ped/projecta");
     router.push({
-      pathname: "/clients/[id]/[clientProjectId]",
-      query: { id: "ped", clientProjectId: "Project A" },
+      pathname: "/clients/[id]/[clientprojectid]",
+      query: { id: "ped", clientprojectid: "projecta" },
     });
   };
 
   return (
     <div>
-      <h1>ClientProjectsPage</h1>
+      <h1>Client Projects Page</h1>
 
       <button onClick={handleNavigateProject}>Navigate to Project</button>
     </div>
