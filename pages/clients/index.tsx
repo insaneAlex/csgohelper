@@ -5,6 +5,7 @@ const ClientsPage = () => {
     { id: "ped", name: "Pedro" },
     { id: "alex", name: "Oleksandr" },
   ];
+
   return (
     <div>
       <h1>Clients Page</h1>
