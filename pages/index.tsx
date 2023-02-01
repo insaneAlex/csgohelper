@@ -7,14 +7,14 @@ export default function Home() {
         <h1>Hello, it&apos;s homepage here!</h1>
         <ul>
           <li>
-            <Link href="/portfolio">Portfolio</Link>
+            <Link href="/events">Events</Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/clients">Clients</Link>
           </li>
           <li>
             <Link href="about">About</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>
