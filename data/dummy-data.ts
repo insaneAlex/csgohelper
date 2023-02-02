@@ -1,3 +1,5 @@
+type DateType = {year: number; month: number};
+
 const DUMMY_EVENTS = [
   {
     id: "e1",
@@ -31,6 +33,16 @@ const DUMMY_EVENTS = [
   },
 ];
 
+export type EventType = {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  image: string;
+  isFeatured: boolean;
+};
+
 export function getFeaturedEvents() {
   return DUMMY_EVENTS.filter((event) => event.isFeatured);
 }
@@ -38,18 +50,15 @@ export function getFeaturedEvents() {
 export function getAllEvents() {
   return DUMMY_EVENTS;
 }
-type DateType = {year: number; month: number};
 
 export function getFilteredEvents(dateFilter: DateType) {
   const {year, month} = dateFilter;
-
   let filteredEvents = DUMMY_EVENTS.filter((event) => {
     const eventDate = new Date(event.date);
     return (
       eventDate.getFullYear() === year && eventDate.getMonth() === month - 1
     );
   });
-
   return filteredEvents;
 }
 

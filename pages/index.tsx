@@ -1,6 +1,9 @@
+import {getFeaturedEvents} from "@/data/dummy-data";
 import Link from "next/link";
 
 export default function Home() {
+  const featuredEvents = getFeaturedEvents();
+
   return (
     <>
       <div>
