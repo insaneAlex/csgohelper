@@ -1,3 +1,4 @@
+import EventList from "@/components/events/event-list";
 import {getFeaturedEvents} from "@/data/dummy-data";
 import Link from "next/link";
 
@@ -12,6 +13,7 @@ export default function Home() {
           <li>
             <Link href="/events">Events</Link>
           </li>
+          <EventList list={featuredEvents} />
           {/* <li>
             <Link href="/clients">Clients</Link>
           </li>

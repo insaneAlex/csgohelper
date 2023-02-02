@@ -10,9 +10,7 @@ const EventList = ({list}: Props) => {
   return (
     <ul>
       {list.map((event) => (
-        <React.Fragment key={event.id}>
-          <EventItem event={event}></EventItem>
-        </React.Fragment>
+        <EventItem key={event.id} event={event}></EventItem>
       ))}
     </ul>
   );
