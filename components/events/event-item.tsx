@@ -1,6 +1,9 @@
 import {EventType} from "@/data/dummy-data";
 import Link from "next/link";
 import {FC} from "react";
+import AddressIcon from "../icons/address-icon";
+import ArrowRightIcon from "../icons/arrow-right-icon";
+import DateIcon from "../icons/date-icon";
 import Button from "../ui/button";
 import styles from "./event-item.module.css";
 
@@ -25,14 +28,21 @@ const EventItem: FC<Props> = ({event}) => {
         <div className={styles.summary}>
           <h2>{title}</h2>
           <div className={styles.date}>
+            <DateIcon />
             <time>{formattedDate}</time>
           </div>
           <div className={styles.address}>
+            <AddressIcon />
             <address>{address}</address>
           </div>
         </div>
         <div className={styles.actions}>
-          <Button link={exploreLink}>Explore event</Button>
+          <Button link={exploreLink}>
+            <span>Explore event</span>
+            <span className={styles.icon}>
+              <ArrowRightIcon />
+            </span>
+          </Button>
         </div>
       </div>
     </li>
