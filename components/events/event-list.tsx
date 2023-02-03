@@ -1,13 +1,13 @@
 import {EventType} from "@/data/dummy-data";
 import EventItem from "./event-item";
-import React from "react";
+import React, {FC} from "react";
 import styles from "./event-list.module.css";
 
 type Props = {
   list: EventType[];
 };
 
-const EventList = ({list}: Props) => {
+const EventList: FC<Props> = ({list}) => {
   return (
     <ul className={styles.list}>
       {list.map((event) => (

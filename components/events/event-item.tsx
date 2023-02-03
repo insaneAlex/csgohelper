@@ -1,10 +1,12 @@
 import {EventType} from "@/data/dummy-data";
 import Link from "next/link";
+import {FC} from "react";
+import Button from "../ui/button";
 import styles from "./event-item.module.css";
 
 type Props = {event: EventType};
 
-const EventItem = ({event}: Props) => {
+const EventItem: FC<Props> = ({event}) => {
   const {id, title, location, image, date} = event;
 
   const exploreLink = `/events/${id}`;
@@ -30,7 +32,7 @@ const EventItem = ({event}: Props) => {
           </div>
         </div>
         <div className={styles.actions}>
-          <Link href={exploreLink}>Explore event</Link>
+          <Button link={exploreLink}>Explore event</Button>
         </div>
       </div>
     </li>
