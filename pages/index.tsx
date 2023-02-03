@@ -14,12 +14,6 @@ export default function Home() {
             <Link href="/events">Events</Link>
           </li>
           <EventList list={featuredEvents} />
-          {/* <li>
-            <Link href="/clients">Clients</Link>
-          </li>
-          <li>
-            <Link href="about">About</Link>
-          </li> */}
         </ul>
       </div>
     </>
