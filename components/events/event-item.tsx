@@ -1,5 +1,5 @@
 import {EventType} from "@/data/dummy-data";
-import Link from "next/link";
+import Image from "next/image";
 import {FC} from "react";
 import AddressIcon from "../icons/address-icon";
 import ArrowRightIcon from "../icons/arrow-right-icon";
@@ -22,8 +22,7 @@ const EventItem: FC<Props> = ({event}) => {
 
   return (
     <li className={styles.item}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={`/${image}`} alt={title} />
+      <Image src={`/${image}`} alt={title} width={750} height={500} />
       <div className={styles.content}>
         <div className={styles.summary}>
           <h2>{title}</h2>

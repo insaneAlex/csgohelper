@@ -9,12 +9,7 @@ export default function Home() {
     <>
       <div>
         <h1>Hello, it&apos;s homepage here!</h1>
-        <ul>
-          <li>
-            <Link href="/events">Events</Link>
-          </li>
-          <EventList list={featuredEvents} />
-        </ul>
+        <EventList list={featuredEvents} />
       </div>
     </>
   );
