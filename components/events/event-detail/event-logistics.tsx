@@ -1,5 +1,5 @@
 import LogisticsItem from "./logistics-item";
-import classes from "./event-logistics.module.css";
+import styles from "./event-logistics.module.scss";
 import {FC} from "react";
 import {EventType} from "@/data/dummy-data";
 import Image from "next/image";
@@ -18,11 +18,11 @@ const EventLogistics: FC<Props> = ({event}) => {
   });
 
   return (
-    <section className={classes.logistics}>
-      <div className={classes.image}>
+    <section className={styles.logistics}>
+      <div className={styles.image}>
         <Image src={`/${image}`} alt={title} width={750} height={500} />
       </div>
-      <ul className={classes.list}>
+      <ul className={styles.list}>
         <LogisticsItem icon={DateIcon}>
           <time>{humanReadableDate}</time>
         </LogisticsItem>

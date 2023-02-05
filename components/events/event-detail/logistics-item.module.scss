@@ -5,25 +5,20 @@
   flex-direction: column;
   text-align: center;
   color: #aefff8;
-}
-
-.item span {
-  display: block;
+  span {
+    display: block;
+  }
+  @media (min-width: 768px) {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 .icon {
   margin-right: 1rem;
   color: #18e0d0;
-}
-
-.icon svg {
-  width: 2rem;
-  height: 2rem;
-}
-
-@media (min-width: 768px) {
-  .item {
-    align-items: flex-start;
-    text-align: left;
+  svg {
+    width: 2rem;
+    height: 2rem;
   }
 }

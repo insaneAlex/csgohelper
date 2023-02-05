@@ -5,7 +5,7 @@ import AddressIcon from "../icons/address-icon";
 import ArrowRightIcon from "../icons/arrow-right-icon";
 import DateIcon from "../icons/date-icon";
 import Button from "../ui/button";
-import styles from "./event-item.module.css";
+import styles from "./event-item.module.scss";
 
 type Props = {event: EventType};
 

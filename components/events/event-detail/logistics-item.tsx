@@ -1,19 +1,15 @@
 import {FC, ReactNode} from "react";
-import {JsxElement} from "typescript";
-import classes from "./logistics-item.module.css";
+import styles from "./logistics-item.module.scss";
 
-type Props = {
-  icon: FC;
-  children: ReactNode;
-};
+type Props = {icon: FC; children: ReactNode};
 
 const LogisticsItem: FC<Props> = ({icon: Icon, children}) => {
   return (
-    <li className={classes.item}>
-      <span className={classes.icon}>
+    <li className={styles.item}>
+      <span className={styles.icon}>
         <Icon />
       </span>
-      <span className={classes.content}>{children}</span>
+      <span className={styles.content}>{children}</span>
     </li>
   );
 };

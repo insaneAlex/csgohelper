@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {FC} from "react";
-
-import styles from "./button.module.css";
+import styles from "./button.module.scss";
 
 type Props = {link: string; children: React.ReactNode};
 

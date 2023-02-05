@@ -1,8 +1,10 @@
 import {FC, ReactNode} from "react";
-import classes from "./event-content.module.css";
+import styles from "./event-content.module.scss";
 
-const EventContent: FC<{children: ReactNode}> = ({children}) => {
-  return <section className={classes.content}>{children}</section>;
+type Props = {children: ReactNode};
+
+const EventContent: FC<Props> = ({children}) => {
+  return <section className={styles.content}>{children}</section>;
 };
 
 export default EventContent;
