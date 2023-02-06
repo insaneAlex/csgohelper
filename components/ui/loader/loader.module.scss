@@ -1,0 +1,19 @@
+@import "styles/variables.scss";
+
+.loader {
+  margin: 100px auto;
+  border-top: 1px dashed $reactive-blue;
+  border-bottom: 1px dashed $base-dark;
+  animation: spin 1s infinite ease-in-out;
+  border-radius: 50%;
+  height: 75px;
+  width: 75px;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

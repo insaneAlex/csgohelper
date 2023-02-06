@@ -6,9 +6,8 @@ const Home = () => {
 
   return (
     <>
-      <h1 style={{textAlign: "center", color: "$base-dark"}}>
-        Hello, it&apos;s homepage here!
-      </h1>
+      <h1 style={{textAlign: "center", color: "$base-dark"}}>Stay Reactive!</h1>
+
       <EventList list={featuredEvents} />
     </>
   );

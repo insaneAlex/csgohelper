@@ -5,7 +5,7 @@ import styles from "./event-search.module.scss";
 
 type Props = {onSearch: (date: DateType) => void};
 
-export const EventSearch: FC<Props> = (props) => {
+export const EventSearch: FC<Props> = ({onSearch}) => {
   const yearRef = useRef<HTMLSelectElement>(null);
   const monthRef = useRef<HTMLSelectElement>(null);
 
@@ -15,7 +15,7 @@ export const EventSearch: FC<Props> = (props) => {
     const year = Number(yearRef.current && yearRef.current.value);
     const month = Number(monthRef.current && monthRef.current.value);
 
-    props.onSearch({month, year});
+    onSearch({month, year});
   };
 
   return (

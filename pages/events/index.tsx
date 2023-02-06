@@ -6,7 +6,10 @@ const EventsPage = () => {
   const events = getAllEvents();
   const router = useRouter();
 
-  const findEvents = ({year, month}: DateType) => {};
+  const findEvents = ({year, month}: DateType) => {
+    const fullPath = `/events/${year}/${month}`;
+    router.push(fullPath);
+  };
 
   return (
     <>
