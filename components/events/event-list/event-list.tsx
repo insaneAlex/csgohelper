@@ -1,5 +1,5 @@
 import {EventType} from "@/data/dummy-data";
-import EventItem from "./event-item";
+import {EventItem} from "../event-item/event-item";
 import React, {FC} from "react";
 import styles from "./event-list.module.scss";
 
@@ -7,7 +7,7 @@ type Props = {
   list: EventType[];
 };
 
-const EventList: FC<Props> = ({list}) => {
+export const EventList: FC<Props> = ({list}) => {
   return (
     <ul className={styles.list}>
       {list.map((event) => (
@@ -16,5 +16,3 @@ const EventList: FC<Props> = ({list}) => {
     </ul>
   );
 };
-
-export default EventList;

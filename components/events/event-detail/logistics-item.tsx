@@ -3,7 +3,7 @@ import styles from "./logistics-item.module.scss";
 
 type Props = {icon: FC; children: ReactNode};
 
-const LogisticsItem: FC<Props> = ({icon: Icon, children}) => {
+export const LogisticsItem: FC<Props> = ({icon: Icon, children}) => {
   return (
     <li className={styles.item}>
       <span className={styles.icon}>
@@ -13,5 +13,3 @@ const LogisticsItem: FC<Props> = ({icon: Icon, children}) => {
     </li>
   );
 };
-
-export default LogisticsItem;

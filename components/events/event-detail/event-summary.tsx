@@ -1,7 +1,7 @@
 import {FC} from "react";
 import styles from "./event-summary.module.scss";
 
-const EventSummary: FC<{title: string}> = (props) => {
+export const EventSummary: FC<{title: string}> = (props) => {
   const {title} = props;
 
   return (
@@ -10,5 +10,3 @@ const EventSummary: FC<{title: string}> = (props) => {
     </section>
   );
 };
-
-export default EventSummary;

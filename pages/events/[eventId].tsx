@@ -1,9 +1,7 @@
+import {EventContent, EventLogistics, EventSummary} from "@/components/events";
 import {EventType, getEventById} from "@/data/dummy-data";
 import {useRouter} from "next/router";
 import React, {FC} from "react";
-import EventSummary from "@/components/events/event-detail/event-summary";
-import EventLogistics from "@/components/events/event-detail/event-logistics";
-import EventContent from "@/components/events/event-detail/event-content";
 
 const EventPage: FC = () => {
   const router = useRouter();

@@ -1,7 +1,23 @@
+import Link from "next/link";
 import {FC} from "react";
+import styles from "./main-header.module.scss";
 
 const MainHeader: FC = () => {
-  return <div></div>;
+  return (
+    <header className={styles.header}>
+      <div className={styles.logo}>
+        <Link href="/">NextEvents</Link>
+      </div>
+
+      <nav className={styles.navigation}>
+        <ul>
+          <li>
+            <Link href="/events">All Events</Link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
 };
 
 export default MainHeader;

@@ -1,16 +1,17 @@
-import EventList from "@/components/events/event-list";
+import {EventList} from "@/components/events";
 import {getFeaturedEvents} from "@/data/dummy-data";
-import Link from "next/link";
 
-export default function Home() {
+const Home = () => {
   const featuredEvents = getFeaturedEvents();
 
   return (
     <>
-      <div>
-        <h1>Hello, it&apos;s homepage here!</h1>
-        <EventList list={featuredEvents} />
-      </div>
+      <h1 style={{textAlign: "center", color: "$base-dark"}}>
+        Hello, it&apos;s homepage here!
+      </h1>
+      <EventList list={featuredEvents} />
     </>
   );
-}
+};
+
+export default Home;

@@ -1,15 +1,13 @@
 import {EventType} from "@/data/dummy-data";
 import Image from "next/image";
 import {FC} from "react";
-import AddressIcon from "../icons/address-icon";
-import ArrowRightIcon from "../icons/arrow-right-icon";
-import DateIcon from "../icons/date-icon";
-import Button from "../ui/button";
+import {AddressIcon, ArrowRightIcon, DateIcon} from "../../icons";
+import {Button} from "../../ui";
 import styles from "./event-item.module.scss";
 
 type Props = {event: EventType};
 
-const EventItem: FC<Props> = ({event}) => {
+export const EventItem: FC<Props> = ({event}) => {
   const {id, title, location, image, date} = event;
 
   const exploreLink = `/events/${id}`;
@@ -37,7 +35,7 @@ const EventItem: FC<Props> = ({event}) => {
         </div>
         <div className={styles.actions}>
           <Button link={exploreLink}>
-            <span>Explore event</span>
+            <span>Explore</span>
             <span className={styles.icon}>
               <ArrowRightIcon />
             </span>
@@ -47,5 +45,3 @@ const EventItem: FC<Props> = ({event}) => {
     </li>
   );
 };
-
-export default EventItem;

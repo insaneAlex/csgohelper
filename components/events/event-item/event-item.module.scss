@@ -1,3 +1,5 @@
+@import "styles/variables.scss";
+
 .item {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px 12px 2px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -18,6 +20,7 @@
   width: 100%;
   padding: 0 1rem;
   text-align: center;
+  color: $base-dark;
   h2 {
     margin: 0.5rem 0;
   }

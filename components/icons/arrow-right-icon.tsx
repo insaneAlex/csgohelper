@@ -1,4 +1,4 @@
-export default function ArrowRightIcon() {
+export const ArrowRightIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,4 +12,4 @@ export default function ArrowRightIcon() {
       />
     </svg>
   );
-}
+};

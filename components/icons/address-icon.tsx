@@ -1,4 +1,4 @@
-export default function AddressIcon() {
+export const AddressIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,4 +20,4 @@ export default function AddressIcon() {
       />
     </svg>
   );
-}
+};

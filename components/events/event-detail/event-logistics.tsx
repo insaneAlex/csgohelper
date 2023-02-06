@@ -1,14 +1,13 @@
-import LogisticsItem from "./logistics-item";
+import {LogisticsItem} from "./logistics-item";
 import styles from "./event-logistics.module.scss";
 import {FC} from "react";
 import {EventType} from "@/data/dummy-data";
 import Image from "next/image";
-import DateIcon from "@/components/icons/date-icon";
-import AddressIcon from "@/components/icons/address-icon";
+import {DateIcon, AddressIcon} from "@/components/icons";
 
 type Props = {event: EventType};
 
-const EventLogistics: FC<Props> = ({event}) => {
+export const EventLogistics: FC<Props> = ({event}) => {
   const {date, location, image, title} = event;
   const addressText = location.replace(", ", "\n");
   const humanReadableDate = new Date(date).toLocaleDateString("en-US", {
@@ -33,5 +32,3 @@ const EventLogistics: FC<Props> = ({event}) => {
     </section>
   );
 };
-
-export default EventLogistics;

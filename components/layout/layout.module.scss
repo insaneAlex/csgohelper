@@ -1,4 +1,17 @@
-.page {
+@import "styles/variables.scss";
+
+.main {
   max-width: 1500px;
   min-width: 320px;
+  margin: 0 auto;
+  min-height: 90vh;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  background-color: $base-dark;
+  color: $reactive-blue;
+  letter-spacing: 1px;
 }
