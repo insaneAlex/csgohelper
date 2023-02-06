@@ -1,4 +1,4 @@
-type DateType = {year: number; month: number};
+export type DateType = {year: number; month: number};
 export type EventType = {
   id: string;
   title: string;

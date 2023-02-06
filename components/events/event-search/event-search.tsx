@@ -1,9 +1,11 @@
 import {Button} from "@/components/ui";
-import {getFilteredEvents} from "@/data/dummy-data";
+import {DateType} from "@/data/dummy-data";
 import {FC, FormEvent, useRef} from "react";
 import styles from "./event-search.module.scss";
 
-export const EventSearch: FC = () => {
+type Props = {onSearch: (date: DateType) => void};
+
+export const EventSearch: FC<Props> = (props) => {
   const yearRef = useRef<HTMLSelectElement>(null);
   const monthRef = useRef<HTMLSelectElement>(null);
 
@@ -13,7 +15,7 @@ export const EventSearch: FC = () => {
     const year = Number(yearRef.current && yearRef.current.value);
     const month = Number(monthRef.current && monthRef.current.value);
 
-    console.log(getFilteredEvents({month, year}));
+    props.onSearch({month, year});
   };
 
   return (

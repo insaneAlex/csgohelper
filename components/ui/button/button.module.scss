@@ -1,5 +1,5 @@
+@import "styles/variables.scss";
 .btn {
-  text-decoration: none;
   cursor: pointer;
   font: inherit;
   background-color: #03be9f;
@@ -9,6 +9,7 @@
   padding: 0.5rem 1.5rem;
   text-align: center;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
   &:hover {
     background-color: #02afa1;
     border-color: #02afa1;
