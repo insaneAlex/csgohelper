@@ -1,34 +1,63 @@
-import {InventoryList} from "@/components/events/event-list/inventory-items";
+import {
+  InventoryList,
+  inventoryUrl,
+  SortedInventoryType,
+} from "@/components/steam";
+import {Loader} from "@/components/ui";
 import {getInventory} from "@/data/dummy-inventory";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 
-const newSteamUrl =
-  "https://steamcommunity.com/inventory/76561198080636799/730/2?l=english&count=1000";
-
-const SteamInventory = () => {
-  const dummyInventory = getInventory();
-  const headers = useMemo(() => new Headers(), []);
-  headers.append("Content-Type", "application/json");
+const SteamInventory = ({dummyInventory = getInventory()}) => {
   const [inventory, setInventory] = useState(dummyInventory);
+  const [sortedInventory, setSortedInventory] = useState<SortedInventoryType>();
+
+  const handleSearch = () => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    fetch(inventoryUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data && setInventory(data);
+      });
+  };
 
   useEffect(() => {
-    try {
-      fetch(newSteamUrl, {
-        method: "GET",
-        headers: headers,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          data && setInventory(data);
-        });
-    } catch (e) {
-      throw new Error(e as undefined);
-    }
-  }, [headers]);
+    const filterInventory = () => {
+      return inventory.assets.map(({classid}) => {
+        const {name, type, icon_url} = inventory.descriptions.filter(
+          (descriptions) => classid === descriptions.classid
+        )[0];
+
+        return {
+          type,
+          name,
+          classid,
+          icon_url,
+        };
+      });
+    };
+
+    return setSortedInventory({
+      inventory: filterInventory(),
+      total_inventory_count: inventory.total_inventory_count,
+    });
+  }, [inventory]);
+
+  if (!sortedInventory) {
+    return <Loader />;
+  }
 
   return (
     <>
-      <InventoryList inventory={inventory} />
+      {sortedInventory && (
+        <InventoryList items={sortedInventory} onSearch={handleSearch} />
+      )}
     </>
   );
 };

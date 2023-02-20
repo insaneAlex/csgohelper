@@ -1,0 +1,35 @@
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.title {
+  text-align: center;
+}
+
+.searchBlock {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.searchBtn {
+  text-align: center;
+  margin: 0 auto;
+  height: 50px;
+  width: 200px;
+
+  button {
+    height: 50px;
+    width: 200px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+    color: white;
+    border: none;
+    padding: 0;
+    border-radius: 15px;
+    background-color: #202020;
+    transition: 0.3s;
+  }
+}

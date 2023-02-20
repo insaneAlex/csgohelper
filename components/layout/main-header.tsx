@@ -13,7 +13,14 @@ const MainHeader: FC = () => {
         <nav className={styles.navigation}>
           <ul>
             <li>
-              <Link href="/events">All Events</Link>
+              <Link href="events">
+                <span className={styles.linkCaption}>All Events</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="steam-inventory">
+                <span className={styles.linkCaption}>Steam inventory</span>
+              </Link>
             </li>
           </ul>
         </nav>
