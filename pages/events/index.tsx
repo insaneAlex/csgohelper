@@ -1,5 +1,6 @@
 import {DateType, getEvents} from "@/api";
 import {EventList, EventSearch, EventType} from "@/components/events";
+import Head from "next/head";
 
 import {useRouter} from "next/router";
 import {FC} from "react";
@@ -16,6 +17,10 @@ const EventsPage: FC<Props> = ({events}) => {
 
   return (
     <>
+      <Head>
+        <title>List of Events</title>
+        <meta name="description" content="Find networking events here" />
+      </Head>
       <EventSearch onSearch={findEvents} />
       <EventList list={events} />
     </>

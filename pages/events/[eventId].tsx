@@ -9,6 +9,7 @@ import {
 import {ErrorAlert, Button} from "@/components/ui";
 
 import {GetStaticProps, GetStaticPaths, NextPage} from "next";
+import Head from "next/head";
 
 type Props = {event: EventType};
 
@@ -29,6 +30,10 @@ const EventPage: NextPage<Props> = ({event}) => {
   const {title, description} = event;
   return (
     <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </Head>
       <EventSummary title={title} />
       <EventLogistics event={event} />
       <EventContent>

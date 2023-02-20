@@ -3,7 +3,9 @@ import {firebaseDB} from "@/api/constants";
 import {EventList, EventType} from "@/components/events";
 import {ResultsTitle} from "@/components/events/event-search";
 import {Button, ErrorAlert, Loader} from "@/components/ui";
+import {getReadableDate} from "@/data";
 import {NextPage} from "next";
+import Head from "next/head";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import useSWR from "swr";
@@ -72,9 +74,14 @@ const FilteredEventsPage: NextPage<Props> = () => {
   }
 
   const resultDate = new Date(year, month - 1);
+  const readableDate = getReadableDate(resultDate);
   return (
     <>
-      <ResultsTitle date={resultDate} />
+      <Head>
+        <title>{`Filtered networking events by ${readableDate}`}</title>
+        <meta name="description" content="Find event or yourself" />
+      </Head>
+      <ResultsTitle readableDate={readableDate} />
       <EventList list={filteredEvents} />
     </>
   );
