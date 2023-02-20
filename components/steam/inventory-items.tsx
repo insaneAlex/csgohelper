@@ -12,6 +12,16 @@ export const InventoryList: FC<Props> = ({items, onSearch}) => {
     <>
       <h2 className={styles.title}>{`Total Items: ${inventoryAmount}`}</h2>
       <div className={styles.searchBlock}>
+        <form action="">
+          <div>
+            <label htmlFor="steamId"></label>
+            <input
+              placeholder="Enter your SteamID64"
+              type="text"
+              id="steamId"
+            />
+          </div>
+        </form>
         <div className={styles.searchBtn}>
           <button onClick={onSearch}>SEARCH BY SteamID</button>
         </div>
