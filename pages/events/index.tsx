@@ -1,9 +1,12 @@
-import {EventList, EventSearch} from "@/components/events";
-import {DateType, getAllEvents} from "@/data/dummy-data";
-import {useRouter} from "next/router";
+import {DateType, getEvents} from "@/api";
+import {EventList, EventSearch, EventType} from "@/components/events";
 
-const EventsPage = () => {
-  const events = getAllEvents();
+import {useRouter} from "next/router";
+import {FC} from "react";
+
+type Props = {events: EventType[]};
+
+const EventsPage: FC<Props> = ({events}) => {
   const router = useRouter();
 
   const findEvents = ({year, month}: DateType) => {
@@ -17,6 +20,12 @@ const EventsPage = () => {
       <EventList list={events} />
     </>
   );
+};
+
+export const getStaticProps = async () => {
+  const events = await getEvents();
+
+  return {props: {events}, revalidate: 60};
 };
 
 export default EventsPage;

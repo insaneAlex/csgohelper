@@ -1,9 +1,9 @@
 import {LogisticsItem} from "./logistics-item";
 import styles from "./event-logistics.module.scss";
 import {FC} from "react";
-import {EventType} from "@/data/dummy-data";
 import Image from "next/image";
 import {DateIcon, AddressIcon} from "@/components/icons";
+import {EventType} from "../types";
 
 type Props = {event: EventType};
 

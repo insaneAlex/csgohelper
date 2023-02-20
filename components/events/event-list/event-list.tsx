@@ -1,7 +1,7 @@
-import {EventType} from "@/data/dummy-data";
 import {EventItem} from "../event-item/event-item";
 import React, {FC} from "react";
 import styles from "./event-list.module.scss";
+import {EventType} from "../types";
 
 type Props = {
   list: EventType[];

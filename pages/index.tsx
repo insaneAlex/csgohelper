@@ -1,16 +1,20 @@
-import {EventList} from "@/components/events";
-import {getFeaturedEvents} from "@/data/dummy-data";
+import {EventList, EventType} from "@/components/events";
+import {FC} from "react";
+import {getFeaturedEvents} from "../api";
 
-const Home = () => {
-  const featuredEvents = getFeaturedEvents();
+type Props = {featuredEvents?: EventType[]};
 
-  return (
-    <>
-      <h1 style={{textAlign: "center", color: "$base-dark"}}>Stay Reactive!</h1>
+const Home: FC<Props> = ({featuredEvents}) => (
+  <>
+    <h1 style={{textAlign: "center", color: "$base-dark"}}>Stay Reactive!</h1>
+    {featuredEvents && <EventList list={featuredEvents} />}
+  </>
+);
 
-      <EventList list={featuredEvents} />
-    </>
-  );
+export const getStaticProps = async () => {
+  const featuredEvents = await getFeaturedEvents();
+
+  return {props: {featuredEvents}, revalidate: 1800};
 };
 
 export default Home;

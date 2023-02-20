@@ -1,5 +1,6 @@
+import {DateType} from "@/api";
 import {Button} from "@/components/ui";
-import {DateType} from "@/data/dummy-data";
+
 import {FC, FormEvent, useRef} from "react";
 import styles from "./event-search.module.scss";
 

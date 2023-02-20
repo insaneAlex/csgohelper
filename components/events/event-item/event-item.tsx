@@ -1,8 +1,8 @@
-import {EventType} from "@/data/dummy-data";
 import Image from "next/image";
 import {FC} from "react";
 import {AddressIcon, ArrowRightIcon, DateIcon} from "../../icons";
 import {Button} from "../../ui";
+import {EventType} from "../types";
 import styles from "./event-item.module.scss";
 
 type Props = {event: EventType};
