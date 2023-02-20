@@ -53,13 +53,7 @@ const SteamInventory = ({dummyInventory = getInventory()}) => {
     return <Loader />;
   }
 
-  return (
-    <>
-      {sortedInventory && (
-        <InventoryList items={sortedInventory} onSearch={handleSearch} />
-      )}
-    </>
-  );
+  return <InventoryList items={sortedInventory} onSearch={handleSearch} />;
 };
 
 export default SteamInventory;
