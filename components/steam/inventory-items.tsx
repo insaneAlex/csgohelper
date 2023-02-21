@@ -1,7 +1,12 @@
 import {FC, useRef} from "react";
 import styles from "./inventory-items.module.scss";
 import {InventoryItem} from "./inventory-item";
-import {SortedInventoryItemType, SortedInventoryType} from "./types";
+import {
+  InventoryType,
+  SortedInventoryItemType,
+  SortedInventoryType,
+} from "./types";
+import {filterInventoryByType} from "./helpers";
 
 type Props = {
   items: SortedInventoryType;
@@ -9,13 +14,18 @@ type Props = {
 };
 
 export const InventoryList: FC<Props> = ({items, onSearch}) => {
-  const {total_inventory_count: inventoryAmount, inventory} = items;
+  const {inventory} = items;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
     console.log(inputRef);
     onSearch({steamId: inputRef?.current?.value});
   };
+
+  const cases = filterInventoryByType({
+    inventory,
+    type: InventoryType.BaseGradeContainer,
+  });
 
   return (
     <>
@@ -26,7 +36,7 @@ export const InventoryList: FC<Props> = ({items, onSearch}) => {
             <input
               ref={inputRef}
               className={styles.input}
-              placeholder="Enter your SteamID64"
+              placeholder="Enter your SteamID"
               type="text"
               id="steamId"
             />
@@ -38,9 +48,9 @@ export const InventoryList: FC<Props> = ({items, onSearch}) => {
       </div>
 
       <div className={styles.container}>
-        <h2 className={styles.title}>{`Total Items: ${inventoryAmount}`}</h2>
+        <h2 className={styles.title}>{`Total Items: ${cases.length}`}</h2>
         <ul className={styles.items}>
-          {inventory.map((item: SortedInventoryItemType, index) => (
+          {cases.map((item: SortedInventoryItemType, index) => (
             <InventoryItem key={index} item={item} />
           ))}
         </ul>
