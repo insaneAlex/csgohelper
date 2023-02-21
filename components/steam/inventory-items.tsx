@@ -19,9 +19,8 @@ export const InventoryList: FC<Props> = ({items, onSearch}) => {
 
   return (
     <>
-      <h2 className={styles.title}>{`Total Items: ${inventoryAmount}`}</h2>
       <div className={styles.searchBlock}>
-        <form autoComplete="true" action="">
+        <form autoComplete="on" action="">
           <div>
             <label htmlFor="steamId"></label>
             <input
@@ -39,6 +38,7 @@ export const InventoryList: FC<Props> = ({items, onSearch}) => {
       </div>
 
       <div className={styles.container}>
+        <h2 className={styles.title}>{`Total Items: ${inventoryAmount}`}</h2>
         <ul className={styles.items}>
           {inventory.map((item: SortedInventoryItemType, index) => (
             <InventoryItem key={index} item={item} />
