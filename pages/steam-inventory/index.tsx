@@ -1,6 +1,7 @@
 import {
+  inventoryBase,
   InventoryList,
-  inventoryUrl,
+  inventoryRest,
   SortedInventoryType,
 } from "@/components/steam";
 import {Loader} from "@/components/ui";
@@ -11,15 +12,12 @@ const SteamInventory = ({dummyInventory = getInventory()}) => {
   const [inventory, setInventory] = useState(dummyInventory);
   const [sortedInventory, setSortedInventory] = useState<SortedInventoryType>();
 
-  const handleSearch = () => {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
+  const handleSearch = ({steamId}: {steamId?: string}) => {
+    const getInventoryUrl = `${inventoryBase}/${steamId}/${inventoryRest}`;
 
-    fetch(inventoryUrl, {
+    fetch(getInventoryUrl, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: {"Content-Type": "application/json"},
     })
       .then((res) => res.json())
       .then((data) => {

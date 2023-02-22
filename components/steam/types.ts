@@ -9,3 +9,7 @@ export type SortedInventoryType = {
   total_inventory_count: number;
   inventory: SortedInventoryItemType[];
 };
+
+export enum InventoryType {
+  BaseGradeContainer = "Base Grade Container",
+}
