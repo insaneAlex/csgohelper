@@ -5,6 +5,8 @@ import styles from "./inventory-item.module.scss";
 import {SortedInventoryItemType} from "./types";
 
 export const InventoryItem: FC<{item: SortedInventoryItemType}> = ({item}) => {
+  const counter = item?.count ? ` x ${item.count}` : "";
+
   return (
     <li className={styles.wrapper}>
       <div className={styles["image-wrapper"]}>
@@ -15,7 +17,7 @@ export const InventoryItem: FC<{item: SortedInventoryItemType}> = ({item}) => {
           height={115}
         />
       </div>
-      <p className={styles.describe}>{item.name}</p>
+      <p className={styles.describe}>{item.name + counter}</p>
     </li>
   );
 };

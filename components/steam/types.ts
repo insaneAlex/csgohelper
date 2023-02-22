@@ -3,6 +3,7 @@ export type SortedInventoryItemType = {
   name: string;
   classid: string;
   icon_url: string;
+  count?: number;
 };
 
 export type SortedInventoryType = {
