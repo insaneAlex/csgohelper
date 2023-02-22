@@ -11,14 +11,17 @@
 
 .container {
   margin: 0 auto;
-  @media (max-width: 768px) {
-    width: 555px;
+  width: 344px;
+
+  @media (min-width: 533px) {
+    width: 516px;
   }
+
   @media (min-width: 768px) {
-    width: 740px;
+    width: 688px;
   }
   @media (min-width: 1024px) {
-    width: 925px;
+    width: 860px;
   }
 }
 

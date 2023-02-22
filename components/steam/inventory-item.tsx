@@ -7,7 +7,7 @@ import {SortedInventoryItemType} from "./types";
 export const InventoryItem: FC<{item: SortedInventoryItemType}> = ({item}) => {
   return (
     <li className={styles.wrapper}>
-      <div>
+      <div className={styles["image-wrapper"]}>
         <Image
           src={`${inventoryImageBaseUrl}${item.icon_url}`}
           alt={item.name}
