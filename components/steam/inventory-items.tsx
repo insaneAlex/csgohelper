@@ -1,10 +1,10 @@
 import {FC, useRef} from "react";
 import styles from "./inventory-items.module.scss";
 import {InventoryItem} from "./inventory-item";
-import {SortedInventoryItemType, SortedInventoryType} from "./types";
+import {SortedInventoryItemType, ReadableInventoryType} from "./types";
 
 type Props = {
-  items: SortedInventoryType;
+  items: ReadableInventoryType;
   onSearch: ({steamId}: {steamId?: string}) => void;
 };
 

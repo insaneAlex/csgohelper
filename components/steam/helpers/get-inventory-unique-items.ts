@@ -5,6 +5,7 @@ type Props = {inventory: SortedInventoryItemType[]};
 export const getInventoryUniqueItems = ({
   inventory,
 }: Props): SortedInventoryItemType[] =>
+  inventory &&
   Object.values(
     inventory.reduce((filteredItems: any, currentItem) => {
       const old = filteredItems[currentItem.name];

@@ -2,15 +2,23 @@ import {
   inventoryBase,
   InventoryList,
   inventoryRest,
-  SortedInventoryType,
+  ReadableInventoryType,
 } from "@/components/steam";
+import {
+  filterInventoryByType,
+  getInventoryUniqueItems,
+} from "@/components/steam/helpers";
+import {InventoryType} from "@/components/steam/types";
 import {Loader} from "@/components/ui";
 import {getInventory} from "@/data/dummy-inventory";
-import {useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 
-const SteamInventory = ({dummyInventory = getInventory()}) => {
+const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
+  dummyInventory,
+}) => {
   const [inventory, setInventory] = useState(dummyInventory);
-  const [sortedInventory, setSortedInventory] = useState<SortedInventoryType>();
+  const [sortedInventory, setSortedInventory] =
+    useState<ReadableInventoryType>();
 
   const handleSearch = ({steamId}: {steamId?: string}) => {
     const getInventoryUrl = `${inventoryBase}/${steamId}/${inventoryRest}`;
@@ -41,17 +49,42 @@ const SteamInventory = ({dummyInventory = getInventory()}) => {
       });
     };
 
+    const sorted = filterInventory();
     return setSortedInventory({
-      inventory: filterInventory(),
-      total_inventory_count: inventory.total_inventory_count,
+      inventory: sorted,
+      total_inventory_count: sorted.length,
     });
   }, [inventory]);
+
+  const inventoryItems = sortedInventory?.inventory;
+
+  const uniqueInventoryItems = getInventoryUniqueItems({
+    inventory: inventoryItems,
+  });
 
   if (!sortedInventory) {
     return <Loader />;
   }
 
-  return <InventoryList items={sortedInventory} onSearch={handleSearch} />;
+  return (
+    <InventoryList
+      items={{
+        inventory: filterInventoryByType({
+          inventory: uniqueInventoryItems,
+          type: InventoryType.BaseGradeContainer,
+        }),
+      }}
+      onSearch={handleSearch}
+    />
+  );
+};
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      dummyInventory: getInventory(),
+    },
+  };
 };
 
 export default SteamInventory;

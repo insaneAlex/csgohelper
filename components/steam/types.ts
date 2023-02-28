@@ -6,7 +6,7 @@ export type SortedInventoryItemType = {
   count?: number;
 };
 
-export type SortedInventoryType = {
+export type ReadableInventoryType = {
   total_inventory_count: number;
   inventory: SortedInventoryItemType[];
 };
