@@ -7,6 +7,15 @@
   min-height: 90vh;
 }
 
+.mainWrapper {
+  background-color: #1d1f20;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
 .footer {
   display: flex;
   justify-content: center;

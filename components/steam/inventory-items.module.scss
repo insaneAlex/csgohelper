@@ -7,6 +7,7 @@
 .title {
   margin-left: 10px;
   margin-bottom: 10px;
+  color: gainsboro;
 }
 
 .container {
@@ -33,7 +34,9 @@
   justify-content: center;
   input[type="text"] {
     height: 40px;
+    color: gainsboro;
     margin: 0 -10px;
+    background-color: #232527;
     border: 2px solid #202020;
     padding-left: 10px;
     border-top-left-radius: 15px;
@@ -50,7 +53,7 @@
   width: 200px;
 
   button {
-    background-color: #202020;
+    background-color: #232527;
     border-radius: 15px;
     border: none;
     color: white;

@@ -6,10 +6,12 @@ type Props = {children: ReactNode};
 
 export const Layout: FC<Props> = ({children}) => {
   return (
-    <>
+    <div className={styles.layout}>
       <MainHeader />
-      <main className={styles.main}>{children}</main>
+      <div className={styles.mainWrapper}>
+        <main className={styles.main}>{children}</main>
+      </div>
       <footer className={styles.footer}>All rights reserved &#169;2023</footer>
-    </>
+    </div>
   );
 };
