@@ -38,7 +38,7 @@ export const InventoryList: FC<Props> = ({items, onSearch}) => {
       </div>
 
       <div className={styles.container}>
-        <h2 className={styles.title}>{`Total Items: ${inventory.length}`}</h2>
+        <h2 className={styles.title}>{`Unique Items: ${inventory.length}`}</h2>
         <ul className={styles.items}>
           {inventory.map((item: SortedInventoryItemType, index) => (
             <InventoryItem key={index} item={item} />

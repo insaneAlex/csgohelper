@@ -1,28 +1,88 @@
-import {FC} from "react";
-import {EventList, EventType} from "@/components/events";
-import {getFeaturedEvents} from "../api";
-import Head from "next/head";
+import {
+  inventoryBase,
+  InventoryList,
+  inventoryRest,
+  ReadableInventoryType,
+} from "@/components/steam";
+import {
+  filterInventoryByType,
+  getInventoryUniqueItems,
+} from "@/components/steam/helpers";
+import {InventoryType} from "@/components/steam/types";
+import {Loader} from "@/components/ui";
+import {DUMMY_INVENTORY, getInventory} from "@/data/dummy-inventory";
+import {FC, useEffect, useState} from "react";
 
-type Props = {featuredEvents?: EventType[]};
+const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
+  dummyInventory = DUMMY_INVENTORY,
+}) => {
+  const [inventory, setInventory] = useState(dummyInventory);
+  const [sortedInventory, setSortedInventory] =
+    useState<ReadableInventoryType>();
 
-const Home: FC<Props> = ({featuredEvents}) => (
-  <>
-    <Head>
-      <title>Networking Events</title>
-      <meta
-        name="description"
-        content="Find a lot of events to start networking"
-      />
-    </Head>
-    <h1 style={{textAlign: "center", color: "$base-dark"}}>Stay Reactive!</h1>
-    {featuredEvents && <EventList list={featuredEvents} />}
-  </>
-);
+  const handleSearch = ({steamId}: {steamId?: string}) => {
+    const getInventoryUrl = `${inventoryBase}/${steamId}/${inventoryRest}`;
 
-export const getStaticProps = async () => {
-  const featuredEvents = await getFeaturedEvents();
+    fetch(getInventoryUrl, {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data && setInventory(data);
+      });
+  };
 
-  return {props: {featuredEvents}, revalidate: 1800};
+  useEffect(() => {
+    const filterInventory = () => {
+      return inventory.assets.map(({classid}) => {
+        const {name, type, icon_url} = inventory.descriptions.filter(
+          (descriptions) => classid === descriptions.classid
+        )[0];
+
+        return {
+          type,
+          name,
+          classid,
+          icon_url,
+        };
+      });
+    };
+
+    const sorted = filterInventory();
+    return setSortedInventory({
+      inventory: sorted,
+      total_inventory_count: sorted.length,
+    });
+  }, [inventory]);
+
+  const inventoryItems = sortedInventory?.inventory;
+
+  const uniqueInventoryItems = getInventoryUniqueItems({
+    inventory: inventoryItems,
+  });
+
+  if (!sortedInventory) {
+    return <Loader />;
+  }
+
+  return (
+    <InventoryList
+      items={{
+        inventory: filterInventoryByType({
+          inventory: uniqueInventoryItems,
+          type: InventoryType.BaseGradeContainer,
+        }),
+      }}
+      onSearch={handleSearch}
+    />
+  );
 };
 
-export default Home;
+export const getStaticProps = async () => {
+  return {
+    props: {dummyInventory: getInventory()},
+  };
+};
+
+export default SteamInventory;
