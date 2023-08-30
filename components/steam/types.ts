@@ -11,6 +11,6 @@ export type ReadableInventoryType = {
   inventory: SortedInventoryItemType[];
 };
 
-export enum InventoryType {
+export enum InventoryItemType {
   BaseGradeContainer = "Base Grade Container",
 }
