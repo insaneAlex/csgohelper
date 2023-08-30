@@ -36,9 +36,9 @@ export const InventoryList: FC<Props> = ({items, onSearch}) => {
           <button onClick={handleClick}>SEARCH BY SteamID</button>
         </div>
       </div>
-
+      <h2 className={styles.title}>{`Unique Items: ${inventory.length}`}</h2>
       <div className={styles.container}>
-        <h2 className={styles.title}>{`Unique Items: ${inventory.length}`}</h2>
+        <div className={styles.itemsFilter}>Filters</div>
         <ul className={styles.items}>
           {inventory.map((item: SortedInventoryItemType, index) => (
             <InventoryItem key={index} item={item} />

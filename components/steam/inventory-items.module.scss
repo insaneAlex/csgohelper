@@ -12,7 +12,15 @@
   color: $main-font-color;
 }
 
+.itemsFilter {
+  background: $lighten-bg;
+  color: $main-font-color;
+  display: block;
+  margin: 10px;
+}
+
 .container {
+  display: flex;
   margin: 0 auto;
   width: 344px;
 
@@ -38,7 +46,7 @@
     height: 40px;
     color: $main-font-color;
     margin: 0 -10px;
-    background-color: #232527;
+    background-color: $lighten-bg;
     border: 1px solid $main-font-color;
     padding-left: 10px;
     border-top-left-radius: 15px;
@@ -55,7 +63,7 @@
   width: 200px;
 
   button {
-    background-color: #232527;
+    background-color: $lighten-bg;
     border-radius: 15px;
     border: none;
     color: white;
