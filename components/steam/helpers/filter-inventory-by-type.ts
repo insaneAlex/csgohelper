@@ -1,11 +1,11 @@
-import {InventoryType, SortedInventoryItemType} from "../types";
+import {InventoryItemType, SortedInventoryItemType} from "../types";
 
 export const filterInventoryByType = ({
   inventory,
   type,
 }: {
   inventory: SortedInventoryItemType[];
-  type: InventoryType;
+  type: InventoryItemType;
 }) => {
   return inventory.filter((item) => item.type === type);
 };
