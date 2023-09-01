@@ -1,14 +1,12 @@
 import {
   inventoryBase,
+  InventoryFilters,
   InventoryList,
   inventoryRest,
   ReadableInventoryType,
 } from "@/components/steam";
-import {
-  filterInventoryByType,
-  getInventoryUniqueItems,
-} from "@/components/steam/helpers";
-import {InventoryItemType} from "@/components/steam/types";
+import {getInventoryUniqueItems} from "@/components/steam/helpers";
+import {SearchInventory} from "@/components/steam/components/search-inventory";
 import {Loader} from "@/components/ui";
 import {
   DUMMY_INVENTORY,
@@ -16,11 +14,13 @@ import {
   InventoryType,
 } from "@/data/dummy-inventory";
 import {FC, useEffect, useState} from "react";
+import {SortedInventoryItemType} from "@/components/steam/types";
 
 const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   dummyInventory = DUMMY_INVENTORY,
 }) => {
   const [inventory, setInventory] = useState(dummyInventory);
+  const [id, setId] = useState("76561198080636799");
   const [sortedInventory, setSortedInventory] =
     useState<ReadableInventoryType>();
 
@@ -63,7 +63,7 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   const inventoryItems = sortedInventory?.inventory;
 
   const uniqueInventoryItems = getInventoryUniqueItems({
-    inventory: inventoryItems,
+    inventory: inventoryItems as SortedInventoryItemType[],
   });
 
   if (!sortedInventory) {
@@ -71,15 +71,15 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   }
 
   return (
-    <InventoryList
-      items={{
-        inventory: filterInventoryByType({
-          inventory: uniqueInventoryItems,
-          type: InventoryItemType.BaseGradeContainer,
-        }),
-      }}
-      onSearch={handleSearch}
-    />
+    <>
+      <SearchInventory
+        id={id}
+        onSearch={() => handleSearch({steamId: id})}
+        onIdChange={(e) => setId(e.target.value)}
+      />
+      <InventoryFilters />
+      <InventoryList items={{inventory: uniqueInventoryItems}} />
+    </>
   );
 };
 

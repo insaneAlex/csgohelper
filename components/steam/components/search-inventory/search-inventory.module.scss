@@ -1,42 +1,5 @@
 @import "styles/variables.scss";
 
-.items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.title {
-  margin-left: 10px;
-  margin-bottom: 10px;
-  color: $main-font-color;
-}
-
-.itemsFilter {
-  background: $lighten-bg;
-  color: $main-font-color;
-  display: block;
-  padding: 10px;
-  margin: 10px;
-}
-
-.container {
-  display: flex;
-  margin: 0 auto;
-  width: 344px;
-
-  @media (min-width: 533px) {
-    width: 516px;
-  }
-
-  @media (min-width: 768px) {
-    width: 688px;
-  }
-  @media (min-width: 1024px) {
-    width: 860px;
-  }
-}
-
 .searchBlock {
   margin-top: 20px;
   margin-bottom: 20px;
