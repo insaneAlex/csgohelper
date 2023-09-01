@@ -7,7 +7,7 @@ const MainHeader: FC = () => {
     <header className={styles.header}>
       <div className={styles.wrapper}>
         <div className={styles.logo}>
-          <Link href="/">NextEvents</Link>
+          <Link href="/">CSGO Helper</Link>
         </div>
 
         <nav className={styles.navigation}>
