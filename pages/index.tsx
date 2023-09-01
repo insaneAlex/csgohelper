@@ -5,7 +5,10 @@ import {
   inventoryRest,
   ReadableInventoryType,
 } from "@/components/steam";
-import {getInventoryUniqueItems} from "@/components/steam/helpers";
+import {
+  filterInventoryByType,
+  getInventoryUniqueItems,
+} from "@/components/steam/helpers";
 import {SearchInventory} from "@/components/steam/components/search-inventory";
 import {Loader} from "@/components/ui";
 import {
@@ -14,12 +17,16 @@ import {
   InventoryType,
 } from "@/data/dummy-inventory";
 import {FC, useEffect, useState} from "react";
-import {SortedInventoryItemType} from "@/components/steam/types";
+import {
+  InventoryItemType,
+  SortedInventoryItemType,
+} from "@/components/steam/types";
 
 const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   dummyInventory = DUMMY_INVENTORY,
 }) => {
   const [inventory, setInventory] = useState(dummyInventory);
+  const [filter, setFilter] = useState("" as InventoryItemType);
   const [id, setId] = useState("76561198080636799");
   const [sortedInventory, setSortedInventory] =
     useState<ReadableInventoryType>();
@@ -62,12 +69,19 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
 
   const inventoryItems = sortedInventory?.inventory;
 
-  const uniqueInventoryItems = getInventoryUniqueItems({
+  let uniqueInventoryItems = getInventoryUniqueItems({
     inventory: inventoryItems as SortedInventoryItemType[],
   });
 
   if (!sortedInventory) {
     return <Loader />;
+  }
+
+  if (filter) {
+    uniqueInventoryItems = filterInventoryByType({
+      inventory: uniqueInventoryItems,
+      type: filter,
+    });
   }
 
   return (
@@ -77,7 +91,7 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
         onSearch={() => handleSearch({steamId: id})}
         onIdChange={(e) => setId(e.target.value)}
       />
-      <InventoryFilters />
+      <InventoryFilters setFilter={setFilter} />
       <InventoryList items={{inventory: uniqueInventoryItems}} />
     </>
   );

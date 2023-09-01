@@ -1,22 +1,31 @@
-import {FC} from "react";
+import {Dispatch, FC, SetStateAction} from "react";
 
 import styles from "./inventory-filters.module.scss";
+import {InventoryItemType} from "../../types";
 
-type Props = {};
+type Props = {setFilter: Dispatch<SetStateAction<InventoryItemType>>};
 
-export const InventoryFilters: FC<Props> = () => {
-  const handleChange = () => {};
+export const InventoryFilters: FC<Props> = ({setFilter}) => {
+  const handleChange = (e: any) => {
+    setFilter(e.target.value);
+  };
 
   return (
     <div className={styles.filters}>
-      <h3>Filters</h3>
+      <div>Filters</div>
       <div>
         Type:
-        <select onChange={handleChange} name="" id="">
-          <option value="pass">Pass</option>
-          <option value="container">Container</option>
-          <option value="graffiti">Graffiti</option>
-          <option value="collectible">Collectible</option>
+        <select onChange={handleChange}>
+          <option value="">no filter</option>;
+          {Object.keys(InventoryItemType).map((key, i) => {
+            /* @ts-ignore */
+            const value = InventoryItemType[key];
+            return (
+              <option key={i} value={value}>
+                {value}
+              </option>
+            );
+          })}
         </select>
       </div>
     </div>
