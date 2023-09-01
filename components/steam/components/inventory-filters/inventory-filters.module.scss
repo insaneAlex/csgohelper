@@ -1,0 +1,10 @@
+@import "styles/variables.scss";
+
+.filters {
+  background: $lighten-bg;
+  color: $main-font-color;
+  display: block;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+}

@@ -13,4 +13,8 @@ export type ReadableInventoryType = {
 
 export enum InventoryItemType {
   BaseGradeContainer = "Base Grade Container",
+  BaseGradeGraffiti = "Base Grade Graffiti",
+  ExtraordinaryCollectible = "Extraordinary Collectible",
+  ConsumerGradeShotgun = "Consumer Grade Shotgun",
+  BaseGradePass = "Base Grade Pass",
 }
