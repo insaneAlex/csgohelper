@@ -8,9 +8,12 @@ import {
   filterInventoryByType,
   getInventoryUniqueItems,
 } from "@/components/steam/helpers";
-import {InventoryType, SortedInventoryItemType} from "@/components/steam/types";
+import {
+  InventoryItemType,
+  SortedInventoryItemType,
+} from "@/components/steam/types";
 import {Loader} from "@/components/ui";
-import {getInventory} from "@/data/dummy-inventory";
+import {getInventory, InventoryType} from "@/data/dummy-inventory";
 import {FC, useEffect, useState} from "react";
 
 const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
@@ -71,7 +74,7 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
       items={{
         inventory: filterInventoryByType({
           inventory: uniqueInventoryItems,
-          type: InventoryType.BaseGradeContainer,
+          type: InventoryItemType.BaseGradeContainer,
         }),
       }}
       onSearch={handleSearch}
