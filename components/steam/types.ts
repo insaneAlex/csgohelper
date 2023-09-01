@@ -7,7 +7,7 @@ export type SortedInventoryItemType = {
 };
 
 export type ReadableInventoryType = {
-  total_inventory_count: number;
+  total_inventory_count?: number;
   inventory: SortedInventoryItemType[];
 };
 
