@@ -1,9 +1,5 @@
 @import "styles/variables.scss";
 
 .filters {
-  background: $lighten-bg;
-  color: $main-font-color;
-  display: block;
-  margin: 0 10px;
-  padding: 10px;
+  display: flex;
 }

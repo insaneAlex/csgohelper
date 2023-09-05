@@ -1,33 +1,27 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {Dispatch, FC, SetStateAction} from "react";
+
+import {InventoryItemType} from "../../types";
+import {FilterCheckbox} from "../filter-checkbox/filter-checkbox";
 
 import styles from "./inventory-filters.module.scss";
-import { InventoryItemType } from "../../types";
 
-type Props = { setFilter: Dispatch<SetStateAction<InventoryItemType>> };
+type Props = {
+  setFilter: Dispatch<SetStateAction<InventoryItemType[]>>;
+  filters: InventoryItemType[];
+};
 
-export const InventoryFilters: FC<Props> = ({ filters, setFilter }) => {
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    if (!checked) {
-      setFilter(
-        filters.filter((el) => el != InventoryItemType.BaseGradeContainer)
-      );
-    } else {
-      setFilter([...filters, InventoryItemType.BaseGradeContainer]);
-    }
-  }, [checked]);
-
-  const handleChanges = (e: any) => {
-    setChecked(!checked);
-  };
-  //console.log(checked);
-
+export const InventoryFilters: FC<Props> = ({filters, setFilter}) => {
   return (
-    <label className={styles.filters}>
-      <input type="checkbox" checked={checked} onChange={handleChanges} />
-      <span>{InventoryItemType.BaseGradeContainer}</span>
-    </label>
+    <div className={styles.filters}>
+      {Object.keys(InventoryItemType).map((el, i) => (
+        <FilterCheckbox
+          key={i}
+          filters={filters}
+          setFilter={setFilter}
+          label={InventoryItemType[el]}
+        />
+      ))}
+    </div>
   );
 };
 
