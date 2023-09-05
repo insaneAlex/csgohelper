@@ -2,6 +2,7 @@ import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 
 import styles from "./filter-checkbox.module.scss";
 import {InventoryItemType} from "../../types";
+import classNames from "classnames";
 
 type Props = {
   label: InventoryItemType;
@@ -11,24 +12,27 @@ type Props = {
 
 export const FilterCheckbox: FC<Props> = ({label, filters, setFilter}) => {
   const [checked, setChecked] = useState(false);
-  console.log(label);
 
   useEffect(() => {
     if (!checked) {
-      const newFilters = filters.filter((el) => el != label);
-      setFilter(newFilters);
+      setFilter(filters.filter((filter) => filter != label));
     } else {
-      const newFilters = [...filters, label];
-      setFilter(newFilters);
+      setFilter([...filters, label]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked]);
 
-  const handleChanges = (e: any) => {
+  const handleChanges = () => {
     setChecked(!checked);
   };
 
   return (
-    <label className={styles.filters} htmlFor={label}>
+    <label
+      className={classNames(styles.filters, {
+        [styles.selected]: checked,
+      })}
+      htmlFor={label}
+    >
       <input
         id={label}
         type="checkbox"

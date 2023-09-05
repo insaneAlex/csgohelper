@@ -9,34 +9,34 @@ import {
   filterInventoryByTypes,
   getInventoryUniqueItems,
 } from "@/components/steam/helpers";
-import { SearchInventory } from "@/components/steam/components/search-inventory";
-import { Loader } from "@/components/ui";
+import {SearchInventory} from "@/components/steam/components/search-inventory";
+import {Loader} from "@/components/ui";
 import {
   DUMMY_INVENTORY,
   getInventory,
   InventoryType,
 } from "@/data/dummy-inventory";
-import { FC, useEffect, useState } from "react";
+import {FC, useEffect, useState} from "react";
 import {
   InventoryItemType,
   SortedInventoryItemType,
 } from "@/components/steam/types";
 
-const SteamInventory: FC<{ dummyInventory: InventoryType }> = ({
+const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   dummyInventory = DUMMY_INVENTORY,
 }) => {
   const [inventory, setInventory] = useState(dummyInventory);
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState([] as InventoryItemType[]);
   const [id, setId] = useState("76561198080636799");
   const [sortedInventory, setSortedInventory] =
     useState<ReadableInventoryType>();
 
-  const handleSearch = ({ steamId }: { steamId?: string }) => {
+  const handleSearch = ({steamId}: {steamId?: string}) => {
     const getInventoryUrl = `${inventoryBase}/${steamId}/${inventoryRest}`;
 
     fetch(getInventoryUrl, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     })
       .then((res) => res.json())
       .then((data) => {
@@ -46,8 +46,8 @@ const SteamInventory: FC<{ dummyInventory: InventoryType }> = ({
 
   useEffect(() => {
     const filterInventory = () => {
-      return inventory.assets.map(({ classid }) => {
-        const { name, type, icon_url } = inventory.descriptions.filter(
+      return inventory.assets.map(({classid}) => {
+        const {name, type, icon_url} = inventory.descriptions.filter(
           (descriptions) => classid === descriptions.classid
         )[0];
 
@@ -88,18 +88,18 @@ const SteamInventory: FC<{ dummyInventory: InventoryType }> = ({
     <>
       <SearchInventory
         id={id}
-        onSearch={() => handleSearch({ steamId: id })}
+        onSearch={() => handleSearch({steamId: id})}
         onIdChange={(e) => setId(e.target.value)}
       />
       <InventoryFilters filters={filters} setFilter={setFilters} />
-      <InventoryList items={{ inventory: uniqueInventoryItems }} />
+      <InventoryList items={{inventory: uniqueInventoryItems}} />
     </>
   );
 };
 
 export const getStaticProps = async () => {
   return {
-    props: { dummyInventory: getInventory() },
+    props: {dummyInventory: getInventory()},
   };
 };
 

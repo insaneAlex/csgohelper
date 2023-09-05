@@ -1,4 +1,4 @@
-import { InventoryItemType, SortedInventoryItemType } from "../types";
+import {InventoryItemType, SortedInventoryItemType} from "../types";
 
 export const filterInventoryByTypes = ({
   inventory,
@@ -6,10 +6,4 @@ export const filterInventoryByTypes = ({
 }: {
   inventory: SortedInventoryItemType[];
   types: InventoryItemType[];
-}) => {
-  console.log(types);
-
-  return inventory.filter(({ type }) =>
-    types?.includes(type as InventoryItemType)
-  );
-};
+}) => inventory.filter(({type}) => types.includes(type as InventoryItemType));

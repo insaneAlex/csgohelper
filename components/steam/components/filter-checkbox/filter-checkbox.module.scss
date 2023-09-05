@@ -2,10 +2,14 @@
 
 .filters {
   cursor: pointer;
-  //border: 2px solid gainsboro;
+  border: 1px solid transparent;
   background: $lighten-bg;
   color: $main-font-color;
   display: block;
   margin: 0 10px;
   padding: 10px;
+}
+
+.selected {
+  border: 1px solid gainsboro;
 }
