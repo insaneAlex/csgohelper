@@ -13,13 +13,11 @@ export const InventoryList: FC<Props> = ({items}) => {
   return (
     <>
       <h2 className={styles.title}>{`Items: ${inventory.length}`}</h2>
-      <div className={styles.container}>
-        <ul className={styles.items}>
-          {inventory.map((item: SortedInventoryItemType, index) => (
-            <InventoryItem key={index} item={item} />
-          ))}
-        </ul>
-      </div>
+      <ul className={styles.items}>
+        {inventory.map((item: SortedInventoryItemType, index) => (
+          <InventoryItem key={index} item={item} />
+        ))}
+      </ul>
     </>
   );
 };
