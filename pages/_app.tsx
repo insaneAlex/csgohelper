@@ -7,7 +7,7 @@ const App = ({Component, pageProps}: AppProps) => {
   return (
     <Layout>
       <Head>
-        <title>Next Networking events</title>
+        <title>CSGO Helper</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Component {...pageProps} />
