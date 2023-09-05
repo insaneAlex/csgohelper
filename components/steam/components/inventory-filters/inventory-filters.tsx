@@ -1,25 +1,24 @@
-import {Dispatch, FC, SetStateAction, useState} from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 
 import styles from "./inventory-filters.module.scss";
-import {InventoryItemType} from "../../types";
+import { InventoryItemType } from "../../types";
 
-type Props = {setFilter: Dispatch<SetStateAction<InventoryItemType>>};
+type Props = { setFilter: Dispatch<SetStateAction<InventoryItemType>> };
 
-export const InventoryFilters: FC<Props> = ({setFilter}) => {
-  const handleChange = (e: any) => {
-    setFilter(e.target.value);
-  };
+export const InventoryFilters: FC<Props> = ({ filters, setFilter }) => {
   const [checked, setChecked] = useState(false);
 
-  if (!checked) {
-    setFilter(null as unknown as InventoryItemType);
-  } else {
-    setFilter(InventoryItemType.BaseGradeContainer);
-  }
+  useEffect(() => {
+    if (!checked) {
+      setFilter(
+        filters.filter((el) => el != InventoryItemType.BaseGradeContainer)
+      );
+    } else {
+      setFilter([...filters, InventoryItemType.BaseGradeContainer]);
+    }
+  }, [checked]);
 
   const handleChanges = (e: any) => {
-    console.log(e.target.value);
-
     setChecked(!checked);
   };
   //console.log(checked);
