@@ -1,15 +1,13 @@
 import {
-  inventoryBase,
   InventoryFilters,
   InventoryList,
-  inventoryRest,
   ReadableInventoryType,
 } from "@/components/steam";
 import {
   filterInventoryByTypes,
   getInventoryUniqueItems,
 } from "@/components/steam/helpers";
-import {SearchInventory} from "@/components/steam/components/search-inventory";
+import {SearchInventory} from "@/components/steam/components";
 import {Loader} from "@/components/ui";
 import {
   DUMMY_INVENTORY,
@@ -21,8 +19,10 @@ import {
   InventoryItemType,
   SortedInventoryItemType,
 } from "@/components/steam/types";
+import {getInventoryR} from "@/api/get-inventory";
+import {GetInventoryPayload} from "@/api/types";
 
-const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
+const SteamInventory: FC<{ dummyInventory: InventoryType }> = ({
   dummyInventory = DUMMY_INVENTORY,
 }) => {
   const [inventory, setInventory] = useState(dummyInventory);
@@ -31,17 +31,8 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   const [sortedInventory, setSortedInventory] =
     useState<ReadableInventoryType>();
 
-  const handleSearch = ({steamId}: {steamId?: string}) => {
-    const getInventoryUrl = `${inventoryBase}/${steamId}/${inventoryRest}`;
-
-    fetch(getInventoryUrl, {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        data && setInventory(data);
-      });
+  const handleSearch = async ({steamId}: GetInventoryPayload) => {
+    setInventory(await getInventoryR({steamId}));
   };
 
   useEffect(() => {
@@ -76,7 +67,6 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   if (!sortedInventory) {
     return <Loader />;
   }
-  console.log(filters);
   if (filters.length > 0) {
     uniqueInventoryItems = filterInventoryByTypes({
       inventory: uniqueInventoryItems,
