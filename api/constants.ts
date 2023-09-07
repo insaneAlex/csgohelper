@@ -1,2 +1,4 @@
-export const firebaseDB =
-  "https://nextjs-f6a1d-default-rtdb.europe-west1.firebasedatabase.app/events.json";
+export const inventoryImageBaseUrl =
+  "https://steamcommunity-a.akamaihd.net/economy/image/";
+
+export const inventoryBase = "https://steamcommunity.com/inventory";
