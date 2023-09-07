@@ -9,11 +9,7 @@ import {
 } from "@/components/steam/helpers";
 import { SearchInventory } from "@/components/steam/components";
 import { Loader } from "@/components/ui";
-import {
-  DUMMY_INVENTORY,
-  getInventory,
-  InventoryType,
-} from "@/data/dummy-inventory";
+import { DUMMY_INVENTORY, InventoryType } from "@/data/dummy-inventory";
 import { FC, useEffect, useState } from "react";
 import {
   InventoryItemType,
