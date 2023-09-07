@@ -28,9 +28,7 @@ export const FilterCheckbox: FC<Props> = ({label, filters, setFilter}) => {
 
   return (
     <label
-      className={classNames(styles.filters, {
-        [styles.selected]: checked,
-      })}
+      className={classNames(styles.filter, {[styles.selected]: checked})}
       htmlFor={label}
     >
       <input
