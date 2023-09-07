@@ -7,18 +7,18 @@ import {
   filterInventoryByTypes,
   getInventoryUniqueItems,
 } from "@/components/steam/helpers";
-import { SearchInventory } from "@/components/steam/components";
-import { Loader } from "@/components/ui";
-import { DUMMY_INVENTORY, InventoryType } from "@/data/dummy-inventory";
-import { FC, useEffect, useState } from "react";
+import {SearchInventory} from "@/components/steam/components";
+import {Loader} from "@/components/ui";
+import {DUMMY_INVENTORY, InventoryType} from "@/data/dummy-inventory";
+import {FC, useEffect, useState} from "react";
 import {
   InventoryItemType,
   SortedInventoryItemType,
 } from "@/components/steam/types";
-import { getSteamInventory } from "@/api/get-steam-inventory";
-import { GetInventoryPayload } from "@/api/types";
+import {getSteamInventory} from "@/api/get-steam-inventory";
+import {GetInventoryPayload} from "@/api/types";
 
-const SteamInventory: FC<{ dummyInventory: InventoryType }> = ({
+const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
   dummyInventory = DUMMY_INVENTORY,
 }) => {
   const [inventory, setInventory] = useState(dummyInventory);
@@ -27,16 +27,17 @@ const SteamInventory: FC<{ dummyInventory: InventoryType }> = ({
   const [sortedInventory, setSortedInventory] =
     useState<ReadableInventoryType>();
 
-  const handleSearch = async ({ steamId }: GetInventoryPayload) => {
-    setInventory(await getSteamInventory({ steamId }));
+  const handleSearch = async ({steamId}: GetInventoryPayload) => {
+    setInventory(await getSteamInventory({steamId}));
   };
 
   useEffect(() => {
     const filterInventory = () => {
-      return inventory.assets.map(({ classid }) => {
-        const { name, type, icon_url } = inventory.descriptions.filter(
+      return inventory.assets.map(({classid}) => {
+        // @ts-ignore
+        const {name, type, icon_url} = inventory.descriptions.find(
           (descriptions) => classid === descriptions.classid
-        )[0];
+        );
 
         return {
           type,
@@ -74,11 +75,11 @@ const SteamInventory: FC<{ dummyInventory: InventoryType }> = ({
     <>
       <SearchInventory
         id={id}
-        onSearch={() => handleSearch({ steamId: id })}
+        onSearch={() => handleSearch({steamId: id})}
         onIdChange={(e) => setId(e.target.value)}
       />
       <InventoryFilters filters={filters} setFilter={setFilters} />
-      <InventoryList items={{ inventory: uniqueInventoryItems }} />
+      <InventoryList items={{inventory: uniqueInventoryItems}} />
     </>
   );
 };

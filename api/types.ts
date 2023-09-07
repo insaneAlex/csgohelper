@@ -1,1 +1,1 @@
-export type GetInventoryPayload = { steamId: string };
+export type GetInventoryPayload = {steamId: string};
