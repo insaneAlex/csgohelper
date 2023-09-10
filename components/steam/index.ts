@@ -1,2 +1,2 @@
-export { InventoryList, InventoryFilters } from "./components/";
-export type { ReadableInventoryType } from "./types";
+export {InventoryList, InventoryFilters} from "./components/";
+export type {ReadableInventoryType} from "./types";

@@ -1,12 +1,10 @@
-import { FC } from "react";
+import {FC} from "react";
 import Image from "next/image";
-import { SortedInventoryItemType } from "../../types";
-import { inventoryImageBaseUrl } from "@/api/constants";
+import {SortedInventoryItemType} from "../../types";
+import {inventoryImageBaseUrl} from "@/api/constants";
 import styles from "./inventory-item.module.scss";
 
-export const InventoryItem: FC<{ item: SortedInventoryItemType }> = ({
-  item,
-}) => {
+export const InventoryItem: FC<{item: SortedInventoryItemType}> = ({item}) => {
   const counter = item?.count ? ` x ${item.count}` : "";
 
   return (
