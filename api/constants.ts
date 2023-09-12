@@ -3,4 +3,4 @@ export const inventoryImageBaseUrl =
 
 export const inventoryBase = "https://steamcommunity.com/inventory";
 
-export const getInventoryEndpoint = "http://localhost:5555/";
+export const getInventoryEndpoint = "http://localhost:5000/";
