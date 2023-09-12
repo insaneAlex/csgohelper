@@ -10,3 +10,14 @@ export const getSteamInventory = async ({steamId}: GetInventoryPayload) => {
 
   return await response.json();
 };
+
+export const getInventoryNode = async ({steamId}: GetInventoryPayload) => {
+  const getInventoryUrl = `http://localhost:5555?steamid=${steamId}`;
+
+  const response = await fetch(getInventoryUrl, {
+    method: "GET",
+    headers: {"Content-Type": "application/json"},
+  });
+
+  return await response.json();
+};

@@ -1,10 +1,10 @@
-import {SortedInventoryItemType} from "../types";
+import {InventoryItemType} from "@/data/dummy-inventory";
 
-type Props = {inventory: SortedInventoryItemType[]};
+type Props = {inventory: InventoryItemType[]};
 
 export const getInventoryUniqueItems = ({
   inventory,
-}: Props): SortedInventoryItemType[] =>
+}: Props): InventoryItemType[] =>
   inventory &&
   Object.values(
     inventory.reduce((filteredItems: any, currentItem) => {

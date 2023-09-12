@@ -1,10 +1,13 @@
 import {FC} from "react";
 import Image from "next/image";
-import {SortedInventoryItemType} from "../../types";
 import {inventoryImageBaseUrl} from "@/api/constants";
+import {InventoryItemType} from "@/data/dummy-inventory";
+
 import styles from "./inventory-item.module.scss";
 
-export const InventoryItem: FC<{item: SortedInventoryItemType}> = ({item}) => {
+type Props = {item: InventoryItemType & {count?: string}};
+
+export const InventoryItem: FC<Props> = ({item}) => {
   const counter = item?.count ? ` x ${item.count}` : "";
 
   return (

@@ -1,69 +1,38 @@
-import {
-  InventoryFilters,
-  InventoryList,
-  ReadableInventoryType,
-} from "@/components/steam";
+import {InventoryFilters, InventoryList} from "@/components/steam";
 import {
   filterInventoryByTypes,
   getInventoryUniqueItems,
 } from "@/components/steam/helpers";
 import {SearchInventory} from "@/components/steam/components";
-import {Loader} from "@/components/ui";
-import {DUMMY_INVENTORY, InventoryType} from "@/data/dummy-inventory";
-import {FC, useEffect, useState} from "react";
-import {
-  InventoryItemType,
-  SortedInventoryItemType,
-} from "@/components/steam/types";
-import {getSteamInventory} from "@/api/get-steam-inventory";
+import {Button, Loader} from "@/components/ui";
+import {FC, useState} from "react";
+import {getInventoryNode} from "@/api/get-steam-inventory";
 import {GetInventoryPayload} from "@/api/types";
+import {DUMMY_INVENTORY} from "@/data";
+import {InventoryItemType, ItemType} from "@/data/dummy-inventory";
 
-const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
-  dummyInventory = DUMMY_INVENTORY,
-}) => {
+type Prop = {dummyInventory: InventoryItemType[]};
+
+const SteamInventory: FC<Prop> = ({dummyInventory = DUMMY_INVENTORY}) => {
   const [inventory, setInventory] = useState(dummyInventory);
-  const [filters, setFilters] = useState([] as InventoryItemType[]);
+  const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
-  const [sortedInventory, setSortedInventory] =
-    useState<ReadableInventoryType>();
+  const [stack, setStack] = useState(true);
 
   const handleSearch = async ({steamId}: GetInventoryPayload) => {
-    setInventory(await getSteamInventory({steamId}));
+    setInventory(await getInventoryNode({steamId}));
   };
 
-  useEffect(() => {
-    const filterInventory = () => {
-      return inventory.assets.map(({classid}) => {
-        // @ts-ignore
-        const {name, type, icon_url} = inventory.descriptions.find(
-          (descriptions) => classid === descriptions.classid
-        );
+  const handleStackDupes = () => (stack ? setStack(false) : setStack(true));
 
-        return {
-          type,
-          name,
-          classid,
-          icon_url,
-        };
-      });
-    };
+  let uniqueInventoryItems = stack
+    ? getInventoryUniqueItems({inventory})
+    : inventory;
 
-    const sorted = filterInventory();
-    return setSortedInventory({
-      inventory: sorted,
-      total_inventory_count: sorted.length,
-    });
-  }, [inventory]);
-
-  const inventoryItems = sortedInventory?.inventory;
-
-  let uniqueInventoryItems = getInventoryUniqueItems({
-    inventory: inventoryItems as SortedInventoryItemType[],
-  });
-
-  if (!sortedInventory) {
+  if (!inventory) {
     return <Loader />;
   }
+
   if (filters.length > 0) {
     uniqueInventoryItems = filterInventoryByTypes({
       inventory: uniqueInventoryItems,
@@ -79,7 +48,8 @@ const SteamInventory: FC<{dummyInventory: InventoryType}> = ({
         onIdChange={(e) => setId(e.target.value)}
       />
       <InventoryFilters filters={filters} setFilter={setFilters} />
-      <InventoryList items={{inventory: uniqueInventoryItems}} />
+      <Button onClick={handleStackDupes}>Unstack dupes</Button>
+      <InventoryList items={uniqueInventoryItems} />
     </>
   );
 };

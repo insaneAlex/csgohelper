@@ -1,9 +1,6 @@
-import {InventoryItemType, SortedInventoryItemType} from "../types";
+import {InventoryItemType, ItemType} from "@/data/dummy-inventory";
 
-export const filterInventoryByTypes = ({
-  inventory,
-  types,
-}: {
-  inventory: SortedInventoryItemType[];
-  types: InventoryItemType[];
-}) => inventory.filter(({type}) => types.includes(type as InventoryItemType));
+type Props = {inventory: InventoryItemType[]; types: ItemType[]};
+
+export const filterInventoryByTypes = ({inventory, types}: Props) =>
+  inventory.filter(({type}) => types.includes(type));

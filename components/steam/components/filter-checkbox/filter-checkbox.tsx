@@ -1,13 +1,13 @@
 import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
+import classNames from "classnames";
+import {ItemType} from "@/data/dummy-inventory";
 
 import styles from "./filter-checkbox.module.scss";
-import {InventoryItemType} from "../../types";
-import classNames from "classnames";
 
 type Props = {
-  label: InventoryItemType;
-  filters: InventoryItemType[];
-  setFilter: Dispatch<SetStateAction<InventoryItemType[]>>;
+  label: ItemType;
+  filters: ItemType[];
+  setFilter: Dispatch<SetStateAction<ItemType[]>>;
 };
 
 export const FilterCheckbox: FC<Props> = ({label, filters, setFilter}) => {

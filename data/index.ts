@@ -1,1 +1,1 @@
-export {getReadableDate} from "./get-readable-date";
+export {DUMMY_INVENTORY} from "./dummy-inventory";
