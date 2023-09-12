@@ -1,25 +1,24 @@
 import {Dispatch, FC, SetStateAction} from "react";
-
-import {InventoryItemType} from "../../types";
 import {FilterCheckbox} from "../filter-checkbox";
+import {ItemType} from "@/data/dummy-inventory";
 
 import styles from "./inventory-filters.module.scss";
 
 type Props = {
-  setFilter: Dispatch<SetStateAction<InventoryItemType[]>>;
-  filters: InventoryItemType[];
+  setFilter: Dispatch<SetStateAction<ItemType[]>>;
+  filters: ItemType[];
 };
 
 export const InventoryFilters: FC<Props> = ({filters, setFilter}) => {
   return (
     <div className={styles.filters}>
-      {Object.keys(InventoryItemType).map((type) => (
+      {Object.keys(ItemType).map((type) => (
         <FilterCheckbox
           key={type}
           filters={filters}
           setFilter={setFilter}
           // @ts-ignore
-          label={InventoryItemType[type]}
+          label={ItemType[type]}
         />
       ))}
     </div>
