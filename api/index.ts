@@ -1,1 +1,1 @@
-export { getSteamInventory } from "./get-steam-inventory";
+export {getSteamInventory} from "./get-steam-inventory";
