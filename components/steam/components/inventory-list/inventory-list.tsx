@@ -1,8 +1,8 @@
 import {FC} from "react";
 import {InventoryItem} from "../inventory-item/inventory-item";
+import {InventoryItemType} from "@/types";
 
 import styles from "./inventory-list.module.scss";
-import {InventoryItemType} from "@/data/dummy-inventory";
 
 type Props = {items: InventoryItemType[]};
 

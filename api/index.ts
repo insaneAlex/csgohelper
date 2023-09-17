@@ -1,1 +1,1 @@
-export {getSteamInventory} from "./get-steam-inventory";
+export {getInventoryNode, getInitialInventory} from "./get-steam-inventory";

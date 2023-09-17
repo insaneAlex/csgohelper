@@ -1,8 +1,6 @@
 import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
-import classNames from "classnames";
-import {ItemType} from "@/data/dummy-inventory";
-
-import styles from "./filter-checkbox.module.scss";
+import {ItemType} from "@/types";
+import {Checkbox} from "../../../ui/checkbox";
 
 type Props = {
   name: ItemType;
@@ -33,17 +31,11 @@ export const FilterCheckbox: FC<Props> = ({
   };
 
   return (
-    <label
-      className={classNames(styles.filter, {[styles.selected]: checked})}
-      htmlFor={name}
-    >
-      <input
-        id={name}
-        type="checkbox"
-        checked={checked}
-        onChange={handleChanges}
-      />
-      <span>{label}</span>
-    </label>
+    <Checkbox
+      onChange={handleChanges}
+      checked={checked}
+      name={name}
+      label={label}
+    />
   );
 };

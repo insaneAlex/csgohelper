@@ -1,4 +1,4 @@
-import {InventoryItemType, ItemType} from "@/data/dummy-inventory";
+import {InventoryItemType, ItemType} from "@/types";
 
 type Props = {inventory: InventoryItemType[]; types: ItemType[]};
 

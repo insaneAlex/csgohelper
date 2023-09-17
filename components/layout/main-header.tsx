@@ -17,6 +17,12 @@ const MainHeader: FC = () => {
                 <span className={styles.linkCaption}>Leave Feedback</span>
               </Link>
             </li>
+
+            <li>
+              <Link href="/login">
+                <span className={styles.linkCaption}>Login</span>
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

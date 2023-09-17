@@ -1,6 +1,6 @@
 import {Dispatch, FC, SetStateAction} from "react";
 import {FilterCheckbox} from "../filter-checkbox";
-import {FORMATTED_TYPE_LABELS, ItemType} from "@/data/dummy-inventory";
+import {FORMATTED_TYPE_LABELS, ItemType} from "@/types";
 
 import styles from "./inventory-filters.module.scss";
 
