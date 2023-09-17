@@ -1,18 +1,6 @@
-import {inventoryBase, getInventoryEndpoint} from "./constants";
+import {getInventoryEndpoint} from "./constants";
 
-type Props = {steamId: string};
-
-export const getSteamInventory = async ({steamId}: Props) => {
-  const getInventoryUrl = `${inventoryBase}/${steamId}/730/2?l=english&count=1000`;
-  const response = await fetch(getInventoryUrl, {
-    method: "GET",
-    headers: {"Content-Type": "application/json"},
-  });
-
-  return await response.json();
-};
-
-export const getInventoryNode = async ({steamId}: Props) => {
+export const getInventoryNode = async ({steamId}: {steamId: string}) => {
   const getInventoryUrl = `${getInventoryEndpoint}?steamid=${steamId}`;
 
   const response = await fetch(getInventoryUrl, {

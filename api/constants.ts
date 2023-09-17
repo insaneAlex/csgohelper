@@ -1,6 +1,4 @@
 export const inventoryImageBaseUrl =
   "https://steamcommunity-a.akamaihd.net/economy/image/";
 
-export const inventoryBase = "https://steamcommunity.com/inventory";
-
-export const getInventoryEndpoint = "http://localhost:5000/";
+export const getInventoryEndpoint = "http://localhost:5000/v1/csgoInventory";
