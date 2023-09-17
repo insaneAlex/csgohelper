@@ -8,7 +8,7 @@ import {Loader, Checkbox} from "@/components/ui";
 import {ChangeEvent, FC, useEffect, useState} from "react";
 import {getInitialInventory, getInventoryNode} from "@/api";
 import {InventoryItemType, ItemType} from "@/types";
-import {UNSTACK_DUPES} from "./constants";
+import {UNSTACK_DUPES} from "../constants";
 
 type Prop = {dummyInventory: InventoryItemType[]};
 
