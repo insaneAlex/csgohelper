@@ -56,10 +56,4 @@ const SteamInventory: FC<Prop> = ({dummyInventory = DUMMY_INVENTORY}) => {
   );
 };
 
-// export const getStaticProps = async () => {
-//   return {
-//     props: { dummyInventory: getInventory() },
-//   };
-// };
-
 export default SteamInventory;

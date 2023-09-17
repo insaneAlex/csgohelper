@@ -5,19 +5,25 @@ import {ItemType} from "@/data/dummy-inventory";
 import styles from "./filter-checkbox.module.scss";
 
 type Props = {
-  label: ItemType;
+  name: ItemType;
+  label: string;
   filters: ItemType[];
   setFilter: Dispatch<SetStateAction<ItemType[]>>;
 };
 
-export const FilterCheckbox: FC<Props> = ({label, filters, setFilter}) => {
+export const FilterCheckbox: FC<Props> = ({
+  name,
+  label,
+  filters,
+  setFilter,
+}) => {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     if (!checked) {
-      setFilter(filters.filter((filter) => filter != label));
+      setFilter(filters.filter((filter) => filter != name));
     } else {
-      setFilter([...filters, label]);
+      setFilter([...filters, name]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked]);
@@ -29,10 +35,10 @@ export const FilterCheckbox: FC<Props> = ({label, filters, setFilter}) => {
   return (
     <label
       className={classNames(styles.filter, {[styles.selected]: checked})}
-      htmlFor={label}
+      htmlFor={name}
     >
       <input
-        id={label}
+        id={name}
         type="checkbox"
         checked={checked}
         onChange={handleChanges}
