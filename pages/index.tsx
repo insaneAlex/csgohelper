@@ -8,7 +8,6 @@ import {Loader, Checkbox} from "@/components/ui";
 import {ChangeEvent, FC, useEffect, useState} from "react";
 import {getInitialInventory, getInventoryNode} from "@/api";
 import {InventoryItemType, ItemType} from "@/types";
-import {UNSTACK_DUPES} from "../constants";
 
 type Prop = {dummyInventory: InventoryItemType[]};
 
@@ -17,15 +16,15 @@ const SteamInventory: FC<Prop> = () => {
   const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
   const [stack, setStack] = useState(true);
-  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchInitialInventory = async () => {
-      setInventory(await getInitialInventory());
+      const {inventory} = await getInitialInventory();
+      setInventory(inventory || []);
     };
 
-    fetchInitialInventory().finally(() => {
-      setLoading(false);
+    fetchInitialInventory().catch((e) => {
+      console.log(new Error(e));
     });
   }, []);
 
@@ -35,7 +34,9 @@ const SteamInventory: FC<Prop> = () => {
     setId(e.target.value);
 
   const handleSearch = async () => {
-    setInventory(await getInventoryNode({steamId: id}));
+    const resp = await getInventoryNode({steamId: id});
+
+    setInventory(resp?.inventory || []);
   };
 
   let uniqueInventoryItems = stack
@@ -50,7 +51,7 @@ const SteamInventory: FC<Prop> = () => {
   }
 
   const renderContent = () => {
-    return !inventory || isLoading ? (
+    return !inventory ? (
       <Loader />
     ) : (
       <InventoryList items={uniqueInventoryItems} />
@@ -69,8 +70,8 @@ const SteamInventory: FC<Prop> = () => {
         <Checkbox
           onChange={handleStackDupes}
           checked={!stack}
-          name={UNSTACK_DUPES}
-          label={UNSTACK_DUPES}
+          name="UNSTACK DUPES"
+          label="UNSTACK DUPES"
         />
       </div>
 
