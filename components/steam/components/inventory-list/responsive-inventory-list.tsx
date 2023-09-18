@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from "react";
+import React, {FC} from "react";
 import {WidthProvider, Responsive} from "react-grid-layout";
 import {InventoryItem} from "../inventory-item";
 import {InventoryItemType, TagsType} from "@/types";
@@ -14,32 +14,30 @@ type Props = {
   cols?: {[P: string]: number} | undefined;
 };
 
+const calculateLayouts = (
+  items: InventoryItemType[],
+  cols: {[P: string]: number}
+) => {
+  return Object.keys(cols).reduce((layouts, breakpoint) => {
+    layouts[breakpoint] = items.map((item, i) => ({
+      i: i.toString(),
+      x: (i * 2) % cols[breakpoint],
+      y: Math.floor(i / 6) * 2,
+      w: 2,
+      h: 2,
+      ...item,
+    }));
+    return layouts;
+  }, {} as {[P: string]: any[]});
+};
+
 export const ResponsiveInventoryList: FC<Props> = ({
   items,
   className = "layout",
   rowHeight = 100,
   cols = {lg: 14, md: 10, sm: 8, xs: 4, xxs: 4},
 }) => {
-  const getLayouts = useCallback(
-    (items: InventoryItemType[], cols: number) =>
-      items.map((item, i) => {
-        return {
-          i: i.toString(),
-          x: (i * 2) % cols,
-          y: Math.floor(i / 6) * 2,
-          w: 2,
-          h: 2,
-          ...item,
-        };
-      }),
-    []
-  );
-
-  const lg = getLayouts(items, cols.lg);
-  const md = getLayouts(items, cols.md);
-  const sm = getLayouts(items, cols.sm);
-  const xs = getLayouts(items, cols.xs);
-  const xxs = getLayouts(items, cols.xxs);
+  const layouts = calculateLayouts(items, cols);
 
   return (
     <ResponsiveReactGridLayout
@@ -48,11 +46,11 @@ export const ResponsiveInventoryList: FC<Props> = ({
       className={className}
       cols={cols}
       rowHeight={rowHeight}
-      layouts={{lg, md, sm, xs, xxs}}
+      layouts={layouts}
     >
-      {lg.map((item) => {
-        const color = item?.tags.find(
-          (item) => item[TagsType.CATEGORY] === "Rarity"
+      {layouts.lg.map((item) => {
+        const color = item?.tags?.find(
+          (item: {[x: string]: string}) => item[TagsType.CATEGORY] === "Rarity"
         )?.color;
 
         return (
