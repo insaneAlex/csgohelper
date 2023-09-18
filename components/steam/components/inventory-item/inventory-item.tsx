@@ -1,7 +1,7 @@
 import {FC} from "react";
 import Image from "next/image";
 import {inventoryImageBaseUrl} from "@/api/constants";
-import {InventoryItemType} from "@/types";
+import {InventoryItemType, TagsType} from "@/types";
 
 import styles from "./inventory-item.module.scss";
 
@@ -11,8 +11,12 @@ export const InventoryItem: FC<Props> = ({item}) => {
   const counter =
     item?.count && Number(item?.count) > 1 ? ` x ${item.count}` : "";
 
+  const color = item.tags.find(
+    (item) => item[TagsType.CATEGORY] === "Rarity"
+  )?.color;
+
   return (
-    <li className={styles.wrapper}>
+    <li style={{border: `1px solid #${color}`}} className={styles.wrapper}>
       <div className={styles["image-wrapper"]}>
         <Image
           src={`${inventoryImageBaseUrl}${item.icon_url}`}
@@ -21,7 +25,9 @@ export const InventoryItem: FC<Props> = ({item}) => {
           height={115}
         />
       </div>
-      <p className={styles.describe}>{item.name + counter}</p>
+      <p style={{color: `#${item.name_color}`}} className={styles.describe}>
+        {item.name + counter}
+      </p>
     </li>
   );
 };

@@ -20,7 +20,7 @@ const SteamInventory: FC<Prop> = () => {
   useEffect(() => {
     const fetchInitialInventory = async () => {
       const {inventory} = await getInitialInventory();
-      setInventory(inventory || []);
+      setInventory(inventory);
     };
 
     fetchInitialInventory().catch((e) => {
