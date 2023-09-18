@@ -1,6 +1,6 @@
 import {FC} from "react";
-import {InventoryItem} from "../inventory-item/inventory-item";
 import {InventoryItemType} from "@/types";
+import {ResponsiveInventoryList} from "./responsive-inventory-list";
 
 import styles from "./inventory-list.module.scss";
 
@@ -9,10 +9,6 @@ type Props = {items: InventoryItemType[]};
 export const InventoryList: FC<Props> = ({items}) => (
   <>
     <h2 className={styles.title}>{`Items: ${items.length}`}</h2>
-    <ul className={styles.items}>
-      {items.map((item: InventoryItemType, index) => (
-        <InventoryItem count={index} key={index} item={item} />
-      ))}
-    </ul>
+    <ResponsiveInventoryList items={items} />
   </>
 );

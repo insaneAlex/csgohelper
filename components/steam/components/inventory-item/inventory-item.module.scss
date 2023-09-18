@@ -1,25 +1,12 @@
-@import "styles/variables.scss";
-
 .wrapper {
   align-items: center;
-  border-radius: 5px;
-  color: $main-font-color;
   display: inline-flex;
   flex-direction: column;
-  width: 152px;
   margin: 10px;
   height: 200px;
-  background-color: $lighten-bg;
-}
-
-.image-wrapper {
-  width: 100%;
 }
 
 .describe {
-  text-align: center;
   font-size: 13px;
   padding: 0px 5px;
-  text-align: left;
-  width: 100%;
 }

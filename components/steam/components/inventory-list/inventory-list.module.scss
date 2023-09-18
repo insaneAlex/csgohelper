@@ -1,9 +1,10 @@
 @import "styles/variables.scss";
 
-.items {
+.item {
+  background-color: $lighten-bg;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
