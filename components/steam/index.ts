@@ -1,1 +1,5 @@
-export {InventoryList, InventoryFilters} from "./components/";
+export {
+  ResponsiveInventoryList,
+  InventoryFilters,
+  SearchInventory,
+} from "./components/";

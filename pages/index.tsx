@@ -1,9 +1,12 @@
-import {InventoryFilters, InventoryList} from "@/components/steam";
+import {
+  InventoryFilters,
+  ResponsiveInventoryList,
+  SearchInventory,
+} from "@/components/steam";
 import {
   filterInventoryByTypes,
   getInventoryUniqueItems,
 } from "@/components/steam/helpers";
-import {SearchInventory} from "@/components/steam/components";
 import {Loader, Checkbox} from "@/components/ui";
 import {ChangeEvent, FC, useEffect, useState} from "react";
 import {getInitialInventory, getInventoryNode} from "@/api";
@@ -60,7 +63,7 @@ const SteamInventory: FC<Prop> = () => {
     return !inventory || isLoading ? (
       <Loader />
     ) : (
-      <InventoryList items={uniqueInventoryItems} />
+      <ResponsiveInventoryList items={uniqueInventoryItems} />
     );
   };
 
@@ -80,7 +83,6 @@ const SteamInventory: FC<Prop> = () => {
           label="STACK DUPES"
         />
       </div>
-
       {renderContent()}
     </>
   );
