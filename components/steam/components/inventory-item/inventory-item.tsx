@@ -2,12 +2,13 @@ import {FC} from "react";
 import Image from "next/image";
 import {inventoryImageBaseUrl} from "@/api/constants";
 import {InventoryItemType, TagsType} from "@/types";
+import {PRIORITY_ITEMS_COUNT} from "./constants";
 
 import styles from "./inventory-item.module.scss";
 
-type Props = {item: InventoryItemType & {count?: string}};
+type Props = {count: number; item: InventoryItemType & {count?: string}};
 
-export const InventoryItem: FC<Props> = ({item}) => {
+export const InventoryItem: FC<Props> = ({item, count}) => {
   const counter =
     item?.count && Number(item?.count) > 1 ? ` x ${item.count}` : "";
 
@@ -22,6 +23,7 @@ export const InventoryItem: FC<Props> = ({item}) => {
           src={`${inventoryImageBaseUrl}${item.icon_url}`}
           alt={item.name}
           width={150}
+          priority={count <= PRIORITY_ITEMS_COUNT}
           height={115}
         />
       </div>

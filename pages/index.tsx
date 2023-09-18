@@ -15,17 +15,23 @@ const SteamInventory: FC<Prop> = () => {
   const [inventory, setInventory] = useState([]);
   const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
-  const [stack, setStack] = useState(true);
+  const [stack, setStack] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchInitialInventory = async () => {
+      setIsLoading(true);
       const {inventory} = await getInitialInventory();
       setInventory(inventory);
     };
 
-    fetchInitialInventory().catch((e) => {
-      console.log(new Error(e));
-    });
+    fetchInitialInventory()
+      .catch((e) => {
+        console.log(new Error(e));
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const handleStackDupes = () => (stack ? setStack(false) : setStack(true));
@@ -51,7 +57,7 @@ const SteamInventory: FC<Prop> = () => {
   }
 
   const renderContent = () => {
-    return !inventory ? (
+    return !inventory || isLoading ? (
       <Loader />
     ) : (
       <InventoryList items={uniqueInventoryItems} />
@@ -66,12 +72,12 @@ const SteamInventory: FC<Prop> = () => {
         onIdChange={handleIdChange}
       />
       <InventoryFilters filters={filters} setFilter={setFilters} />
-      <div style={{maxWidth: "200px"}}>
+      <div style={{maxWidth: "160px"}}>
         <Checkbox
           onChange={handleStackDupes}
-          checked={!stack}
-          name="UNSTACK DUPES"
-          label="UNSTACK DUPES"
+          checked={stack}
+          name="STACK DUPES"
+          label="STACK DUPES"
         />
       </div>
 

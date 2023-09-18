@@ -11,7 +11,7 @@ export const InventoryList: FC<Props> = ({items}) => (
     <h2 className={styles.title}>{`Items: ${items.length}`}</h2>
     <ul className={styles.items}>
       {items.map((item: InventoryItemType, index) => (
-        <InventoryItem key={index} item={item} />
+        <InventoryItem count={index} key={index} item={item} />
       ))}
     </ul>
   </>
