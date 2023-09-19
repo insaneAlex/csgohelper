@@ -67,3 +67,5 @@ export type InventoryItemType = {
   actions?: {link: string; name: string}[];
   market_actions?: {link: string; name: string}[];
 };
+
+export type NumObject = {[key: string]: number};

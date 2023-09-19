@@ -19,7 +19,7 @@ export const ResponsiveInventoryList: FC<Props> = ({
   items,
   className = "layout",
   rowHeight = 100,
-  cols = {lg: 14, md: 10, sm: 8, xs: 4, xxs: 4},
+  cols = {lg: 14, md: 12, sm: 20, xs: 15, xxs: 4},
 }) => {
   const layouts = calculateLayouts(items, cols);
 
@@ -30,9 +30,9 @@ export const ResponsiveInventoryList: FC<Props> = ({
         isResizable={false}
         isDraggable={false}
         className={className}
-        cols={cols}
         rowHeight={rowHeight}
         layouts={layouts}
+        cols={cols}
       >
         {layouts.lg.map((item) => {
           const color = item?.tags?.find(
