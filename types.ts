@@ -19,6 +19,7 @@ export enum ItemType {
   Shotgun = "Shotgun",
   Rifle = "Rifle",
   SMG = "SMG",
+  Machinegun = "Machinegun",
   Graffiti = "Graffiti",
   Pass = "Pass",
   Collectible = "Collectible",
