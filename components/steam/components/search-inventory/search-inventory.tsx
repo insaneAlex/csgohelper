@@ -11,8 +11,7 @@ export const SearchInventory: FC<Props> = ({id, onSearch, onIdChange}) => {
   return (
     <div className={styles.searchBlock}>
       <form autoComplete="on">
-        <div>
-          <label htmlFor="steamId"></label>
+        <label htmlFor="steamId">
           <input
             defaultValue={id}
             onChange={onIdChange}
@@ -21,7 +20,7 @@ export const SearchInventory: FC<Props> = ({id, onSearch, onIdChange}) => {
             type="text"
             id="steamId"
           />
-        </div>
+        </label>
       </form>
       <div className={styles.searchBtn}>
         <button onClick={onSearch}>SEARCH BY SteamID</button>
