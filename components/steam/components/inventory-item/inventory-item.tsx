@@ -2,37 +2,35 @@ import {FC} from "react";
 import Image from "next/image";
 import {inventoryImageBaseUrl} from "@/api/constants";
 import {InventoryItemType} from "@/types";
-import {PRIORITY_ITEMS_COUNT} from "./constants";
 import {Layout} from "react-grid-layout";
-
-import styles from "./inventory-item.module.scss";
 import Link from "next/link";
 
+import styles from "./inventory-item.module.scss";
+
 type Props = {
-  count: string;
   item: InventoryItemType & Layout & {count?: string};
 };
 
-export const InventoryItem: FC<Props> = ({item, count}) => {
-  const counter =
-    item?.count && Number(item?.count) > 1 ? ` x ${item.count}` : "";
+export const InventoryItem: FC<Props> = ({item}) => {
+  const {name, name_color, assetid, icon_url, count} = item;
+  const counter = count && Number(count) > 1 ? ` x ${count}` : "";
 
   return (
     <li>
-      <Link href={`/items/${item.assetid}`}>
+      <Link href={`/items/${assetid}`}>
         <div className={styles.wrapper}>
           <Image
-            src={`${inventoryImageBaseUrl}${item.icon_url}`}
-            alt={item.name}
+            src={`${inventoryImageBaseUrl}${icon_url}`}
+            alt={name}
             width={150}
-            priority={Number(count) <= PRIORITY_ITEMS_COUNT}
+            quality={100}
             height={120}
           />
           <p
-            style={{color: `#${item.name_color}`, textAlign: "center"}}
+            style={{color: `#${name_color}`, textAlign: "center"}}
             className={styles.describe}
           >
-            {item.name + counter}
+            {name + counter}
           </p>
         </div>
       </Link>

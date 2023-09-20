@@ -16,7 +16,7 @@ import {DUMMY_INVENTORY} from "@/dummy/data";
 type Props = {initialInventory: InventoryItemType[]};
 
 const SteamInventory: FC<Props> = ({initialInventory}) => {
-  const [inventory, setInventory] = useState(initialInventory);
+  const [inventory, setInventory] = useState<InventoryItemType[]>([]);
   const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
   const [stack, setStack] = useState(false);
@@ -38,6 +38,13 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
           setIsLoading(false);
         });
   }, [initialInventory.length]);
+
+  useEffect(
+    () => () => {
+      setInventory(initialInventory);
+    },
+    [initialInventory]
+  );
 
   const handleStackDupes = () => (stack ? setStack(false) : setStack(true));
 
@@ -62,7 +69,9 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
   }
 
   const renderContent = () => {
-    return !uniqueInventoryItems || isLoading ? (
+    return !uniqueInventoryItems ||
+      isLoading ||
+      uniqueInventoryItems.length === 0 ? (
       <Loader />
     ) : (
       <ResponsiveInventoryList items={uniqueInventoryItems} />
@@ -107,7 +116,17 @@ export async function getStaticProps() {
 
   // TODO: Remove '|| DUMMY_INVENTORY' after cloud inventory storage
 
-  return {props: {initialInventory: inventory || DUMMY_INVENTORY}};
+  const newInv = inventory.map(
+    ({name, tags, name_color, assetid, icon_url}) => ({
+      name,
+      tags,
+      name_color,
+      assetid,
+      icon_url,
+    })
+  );
+
+  return {props: {initialInventory: newInv}};
 }
 
 export default SteamInventory;
