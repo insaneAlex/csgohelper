@@ -12,25 +12,34 @@ export enum TagsType {
   COLOR = "color",
 }
 
-export enum ItemType {
-  Pistol = "Pistol",
-  Container = "Container",
-  SniperRifle = "Sniper Rifle",
-  Shotgun = "Shotgun",
-  Rifle = "Rifle",
-  SMG = "SMG",
-  Machinegun = "Machinegun",
-  Graffiti = "Graffiti",
-  Pass = "Pass",
-  Collectible = "Collectible",
-  MusicKit = "Music Kit",
-  Tools = "Tool",
-}
+export type ItemType = Readonly<
+  | "Pistol"
+  | "Container"
+  | "Sniper Rifle"
+  | "Shotgun"
+  | "Rifle"
+  | "SMG"
+  | "Machinegun"
+  | "Graffiti"
+  | "Pass"
+  | "Collectible"
+  | "Music Kit"
+  | "Tool"
+>;
 
-export const FORMATTED_TYPE_LABELS = [
-  ItemType.Collectible,
-  ItemType.Pass,
-  ItemType.Tools,
+export const ItemTypes: ItemType[] = [
+  "Pistol",
+  "Container",
+  "Sniper Rifle",
+  "Shotgun",
+  "Rifle",
+  "SMG",
+  "Machinegun",
+  "Graffiti",
+  "Pass",
+  "Collectible",
+  "Music Kit",
+  "Tool",
 ];
 
 type TagsTypeIndex = {

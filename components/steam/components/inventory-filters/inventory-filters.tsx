@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {FilterCheckbox} from "../filter-checkbox";
-import {FORMATTED_TYPE_LABELS, ItemType} from "@/types";
+import {ItemType, ItemTypes} from "@/types";
 
 import styles from "./inventory-filters.module.scss";
 
@@ -9,26 +9,16 @@ type Props = {
   filters: ItemType[];
 };
 
-export const InventoryFilters: FC<Props> = ({filters, setFilter}) => {
-  return (
-    <div className={styles.filters}>
-      {Object.keys(ItemType).map((type) => {
-        let label = type; // @ts-ignore
-        if (!FORMATTED_TYPE_LABELS.includes(ItemType[type])) {
-          // @ts-ignore
-          label = ItemType[type];
-        }
-
-        return (
-          <FilterCheckbox
-            key={type}
-            filters={filters}
-            setFilter={setFilter}
-            label={label} // @ts-ignore
-            name={ItemType[type]}
-          />
-        );
-      })}
-    </div>
-  );
-};
+export const InventoryFilters: FC<Props> = ({filters, setFilter}) => (
+  <div className={styles.filters}>
+    {ItemTypes.map((type) => (
+      <FilterCheckbox
+        key={type}
+        filters={filters}
+        setFilter={setFilter}
+        label={type}
+        name={type}
+      />
+    ))}
+  </div>
+);
