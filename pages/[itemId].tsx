@@ -30,11 +30,19 @@ async function getData() {
 
 export const getStaticProps = async (context: any) => {
   // TODO: Remove after cloud inventory storage
-  const data = (await getData()) || DUMMY_INVENTORY;
+  let inventory = DUMMY_INVENTORY;
   const {params} = context;
   const itemId = params.itemId;
+  try {
+    inventory = await getData();
+  } catch (e) {
+    console.log(e);
+  }
 
-  const item = data.find((item: InventoryItemType) => item.assetid === itemId);
+  const item = inventory.find(
+    // @ts-ignore
+    (item: InventoryItemType) => item.assetid === itemId
+  );
 
   if (!item) {
     return {notFound: true};
@@ -44,10 +52,15 @@ export const getStaticProps = async (context: any) => {
 
 export async function getStaticPaths() {
   // TODO: Remove after cloud inventory storage
-  const data = (await getData()) || DUMMY_INVENTORY;
-console.log(data);
+  let inventory = DUMMY_INVENTORY;
 
-  const paths = data.map((item: InventoryItemType) => ({
+  try {
+    inventory = await getData();
+  } catch (e) {
+    console.log(e);
+  }
+  // @ts-ignore
+  const paths = inventory.map((item: InventoryItemType) => ({
     params: {itemId: item.assetid},
   }));
 
