@@ -11,6 +11,7 @@ import {Loader, Checkbox} from "@/components/ui";
 import {ChangeEvent, FC, useEffect, useState} from "react";
 import {getInitialInventory, getInventoryNode} from "@/api";
 import {InventoryItemType, ItemType} from "@/types";
+import {DUMMY_INVENTORY} from "@/dummy/data";
 
 type Props = {initialInventory: InventoryItemType[]};
 
@@ -91,8 +92,8 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
 
 export async function getStaticProps() {
   const {inventory} = await getInitialInventory();
-
-  return {props: {initialInventory: inventory}};
+  // TODO: Remove '|| DUMMY_INVENTORY' after cloud inventory storage
+  return {props: {initialInventory: inventory || DUMMY_INVENTORY}};
 }
 
 export default SteamInventory;

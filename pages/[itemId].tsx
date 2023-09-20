@@ -4,6 +4,7 @@ import {Loader} from "@/components/ui";
 import {InventoryItemType} from "@/types";
 import Link from "next/link";
 import {ItemDetails} from "@/components/steam";
+import {DUMMY_INVENTORY} from "@/dummy/data";
 
 type Props = {item: InventoryItemType};
 
@@ -28,7 +29,8 @@ async function getData() {
 }
 
 export const getStaticProps = async (context: any) => {
-  const data = await getData();
+  // TODO: Remove after cloud inventory storage
+  const data = (await getData()) || DUMMY_INVENTORY;
   const {params} = context;
   const itemId = params.itemId;
 
@@ -41,7 +43,8 @@ export const getStaticProps = async (context: any) => {
 };
 
 export async function getStaticPaths() {
-  const data = await getData();
+  // TODO: Remove after cloud inventory storage
+  const data = (await getData()) || DUMMY_INVENTORY;
 
   const paths = data.map((item: InventoryItemType) => ({
     params: {itemId: item.assetid},
