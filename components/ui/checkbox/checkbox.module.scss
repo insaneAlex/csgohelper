@@ -1,16 +1,15 @@
 @import "styles/variables.scss";
 
-.filter {
+.label {
   border: 1px solid transparent;
   border-radius: 5px;
   background: $lighten-bg;
-  color: $main-font-color;
   cursor: pointer;
   display: block;
   margin: 5px;
   padding: 5px;
 }
 
-.selected {
-  border: 1px solid gainsboro;
+.checked {
+  border: 1px solid $main-font-color;
 }

@@ -1,5 +1,8 @@
+@import "styles/variables.scss";
+
 * {
   box-sizing: border-box;
+  color: $main-font-color;
 }
 body {
   font-family: sans-serif;

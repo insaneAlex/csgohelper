@@ -7,7 +7,6 @@
   justify-content: center;
   input[type="text"] {
     height: 40px;
-    color: $main-font-color;
     margin: 0 -10px;
     background-color: $lighten-bg;
     border: 1px solid $main-font-color;
@@ -26,7 +25,7 @@
     }
     input[type="text"] {
       margin: 0;
-      border: none;
+      border: 1px solid $base-dark;
       width: 100%;
       border-radius: 0;
     }
@@ -37,8 +36,6 @@
   button {
     background-color: $lighten-bg;
     border-radius: 15px;
-    border: none;
-    color: white;
     cursor: pointer;
     border: 1px solid $main-font-color;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -46,14 +43,14 @@
     width: 200px;
     padding: 0;
     &:active {
-      background-color: gray;
+      background-color: $base-dark;
     }
   }
   @media (max-width: 768px) {
     button {
       width: 150px;
       height: 40px;
-      border: none;
+      border: 1px solid $base-dark;
       border-radius: 0;
       margin-left: 10px;
     }
