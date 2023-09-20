@@ -9,7 +9,7 @@ export const calculateLayouts = (
 
   return Object.keys(cols).reduce((layouts, breakpoint) => {
     layouts[breakpoint] = items.map((item, i) => ({
-      i: i.toString(),
+      i: item.assetid,
       x: (i * width[breakpoint]) % cols[breakpoint],
       y: Math.floor(i / 6) * height[breakpoint],
       w: width[breakpoint],

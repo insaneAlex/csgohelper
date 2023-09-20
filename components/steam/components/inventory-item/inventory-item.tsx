@@ -19,7 +19,7 @@ export const InventoryItem: FC<Props> = ({item, count}) => {
 
   return (
     <li>
-      <Link href={`/${item.assetid}`}>
+      <Link href={`/items/${item.assetid}`}>
         <div className={styles.wrapper}>
           <Image
             src={`${inventoryImageBaseUrl}${item.icon_url}`}

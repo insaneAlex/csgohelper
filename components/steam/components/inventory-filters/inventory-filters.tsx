@@ -1,11 +1,11 @@
-import {Dispatch, FC, SetStateAction} from "react";
+import {FC} from "react";
 import {FilterCheckbox} from "../filter-checkbox";
 import {FORMATTED_TYPE_LABELS, ItemType} from "@/types";
 
 import styles from "./inventory-filters.module.scss";
 
 type Props = {
-  setFilter: Dispatch<SetStateAction<ItemType[]>>;
+  setFilter: (filters: ItemType[]) => void;
   filters: ItemType[];
 };
 

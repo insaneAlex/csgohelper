@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
+import React, {FC, useState} from "react";
 import {ItemType} from "@/types";
 import {Checkbox} from "../../../ui/checkbox";
 
@@ -6,7 +6,7 @@ type Props = {
   name: ItemType;
   label: string;
   filters: ItemType[];
-  setFilter: Dispatch<SetStateAction<ItemType[]>>;
+  setFilter: (filters: ItemType[]) => void;
 };
 
 export const FilterCheckbox: FC<Props> = ({
@@ -15,24 +15,23 @@ export const FilterCheckbox: FC<Props> = ({
   filters,
   setFilter,
 }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(filters.includes(name));
 
-  useEffect(() => {
-    if (!checked) {
-      setFilter(filters.filter((filter) => filter != name));
+  const handleChange = () => {
+    let newFilters;
+    if (checked) {
+      setChecked(false);
+      newFilters = filters.filter((filter) => filter !== name);
     } else {
-      setFilter([...filters, name]);
+      setChecked(true);
+      newFilters = [...filters, name];
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checked]);
-
-  const handleChanges = () => {
-    setChecked(!checked);
+    setFilter(newFilters);
   };
 
   return (
     <Checkbox
-      onChange={handleChanges}
+      onChange={handleChange}
       checked={checked}
       name={name}
       label={label}

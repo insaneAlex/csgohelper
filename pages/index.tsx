@@ -62,11 +62,15 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
   }
 
   const renderContent = () => {
-    return !inventory || isLoading ? (
+    return !uniqueInventoryItems || isLoading ? (
       <Loader />
     ) : (
       <ResponsiveInventoryList items={uniqueInventoryItems} />
     );
+  };
+
+  const handleChangeFilters = (filters: ItemType[]) => {
+    setFilters(filters);
   };
 
   return (
@@ -76,7 +80,7 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
         onSearch={handleSearch}
         onIdChange={handleIdChange}
       />
-      <InventoryFilters filters={filters} setFilter={setFilters} />
+      <InventoryFilters filters={filters} setFilter={handleChangeFilters} />
       <div style={{maxWidth: "160px"}}>
         <Checkbox
           onChange={handleStackDupes}

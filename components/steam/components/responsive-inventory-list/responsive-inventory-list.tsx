@@ -34,14 +34,12 @@ export const ResponsiveInventoryList: FC<Props> = ({
         layouts={layouts}
         cols={cols}
       >
-        {layouts.lg.map((item, i) => {
+        {layouts.lg.map((item) => {
           const color = item?.tags?.find(
             (item: {[x: string]: string}) =>
               item[TagsType.CATEGORY] === "Rarity"
           )?.color;
 
-          // TODO: Remove this after pagination
-          if (i > 48) return;
           return (
             <div
               style={{border: `1px solid #${color}`}}
