@@ -12,14 +12,14 @@ import {ChangeEvent, FC, useEffect, useState} from "react";
 import {getInitialInventory, getInventoryNode} from "@/api";
 import {InventoryItemType, ItemType} from "@/types";
 
-type Prop = {dummyInventory: InventoryItemType[]};
+type Props = {initialInventory: InventoryItemType[]};
 
-const SteamInventory: FC<Prop> = () => {
-  const [inventory, setInventory] = useState([]);
+const SteamInventory: FC<Props> = ({initialInventory}) => {
+  const [inventory, setInventory] = useState(initialInventory);
   const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
   const [stack, setStack] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchInitialInventory = async () => {
@@ -28,14 +28,15 @@ const SteamInventory: FC<Prop> = () => {
       setInventory(inventory);
     };
 
-    fetchInitialInventory()
-      .catch((e) => {
-        console.log(new Error(e));
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    initialInventory.length === 0 &&
+      fetchInitialInventory()
+        .catch((e) => {
+          console.log(new Error(e));
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+  }, [initialInventory.length]);
 
   const handleStackDupes = () => (stack ? setStack(false) : setStack(true));
 
@@ -87,5 +88,11 @@ const SteamInventory: FC<Prop> = () => {
     </>
   );
 };
+
+export async function getStaticProps() {
+  const {inventory} = await getInitialInventory();
+
+  return {props: {initialInventory: inventory}};
+}
 
 export default SteamInventory;

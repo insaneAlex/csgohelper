@@ -6,6 +6,7 @@ import {PRIORITY_ITEMS_COUNT} from "./constants";
 import {Layout} from "react-grid-layout";
 
 import styles from "./inventory-item.module.scss";
+import Link from "next/link";
 
 type Props = {
   count: string;
@@ -17,20 +18,24 @@ export const InventoryItem: FC<Props> = ({item, count}) => {
     item?.count && Number(item?.count) > 1 ? ` x ${item.count}` : "";
 
   return (
-    <li className={styles.wrapper}>
-      <Image
-        src={`${inventoryImageBaseUrl}${item.icon_url}`}
-        alt={item.name}
-        width={150}
-        priority={Number(count) <= PRIORITY_ITEMS_COUNT}
-        height={120}
-      />
-      <p
-        style={{color: `#${item.name_color}`, textAlign: "center"}}
-        className={styles.describe}
-      >
-        {item.name + counter}
-      </p>
+    <li>
+      <Link href={`/${item.assetid}`}>
+        <div className={styles.wrapper}>
+          <Image
+            src={`${inventoryImageBaseUrl}${item.icon_url}`}
+            alt={item.name}
+            width={150}
+            priority={Number(count) <= PRIORITY_ITEMS_COUNT}
+            height={120}
+          />
+          <p
+            style={{color: `#${item.name_color}`, textAlign: "center"}}
+            className={styles.describe}
+          >
+            {item.name + counter}
+          </p>
+        </div>
+      </Link>
     </li>
   );
 };
