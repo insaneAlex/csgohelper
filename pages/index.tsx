@@ -91,8 +91,18 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
 };
 
 export async function getStaticProps() {
-  const {inventory} = await getInitialInventory();
+  let inventory = DUMMY_INVENTORY;
+
+  // const {inventory} = await getInitialInventory(); will be enough
+  try {
+    const response = await getInitialInventory();
+    inventory = response.inventory;
+  } catch (e) {
+    console.log(e);
+  }
+
   // TODO: Remove '|| DUMMY_INVENTORY' after cloud inventory storage
+
   return {props: {initialInventory: inventory || DUMMY_INVENTORY}};
 }
 

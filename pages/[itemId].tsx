@@ -45,6 +45,7 @@ export const getStaticProps = async (context: any) => {
 export async function getStaticPaths() {
   // TODO: Remove after cloud inventory storage
   const data = (await getData()) || DUMMY_INVENTORY;
+console.log(data);
 
   const paths = data.map((item: InventoryItemType) => ({
     params: {itemId: item.assetid},
