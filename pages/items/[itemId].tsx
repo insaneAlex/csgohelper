@@ -47,8 +47,10 @@ export const getStaticProps = async (context: any) => {
   if (!item) {
     return {notFound: true};
   }
-  const {icon_url, name, descriptions, tags} = item;
-  return {props: {item: {icon_url, name, descriptions, tags}}};
+  const {icon_url, name, descriptions, tags, market_hash_name} = item;
+  return {
+    props: {item: {icon_url, name, descriptions, tags, market_hash_name}},
+  };
 };
 
 export async function getStaticPaths() {

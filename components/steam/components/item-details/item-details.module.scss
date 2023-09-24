@@ -2,12 +2,20 @@
 
 .details {
   padding: 0 15px;
+  width: 500px;
+  margin: 0 auto;
   text-align: center;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 25px;
 }
 
 .name {
   margin-top: 15px;
   margin-bottom: 0;
+}
+.descriptions {
+  text-align: left;
 }
 
 .exterior {
