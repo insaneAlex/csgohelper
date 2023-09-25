@@ -1,4 +1,4 @@
-import React, {FC, useMemo, useState} from "react";
+import React, {FC, useMemo} from "react";
 import {WidthProvider, Responsive} from "react-grid-layout";
 import {InventoryItem} from "../inventory-item";
 import {InventoryItemType, TagsType} from "@/types";
@@ -22,11 +22,6 @@ export const ResponsiveInventoryList: FC<Props> = ({
   cols = {lg: 14, md: 12, sm: 20, xs: 15, xxs: 6},
 }) => {
   const layouts = useMemo(() => calculateLayouts(items, cols), [items, cols]);
-  const [size, setSize] = useState<string>();
-
-  const handleSetBreakpoint = (breakpoint: string) => {
-    setSize(breakpoint);
-  };
 
   return (
     <>
@@ -38,7 +33,6 @@ export const ResponsiveInventoryList: FC<Props> = ({
         rowHeight={rowHeight}
         layouts={layouts}
         cols={cols}
-        onBreakpointChange={handleSetBreakpoint}
       >
         {layouts.lg.map((item) => {
           const color = item?.tags?.find(
@@ -51,7 +45,7 @@ export const ResponsiveInventoryList: FC<Props> = ({
               className={styles.item}
               key={item.i}
             >
-              <InventoryItem imgSize={size} item={item} />
+              <InventoryItem item={item} />
             </div>
           );
         })}
