@@ -10,7 +10,7 @@ const subscribe = (callback: any) => {
 export const useWindowWidth = () => {
   return useSyncExternalStore(
     subscribe,
-    () => window.screen.width,
+    () => window.innerWidth,
     () => 0
   );
 };

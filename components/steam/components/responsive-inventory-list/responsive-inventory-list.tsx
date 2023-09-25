@@ -29,6 +29,7 @@ export const ResponsiveInventoryList: FC<Props> = ({items, cols = col}) => {
       <ResponsiveReactGridLayout
         isResizable={false}
         isDraggable={false}
+        isDroppable={false}
         layouts={layouts}
         rowHeight={100}
         cols={cols}
