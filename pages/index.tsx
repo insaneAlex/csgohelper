@@ -15,7 +15,7 @@ import {DUMMY_INVENTORY} from "@/dummy/data";
 
 type Props = {initialInventory: InventoryItemType[]};
 
-const SteamInventory: FC<Props> = ({initialInventory}) => {
+const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
   const [inventory, setInventory] = useState<InventoryItemType[]>([]);
   const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
@@ -29,7 +29,7 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
       setInventory(inventory);
     };
 
-    initialInventory.length === 0 &&
+    initialInventory?.length === 0 &&
       fetchInitialInventory()
         .catch((e) => {
           console.log(new Error(e));
@@ -37,14 +37,11 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
         .finally(() => {
           setIsLoading(false);
         });
-  }, [initialInventory.length]);
+  }, [initialInventory?.length]);
 
-  useEffect(
-    () => () => {
-      setInventory(initialInventory);
-    },
-    [initialInventory]
-  );
+  useEffect(() => {
+    return setInventory(initialInventory as InventoryItemType[]);
+  }, [initialInventory]);
 
   const handleStackDupes = () => (stack ? setStack(false) : setStack(true));
 
@@ -102,31 +99,5 @@ const SteamInventory: FC<Props> = ({initialInventory}) => {
     </>
   );
 };
-
-export async function getStaticProps() {
-  let inventory = DUMMY_INVENTORY;
-
-  // const {inventory} = await getInitialInventory(); will be enough
-  try {
-    const response = await getInitialInventory();
-    inventory = response.inventory;
-  } catch (e) {
-    console.log(e);
-  }
-
-  // TODO: Remove '|| DUMMY_INVENTORY' after cloud inventory storage
-
-  const newInv = inventory.map(
-    ({name, tags, name_color, assetid, icon_url}) => ({
-      name,
-      tags,
-      name_color,
-      assetid,
-      icon_url,
-    })
-  );
-
-  return {props: {initialInventory: newInv}};
-}
 
 export default SteamInventory;

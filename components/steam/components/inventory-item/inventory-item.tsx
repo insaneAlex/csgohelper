@@ -8,32 +8,25 @@ import Link from "next/link";
 import styles from "./inventory-item.module.scss";
 
 type Props = {
-  item: InventoryItemType & Layout & {count?: string};
+  item: InventoryItemType & Layout & {count?: number};
 };
 
 export const InventoryItem: FC<Props> = ({item}) => {
   const {name, name_color, assetid, icon_url, count} = item;
-  const counter = count && Number(count) > 1 ? ` x ${count}` : "";
+  const imgSrc = `${inventoryImageBaseUrl}${icon_url}`;
+  const amount = count && count > 1 ? ` x ${count}` : "";
 
   return (
-    <li>
-      <Link href={`/items/${assetid}`}>
-        <div className={styles.wrapper}>
-          <Image
-            src={`${inventoryImageBaseUrl}${icon_url}`}
-            alt={name}
-            width={150}
-            quality={100}
-            height={120}
-          />
-          <p
-            style={{color: `#${name_color}`, textAlign: "center"}}
-            className={styles.describe}
-          >
-            {name + counter}
-          </p>
-        </div>
-      </Link>
-    </li>
+    <Link href={`/items/${assetid}`}>
+      <li className={styles.item}>
+        <Image src={imgSrc} priority alt={name} width={128} height={99} />
+        <p
+          style={{color: `#${name_color}`, textAlign: "center"}}
+          className={styles.describe}
+        >
+          {name + amount}
+        </p>
+      </li>
+    </Link>
   );
 };
