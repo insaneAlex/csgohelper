@@ -1,11 +1,10 @@
 import {FC} from "react";
-import {Loader} from "@/components/ui";
+import {BackIcon, Loader} from "@/components/ui";
 import {InventoryItemType} from "@/types";
 import Link from "next/link";
 import {ItemDetails} from "@/components/steam";
 import {DUMMY_INVENTORY} from "@/dummy/data";
 import {useRouter} from "next/router";
-import {BackIcon} from "@/components/ui/icons/back-icon";
 
 type Props = {inventory: InventoryItemType[]};
 
@@ -21,7 +20,7 @@ const ItemDetailsPage: FC<Props> = ({inventory = DUMMY_INVENTORY}) => {
   return (
     <>
       <Link href="/">
-        <BackIcon />
+        <BackIcon height={32} width={32} />
       </Link>
 
       <ItemDetails item={item as InventoryItemType} />

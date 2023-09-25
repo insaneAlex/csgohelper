@@ -1,8 +1,8 @@
-import React, {FC, useMemo} from "react";
+import React, {FC, useState, useEffect, useMemo} from "react";
 import {WidthProvider, Responsive} from "react-grid-layout";
 import {InventoryItem} from "../inventory-item";
 import {InventoryItemType, TagsType} from "@/types";
-import {calculateLayouts} from "../../helpers";
+import {calculateLayouts, getImgSizes} from "../../helpers";
 
 import styles from "./responsive-inventory-list.module.scss";
 
@@ -15,11 +15,24 @@ type Props = {
   cols?: {[P: string]: number} | undefined;
 };
 
-export const ResponsiveInventoryList: FC<Props> = ({
-  items,
-  cols = {lg: 14, md: 12, sm: 20, xs: 15, xxs: 6},
-}) => {
+const col = {lg: 14, md: 12, sm: 20, xs: 20, xxs: 16};
+
+export const ResponsiveInventoryList: FC<Props> = ({items, cols = col}) => {
   const layouts = useMemo(() => calculateLayouts(items, cols), [items, cols]);
+  const [width, setWidth] = useState<number>(window.screen.width);
+  const imgSize = getImgSizes({width});
+
+  const getWidth = () => {
+    setWidth(window.screen.width);
+  };
+
+  useEffect(() => {
+    getWidth();
+    window.onresize = getWidth;
+    return () => {
+      window.onresize = null;
+    };
+  }, []);
 
   return (
     <>
@@ -41,7 +54,7 @@ export const ResponsiveInventoryList: FC<Props> = ({
               className={styles.item}
               key={item.i}
             >
-              <InventoryItem item={item} />
+              <InventoryItem item={item} imgSize={imgSize} />
             </div>
           );
         })}

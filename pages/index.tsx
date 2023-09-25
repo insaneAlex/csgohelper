@@ -26,21 +26,16 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     const fetchInitialInventory = async () => {
       setIsLoading(true);
       const {inventory} = await getInitialInventory();
-      setInventory(inventory);
+      setInventory(inventory || initialInventory);
     };
 
-    initialInventory?.length === 0 &&
-      fetchInitialInventory()
-        .catch((e) => {
-          console.log(new Error(e));
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-  }, [initialInventory?.length]);
-
-  useEffect(() => {
-    return setInventory(initialInventory as InventoryItemType[]);
+    fetchInitialInventory()
+      .catch((e) => {
+        console.log(new Error(e));
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [initialInventory]);
 
   const handleStackDupes = () => (stack ? setStack(false) : setStack(true));
@@ -65,18 +60,22 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     });
   }
 
-  const renderContent = () => {
-    return !uniqueInventoryItems ||
-      isLoading ||
-      uniqueInventoryItems.length === 0 ? (
-      <Loader />
-    ) : (
-      <ResponsiveInventoryList items={uniqueInventoryItems} />
-    );
-  };
-
   const handleChangeFilters = (filters: ItemType[]) => {
     setFilters(filters);
+  };
+
+  const renderContent = () => {
+    if (isLoading) {
+      return <Loader />;
+    }
+
+    if (uniqueInventoryItems.length === 0 && filters.length > 0) {
+      return <>No items with such filters</>;
+    }
+
+    if (uniqueInventoryItems.length > 0) {
+      return <ResponsiveInventoryList items={uniqueInventoryItems} />;
+    }
   };
 
   return (
