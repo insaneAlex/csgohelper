@@ -12,7 +12,7 @@ const ItemDetailsPage: FC<Props> = ({inventory = DUMMY_INVENTORY}) => {
   const router = useRouter();
   const itemId = router.query.itemId;
 
-  const item = inventory.find((item) => item?.assetid === itemId);
+  const item = inventory?.find((item) => item?.assetid === itemId);
 
   if (!item) {
     return <Loader />;
