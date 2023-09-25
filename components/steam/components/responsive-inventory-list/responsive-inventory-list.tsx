@@ -41,6 +41,7 @@ export const ResponsiveInventoryList: FC<Props> = ({items, cols = col}) => {
         isResizable={false}
         isDraggable={false}
         layouts={layouts}
+        rowHeight={100}
         cols={cols}
       >
         {layouts.lg.map((item) => {
