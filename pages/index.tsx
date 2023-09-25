@@ -19,7 +19,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
   const [inventory, setInventory] = useState<InventoryItemType[]>([]);
   const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
-  const [stack, setStack] = useState(false);
+  const [stack, setStack] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
