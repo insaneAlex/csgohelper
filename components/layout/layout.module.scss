@@ -4,7 +4,7 @@
   max-width: 1500px;
   min-width: 320px;
   margin: 0 auto;
-  min-height: 90vh;
+  min-height: 92vh;
 }
 
 .mainWrapper {
@@ -22,6 +22,6 @@
   align-items: center;
   height: 4rem;
   background-color: $base-dark;
-  color: $reactive-blue;
+  color: $main-font-color;
   letter-spacing: 1px;
 }

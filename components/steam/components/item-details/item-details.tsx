@@ -10,7 +10,6 @@ type Props = {item: InventoryItemType};
 
 export const ItemDetails: FC<Props> = ({item}) => {
   const {icon_url, name, descriptions, tags} = item;
-
   const exterior = getTagValue({tag: "Exterior", tags});
   const imgSrc = `${inventoryImageBaseUrl}${icon_url}`;
 
@@ -29,9 +28,16 @@ export const ItemDetails: FC<Props> = ({item}) => {
   );
   return (
     <div className={styles.details}>
-      <h1 className={styles.name}>{name}</h1>
+      <h1>{name}</h1>
       {exterior && <h2 className={styles.exterior}>{`(${exterior})`}</h2>}
-      <Image src={imgSrc} alt={name} width={256} priority height={198} />
+      <Image
+        src={imgSrc}
+        alt={name}
+        quality={100}
+        width={256}
+        priority
+        height={198}
+      />
       <hr className={styles.line} />
 
       {renderDescriptions()}

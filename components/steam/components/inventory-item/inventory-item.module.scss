@@ -6,6 +6,18 @@
 }
 
 .describe {
-  font-size: 13px;
+  font-size: 10px;
   padding: 0px 5px;
+}
+
+@media (min-width: 425px) {
+  .describe {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .describe {
+    font-size: 13px;
+  }
 }

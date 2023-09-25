@@ -4,8 +4,8 @@ export const calculateLayouts = (
   items: InventoryItemType[],
   cols: {[P: string]: number}
 ) => {
-  const width: NumObject = {lg: 2, md: 2, sm: 4, xs: 5, xxs: 2};
-  const height: NumObject = {lg: 2, md: 1.7, sm: 1.7, xs: 1.5, xxs: 2};
+  const width: NumObject = {lg: 2, md: 2, sm: 4, xs: 4, xxs: 4};
+  const height: NumObject = {lg: 1.5, md: 1.5, sm: 1.5, xs: 1, xxs: 1};
 
   return Object.keys(cols).reduce((layouts, breakpoint) => {
     layouts[breakpoint] = items.map((item, i) => ({
