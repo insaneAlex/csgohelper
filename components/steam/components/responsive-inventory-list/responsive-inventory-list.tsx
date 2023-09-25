@@ -1,8 +1,9 @@
-import React, {FC, useState, useEffect, useMemo} from "react";
+import React, {FC, useMemo} from "react";
 import {WidthProvider, Responsive} from "react-grid-layout";
 import {InventoryItem} from "../inventory-item";
 import {InventoryItemType, TagsType} from "@/types";
 import {calculateLayouts, getImgSizes} from "../../helpers";
+import {useWindowWidth} from "./hooks";
 
 import styles from "./responsive-inventory-list.module.scss";
 
@@ -19,20 +20,8 @@ const col = {lg: 14, md: 12, sm: 20, xs: 20, xxs: 16};
 
 export const ResponsiveInventoryList: FC<Props> = ({items, cols = col}) => {
   const layouts = useMemo(() => calculateLayouts(items, cols), [items, cols]);
-  const [width, setWidth] = useState<number>(window.screen.width);
+  const width = useWindowWidth();
   const imgSize = getImgSizes({width});
-
-  const getWidth = () => {
-    setWidth(window.screen.width);
-  };
-
-  useEffect(() => {
-    getWidth();
-    window.onresize = getWidth;
-    return () => {
-      window.onresize = null;
-    };
-  }, []);
 
   return (
     <>
