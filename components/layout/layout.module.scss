@@ -8,6 +8,7 @@
 }
 
 .mainWrapper {
+  padding-top: 50px;
   background-color: #1d1f20;
 }
 
@@ -22,6 +23,6 @@
   align-items: center;
   height: 4rem;
   background-color: $base-dark;
-  color: $reactive-blue;
+  color: $main-font-color;
   letter-spacing: 1px;
 }

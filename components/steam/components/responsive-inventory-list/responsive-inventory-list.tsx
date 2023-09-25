@@ -17,8 +17,6 @@ type Props = {
 
 export const ResponsiveInventoryList: FC<Props> = ({
   items,
-  className = "layout",
-  rowHeight = 100,
   cols = {lg: 14, md: 12, sm: 20, xs: 15, xxs: 6},
 }) => {
   const layouts = useMemo(() => calculateLayouts(items, cols), [items, cols]);
@@ -29,8 +27,6 @@ export const ResponsiveInventoryList: FC<Props> = ({
       <ResponsiveReactGridLayout
         isResizable={false}
         isDraggable={false}
-        className={className}
-        rowHeight={rowHeight}
         layouts={layouts}
         cols={cols}
       >

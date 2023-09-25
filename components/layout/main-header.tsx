@@ -1,32 +1,38 @@
 import Link from "next/link";
 import {FC} from "react";
+import classNames from "classnames";
+
 import styles from "./main-header.module.scss";
 
 const MainHeader: FC = () => {
   return (
-    <header className={styles.header}>
-      <div className={styles.wrapper}>
-        <div className={styles.logo}>
-          <Link href="/">CSGO Helper</Link>
+    <nav className={styles.navbar}>
+      <div className={classNames(styles.navbarContainer, styles.container)}>
+        <input type="checkbox" />
+        <div className={styles.hamburgerLines}>
+          <span className={classNames(styles.line, styles.line1)}></span>
+          <span className={classNames(styles.line, styles.line2)}></span>
+          <span className={classNames(styles.line, styles.line3)}></span>
         </div>
 
-        <nav className={styles.navigation}>
-          <ul>
-            <li>
-              <Link href="/feedback">
-                <span className={styles.linkCaption}>Leave Feedback</span>
-              </Link>
-            </li>
+        <ul className={styles.menuItems}>
+          <li>
+            <Link href="/feedback">
+              <span className={styles.linkCaption}>Leave Feedback</span>
+            </Link>
+          </li>
 
-            <li>
-              <Link href="/login">
-                <span className={styles.linkCaption}>Login</span>
-              </Link>
-            </li>
-          </ul>
-        </nav>
+          <li>
+            <Link href="/login">
+              <span className={styles.linkCaption}>Login</span>
+            </Link>
+          </li>
+        </ul>
+        <div className={styles.logo}>
+          <Link href="/">CSGO.Helper</Link>
+        </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
