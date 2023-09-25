@@ -42,7 +42,7 @@ export const ItemTypes: ItemType[] = [
   "Tool",
 ];
 
-type TagsTypeIndex = {
+export type TagsTypeIndex = {
   [key in TagsType]: string;
 };
 

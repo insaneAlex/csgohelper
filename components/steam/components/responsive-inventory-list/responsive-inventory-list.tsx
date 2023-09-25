@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useMemo, useState} from "react";
 import {WidthProvider, Responsive} from "react-grid-layout";
 import {InventoryItem} from "../inventory-item";
 import {InventoryItemType, TagsType} from "@/types";
@@ -19,9 +19,14 @@ export const ResponsiveInventoryList: FC<Props> = ({
   items,
   className = "layout",
   rowHeight = 100,
-  cols = {lg: 14, md: 12, sm: 20, xs: 15, xxs: 4},
+  cols = {lg: 14, md: 12, sm: 20, xs: 15, xxs: 6},
 }) => {
-  const layouts = calculateLayouts(items, cols);
+  const layouts = useMemo(() => calculateLayouts(items, cols), [items, cols]);
+  const [size, setSize] = useState<string>();
+
+  const handleSetBreakpoint = (breakpoint: string) => {
+    setSize(breakpoint);
+  };
 
   return (
     <>
@@ -33,13 +38,13 @@ export const ResponsiveInventoryList: FC<Props> = ({
         rowHeight={rowHeight}
         layouts={layouts}
         cols={cols}
+        onBreakpointChange={handleSetBreakpoint}
       >
         {layouts.lg.map((item) => {
           const color = item?.tags?.find(
             (item: {[x: string]: string}) =>
               item[TagsType.CATEGORY] === "Rarity"
           )?.color;
-
           return (
             <div
               style={{border: `1px solid #${color}`}}

@@ -1,73 +1,32 @@
 import {FC} from "react";
-import {getInitialInventory} from "@/api";
 import {Loader} from "@/components/ui";
 import {InventoryItemType} from "@/types";
 import Link from "next/link";
 import {ItemDetails} from "@/components/steam";
 import {DUMMY_INVENTORY} from "@/dummy/data";
+import {useRouter} from "next/router";
+import {BackIcon} from "@/components/ui/icons/back-icon";
 
-type Props = {item: InventoryItemType};
+type Props = {inventory: InventoryItemType[]};
 
-const ItemDetailsPage: FC<Props> = (props) => {
-  const {item} = props;
+const ItemDetailsPage: FC<Props> = ({inventory = DUMMY_INVENTORY}) => {
+  const router = useRouter();
+  const itemId = router.query.itemId;
+
+  const item = inventory.find((item) => item?.assetid === itemId);
 
   if (!item) {
     return <Loader />;
   }
   return (
     <>
-      <Link href="/">Back</Link>
-      <ItemDetails item={item} />
+      <Link href="/">
+        <BackIcon />
+      </Link>
+
+      <ItemDetails item={item as InventoryItemType} />
     </>
   );
 };
-
-async function getData() {
-  const {inventory} = await getInitialInventory();
-
-  return inventory;
-}
-
-export const getStaticProps = async (context: any) => {
-  // TODO: Remove after cloud inventory storage
-  let inventory = DUMMY_INVENTORY;
-  const {params} = context;
-  const itemId = params.itemId;
-  try {
-    inventory = await getData();
-  } catch (e) {
-    console.log(e);
-  }
-
-  const item = inventory.find(
-    // @ts-ignore
-    (item: InventoryItemType) => item.assetid === itemId
-  );
-
-  if (!item) {
-    return {notFound: true};
-  }
-  const {icon_url, name, descriptions, tags, market_hash_name} = item;
-  return {
-    props: {item: {icon_url, name, descriptions, tags, market_hash_name}},
-  };
-};
-
-export async function getStaticPaths() {
-  // TODO: Remove after cloud inventory storage
-  let inventory = DUMMY_INVENTORY;
-
-  try {
-    inventory = await getData();
-  } catch (e) {
-    console.log(e);
-  }
-  // @ts-ignore
-  const paths = inventory.map((item: InventoryItemType) => ({
-    params: {itemId: item.assetid},
-  }));
-
-  return {paths, fallback: true};
-}
 
 export default ItemDetailsPage;
