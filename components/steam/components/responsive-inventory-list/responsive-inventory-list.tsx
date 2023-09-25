@@ -51,7 +51,7 @@ export const ResponsiveInventoryList: FC<Props> = ({
               className={styles.item}
               key={item.i}
             >
-              <InventoryItem item={item} />
+              <InventoryItem imgSize={size} item={item} />
             </div>
           );
         })}
