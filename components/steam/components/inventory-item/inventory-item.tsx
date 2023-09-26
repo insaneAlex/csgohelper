@@ -27,10 +27,7 @@ export const InventoryItem: FC<Props> = ({item, imgSize}) => {
           width={imgSize.width}
           height={imgSize.height}
         />
-        <p
-          style={{color: `#${name_color}`, textAlign: "center"}}
-          className={styles.describe}
-        >
+        <p style={{color: `#${name_color}`}} className={styles.describe}>
           {name + amount}
         </p>
       </li>

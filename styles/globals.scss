@@ -1,5 +1,8 @@
 @import "styles/variables.scss";
 
+html {
+  background: $darken-bg;
+}
 * {
   box-sizing: border-box;
   color: $main-font-color;
