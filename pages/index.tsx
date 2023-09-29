@@ -12,15 +12,18 @@ import {ChangeEvent, FC, useEffect, useState} from "react";
 import {getInitialInventory, getInventoryNode} from "@/api";
 import {InventoryItemType, ItemType} from "@/types";
 import {DUMMY_INVENTORY} from "@/dummy/data";
+import {useSearchParams} from "next/navigation";
 
 type Props = {initialInventory: InventoryItemType[]};
 
 const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
+  const searchParams = useSearchParams();
   const [inventory, setInventory] = useState<InventoryItemType[]>([]);
-  const [filters, setFilters] = useState<ItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
   const [stack, setStack] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const filters = (searchParams.get("filters")?.split("_") || []) as ItemType[];
+  const hasFilters = filters.length > 0;
 
   useEffect(() => {
     const fetchInitialInventory = async () => {
@@ -53,7 +56,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     ? getInventoryUniqueItems({inventory})
     : inventory;
 
-  if (filters.length > 0) {
+  if (hasFilters) {
     uniqueInventoryItems = filterInventoryByTypes({
       inventory: uniqueInventoryItems,
       types: filters,
@@ -67,7 +70,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
       return <Loader />;
     }
 
-    if (uniqueItemsLength === 0 && filters.length > 0) {
+    if (uniqueItemsLength === 0 && hasFilters) {
       return (
         <p style={{textAlign: "center", marginTop: "50px"}}>
           No items with such filters
@@ -87,7 +90,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
         onSearch={handleSearch}
         onIdChange={handleIdChange}
       />
-      <InventoryFilters filters={filters} setFilter={setFilters} />
+      <InventoryFilters />
       <div style={{maxWidth: "160px"}}>
         <Checkbox
           onChange={handleStackDupes}

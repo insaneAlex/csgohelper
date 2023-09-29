@@ -1,40 +1,16 @@
-import React, {FC, useState} from "react";
+import React, {FC} from "react";
 import {ItemType} from "@/types";
 import {Checkbox} from "../../../ui/checkbox";
+import {useSearchParams} from "next/navigation";
 
-type Props = {
-  name: ItemType;
-  label: string;
-  filters: ItemType[];
-  setFilter: (filters: ItemType[]) => void;
-};
+type Props = {name: ItemType; label: string};
 
-export const FilterCheckbox: FC<Props> = ({
-  name,
-  label,
-  filters,
-  setFilter,
-}) => {
-  const [checked, setChecked] = useState(filters.includes(name));
+export const FilterCheckbox: FC<Props> = ({name, label}) => {
+  const searchParams = useSearchParams();
 
-  const handleChange = () => {
-    let newFilters;
-    if (checked) {
-      setChecked(false);
-      newFilters = filters.filter((filter) => filter !== name);
-    } else {
-      setChecked(true);
-      newFilters = [...filters, name];
-    }
-    setFilter(newFilters);
-  };
+  const filters = searchParams.get("filters");
+  const filtersArray = filters?.split("_");
+  const isChecked = filtersArray?.some((filter) => filter === label) ?? false;
 
-  return (
-    <Checkbox
-      onChange={handleChange}
-      checked={checked}
-      name={name}
-      label={label}
-    />
-  );
+  return <Checkbox checked={isChecked} readOnly name={name} label={label} />;
 };
