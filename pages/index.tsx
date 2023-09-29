@@ -38,7 +38,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
       });
   }, [initialInventory]);
 
-  const handleStackDupes = () => (stack ? setStack(false) : setStack(true));
+  const handleStackDupes = () => setStack((prev) => !prev);
 
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) =>
     setId(e.target.value);
@@ -60,20 +60,22 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     });
   }
 
-  const handleChangeFilters = (filters: ItemType[]) => {
-    setFilters(filters);
-  };
-
   const renderContent = () => {
+    const uniqueItemsLength = uniqueInventoryItems.length;
+
     if (isLoading) {
       return <Loader />;
     }
 
-    if (uniqueInventoryItems.length === 0 && filters.length > 0) {
-      return <>No items with such filters</>;
+    if (uniqueItemsLength === 0 && filters.length > 0) {
+      return (
+        <p style={{textAlign: "center", marginTop: "50px"}}>
+          No items with such filters
+        </p>
+      );
     }
 
-    if (uniqueInventoryItems.length > 0) {
+    if (uniqueItemsLength > 0) {
       return <ResponsiveInventoryList items={uniqueInventoryItems} />;
     }
   };
@@ -85,7 +87,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
         onSearch={handleSearch}
         onIdChange={handleIdChange}
       />
-      <InventoryFilters filters={filters} setFilter={handleChangeFilters} />
+      <InventoryFilters filters={filters} setFilter={setFilters} />
       <div style={{maxWidth: "160px"}}>
         <Checkbox
           onChange={handleStackDupes}
