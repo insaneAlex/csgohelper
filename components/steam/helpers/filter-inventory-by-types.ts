@@ -1,12 +1,11 @@
-import {InventoryItemType, ItemType, TagsType} from "@/types";
+import {InventoryItemType, ItemType} from "@/types";
+import {getTagValue} from "./get-tag-value";
 
 type Props = {inventory: InventoryItemType[]; types: ItemType[]};
 
 export const filterInventoryByTypes = ({inventory, types}: Props) =>
-  inventory.filter((item) => {
-    const tagName = item.tags.find(
-      (item) => item[TagsType.CATEGORY] === "Type"
-    )?.[TagsType.LOCALIZED_TAG_NAME];
+  inventory.filter(({tags}) => {
+    const tagName = getTagValue({tags, tag: "Type"}) as ItemType;
 
-    return types.includes(tagName as ItemType);
+    return types.includes(tagName);
   });
