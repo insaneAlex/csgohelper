@@ -1,5 +1,6 @@
-import React, {FC} from "react";
-import styles from "./search-inventory.module.scss";
+import React, {FC} from 'react';
+
+import styles from './search-inventory.module.scss';
 
 type Props = {
   id: string;

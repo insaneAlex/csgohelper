@@ -1,6 +1,6 @@
-import {InventoryItemType} from "@/types";
+import {InventoryItemType} from '@/types';
 
-type Props = (item: {inventory: InventoryItemType[]}) => InventoryItemType[];
+type Props = ({inventory}: {inventory: InventoryItemType[]}) => InventoryItemType[];
 
 export const getInventoryUniqueItems: Props = ({inventory}) =>
   Object.values(

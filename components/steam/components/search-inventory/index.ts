@@ -1,1 +1,1 @@
-export {SearchInventory} from "./search-inventory";
+export {SearchInventory} from './search-inventory';

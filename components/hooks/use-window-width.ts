@@ -1,9 +1,9 @@
-import {useSyncExternalStore} from "react";
+import {useSyncExternalStore} from 'react';
 
 const subscribe = (callback: any) => {
-  window.addEventListener("resize", callback);
+  window.addEventListener('resize', callback);
   return () => {
-    window.removeEventListener("resize", callback);
+    window.removeEventListener('resize', callback);
   };
 };
 

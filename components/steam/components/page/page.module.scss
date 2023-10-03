@@ -1,0 +1,24 @@
+@import 'styles/variables.scss';
+
+.list {
+  display: flex;
+}
+
+.pageLink {
+  cursor: pointer;
+  width: 100%;
+  background: transparent;
+  height: 100%;
+  border-radius: 5px;
+  border: 1px solid $darken-light;
+}
+
+.pageLinkActive {
+  border: 1px solid $main-font-color;
+}
+
+.pageItem {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 5px;
+}

@@ -1,1 +1,1 @@
-export {ResponsiveInventoryList} from "./responsive-inventory-list";
+export {ResponsiveInventoryList} from './responsive-inventory-list';

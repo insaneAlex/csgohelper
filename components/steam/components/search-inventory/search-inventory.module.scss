@@ -1,11 +1,11 @@
-@import "styles/variables.scss";
+@import 'styles/variables.scss';
 
 .searchBlock {
   margin: 20px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  input[type="text"] {
+  input[type='text'] {
     height: 40px;
     margin: 0 -10px;
     background-color: $lighten-bg;
@@ -23,7 +23,7 @@
     form {
       flex: 1;
     }
-    input[type="text"] {
+    input[type='text'] {
       margin: 0;
       border: 1px solid $base-dark;
       width: 100%;
