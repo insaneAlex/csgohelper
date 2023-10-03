@@ -1,19 +1,10 @@
-@import "styles/variables.scss";
+@import 'styles/variables.scss';
 
 .main {
   max-width: 1500px;
   min-width: 320px;
   margin: 0 auto;
   min-height: 92vh;
-}
-
-.mainWrapper {
-  background-color: $darken-bg;
-}
-
-.layout {
-  display: flex;
-  flex-direction: column;
 }
 
 .footer {

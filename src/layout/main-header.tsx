@@ -1,10 +1,10 @@
-import Link from "next/link";
-import {FC} from "react";
-import classNames from "classnames";
+import {FC} from 'react';
+import Link from 'next/link';
+import classNames from 'classnames';
 
-import styles from "./main-header.module.scss";
+import styles from './main-header.module.scss';
 
-const MainHeader: FC = () => {
+export const MainHeader: FC = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
@@ -37,5 +37,3 @@ const MainHeader: FC = () => {
     </header>
   );
 };
-
-export default MainHeader;

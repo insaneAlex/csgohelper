@@ -1,7 +1,7 @@
+import Head from 'next/head';
+import type {AppProps} from 'next/app';
 import {Layout} from '@/src/layout/layout';
 import {ReduxProvider} from '@/src/redux/provider';
-import type {AppProps} from 'next/app';
-import Head from 'next/head';
 
 import '@/styles/globals.scss';
 
