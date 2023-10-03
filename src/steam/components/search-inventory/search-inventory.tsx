@@ -10,7 +10,7 @@ type Props = {
 
 export const SearchInventory: FC<Props> = ({id, onSearch, onIdChange}) => {
   return (
-    <div className={styles.searchBlock}>
+    <section className={styles.searchBlock}>
       <form autoComplete="on">
         <label htmlFor="steamId">
           <input
@@ -26,6 +26,6 @@ export const SearchInventory: FC<Props> = ({id, onSearch, onIdChange}) => {
       <div className={styles.searchBtn}>
         <button onClick={onSearch}>SEARCH BY SteamID</button>
       </div>
-    </div>
+    </section>
   );
 };
