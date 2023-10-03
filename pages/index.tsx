@@ -22,7 +22,10 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
   const [id, setId] = useState("76561198080636799");
   const [stack, setStack] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const filters = (searchParams.get("filters")?.split("_") || []) as ItemType[];
+  const filters = useMemo(
+    () => (searchParams.get("filters")?.split("_") || []) as ItemType[],
+    [searchParams]
+  );
   const hasFilters = filters.length > 0;
 
   useEffect(() => {
