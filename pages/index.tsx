@@ -1,6 +1,6 @@
-import {Inventory, InventoryFilters, SearchInventory} from '@/components/steam';
-import {filterInventoryByTypes, getInventoryUniqueItems} from '@/components/steam/helpers';
-import {Loader, Checkbox} from '@/components/ui';
+import {Inventory, InventoryFilters, SearchInventory} from '@/src/steam';
+import {filterInventoryByTypes, getInventoryUniqueItems} from '@/src/steam/helpers';
+import {Loader, Checkbox} from '@/src/ui';
 import {ChangeEvent, FC, useEffect, useMemo, useState} from 'react';
 import {getInitialInventory, getInventoryNode} from '@/api';
 import {InventoryItemType, ItemType} from '@/types';

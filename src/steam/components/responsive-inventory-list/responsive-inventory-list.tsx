@@ -3,7 +3,7 @@ import {WidthProvider, Responsive} from 'react-grid-layout';
 import {InventoryItem} from '../inventory-item';
 import {InventoryItemType} from '@/types';
 import {calculateLayouts, getImgSizes, getScreenSize, getItemRarityColor} from '../../helpers';
-import {useWindowWidth} from '@/components/hooks';
+import {useWindowWidth} from '@/src/hooks';
 import {GridConfigType} from '../types';
 
 import styles from './responsive-inventory-list.module.scss';

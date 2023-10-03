@@ -1,10 +1,10 @@
-import {FC} from "react";
-import {BackIcon, Loader} from "@/components/ui";
-import {InventoryItemType} from "@/types";
-import Link from "next/link";
-import {ItemDetails} from "@/components/steam";
-import {DUMMY_INVENTORY} from "@/dummy/data";
-import {useRouter} from "next/router";
+import {FC} from 'react';
+import {BackIcon, Loader} from '@/src/ui';
+import {InventoryItemType} from '@/types';
+import Link from 'next/link';
+import {ItemDetails} from '@/src/steam';
+import {DUMMY_INVENTORY} from '@/dummy/data';
+import {useRouter} from 'next/router';
 
 const ItemDetailsPage: FC = () => {
   const items = DUMMY_INVENTORY;

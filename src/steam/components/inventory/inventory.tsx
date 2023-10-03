@@ -4,7 +4,7 @@ import {paginate, getScreenSize} from '../../helpers';
 import {Page} from '../page';
 import {ResponsiveInventoryList} from '../responsive-inventory-list';
 import {GridConfigType} from '../types';
-import {useWindowWidth} from '@/components/hooks';
+import {useWindowWidth} from '@/src/hooks';
 
 import styles from './inventory.module.scss';
 
