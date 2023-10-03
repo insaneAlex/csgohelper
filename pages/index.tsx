@@ -8,7 +8,7 @@ import {
   getInventoryUniqueItems,
 } from "@/components/steam/helpers";
 import {Loader, Checkbox} from "@/components/ui";
-import {ChangeEvent, FC, useEffect, useState} from "react";
+import {ChangeEvent, FC, useEffect, useMemo, useState} from "react";
 import {getInitialInventory, getInventoryNode} from "@/api";
 import {InventoryItemType, ItemType} from "@/types";
 import {DUMMY_INVENTORY} from "@/dummy/data";
@@ -21,13 +21,12 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
   const [inventory, setInventory] = useState<InventoryItemType[]>([]);
   const [id, setId] = useState("76561198080636799");
   const [stack, setStack] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const filters = (searchParams.get("filters")?.split("_") || []) as ItemType[];
   const hasFilters = filters.length > 0;
 
   useEffect(() => {
     const fetchInitialInventory = async () => {
-      setIsLoading(true);
       const {inventory} = await getInitialInventory();
       setInventory(inventory || initialInventory);
     };
@@ -52,9 +51,11 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     setInventory(resp?.inventory || []);
   };
 
-  let uniqueInventoryItems = stack
-    ? getInventoryUniqueItems({inventory})
-    : inventory;
+  const uniqueInventory = useMemo(
+    () => getInventoryUniqueItems({inventory}),
+    [inventory]
+  );
+  let uniqueInventoryItems = stack ? uniqueInventory : inventory;
 
   if (hasFilters) {
     uniqueInventoryItems = filterInventoryByTypes({
