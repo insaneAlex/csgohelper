@@ -12,6 +12,11 @@ type Props = {imgSize: ImgSize; item: InventoryItemType & Layout & {count?: numb
 
 export const InventoryItem: FC<Props> = ({item, imgSize}) => {
   const {name_color, assetid, icon_url, count} = item;
+
+  if (!icon_url) {
+    return null;
+  }
+
   const imgSrc = `${inventoryImageBaseUrl}${icon_url}`;
   const amount = count && count > 1 ? ` x ${count}` : '';
 

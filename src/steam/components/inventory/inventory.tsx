@@ -12,6 +12,7 @@ type Props = {items: InventoryItemType[]};
 
 export const Inventory: FC<Props> = ({items}) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsLength = items.length;
 
   const gridConfig: GridConfigType = {
     col: {lg: 16, md: 12, sm: 20, xs: 20, xxs: 16},
@@ -21,21 +22,30 @@ export const Inventory: FC<Props> = ({items}) => {
 
   const screenSize = getScreenSize({width: useWindowWidth()});
   const pageSize = (gridConfig.col[screenSize] / gridConfig.width[screenSize]) * 5;
-
-  const paginatedInventory = useMemo(
-    () => paginate({items, pageNumber: currentPage, pageSize}),
-    [pageSize, currentPage, items]
-  );
-
-  const pagesCount = Math.ceil(items.length / pageSize);
+  const pagesCount = Math.ceil(itemsLength / pageSize);
 
   if (currentPage > pagesCount) {
     setCurrentPage(pagesCount);
   }
 
+  const emptyTiles = pagesCount * pageSize - itemsLength;
+
+  const missingTiles = useMemo(() => {
+    let newArray = [];
+    for (let index = 0; index < emptyTiles; index++) {
+      newArray.push({assetid: String(index)});
+    }
+    return newArray;
+  }, [emptyTiles]);
+
+  const paginatedInventory = useMemo(
+    () => paginate({items: [...items, ...missingTiles], pageNumber: currentPage, pageSize}),
+    [pageSize, currentPage, items, missingTiles]
+  );
+
   return (
     <>
-      <h2 className={styles.title}>{`Items: ${items.length}`}</h2>
+      <h2 className={styles.title}>{`Items: ${itemsLength}`}</h2>
       <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} />
       <section className={styles.pages}>
         <Page pagesCount={pagesCount} currentPage={currentPage} onPageChange={(page: any) => setCurrentPage(page)} />
