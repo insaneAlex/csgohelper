@@ -55,17 +55,21 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     () => getInventoryUniqueItems({inventory}),
     [inventory]
   );
-  let uniqueInventoryItems = stack ? uniqueInventory : inventory;
+  const uniqueInventoryItems = stack ? uniqueInventory : inventory;
 
-  if (hasFilters) {
-    uniqueInventoryItems = filterInventoryByTypes({
-      inventory: uniqueInventoryItems,
-      types: filters,
-    });
-  }
+  const filteredInventoryItems = useMemo(
+    () =>
+      filterInventoryByTypes({
+        inventory: uniqueInventoryItems,
+        types: filters,
+      }),
+    [filters, uniqueInventoryItems]
+  );
 
   const renderContent = () => {
-    const uniqueItemsLength = uniqueInventoryItems.length;
+    const uniqueItemsLength = hasFilters
+      ? filteredInventoryItems.length
+      : uniqueInventoryItems.length;
 
     if (isLoading) {
       return <Loader />;
@@ -80,7 +84,11 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     }
 
     if (uniqueItemsLength > 0) {
-      return <ResponsiveInventoryList items={uniqueInventoryItems} />;
+      return (
+        <ResponsiveInventoryList
+          items={hasFilters ? filteredInventoryItems : uniqueInventoryItems}
+        />
+      );
     }
   };
 
