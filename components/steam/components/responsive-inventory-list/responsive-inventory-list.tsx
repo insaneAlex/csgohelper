@@ -20,8 +20,7 @@ const col = {lg: 14, md: 12, sm: 20, xs: 20, xxs: 16};
 
 export const ResponsiveInventoryList: FC<Props> = ({items, cols = col}) => {
   const layouts = useMemo(() => calculateLayouts(items, cols), [items, cols]);
-  const width = useWindowWidth();
-  const imgSize = getImgSizes({width});
+  const imgSize = getImgSizes({width: useWindowWidth()});
 
   return (
     <>
