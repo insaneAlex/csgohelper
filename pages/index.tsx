@@ -13,7 +13,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
   const searchParams = useSearchParams();
   const [inventory, setInventory] = useState<InventoryItemType[]>([]);
   const [id, setId] = useState('76561198080636799');
-  const [stack, setStack] = useState(true);
+  const [stack, setStack] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const filters = useMemo(() => (searchParams.get('filters')?.split('_') || []) as ItemType[], [searchParams]);
   const hasFilters = filters.length > 0;
@@ -34,29 +34,23 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
   }, [initialInventory]);
 
   const handleStackDupes = () => setStack((prev) => !prev);
-
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => setId(e.target.value);
-
   const handleSearch = async () => {
     const resp = await getInventoryNode({steamId: id});
-
     setInventory(resp?.inventory || []);
   };
 
-  const uniqueInventory = useMemo(() => getInventoryUniqueItems({inventory}), [inventory]);
-  const uniqueInventoryItems = stack ? uniqueInventory : inventory;
+  let items = stack ? getInventoryUniqueItems({inventory}) : inventory;
 
-  const filteredInventoryItems = useMemo(
-    () =>
-      filterInventoryByTypes({
-        inventory: uniqueInventoryItems,
-        types: filters
-      }),
-    [filters, uniqueInventoryItems]
-  );
+  if (hasFilters) {
+    items = filterInventoryByTypes({
+      inventory: items,
+      types: filters
+    });
+  }
 
   const renderContent = () => {
-    const uniqueItemsLength = hasFilters ? filteredInventoryItems.length : uniqueInventoryItems.length;
+    const uniqueItemsLength = items.length;
 
     if (isLoading) {
       return <Loader />;
@@ -67,7 +61,7 @@ const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
     }
 
     if (uniqueItemsLength > 0) {
-      return <Inventory items={hasFilters ? filteredInventoryItems : uniqueInventoryItems} />;
+      return <Inventory items={items} />;
     }
   };
 

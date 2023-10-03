@@ -1,4 +1,4 @@
-import {useState, FC} from 'react';
+import {useState, FC, useMemo} from 'react';
 import {InventoryItemType} from '@/types';
 import {paginate, getScreenSize} from '../../helpers';
 import {Page} from '../page';
@@ -21,17 +21,25 @@ export const Inventory: FC<Props> = ({items}) => {
 
   const screenSize = getScreenSize({width: useWindowWidth()});
   const pageSize = (gridConfig.col[screenSize] / gridConfig.width[screenSize]) * 5;
-  const paginatedInventory = paginate({items, pageNumber: currentPage, pageSize});
 
-  const onPageChange = (page: any) => setCurrentPage(page);
+  const paginatedInventory = useMemo(
+    () => paginate({items, pageNumber: currentPage, pageSize}),
+    [pageSize, currentPage, items]
+  );
+
   const pagesCount = Math.ceil(items.length / pageSize);
+
+  if (currentPage > pagesCount) {
+    setCurrentPage(pagesCount);
+  }
+
   return (
     <>
       <h2 className={styles.title}>{`Items: ${items.length}`}</h2>
       <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} />
-      <div className={styles.pages}>
-        <Page pagesCount={pagesCount} currentPage={currentPage} onPageChange={onPageChange} />
-      </div>
+      <section className={styles.pages}>
+        <Page pagesCount={pagesCount} currentPage={currentPage} onPageChange={(page: any) => setCurrentPage(page)} />
+      </section>
     </>
   );
 };
