@@ -1,8 +1,8 @@
-@import "styles/variables.scss";
+@import 'styles/variables.scss';
 
 .loader {
   margin: 100px auto;
-  border-top: 1px dashed $reactive-blue;
+  border-top: 1px dashed $main-font-color;
   border-bottom: 1px dashed $base-dark;
   animation: spin 1s infinite ease-in-out;
   border-radius: 50%;
