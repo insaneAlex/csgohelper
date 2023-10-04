@@ -8,7 +8,7 @@ export const MainHeader: FC = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
-        <div className={classNames(styles.navbarContainer, styles.container)}>
+        <section className={classNames(styles.navbarContainer, styles.container)}>
           <input type="checkbox" />
           <div className={styles.hamburgerLines}>
             <span className={classNames(styles.line, styles.line1)}></span>
@@ -16,14 +16,14 @@ export const MainHeader: FC = () => {
             <span className={classNames(styles.line, styles.line3)}></span>
           </div>
 
-          <ul className={styles.menuItems}>
-            <li>
+          <ul className={styles.items}>
+            <li className={styles.item}>
               <Link href="/feedback">
                 <span className={styles.linkCaption}>Leave Feedback</span>
               </Link>
             </li>
 
-            <li>
+            <li className={styles.item}>
               <Link href="/login">
                 <span className={styles.linkCaption}>Login</span>
               </Link>
@@ -32,7 +32,7 @@ export const MainHeader: FC = () => {
           <div className={styles.logo}>
             <Link href="/">CSGO.Helper</Link>
           </div>
-        </div>
+        </section>
       </nav>
     </header>
   );

@@ -15,9 +15,9 @@ export const Page: FC<Props> = ({pagesCount, currentPage, onPageChange}) => {
   return (
     <ul className={styles.list}>
       {pages.map((page) => (
-        <li key={page} className={classNames(styles.pageItem, {})}>
+        <li key={page} className={classNames(styles.item, {})}>
           <button
-            className={classNames(styles.pageLink, {[styles.pageLinkActive]: page === currentPage})}
+            className={classNames(styles.link, {[styles.linkActive]: page === currentPage})}
             onClick={() => onPageChange(page)}
           >
             {page}

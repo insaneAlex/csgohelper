@@ -3,8 +3,9 @@
 .main {
   max-width: 1500px;
   min-width: 320px;
-  margin: 0 auto;
-  min-height: 90vh;
+  flex-grow: 1;
+  align-self: center;
+  width: 100%;
 }
 
 .footer {

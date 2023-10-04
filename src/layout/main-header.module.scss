@@ -1,7 +1,7 @@
-@import "styles/variables.scss";
+@import 'styles/variables.scss';
 
 .header {
-  height: 50px;
+  min-height: 50px;
   background: $base-dark;
 }
 .container {
@@ -10,7 +10,7 @@
   margin: auto;
 }
 
-.navbar input[type="checkbox"],
+.navbar input[type='checkbox'],
 .navbar .hamburgerLines {
   display: none;
 }
@@ -19,7 +19,6 @@
   background: $base-dark;
   box-shadow: 0px 5px 10px 0px $lighten-bg;
   color: $main-font-color;
-  height: 50px;
   opacity: 0.95;
   position: fixed;
   width: 100%;
@@ -33,22 +32,21 @@
   height: 50px;
 }
 
-.menuItems {
+.items {
   align-items: center;
   order: 2;
   display: flex;
-  height: 50px;
+}
 
-  li {
-    list-style: none;
-    margin-left: 1.5rem;
-
-    font-size: 1.2rem;
-  }
+.item {
+  list-style: none;
+  margin-left: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .logo {
   order: 1;
+
   font-size: 24px;
 }
 
@@ -57,15 +55,14 @@
     opacity: 0.95;
   }
 
-  .navbarContainer input[type="checkbox"],
+  .navbarContainer input[type='checkbox'],
   .navbar .hamburgerLines {
     display: flex;
   }
 
   .navbarContainer {
     display: block;
-    height: 50px;
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       position: absolute;
       display: block;
       height: 32px;
@@ -111,7 +108,7 @@
     transition: transform 200ms ease-in-out;
   }
 
-  .menuItems {
+  .items {
     align-items: flex-start;
     padding-top: 100px;
     background: $base-dark;
@@ -124,38 +121,38 @@
     padding-left: 50px;
     transition: transform 150ms ease-in-out;
     box-shadow: 5px 0px 10px 0px $lighten-bg;
+  }
 
-    li {
-      margin-bottom: 1.5rem;
-      margin-left: 0;
-      font-size: 1.3rem;
-      font-weight: 500;
-    }
+  .item {
+    margin-bottom: 1.5rem;
+    margin-left: 0;
+    font-size: 1.3rem;
+    font-weight: 500;
   }
 
   .logo {
     align-items: center;
     display: flex;
     font-size: 20px;
-    height: 50px;
     position: absolute;
     top: 0;
     right: 15px;
+    height: 50px;
   }
 
-  .navbarContainer input[type="checkbox"]:checked ~ .menuItems {
+  .navbarContainer input[type='checkbox']:checked ~ .items {
     transform: translateX(0);
   }
 
-  .navbarContainer input[type="checkbox"]:checked ~ .hamburgerLines .line1 {
+  .navbarContainer input[type='checkbox']:checked ~ .hamburgerLines .line1 {
     transform: rotate(35deg);
   }
 
-  .navbarContainer input[type="checkbox"]:checked ~ .hamburgerLines .line2 {
+  .navbarContainer input[type='checkbox']:checked ~ .hamburgerLines .line2 {
     transform: scaleY(0);
   }
 
-  .navbarContainer input[type="checkbox"]:checked ~ .hamburgerLines .line3 {
+  .navbarContainer input[type='checkbox']:checked ~ .hamburgerLines .line3 {
     transform: rotate(-35deg);
   }
 }

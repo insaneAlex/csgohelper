@@ -2,9 +2,16 @@
 
 .list {
   display: flex;
+  flex-wrap: wrap;
 }
 
-.pageLink {
+.item {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 5px;
+}
+
+.link {
   cursor: pointer;
   width: 100%;
   background: transparent;
@@ -13,12 +20,6 @@
   border: 1px solid $darken-light;
 }
 
-.pageLinkActive {
+.linkActive {
   border: 1px solid $main-font-color;
-}
-
-.pageItem {
-  width: 2rem;
-  height: 2rem;
-  margin-right: 5px;
 }
