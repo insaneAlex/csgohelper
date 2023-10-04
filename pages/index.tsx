@@ -4,40 +4,49 @@ import {Loader, Checkbox} from '@/src/ui';
 import {ChangeEvent, FC, useEffect, useMemo, useState} from 'react';
 import {getInitialInventory, getInventoryNode} from '@/api';
 import {InventoryItemType, ItemType} from '@/types';
-import {DUMMY_INVENTORY} from '@/dummy/data';
 import {useSearchParams} from 'next/navigation';
+import {useDispatch, useSelector} from 'react-redux';
+import {InventoryState, getItemsSuccess} from '@/src/redux/features/inventory-slice';
 
 type Props = {initialInventory: InventoryItemType[]};
 
-const SteamInventory: FC<Props> = ({initialInventory = DUMMY_INVENTORY}) => {
+const SteamInventory: FC<Props> = () => {
   const searchParams = useSearchParams();
-  const [inventory, setInventory] = useState<InventoryItemType[]>([]);
+  const itemz = useSelector((state: {inventory: InventoryState}) => state.inventory.items) || [];
+  const [inventory, setInventory] = useState<InventoryItemType[]>(itemz);
+  console.log(inventory);
+  console.log(itemz);
+
   const [id, setId] = useState('76561198080636799');
   const [stack, setStack] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const filters = useMemo(() => (searchParams.get('filters')?.split('_') || []) as ItemType[], [searchParams]);
   const hasFilters = filters.length > 0;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchInitialInventory = async () => {
       const {inventory} = await getInitialInventory();
-      setInventory(inventory || initialInventory);
+      setInventory(inventory);
+      dispatch(getItemsSuccess(inventory));
     };
 
-    fetchInitialInventory()
-      .catch((e) => {
-        console.log(new Error(e));
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [initialInventory]);
+    inventory.length === 0 &&
+      fetchInitialInventory()
+        .catch((e) => {
+          console.log(new Error(e));
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+  }, [inventory.length, dispatch]);
 
   const handleStackDupes = () => setStack((prev) => !prev);
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => setId(e.target.value);
   const handleSearch = async () => {
     const resp = await getInventoryNode({steamId: id});
-    setInventory(resp?.inventory || []);
+    setInventory(resp?.inventory);
+    dispatch(getItemsSuccess(resp?.inventory));
   };
 
   let items = stack ? getInventoryUniqueItems({inventory}) : inventory;

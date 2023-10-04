@@ -3,13 +3,15 @@ import {BackIcon, Loader} from '@/src/ui';
 import {InventoryItemType} from '@/types';
 import Link from 'next/link';
 import {ItemDetails} from '@/src/steam';
-import {DUMMY_INVENTORY} from '@/dummy/data';
 import {useRouter} from 'next/router';
+import {useSelector} from 'react-redux';
+import {InventoryState} from '@/src/redux/features/inventory-slice';
 
 const ItemDetailsPage: FC = () => {
-  const items = DUMMY_INVENTORY;
   const router = useRouter();
   const itemId = router?.query?.itemId;
+  const items = useSelector((state: {inventory: InventoryState}) => state.inventory?.items);
+  console.log(items);
 
   if (!items) {
     return <Loader />;

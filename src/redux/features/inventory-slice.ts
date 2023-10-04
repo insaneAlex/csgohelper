@@ -2,7 +2,7 @@ import {InventoryItemType} from '@/types';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {INVENTORY_KEY} from '../constants';
 
-type InventoryState = {
+export type InventoryState = {
   items: InventoryItemType[];
   isLoading: boolean;
   hasError: boolean;
