@@ -11,7 +11,6 @@ const ItemDetailsPage: FC = () => {
   const router = useRouter();
   const itemId = router?.query?.itemId;
   const items = useSelector((state: {inventory: InventoryState}) => state.inventory?.items);
-  console.log(items);
 
   if (!items) {
     return <Loader />;

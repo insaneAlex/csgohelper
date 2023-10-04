@@ -14,8 +14,6 @@ const SteamInventory: FC<Props> = () => {
   const searchParams = useSearchParams();
   const itemz = useSelector((state: {inventory: InventoryState}) => state.inventory.items) || [];
   const [inventory, setInventory] = useState<InventoryItemType[]>(itemz);
-  console.log(inventory);
-  console.log(itemz);
 
   const [id, setId] = useState('76561198080636799');
   const [stack, setStack] = useState(false);
