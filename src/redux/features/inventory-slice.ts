@@ -1,6 +1,6 @@
-import {InventoryItemType} from "@/types";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {INVENTORY_KEY} from "../constants";
+import {InventoryItemType} from '@/types';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {INVENTORY_KEY} from '../constants';
 
 type InventoryState = {
   items: InventoryItemType[];
@@ -10,7 +10,7 @@ type InventoryState = {
 const initialState: InventoryState = {
   items: [],
   isLoading: false,
-  hasError: false,
+  hasError: false
 };
 
 export const inventory = createSlice({
@@ -20,21 +20,17 @@ export const inventory = createSlice({
     getItemsStart: (state: InventoryState) => {
       state.isLoading = true;
     },
-    getItemsSuccess: (
-      state: InventoryState,
-      action: PayloadAction<InventoryItemType[]>
-    ) => {
+    getItemsSuccess: (state: InventoryState, action: PayloadAction<InventoryItemType[]>) => {
       state.isLoading = false;
       state.items = action.payload;
     },
     getItemsError: (state: InventoryState) => {
       state.isLoading = false;
       state.hasError = true;
-    },
-  },
+    }
+  }
 });
 
-export const {getItemsStart, getItemsSuccess, getItemsError} =
-  inventory.actions;
+export const {getItemsStart, getItemsSuccess, getItemsError} = inventory.actions;
 
 export const inventoryReducer = inventory.reducer;

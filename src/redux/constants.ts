@@ -1,1 +1,1 @@
-export const INVENTORY_KEY = "inventory";
+export const INVENTORY_KEY = 'inventory';
