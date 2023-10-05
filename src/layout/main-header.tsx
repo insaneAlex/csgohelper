@@ -30,7 +30,7 @@ export const MainHeader: FC = () => {
             </li>
           </ul>
           <div className={styles.logo}>
-            <Link href="/">CSGO.Helper</Link>
+            <Link href="/">CS2.Helper</Link>
           </div>
         </section>
       </nav>

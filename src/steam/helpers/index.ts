@@ -6,3 +6,4 @@ export {getImgSizes} from './get-img-sizes';
 export {paginate} from './paginate';
 export {getScreenSize} from './get-screen-size';
 export {getItemRarityColor} from './get-item-rarity-color';
+export {getParamValues} from './get-param-values';

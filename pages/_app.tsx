@@ -10,7 +10,7 @@ const App = ({Component, pageProps}: AppProps) => {
     <ReduxProvider>
       <Layout>
         <Head>
-          <title>CSGO.Helper</title>
+          <title>CS2.Helper</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <Component {...pageProps} />

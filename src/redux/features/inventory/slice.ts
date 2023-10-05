@@ -1,19 +1,15 @@
 import {InventoryItemType} from '@/types';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {INVENTORY_KEY} from '../constants';
+import {InventoryState} from '../../types';
+import {INVENTORY_KEY} from '../../constants';
 
-export type InventoryState = {
-  items: InventoryItemType[];
-  isLoading: boolean;
-  hasError: boolean;
-};
 const initialState: InventoryState = {
   items: [],
   isLoading: false,
   hasError: false
 };
 
-export const inventory = createSlice({
+const inventory = createSlice({
   name: INVENTORY_KEY,
   initialState,
   reducers: {

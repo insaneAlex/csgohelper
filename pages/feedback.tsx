@@ -5,7 +5,7 @@ const Feedback: FC = () => {
   return (
     <>
       <Head>
-        <title>CSGO.Helper - Leave Feedback</title>
+        <title>CS2.Helper - Leave Feedback</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       Feedback

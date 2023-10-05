@@ -1,6 +1,7 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "no-duplicate-imports": "error"
+    "no-duplicate-imports": "error",
+    "react-hooks/exhaustive-deps": "off"
   }
 }

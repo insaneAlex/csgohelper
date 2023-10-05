@@ -5,7 +5,7 @@ const Login: FC = () => {
   return (
     <>
       <Head>
-        <title>CSGO.Helper - Login</title>
+        <title>CS2.Helper - Login</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       Login

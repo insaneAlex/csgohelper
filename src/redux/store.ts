@@ -1,10 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {inventoryReducer} from './features/inventory-slice';
+import {inventoryReducer} from './features';
 import {INVENTORY_KEY} from './constants';
 
-const rootReducer = {
-  [INVENTORY_KEY]: inventoryReducer
-};
+const rootReducer = {[INVENTORY_KEY]: inventoryReducer};
 
 export const store = configureStore({reducer: rootReducer});
 

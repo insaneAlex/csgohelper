@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {ItemDetails} from '@/src/steam';
 import {useRouter} from 'next/router';
 import {useSelector} from 'react-redux';
-import {InventoryState} from '@/src/redux/features/inventory-slice';
+import {InventoryState} from '@/src/redux';
 
 const ItemDetailsPage: FC = () => {
   const router = useRouter();
