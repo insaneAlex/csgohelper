@@ -1,24 +1,13 @@
-import {getInventoryEndpoint} from "./constants";
+import {getInventoryEndpoint} from './constants';
 
-export const getInitialInventory = async () => {
-  const response = await fetch(getInventoryEndpoint, {
-    method: "GET",
-    headers: {"Content-Type": "application/json"},
-  });
-
-  return await response.json();
+export const fetchInitialInventory = async () => {
+  const response = await fetch(getInventoryEndpoint);
+  return response.json();
 };
 
-export const getInventoryNode = async ({steamId}: {steamId?: string}) => {
-  const getInventoryUrl = `${getInventoryEndpoint}?steamid=${steamId}`;
+export const fetchInventory = async ({steamid}: {steamid?: string}) => {
+  const getInventoryUrl = `${getInventoryEndpoint}?steamid=${steamid}`;
 
-  try {
-    const response = await fetch(getInventoryUrl, {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-    });
-    return response.json();
-  } catch (e) {
-    console.log("Something horrible happened");
-  }
+  const response = await fetch(getInventoryUrl);
+  return response.json();
 };

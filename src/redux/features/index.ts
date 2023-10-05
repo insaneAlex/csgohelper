@@ -1,1 +1,11 @@
-export {inventoryReducer, getItemsStart, getItemsSuccess, getItemsError, itemsSelector} from './inventory';
+export {
+  inventoryReducer,
+  getItemsStart,
+  getItemsSuccess,
+  getItemsError,
+  itemsSelector,
+  itemsLoadingSelector,
+  getInitialItemsError,
+  getInitialItemsStart,
+  getInitialItemsSuccess
+} from './inventory';
