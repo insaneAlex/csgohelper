@@ -11,8 +11,10 @@ import {
 import {PayloadAction} from '@reduxjs/toolkit';
 
 function* getInitialInventoryTask() {
+  const abortController = new AbortController();
+
   try {
-    const {inventory} = yield call(fetchInitialInventory);
+    const {inventory} = yield call(fetchInitialInventory, {signal: abortController.signal});
     yield put(getInitialItemsSuccess(inventory));
   } catch (e) {
     yield put(getInitialItemsError(e));
@@ -20,10 +22,11 @@ function* getInitialInventoryTask() {
 }
 
 function* getInventoryTask({payload}: PayloadAction<{steamid: string}>) {
+  const abortController = new AbortController();
   const {steamid} = payload;
 
   try {
-    const {inventory} = steamid && (yield call(fetchInventory, {steamid}));
+    const {inventory} = yield call(fetchInventory, {steamid, signal: abortController.signal});
     yield put(getItemsSuccess(inventory));
   } catch (e) {
     yield put(getItemsError(e));
