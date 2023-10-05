@@ -9,7 +9,7 @@ export const MainHeader: FC = () => {
     <header className={styles.header}>
       <nav className={styles.navbar}>
         <section className={classNames(styles.navbarContainer, styles.container)}>
-          <input type="checkbox" />
+          <input type="checkbox" name="hamburger" />
           <div className={styles.hamburgerLines}>
             <span className={classNames(styles.line, styles.line1)}></span>
             <span className={classNames(styles.line, styles.line2)}></span>

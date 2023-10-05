@@ -1,7 +1,7 @@
-import {FC} from "react";
-import classNames from "classnames";
+import {FC} from 'react';
+import classNames from 'classnames';
 
-import styles from "./checkbox.module.scss";
+import styles from './checkbox.module.scss';
 
 type Props = {
   checked?: boolean;
@@ -12,17 +12,10 @@ type Props = {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
-export const Checkbox: FC<Props> = ({
-  checked,
-  name,
-  readOnly,
-  label,
-  defaultChecked,
-  onChange,
-}) => (
+export const Checkbox: FC<Props> = ({checked, name, readOnly, label, defaultChecked, onChange}) => (
   <label
     className={classNames(styles.label, {
-      [styles.checked]: checked || defaultChecked,
+      [styles.checked]: checked || defaultChecked
     })}
     htmlFor={name}
   >
