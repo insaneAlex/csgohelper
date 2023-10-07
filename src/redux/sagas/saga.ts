@@ -15,7 +15,7 @@ function* getInitialInventoryTask() {
 
   try {
     const {inventory} = yield call(fetchInitialInventory, {signal: abortController.signal});
-    yield put(getInitialItemsSuccess(inventory));
+    yield put(getInitialItemsSuccess(JSON.parse(inventory)));
   } catch (e) {
     yield put(getInitialItemsError(e));
   }
@@ -27,7 +27,7 @@ function* getInventoryTask({payload}: PayloadAction<{steamid: string}>) {
 
   try {
     const {inventory} = yield call(fetchInventory, {steamid, signal: abortController.signal});
-    yield put(getItemsSuccess(inventory));
+    yield put(getItemsSuccess(JSON.parse(inventory)));
   } catch (e) {
     yield put(getItemsError(e));
   }

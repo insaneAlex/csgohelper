@@ -2,28 +2,28 @@ import {InventoryItemType} from '@/types';
 import {FC} from 'react';
 import Image from 'next/image';
 import {inventoryImageBaseUrl} from '@/api/constants';
-import {getTagValue} from '../../helpers/get-tag-value';
 
 import styles from './item-details.module.scss';
 
 type Props = {item: InventoryItemType};
 
 export const ItemDetails: FC<Props> = ({item}) => {
-  const {icon_url, name, descriptions, tags} = item;
-  const exterior = getTagValue({tag: 'Exterior', tags});
+  const {icon_url, name, descriptions, exterior} = item;
+
   const imgSrc = `${inventoryImageBaseUrl}${icon_url}`;
 
   const renderDescriptions = () => (
     <div className={styles.descriptions}>
-      {descriptions.map(({value, color}, i) => {
-        return (
-          value && (
-            <div key={i} style={color ? {color: `#${color}`} : undefined}>
-              {value}
-            </div>
-          )
-        );
-      })}
+      {descriptions &&
+        descriptions.map(({value, color}, i) => {
+          return (
+            value && (
+              <div key={i} style={color ? {color: `#${color}`} : undefined}>
+                {value}
+              </div>
+            )
+          );
+        })}
     </div>
   );
   return (

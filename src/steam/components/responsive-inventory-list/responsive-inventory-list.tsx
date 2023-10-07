@@ -2,7 +2,7 @@ import React, {FC, useMemo} from 'react';
 import {WidthProvider, Responsive} from 'react-grid-layout';
 import {InventoryItem} from '../inventory-item';
 import {InventoryItemType} from '@/types';
-import {calculateLayouts, getImgSizes, getScreenSize, getItemRarityColor} from '../../helpers';
+import {calculateLayouts, getImgSizes, getScreenSize} from '../../helpers';
 import {useWindowWidth} from '@/src/hooks';
 import {GridConfigType} from '../types';
 
@@ -26,7 +26,7 @@ export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig}) => {
       cols={gridConfig.col}
     >
       {layouts[screenSize].map((item) => {
-        const color = `#${getItemRarityColor({tags: item.tags})}`;
+        const color = `#${item.rarity_color}`;
         return (
           <div style={{border: `1px solid ${color}`}} className={styles.item} key={item.i}>
             <InventoryItem item={item} imgSize={imgSize} />

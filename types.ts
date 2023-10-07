@@ -5,41 +5,41 @@ type DescriptionsType = {
 };
 
 export enum TagsType {
-  CATEGORY = "category",
-  INTERNAL_NAME = "internal_name",
-  LOCALIZED_CATEGORY_NAME = "localized_category_name",
-  LOCALIZED_TAG_NAME = "localized_tag_name",
-  COLOR = "color",
+  CATEGORY = 'category',
+  INTERNAL_NAME = 'internal_name',
+  LOCALIZED_CATEGORY_NAME = 'localized_category_name',
+  LOCALIZED_TAG_NAME = 'localized_tag_name',
+  COLOR = 'color'
 }
 
 export type ItemType = Readonly<
-  | "Pistol"
-  | "Container"
-  | "Sniper Rifle"
-  | "Shotgun"
-  | "Rifle"
-  | "SMG"
-  | "Machinegun"
-  | "Graffiti"
-  | "Pass"
-  | "Collectible"
-  | "Music Kit"
-  | "Tool"
+  | 'Pistol'
+  | 'Container'
+  | 'Sniper Rifle'
+  | 'Shotgun'
+  | 'Rifle'
+  | 'SMG'
+  | 'Machinegun'
+  | 'Graffiti'
+  | 'Pass'
+  | 'Collectible'
+  | 'Music Kit'
+  | 'Tool'
 >;
 
 export const ItemTypes: ItemType[] = [
-  "Pistol",
-  "Container",
-  "Sniper Rifle",
-  "Shotgun",
-  "Rifle",
-  "SMG",
-  "Machinegun",
-  "Graffiti",
-  "Pass",
-  "Collectible",
-  "Music Kit",
-  "Tool",
+  'Pistol',
+  'Container',
+  'Sniper Rifle',
+  'Shotgun',
+  'Rifle',
+  'SMG',
+  'Machinegun',
+  'Graffiti',
+  'Pass',
+  'Collectible',
+  'Music Kit',
+  'Tool'
 ];
 
 export type TagsTypeIndex = {
@@ -49,6 +49,7 @@ export type TagsTypeIndex = {
 export type InventoryItemType = {
   amount: number;
   appid: number;
+  exterior: string;
   assetid?: string;
   contextid?: string;
   classid: string;
