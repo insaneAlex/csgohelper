@@ -11,10 +11,10 @@ export const ItemDetails: FC<Props> = ({item}) => {
   const {icon_url, name, exterior} = item;
 
   return (
-    <div className={styles.details}>
+    <section className={styles.details}>
       <h1>{name}</h1>
       {exterior && <h2 className={styles.exterior}>{`(${exterior})`}</h2>}
       <Image src={inventoryImageBaseUrl + icon_url} alt={name} quality={100} width={256} priority height={198} />
-    </div>
+    </section>
   );
 };
