@@ -5,3 +5,14 @@
 .pages {
   margin: 10px;
 }
+
+.gridHeader {
+  display: flex;
+  font-size: 15px;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.updateTime {
+  margin-left: 10px;
+}

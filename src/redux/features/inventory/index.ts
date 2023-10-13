@@ -8,4 +8,4 @@ export {
   getInitialItemsSuccess
 } from './slice';
 
-export {itemsSelector, itemsLoadingSelector} from './selectors';
+export {itemsSelector, itemsLoadingSelector, itemsUpdateTimeSelector} from './selectors';

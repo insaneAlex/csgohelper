@@ -9,25 +9,31 @@ import {
   getInitialItemsSuccess
 } from '../features';
 import {PayloadAction} from '@reduxjs/toolkit';
+import {storage} from '@/src/services';
+import {InitialInvResType, InventoryResType} from '@/api/get-steam-inventory';
+import {STEAMID_PARAM} from '@/api/constants';
 
-function* getInitialInventoryTask() {
-  const abortController = new AbortController();
+function* getInitialInventoryTask(): Generator<unknown, void, InitialInvResType> {
+  const {signal} = new AbortController();
 
   try {
-    const {inventory} = yield call(fetchInitialInventory, {signal: abortController.signal});
-    yield put(getInitialItemsSuccess(JSON.parse(inventory)));
+    const {inventory, update_time} = yield call(fetchInitialInventory, {signal});
+
+    yield put(getInitialItemsSuccess({inventory: JSON.parse(inventory), update_time}));
   } catch (e) {
     yield put(getInitialItemsError(e));
   }
 }
 
-function* getInventoryTask({payload}: PayloadAction<{steamid: string}>) {
-  const abortController = new AbortController();
+function* getInventoryTask({payload}: PayloadAction<{steamid: string}>): Generator<unknown, void, InventoryResType> {
+  const {signal} = new AbortController();
   const {steamid} = payload;
 
   try {
-    const {inventory} = yield call(fetchInventory, {steamid, signal: abortController.signal});
-    yield put(getItemsSuccess(JSON.parse(inventory)));
+    const {inventory, statusCode, update_time} = yield call(fetchInventory, {steamid, signal});
+    statusCode === 200 && steamid && storage.localStorage.set(STEAMID_PARAM, steamid);
+
+    yield put(getItemsSuccess({inventory: JSON.parse(inventory), update_time}));
   } catch (e) {
     yield put(getItemsError(e));
   }

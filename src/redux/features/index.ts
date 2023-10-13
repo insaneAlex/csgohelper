@@ -5,6 +5,7 @@ export {
   getItemsError,
   itemsSelector,
   itemsLoadingSelector,
+  itemsUpdateTimeSelector,
   getInitialItemsError,
   getInitialItemsStart,
   getInitialItemsSuccess

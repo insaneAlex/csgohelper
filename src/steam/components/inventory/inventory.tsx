@@ -5,6 +5,8 @@ import {Page} from '../page';
 import {ResponsiveInventoryList} from '../responsive-inventory-list';
 import {GridConfigType} from '../types';
 import {useWindowWidth} from '@/src/hooks';
+import {useSelector} from 'react-redux';
+import {itemsUpdateTimeSelector} from '@/src/redux';
 
 import styles from './inventory.module.scss';
 
@@ -13,6 +15,7 @@ type Props = {items: InventoryItemType[]};
 export const Inventory: FC<Props> = ({items}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsLength = items.length;
+  const updateTime = useSelector(itemsUpdateTimeSelector);
 
   const gridConfig: GridConfigType = {
     col: {lg: 16, md: 12, sm: 20, xs: 20, xxs: 16},
@@ -43,9 +46,22 @@ export const Inventory: FC<Props> = ({items}) => {
     [pageSize, currentPage, items, missingTiles]
   );
 
+  const TOTAL_VALUE = items
+    .reduce((accumulator, currentValue) => {
+      const price = Number(currentValue.prices?.['7_days']?.average);
+      const count = currentValue?.count || 1;
+      return isNaN(price) ? accumulator : accumulator + price * count;
+    }, 0)
+    .toFixed(2);
+
   return (
     <>
-      <h2 className={styles.title}>{`Items: ${itemsLength}`}</h2>
+      <div className={styles.gridHeader}>
+        <h2 className={styles.title}>{`Items:${itemsLength},`}</h2>
+        <span>{`value: ${TOTAL_VALUE}$`}</span>
+        {updateTime && <span className={styles.updateTime}>{`(inventory cashed, last update - ${updateTime})`}</span>}
+      </div>
+
       <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} />
       <section className={styles.pages}>
         <Page pagesCount={pagesCount} currentPage={currentPage} onPageChange={(page: any) => setCurrentPage(page)} />

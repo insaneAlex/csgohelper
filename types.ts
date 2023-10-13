@@ -1,9 +1,3 @@
-type DescriptionsType = {
-  type: string;
-  value: string;
-  color?: string;
-};
-
 export enum TagsType {
   CATEGORY = 'category',
   INTERNAL_NAME = 'internal_name',
@@ -47,36 +41,16 @@ export type TagsTypeIndex = {
 };
 
 export type InventoryItemType = {
-  amount: number;
-  appid: number;
-  exterior: string;
-  assetid?: string;
-  contextid?: string;
-  classid: string;
-  instanceid: string;
-  id: string;
-  is_currency: boolean;
-  currency: number;
-  market_marketable_restriction?: number;
-  background_color: string;
+  assetid: string;
+  count?: number;
+  exterior?: string;
   icon_url: string;
-  icon_url_large?: string;
-  descriptions: DescriptionsType[];
-  tradable: boolean;
-  fraudwarnings: string[];
-  owner_descriptions?: DescriptionsType[];
   name: string;
   name_color: string;
+  rarity_color: string;
   type: ItemType;
-  market_name: string;
   market_hash_name: string;
-  commodity: boolean;
-  market_tradable_restriction: number;
-  marketable: boolean;
-  tags: TagsTypeIndex[];
-  market_buy_country_restriction?: string;
-  actions?: {link: string; name: string}[];
-  market_actions?: {link: string; name: string}[];
+  prices: any;
 };
 export type ImgSize = {width: number; height: number};
 

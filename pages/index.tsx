@@ -6,6 +6,8 @@ import {InventoryItemType} from '@/types';
 import {useSearchParams} from 'next/navigation';
 import {Loader, Checkbox} from '@/src/ui';
 import {connect} from 'react-redux';
+import {storage} from '@/src/services';
+import {STEAMID_PARAM} from '@/api/constants';
 
 type Props = {
   inventoryItems: InventoryItemType[];
@@ -15,7 +17,8 @@ type Props = {
 };
 
 const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, loading}) => {
-  const [steamid, setSteamid] = useState('76561198080636799');
+  const steamId = storage.localStorage.get(STEAMID_PARAM);
+  const [steamid, setSteamid] = useState(steamId);
   const [stack, setStack] = useState(false);
 
   useEffect(() => {
@@ -36,7 +39,7 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
   }
 
   const renderContent = () => {
-    const itemsLength = items.length;
+    const itemsLength = items?.length;
 
     if (loading) {
       return <Loader />;

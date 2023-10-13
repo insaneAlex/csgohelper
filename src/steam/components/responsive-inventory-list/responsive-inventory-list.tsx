@@ -25,14 +25,11 @@ export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig}) => {
       rowHeight={100}
       cols={gridConfig.col}
     >
-      {layouts[screenSize].map((item) => {
-        const color = `#${item.rarity_color}`;
-        return (
-          <div style={{border: `1px solid ${color}`}} className={styles.item} key={item.i}>
-            <InventoryItem item={item} imgSize={imgSize} />
-          </div>
-        );
-      })}
+      {layouts[screenSize].map((item) => (
+        <div style={{border: `1px solid #${item.rarity_color}`}} className={styles.item} key={item.i}>
+          <InventoryItem item={item} imgSize={imgSize} />
+        </div>
+      ))}
     </ResponsiveReactGridLayout>
   );
 };

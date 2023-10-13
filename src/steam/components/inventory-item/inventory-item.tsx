@@ -11,17 +11,19 @@ import styles from './inventory-item.module.scss';
 type Props = {imgSize: ImgSize; item: InventoryItemType & Layout & {count?: number}};
 
 export const InventoryItem: FC<Props> = ({item, imgSize}) => {
-  const {name_color, assetid, icon_url, count} = item;
+  const {name_color, assetid, icon_url, count, prices} = item;
   const {width, height} = imgSize;
+
+  const price = prices?.['7_days']?.average * (count || 1);
+  const formattedPrice = !isNaN(price) && price.toFixed(2);
 
   if (!icon_url) {
     return null;
   }
-
+  let name = item.name;
   const imgSrc = `${inventoryImageBaseUrl}${icon_url}`;
   const amount = count && count > 1 ? ` x ${count}` : '';
 
-  let {name} = item;
   if (name?.match(STAT_TRAK_PATTERN)) {
     name = name.replace(STAT_TRAK_PATTERN, '');
   }
@@ -34,6 +36,7 @@ export const InventoryItem: FC<Props> = ({item, imgSize}) => {
           {name + amount}
         </p>
       )}
+      {formattedPrice && !isNaN(price) && <span className={styles.price}>{`${formattedPrice}$`}</span>}
     </Link>
   );
 };

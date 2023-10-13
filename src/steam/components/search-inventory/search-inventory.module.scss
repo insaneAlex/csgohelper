@@ -14,7 +14,7 @@
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     &::placeholder {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-family: monospace;
     }
   }
 
@@ -38,7 +38,7 @@
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid $main-font-color;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: monospace;
     height: 50px;
     width: 200px;
     padding: 0;

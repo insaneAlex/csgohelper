@@ -6,6 +6,8 @@ import {INVENTORY_KEY} from '../../constants';
 const initialState: InventoryState = {
   items: [],
   isLoading: false,
+  update_time: null,
+  prices: [],
   error: null
 };
 
@@ -16,9 +18,13 @@ const inventory = createSlice({
     getItemsStart: (state: InventoryState, _action) => {
       state.isLoading = true;
     },
-    getItemsSuccess: (state: InventoryState, action: PayloadAction<InventoryItemType[]>) => {
+    getItemsSuccess: (
+      state: InventoryState,
+      action: PayloadAction<{inventory: InventoryItemType[]; update_time?: string}>
+    ) => {
       state.isLoading = false;
-      state.items = action.payload;
+      state.update_time = action.payload.update_time;
+      state.items = action.payload.inventory;
     },
     getItemsError: (state: InventoryState, action: PayloadAction<any>) => {
       state.isLoading = false;
@@ -27,9 +33,13 @@ const inventory = createSlice({
     getInitialItemsStart: (state: InventoryState) => {
       state.isLoading = true;
     },
-    getInitialItemsSuccess: (state: InventoryState, action: PayloadAction<InventoryItemType[]>) => {
+    getInitialItemsSuccess: (
+      state: InventoryState,
+      action: PayloadAction<{inventory: InventoryItemType[]; update_time: string}>
+    ) => {
       state.isLoading = false;
-      state.items = action.payload;
+      state.update_time = action.payload.update_time;
+      state.items = action.payload.inventory;
     },
     getInitialItemsError: (state: InventoryState, action: PayloadAction<any>) => {
       state.isLoading = false;
