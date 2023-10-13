@@ -14,7 +14,7 @@ export const ItemDetails: FC<Props> = ({item}) => {
     <section className={styles.details}>
       <h1>{name}</h1>
       {exterior && <h2 className={styles.exterior}>{`(${exterior})`}</h2>}
-      <Image src={inventoryImageBaseUrl + icon_url} alt={name} quality={100} width={256} priority height={198} />
+      <Image src={inventoryImageBaseUrl + icon_url} alt={name} unoptimized width={256} priority height={198} />
     </section>
   );
 };
