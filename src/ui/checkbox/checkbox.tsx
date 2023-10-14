@@ -21,6 +21,7 @@ export const Checkbox: FC<Props> = ({checked, name, readOnly, label, defaultChec
   >
     <input
       id={name}
+      className={styles.input}
       type="checkbox"
       readOnly={readOnly}
       defaultChecked={defaultChecked}

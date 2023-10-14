@@ -33,13 +33,10 @@ export const Inventory: FC<Props> = ({items}) => {
 
   const emptyTiles = pagesCount * pageSize - itemsLength;
 
-  const missingTiles = useMemo(() => {
-    let newArray = [];
-    for (let index = 0; index < emptyTiles; index++) {
-      newArray.push({assetid: String(index)});
-    }
-    return newArray;
-  }, [emptyTiles]);
+  const missingTiles = useMemo(
+    () => Array.from({length: emptyTiles}, (_, index) => ({assetid: String(index)})),
+    [emptyTiles]
+  );
 
   const paginatedInventory = useMemo(
     () => paginate({items: [...items, ...missingTiles], pageNumber: currentPage, pageSize}),
@@ -59,10 +56,11 @@ export const Inventory: FC<Props> = ({items}) => {
       <div className={styles.gridHeader}>
         <h2 className={styles.title}>{`Items:${itemsLength},`}</h2>
         <span>{`value: ${TOTAL_VALUE}$`}</span>
-        {updateTime && <span className={styles.updateTime}>{`(inventory cashed, last update - ${updateTime})`}</span>}
       </div>
 
+      {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}
       <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} />
+
       <section className={styles.pages}>
         <Page pagesCount={pagesCount} currentPage={currentPage} onPageChange={(page: any) => setCurrentPage(page)} />
       </section>
