@@ -7,12 +7,12 @@ import {useSearchParams} from 'next/navigation';
 import {Loader, Checkbox} from '@/src/ui';
 import {connect} from 'react-redux';
 import {storage} from '@/src/services';
-import {STEAMID_PARAM} from '@/api/constants';
+import {FILTERS_PARAM, STEAMID_PARAM} from '@/api/constants';
 
 type Props = {
-  inventoryItems: InventoryItemType[];
-  onGetItems: () => void;
   onGetInventory: (arg: {steamid: string}) => void;
+  onGetItems: () => void;
+  inventoryItems: InventoryItemType[];
   loading: boolean;
 };
 
@@ -25,7 +25,7 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
     inventoryItems.length === 0 && onGetItems();
   }, []);
 
-  const filters = getParamValues(useSearchParams(), 'filters');
+  const filters = getParamValues(useSearchParams(), FILTERS_PARAM);
   const hasFilters = filters.length > 0;
 
   const toggleStackDupes = () => setStack(!stack);
