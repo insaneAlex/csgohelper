@@ -33,26 +33,32 @@
 }
 
 .searchBtn {
-  button {
-    background-color: $lighten-bg;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 1px solid $main-font-color;
-    font-family: monospace;
-    height: 50px;
-    width: 200px;
-    padding: 0;
-    &:active {
-      background-color: $base-dark;
-    }
+  background-color: $lighten-bg;
+  border-radius: 15px;
+  cursor: pointer;
+  border: 1px solid $main-font-color;
+  font-family: monospace;
+  height: 50px;
+  width: 200px;
+  padding: 0;
+  &:active {
+    background-color: $base-dark;
   }
+
   @media (max-width: 768px) {
-    button {
-      width: 150px;
-      height: 40px;
-      border: 1px solid $base-dark;
-      border-radius: 0;
-      margin-left: 10px;
-    }
+    width: 150px;
+    height: 40px;
+    border: 1px solid $base-dark;
+    border-radius: 0;
+    margin-left: 10px;
   }
+}
+
+.searchBtnDisabled {
+  color: gray;
+  border: 1px solid gray;
+}
+
+.searchBtnDisabled:active {
+  background-color: $lighten-bg;
 }

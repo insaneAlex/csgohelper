@@ -1,6 +1,7 @@
 import {FC} from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
+import {AccountIcon, FeedbackIcon, StonksIcon} from '../ui';
 
 import styles from './main-header.module.scss';
 
@@ -18,14 +19,22 @@ export const MainHeader: FC = () => {
 
           <ul className={styles.items}>
             <li className={styles.item}>
+              <Link href="/stonks">
+                <StonksIcon />
+                <span className={styles.iconText}>Stonks</span>
+              </Link>
+            </li>
+            <li className={styles.item}>
               <Link href="/feedback">
-                <span className={styles.linkCaption}>Leave Feedback</span>
+                <FeedbackIcon />
+                <span className={styles.iconText}>Feedback</span>
               </Link>
             </li>
 
             <li className={styles.item}>
               <Link href="/login">
-                <span className={styles.linkCaption}>Login</span>
+                <AccountIcon />
+                <span className={styles.iconText}>Login</span>
               </Link>
             </li>
           </ul>

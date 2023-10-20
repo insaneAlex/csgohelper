@@ -56,7 +56,7 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
 
   return (
     <>
-      <SearchInventory id={steamid} onSearch={handleSearch} onIdChange={handleIdChange} />
+      <SearchInventory id={steamid} disabled={loading} onSearch={handleSearch} onIdChange={handleIdChange} />
       <InventoryFilters />
       <div style={{display: 'flex'}}>
         <Checkbox onChange={toggleStackDupes} checked={stack} name="STACK DUPES" label="STACK DUPES" />

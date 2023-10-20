@@ -1,16 +1,16 @@
 import Head from 'next/head';
 import {FC} from 'react';
 
-const Feedback: FC = () => {
+const Stonks: FC = () => {
   return (
     <>
       <Head>
-        <title>CS2.Helper - Leave Feedback</title>
+        <title>CS2.Helper - Stonks</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      Feedback
+      Calculate your Stonks here
     </>
   );
 };
 
-export default Feedback;
+export default Stonks;
