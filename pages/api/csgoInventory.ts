@@ -46,8 +46,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const pricesResp = await axios.get(PRICES_API_URL);
       cache.prices = pricesResp?.data?.items_list;
       cache.lastUpdated = new Date();
-    } catch (error) {
-      console.error('Prices API fetch error', error);
+    } catch (e) {
+      console.log(`${'PRICES_API_FETCH_ERROR'} : ${e}`);
     }
   }
 
@@ -71,7 +71,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       return res.json({statusCode: 201, inventory: newInventory, update_time});
     } catch (e) {
-      console.log(DYNAMO_DB_FETCH_INVENTORY_ERROR);
+      console.log(`${DYNAMO_DB_FETCH_INVENTORY_ERROR}: ${e}`);
+
       return res.json({statusCode: 204, inventory: [], description: DYNAMO_DB_FETCH_INVENTORY_ERROR});
     }
   }
@@ -99,7 +100,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const modifiedInventory = calculateInventoryWithPrices({inventory: updatedInventory, prices});
     await client.send(command);
     return res.status(200).json({statusCode: 200, inventory: JSON.stringify(modifiedInventory)});
-  } catch (error) {
+  } catch (e) {
+    console.log(`${'ERROR_ON_GETTING_INVENTORY_TRYING_TO_GET_CACHE_OR_SAVING_INVENTORY_TO_DYNAMODB'} : ${e}`);
+
     const command = createCommand({steamid});
     try {
       const response = await docClient.send(command);
@@ -112,7 +115,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       return res.status(400).json({inventory: [], description: DYNAMO_DB_FETCH_INVENTORY_ERROR});
     } catch (e) {
-      console.log(DYNAMO_DB_FETCH_INVENTORY_ERROR);
+      console.log(`${DYNAMO_DB_FETCH_INVENTORY_ERROR}: ${e}`);
       return res.json({statusCode: 204, inventory: [], description: DYNAMO_DB_FETCH_INVENTORY_ERROR});
     }
   }
