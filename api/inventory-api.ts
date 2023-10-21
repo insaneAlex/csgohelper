@@ -1,13 +1,13 @@
-import axios, {AxiosResponse} from 'axios';
-import {parseItem} from './parse-item';
 import {InventoryGlobalType} from './types';
+import axios, {AxiosResponse} from 'axios';
+import {parseItem} from './helpers';
 
-interface InventoryResult {
+type InventoryResult = {
   items: InventoryGlobalType[];
   total: number;
-}
+};
 
-interface GetInventoryParams {
+type GetInventoryParams = {
   appid: string;
   contextid: string;
   steamid: string;
@@ -19,7 +19,7 @@ interface GetInventoryParams {
   language?: string;
   tradable?: boolean;
   retryFn?: (result: InventoryResult) => boolean;
-}
+};
 
 export const InventoryApi = {
   recentRotations: 0,

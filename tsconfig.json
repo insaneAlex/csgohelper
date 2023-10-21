@@ -21,7 +21,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "api/helpers"],
   "exclude": ["node_modules"],
   "rules": {"@typescript-eslint/no-unused-vars": ["error"]}
 }

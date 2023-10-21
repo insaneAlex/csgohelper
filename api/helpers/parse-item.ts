@@ -1,10 +1,10 @@
-import {InventoryGlobalType} from './types';
+import {InventoryGlobalType} from '../types';
 
-type Props = (a: {contextID: string; item: InventoryGlobalType; descriptions: any[]}) => any;
+type Props = (arg: {contextID: string; item: InventoryGlobalType; descriptions: any[]}) => any;
 
 export const parseItem: Props = ({item, descriptions, contextID}) => {
   const parsed = {
-    ...item, // Shallow copy of item
+    ...item,
     assetid: item.id || item.assetid,
     instanceid: item.instanceid || '0',
     amount: parseInt(item.amount, 10),
