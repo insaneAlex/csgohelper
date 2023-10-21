@@ -1,5 +1,5 @@
-import {PriceOptions} from '@/api/types';
 import {InventoryItemType} from '@/types';
+import {PriceOptions} from '@/api/types';
 
 export const calculateInventoryPrice = ({items}: {items: InventoryItemType[]}) => {
   const total = items.reduce((accumulator, currentValue) => {
