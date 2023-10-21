@@ -1,37 +1,25 @@
-import {NextApiRequest, NextApiResponse} from 'next';
-import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
-import axios from 'axios';
+import {INVENTORY_ERRORS, INVENTORY_TABLE, PRICES_API_URL, AWS_REGION, ONE_DAY} from '@/api/constants';
+import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers';
 import {GetCommand, DynamoDBDocumentClient, UpdateCommand} from '@aws-sdk/lib-dynamodb';
-import {
-  DYNAMO_DB_FETCH_INVENTORY_ERROR,
-  NO_STEAMID_PROVIDED,
-  INVENTORY_TABLE,
-  PRICES_API_URL,
-  AWS_REGION,
-  ONE_DAY
-} from '@/api/constants';
+import {InventoryGlobalType, PriceType, SteamIDType} from '@/api/types';
+import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
+import {NextApiRequest, NextApiResponse} from 'next';
 import {InventoryApi} from '@/api/inventory-api';
-import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers.ts';
 import {InventoryItemType} from '@/types';
-import {InventoryGlobalType} from '@/api/types';
+import axios from 'axios';
 
-const cache: {prices: {[key: string]: {price: any}} | null; lastUpdated: Date | null} = {
-  prices: null,
-  lastUpdated: null
-};
+type CacheType = {prices: {[key: string]: {price: PriceType}} | null; lastUpdated: Date | null};
+
+const cache: CacheType = {prices: null, lastUpdated: null};
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
 
-const client = new DynamoDBClient({
-  region: AWS_REGION,
-  credentials: {accessKeyId, secretAccessKey}
-});
-
+const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
 const docClient = DynamoDBDocumentClient.from(client);
 
-const createCommand = ({steamid}: {steamid: string}) => new GetCommand({TableName: INVENTORY_TABLE, Key: {steamid}});
+const createCommand = ({steamid}: SteamIDType) => new GetCommand({TableName: INVENTORY_TABLE, Key: {steamid}});
 
-const getCSGOInventory = async ({steamid}: {steamid: string}) => {
+const getCSGOInventory = async ({steamid}: SteamIDType) => {
   const inventoryApi = Object.create(InventoryApi);
   const {items} = await inventoryApi.get({appid: 730, contextid: 2, steamid, tradable: false});
   return items as InventoryGlobalType[];
@@ -53,18 +41,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       cache.prices = pricesResp?.data?.items_list;
       cache.lastUpdated = new Date();
     } catch (e) {
-      console.log(`${'PRICES_API_FETCH_ERROR'} : ${e}`);
+      console.log(`${INVENTORY_ERRORS.PRICES_API_FETCH_ERROR} : ${e}`);
     }
   }
 
   const {prices} = cache;
 
   if (!steamid && !steamId) {
-    return res.json({statusCode: 204, inventory: [], description: NO_STEAMID_PROVIDED});
+    return res.json({statusCode: 204, inventory: [], description: INVENTORY_ERRORS.NO_STEAMID_PROVIDED});
   }
 
-  if (steamId || !isNumeric(steamid as string)) {
-    const command = createCommand({steamid: steamId as string});
+  if (steamId || !isNumeric(steamid)) {
+    const command = createCommand({steamid: steamId});
 
     try {
       const {Item} = (await docClient.send(command)) as unknown as {Item: {update_time: string; inventory: string}};
@@ -77,9 +65,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       return res.json({statusCode: 201, inventory: newInventory, update_time});
     } catch (e) {
-      console.log(`${DYNAMO_DB_FETCH_INVENTORY_ERROR}: ${e}`);
+      console.log(`${INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR}: ${e}`);
 
-      return res.json({statusCode: 204, inventory: [], description: DYNAMO_DB_FETCH_INVENTORY_ERROR});
+      return res.json({statusCode: 204, inventory: [], description: INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR});
     }
   }
 
@@ -87,18 +75,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const inventory = await getCSGOInventory({steamid});
 
     const updatedInventory = inventory.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
-      const exterior = (getByTagName({tags, tagName: 'Exterior'}) as unknown as {localized_tag_name: string})
-        .localized_tag_name;
-      const type = (getByTagName({tags, tagName: 'Type'}) as unknown as {localized_tag_name: string})
-        .localized_tag_name;
-      const rarity_color = (getByTagName({tags, tagName: 'Rarity'}) as unknown as {color: string}).color;
+      const exterior = getByTagName({tags, tagName: 'Exterior'}).localized_tag_name;
+      const type = getByTagName({tags, tagName: 'Type'}).localized_tag_name;
+      const rarity_color = getByTagName({tags, tagName: 'Rarity'}).color;
 
       return {type, name, assetid, exterior, icon_url, name_color, market_hash_name, rarity_color};
     }) as InventoryItemType[];
 
     const command = new UpdateCommand({
-      TableName: INVENTORY_TABLE,
       Key: {steamid},
+      TableName: INVENTORY_TABLE,
       UpdateExpression: 'SET inventory=:inventory, update_time=:update_time',
       ExpressionAttributeValues: {':inventory': JSON.stringify(updatedInventory), ':update_time': getFormattedDate()}
     });
@@ -107,7 +93,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await client.send(command);
     return res.status(200).json({statusCode: 200, inventory: JSON.stringify(modifiedInventory)});
   } catch (e) {
-    console.log(`${'ERROR_ON_GETTING_INVENTORY_TRYING_TO_GET_CACHE_OR_SAVING_INVENTORY_TO_DYNAMODB'} : ${e}`);
+    console.log(`${INVENTORY_ERRORS.STEAM_INVENTORY_FETCH_ERROR}: ${e}`);
 
     const command = createCommand({steamid});
     try {
@@ -115,14 +101,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       if (response.Item?.inventory) {
         const inventory = JSON.parse(response.Item.inventory);
         const update_time = response.Item.update_time || '';
-
         const withPrices = calculateInventoryWithPrices({inventory, prices});
+
         return res.json({statusCode: 201, update_time, inventory: JSON.stringify(withPrices)});
       }
-      return res.status(400).json({inventory: [], description: DYNAMO_DB_FETCH_INVENTORY_ERROR});
+      return res.status(400).json({inventory: [], description: INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR});
     } catch (e) {
-      console.log(`${DYNAMO_DB_FETCH_INVENTORY_ERROR}: ${e}`);
-      return res.json({statusCode: 204, inventory: [], description: DYNAMO_DB_FETCH_INVENTORY_ERROR});
+      console.log(`${INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR}: ${e}`);
+      return res.json({statusCode: 204, inventory: [], description: INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR});
     }
   }
 };

@@ -1,17 +1,18 @@
+import {InitialInvResType, InventoryResType} from '@/api/get-steam-inventory';
 import {fetchInitialInventory, fetchInventory} from '@/api';
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {
-  getItemsError,
-  getItemsStart,
-  getItemsSuccess,
-  getInitialItemsError,
-  getInitialItemsStart,
-  getInitialItemsSuccess
-} from '../features';
 import {PayloadAction} from '@reduxjs/toolkit';
-import {storage} from '@/src/services';
-import {InitialInvResType, InventoryResType} from '@/api/get-steam-inventory';
 import {STEAMID_PARAM} from '@/api/constants';
+import {SteamIDType} from '@/api/types';
+import {storage} from '@/src/services';
+import {
+  getInitialItemsSuccess,
+  getInitialItemsStart,
+  getInitialItemsError,
+  getItemsSuccess,
+  getItemsStart,
+  getItemsError
+} from '../features';
 
 function* getInitialInventoryTask(): Generator<unknown, void, InitialInvResType> {
   const {signal} = new AbortController();
@@ -25,7 +26,7 @@ function* getInitialInventoryTask(): Generator<unknown, void, InitialInvResType>
   }
 }
 
-function* getInventoryTask({payload}: PayloadAction<{steamid: string}>): Generator<unknown, void, InventoryResType> {
+function* getInventoryTask({payload}: PayloadAction<SteamIDType>): Generator<unknown, void, InventoryResType> {
   const {signal} = new AbortController();
   const {steamid} = payload;
 

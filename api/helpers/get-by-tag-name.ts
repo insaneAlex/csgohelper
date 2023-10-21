@@ -1,0 +1,4 @@
+import {TagsTypeIndex} from '@/types';
+
+export const getByTagName = ({tags, tagName}: {tags: TagsTypeIndex[]; tagName: string}): TagsTypeIndex =>
+  tags.find((el) => el.category === tagName) || ({} as TagsTypeIndex);

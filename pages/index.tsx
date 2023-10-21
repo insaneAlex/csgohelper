@@ -1,18 +1,19 @@
-import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/steam/helpers';
 import {itemsSelector, RootState, getInitialItemsStart, getItemsStart, itemsLoadingSelector} from '@/src/redux';
+import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/steam/helpers';
 import {Inventory, InventoryFilters, SearchInventory} from '@/src/steam';
-import {ChangeEvent, FC, useEffect, useState} from 'react';
-import {InventoryItemType} from '@/types';
-import {useSearchParams} from 'next/navigation';
-import {Loader, Checkbox} from '@/src/ui';
-import {connect} from 'react-redux';
-import {storage} from '@/src/services';
 import {FILTERS_PARAM, STEAMID_PARAM} from '@/api/constants';
+import {ChangeEvent, FC, useEffect, useState} from 'react';
+import {useSearchParams} from 'next/navigation';
+import {InventoryItemType} from '@/types';
+import {Loader, Checkbox} from '@/src/ui';
+import {SteamIDType} from '@/api/types';
+import {storage} from '@/src/services';
+import {connect} from 'react-redux';
 
 type Props = {
-  onGetInventory: (arg: {steamid: string}) => void;
-  onGetItems: () => void;
+  onGetInventory: (arg: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
+  onGetItems: () => void;
   loading: boolean;
 };
 
@@ -22,7 +23,7 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
   const [stack, setStack] = useState(false);
 
   useEffect(() => {
-    inventoryItems.length === 0 && onGetItems();
+    inventoryItems.length === 0 && steamid && onGetItems();
   }, []);
 
   const filters = getParamValues(useSearchParams(), FILTERS_PARAM);

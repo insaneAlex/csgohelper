@@ -1,3 +1,5 @@
+import {PriceType} from './api/types';
+
 export enum TagsType {
   CATEGORY = 'category',
   INTERNAL_NAME = 'internal_name',
@@ -50,7 +52,7 @@ export type InventoryItemType = {
   rarity_color: string;
   type: ItemType;
   market_hash_name: string;
-  prices: any;
+  prices: PriceType;
 };
 export type ImgSize = {width: number; height: number};
 
