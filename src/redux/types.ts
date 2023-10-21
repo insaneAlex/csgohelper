@@ -5,6 +5,6 @@ export type InventoryState = {
   update_time?: string | null;
   items: InventoryItemType[];
   isLoading: boolean;
-  prices: PricesType;
+  prices: PricesType | [];
   error: any;
 };
