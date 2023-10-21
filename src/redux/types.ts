@@ -4,7 +4,7 @@ import {InventoryItemType} from '@/types';
 export type InventoryState = {
   update_time?: string | null;
   items: InventoryItemType[];
-  isLoading: boolean;
   prices: PricesType | [];
+  isLoading: boolean;
   error: any;
 };
