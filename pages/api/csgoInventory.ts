@@ -19,8 +19,14 @@ const cache: {prices: {[key: string]: {price: any}} | null; lastUpdated: Date | 
   prices: null,
   lastUpdated: null
 };
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
 
-const client = new DynamoDBClient({region: AWS_REGION});
+const client = new DynamoDBClient({
+  region: AWS_REGION,
+  credentials: {accessKeyId, secretAccessKey}
+});
+
 const docClient = DynamoDBDocumentClient.from(client);
 
 const createCommand = ({steamid}: {steamid: string}) => new GetCommand({TableName: INVENTORY_TABLE, Key: {steamid}});
