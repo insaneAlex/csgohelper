@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.433.0",
+    "@aws-sdk/lib-dynamodb": "^3.433.0",
     "@reduxjs/toolkit": "^1.9.6",
+    "axios": "^1.5.1",
     "classnames": "^2.3.2",
     "eslint": "8.33.0",
     "eslint-config-next": "^13.5.4",
