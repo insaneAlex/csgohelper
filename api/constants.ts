@@ -15,10 +15,4 @@ export const INVENTORY_ERRORS = {
   NO_STEAMID_PROVIDED: 'NO_STEAMID_PROVIDED'
 };
 
-let getInventoryEndpoint = 'http://localhost:3000/api/csgoInventory';
-
-if (typeof window !== 'undefined') {
-  getInventoryEndpoint = `${window.location.origin}/api/csgoInventory`;
-}
-
-export {getInventoryEndpoint};
+export const getInventoryEndpoint = typeof window !== 'undefined' ? `${window.location.origin}/api/csgoInventory` : '';
