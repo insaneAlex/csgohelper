@@ -26,16 +26,11 @@ const getCSGOInventory = async ({steamid}: SteamIDType) => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const steamid = req.query.steamid as string;
-  const steamId = req.query.steamId as string;
+  const {steamid, steamId} = req.query;
 
   const now = new Date();
 
-  if (
-    !cache.prices ||
-    !cache.lastUpdated ||
-    (now as unknown as number) - (cache.lastUpdated as unknown as number) > ONE_DAY
-  ) {
+  if (!cache.prices || !cache.lastUpdated || now.getTime() - cache.lastUpdated.getTime() > ONE_DAY) {
     try {
       const pricesResp = await axios.get(PRICES_API_URL);
       cache.prices = pricesResp?.data?.items_list;
@@ -51,8 +46,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json({statusCode: 204, inventory: [], description: INVENTORY_ERRORS.NO_STEAMID_PROVIDED});
   }
 
-  if (steamId || !isNumeric(steamid)) {
-    const command = createCommand({steamid: steamId});
+  if (steamId || !isNumeric(steamid as string)) {
+    const command = createCommand({steamid: steamId as string});
 
     try {
       const {Item} = (await docClient.send(command)) as unknown as {Item: {update_time: string; inventory: string}};
@@ -72,7 +67,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const inventory = await getCSGOInventory({steamid});
+    const inventory = await getCSGOInventory({steamid} as SteamIDType);
 
     const updatedInventory = inventory.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
       const exterior = getByTagName({tags, tagName: 'Exterior'}).localized_tag_name;
@@ -95,7 +90,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (e) {
     console.log(`${INVENTORY_ERRORS.STEAM_INVENTORY_FETCH_ERROR}: ${e}`);
 
-    const command = createCommand({steamid});
+    const command = createCommand({steamid} as SteamIDType);
     try {
       const response = await docClient.send(command);
       if (response.Item?.inventory) {
