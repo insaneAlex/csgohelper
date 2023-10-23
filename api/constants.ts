@@ -17,6 +17,5 @@ export const INVENTORY_ERRORS = {
 
 export const PRIVATE_INVENTORY_ERROR = 'PRIVATE_INVENTORY_ERROR';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
-export const TOO_MANY_REQUESTS = 'TOO_MANY_REQUESTS';
 
 export const getInventoryEndpoint = typeof window !== 'undefined' ? `${window.location.origin}/api/csgoInventory` : '';

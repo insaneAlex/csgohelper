@@ -1,12 +1,11 @@
 import {
+  PRIVATE_INVENTORY_ERROR,
+  PROFILE_NOT_FOUND,
   INVENTORY_ERRORS,
   INVENTORY_TABLE,
   PRICES_API_URL,
   AWS_REGION,
-  ONE_DAY,
-  PRIVATE_INVENTORY_ERROR,
-  TOO_MANY_REQUESTS,
-  PROFILE_NOT_FOUND
+  ONE_DAY
 } from '@/api/constants';
 import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers';
 import {GetCommand, DynamoDBDocumentClient, UpdateCommand} from '@aws-sdk/lib-dynamodb';
@@ -92,14 +91,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ExpressionAttributeValues: {':inventory': JSON.stringify(minimizedInventory), ':update_time': getFormattedDate()}
     });
 
-    const modifiedInventory = calculateInventoryWithPrices({inventory: minimizedInventory, prices});
+    const withPrices = prices
+      ? calculateInventoryWithPrices({inventory: minimizedInventory, prices})
+      : minimizedInventory;
+
     await client.send(command);
-    return res.json({statusCode: 200, inventory: JSON.stringify(modifiedInventory)});
+    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices)});
   } catch (e: any) {
     const error: any = {steamAccountFetchError: e};
     console.log(`${INVENTORY_ERRORS.STEAM_INVENTORY_FETCH_ERROR}: ${e}`);
-
-    const isTooManyRequestsError = e?.response.status === 429;
 
     if (e?.response.status === 404) {
       return res.status(404).json({statusCode: 404, inventory: '[]', error: PROFILE_NOT_FOUND});
@@ -109,22 +109,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(403).json({statusCode: 403, inventory: '[]', error: PRIVATE_INVENTORY_ERROR});
     }
 
-    if (isTooManyRequestsError) {
-      error.steamAccountFetchError = TOO_MANY_REQUESTS;
-    }
-
     try {
       const command = createCommand({steamid} as SteamIDType);
       const {Item} = await docClient.send(command);
       const {inventory, update_time} = Item as {update_time: string; inventory: string};
 
       if (inventory) {
-        const withPrices = calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices});
-
         return res.json({
-          statusCode: isTooManyRequestsError ? 429 : 201,
+          statusCode: 201,
           update_time,
-          inventory: prices ? JSON.stringify(withPrices) : inventory
+          inventory: prices
+            ? JSON.stringify(calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices}))
+            : inventory
         });
       }
       return res.json({
