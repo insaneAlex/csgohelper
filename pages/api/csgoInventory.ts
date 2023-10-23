@@ -1,12 +1,4 @@
-import {
-  PRIVATE_INVENTORY_ERROR,
-  PROFILE_NOT_FOUND,
-  INVENTORY_ERRORS,
-  INVENTORY_TABLE,
-  PRICES_API_URL,
-  AWS_REGION,
-  ONE_DAY
-} from '@/api/constants';
+import {INVENTORY_ERRORS, INVENTORY_TABLE, PRICES_API_URL, AWS_REGION, ONE_DAY} from '@/api/constants';
 import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers';
 import {GetCommand, DynamoDBDocumentClient, UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {InventoryGlobalType, PriceType, SteamIDType} from '@/api/types';
@@ -102,11 +94,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(`${INVENTORY_ERRORS.STEAM_INVENTORY_FETCH_ERROR}: ${e}`);
 
     if (e?.response.status === 404) {
-      return res.status(404).json({statusCode: 404, inventory: '[]', error: PROFILE_NOT_FOUND});
+      return res.status(404).json({statusCode: 404, inventory: '[]'});
     }
 
     if (e?.response.status === 403) {
-      return res.status(403).json({statusCode: 403, inventory: '[]', error: PRIVATE_INVENTORY_ERROR});
+      return res.status(403).json({statusCode: 403, inventory: '[]'});
     }
 
     try {
