@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
+import classNames from 'classnames';
 
 import styles from './search-inventory.module.scss';
-import classNames from 'classnames';
 
 type Props = {
   id: string;
@@ -11,6 +11,7 @@ type Props = {
 };
 
 export const SearchInventory: FC<Props> = ({id, disabled, onSearch, onIdChange}) => {
+  const isDisabled = disabled || id?.length === 0;
   return (
     <section className={styles.searchBlock}>
       <form autoComplete="on">
@@ -27,8 +28,8 @@ export const SearchInventory: FC<Props> = ({id, disabled, onSearch, onIdChange})
       </form>
 
       <button
-        className={classNames(styles.searchBtn, {[styles.searchBtnDisabled]: disabled})}
-        disabled={disabled}
+        className={classNames(styles.searchBtn, {[styles.searchBtnDisabled]: isDisabled})}
+        disabled={isDisabled}
         onClick={onSearch}
       >
         SEARCH BY SteamID

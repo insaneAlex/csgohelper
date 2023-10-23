@@ -1,11 +1,12 @@
+import {INVENTORY_ERRORS, INVENTORY_TABLE, AWS_REGION, ONE_DAY, STEAM_FETCH_ERRORS} from '@/api/constants';
 import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers';
-import {GetCommand, DynamoDBDocumentClient, UpdateCommand} from '@aws-sdk/lib-dynamodb';
-import {INVENTORY_ERRORS, INVENTORY_TABLE, AWS_REGION, ONE_DAY} from '@/api/constants';
 import {PriceCacheType, fetchPrices} from '@/api/fetch-prices';
-import {InventoryGlobalType, SteamIDType} from '@/api/types';
+import {fetchFromDynamoDB} from '@/api/fetch-from-dynamo-db';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {NextApiRequest, NextApiResponse} from 'next';
+import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {InventoryApi} from '@/api/inventory-api';
+import {InventoryGlobalType} from '@/api/types';
 import {InventoryItemType} from '@/types';
 
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
@@ -13,8 +14,6 @@ const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
 
 const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
-const docClient = DynamoDBDocumentClient.from(client);
-const createCommand = ({steamid}: SteamIDType) => new GetCommand({TableName: INVENTORY_TABLE, Key: {steamid}});
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {steamid, storedSteamid} = req.query;
@@ -31,21 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (storedSteamid || !isNumeric(steamid as string)) {
-    const command = createCommand({steamid: storedSteamid as string});
-
-    try {
-      const {Item} = await docClient.send(command);
-      const {update_time, inventory} = Item as {update_time: string; inventory: string};
-      const withPrices = prices
-        ? JSON.stringify(calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices}))
-        : inventory;
-
-      return res.json({statusCode: 201, inventory: withPrices, update_time});
-    } catch (e) {
-      console.log(`${INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR}: ${e}`);
-
-      return res.json({statusCode: 204, inventory: '[]', error: INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR});
-    }
+    return await fetchFromDynamoDB({priceCache: cache, res, steamid: storedSteamid as string});
   }
 
   try {
@@ -73,8 +58,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await client.send(command);
     return res.json({statusCode: 200, inventory: JSON.stringify(withPrices)});
   } catch (e: any) {
-    const error: any = {steamAccountFetchError: e};
+    const error: any = {};
     console.log(`${INVENTORY_ERRORS.STEAM_INVENTORY_FETCH_ERROR}: ${e}`);
+
+    if (e?.response.status === 429) {
+      error.steamAccountFetchError = STEAM_FETCH_ERRORS.TOO_MANY_REQUESTS;
+    }
 
     if (e?.response.status === 404) {
       return res.status(404).json({statusCode: 404, inventory: '[]'});
@@ -84,30 +73,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(403).json({statusCode: 403, inventory: '[]'});
     }
 
-    try {
-      const command = createCommand({steamid} as SteamIDType);
-      const {Item} = await docClient.send(command);
-      const {inventory, update_time} = Item as {update_time: string; inventory: string};
-
-      if (inventory) {
-        return res.json({
-          statusCode: 201,
-          update_time,
-          inventory: prices
-            ? JSON.stringify(calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices}))
-            : inventory
-        });
-      }
-      return res.json({
-        statusCode: 205,
-        inventory: '[]',
-        error: {...error, dynamoDBAccountFetchError: INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR}
-      });
-    } catch (e) {
-      error.dynamoDBAccountFetchError = e;
-      console.log(`${INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR}: ${e}`);
-      return res.json({statusCode: 205, inventory: '[]', error});
-    }
+    return await fetchFromDynamoDB({
+      priceCache: cache,
+      res,
+      error: {...error, dynamoDBAccountFetchError: INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR},
+      steamid: steamid as string
+    });
   }
 };
 

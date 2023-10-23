@@ -1,5 +1,5 @@
-import {PRIVATE_INVENTORY_ERROR, PROFILE_NOT_FOUND, STEAMID_PARAM} from '@/api/constants';
 import {InitialInvResType, InventoryResType} from '@/api/get-steam-inventory';
+import {STEAMID_PARAM, STEAM_FETCH_ERRORS} from '@/api/constants';
 import {fetchInitialInventory, fetchInventory} from '@/api';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
@@ -31,14 +31,16 @@ function* getInventoryTask({payload}: PayloadAction<SteamIDType>): Generator<unk
   const {steamid} = payload;
 
   try {
-    const {inventory: inventoryJson, statusCode, update_time} = yield call(fetchInventory, {steamid, signal});
+    const {inventory: inventoryJson, statusCode, error, update_time} = yield call(fetchInventory, {steamid, signal});
     const inventory = JSON.parse(inventoryJson);
     inventory?.length > 0 && storage.localStorage.set(STEAMID_PARAM, steamid);
 
     if (statusCode === 403) {
-      yield put(getItemsError(PRIVATE_INVENTORY_ERROR));
+      yield put(getItemsError(STEAM_FETCH_ERRORS.PRIVATE_INVENTORY_ERROR));
     } else if (statusCode === 404) {
-      yield put(getItemsError(PROFILE_NOT_FOUND));
+      yield put(getItemsError(STEAM_FETCH_ERRORS.PROFILE_NOT_FOUND));
+    } else if (error?.steamAccountFetchError === STEAM_FETCH_ERRORS.TOO_MANY_REQUESTS) {
+      yield put(getItemsError(STEAM_FETCH_ERRORS.TOO_MANY_REQUESTS));
     } else {
       yield put(getItemsSuccess({inventory, update_time}));
     }

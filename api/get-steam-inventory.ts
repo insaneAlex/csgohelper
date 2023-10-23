@@ -2,7 +2,12 @@ import {storage} from '@/src/services';
 import {STEAMID_PARAM, fetchInventoryUrl} from './constants';
 
 export type InitialInvResType = {inventory: string; update_time: string};
-export type InventoryResType = {inventory: string; statusCode: number; update_time?: string};
+export type InventoryResType = {
+  error?: {steamAccountFetchError?: string; dynamoDBAccountFetchError?: string};
+  update_time?: string;
+  statusCode: number;
+  inventory: string;
+};
 
 type InitialInvReqType = {signal: AbortSignal};
 type InvReqType = {steamid?: string; signal: AbortSignal};

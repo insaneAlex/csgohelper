@@ -15,7 +15,10 @@ export const INVENTORY_ERRORS = {
   NO_STEAMID_PROVIDED: 'NO_STEAMID_PROVIDED'
 };
 
-export const PRIVATE_INVENTORY_ERROR = 'PRIVATE_INVENTORY_ERROR';
-export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
+export const STEAM_FETCH_ERRORS = {
+  PRIVATE_INVENTORY_ERROR: 'PRIVATE_INVENTORY_ERROR',
+  TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS',
+  PROFILE_NOT_FOUND: 'PROFILE_NOT_FOUND'
+};
 
 export const fetchInventoryUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/csgoInventory` : '';

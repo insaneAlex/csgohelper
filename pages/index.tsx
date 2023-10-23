@@ -1,10 +1,10 @@
-import {FILTERS_PARAM, PRIVATE_INVENTORY_ERROR, PROFILE_NOT_FOUND, STEAMID_PARAM} from '@/api/constants';
 import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/steam/helpers';
+import {STEAM_FETCH_ERRORS, FILTERS_PARAM, STEAMID_PARAM} from '@/api/constants';
 import {Inventory, InventoryFilters, SearchInventory} from '@/src/steam';
 import {ChangeEvent, FC, useEffect, useState} from 'react';
+import {Loader, Checkbox, ErrorAlert} from '@/src/ui';
 import {useSearchParams} from 'next/navigation';
 import {InventoryItemType} from '@/types';
-import {Loader, Checkbox, ErrorAlert} from '@/src/ui';
 import {SteamIDType} from '@/api/types';
 import {storage} from '@/src/services';
 import {connect} from 'react-redux';
@@ -48,11 +48,13 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
   }
 
   const renderError = () => {
-    if (error === PRIVATE_INVENTORY_ERROR) {
-      return <ErrorAlert>Inventory is private, change your privacy settings or try another account</ErrorAlert>;
-    }
-    if (error === PROFILE_NOT_FOUND) {
-      return <ErrorAlert>There is not such profile, try another SteamID</ErrorAlert>;
+    switch (error) {
+      case STEAM_FETCH_ERRORS.PRIVATE_INVENTORY_ERROR:
+        return <ErrorAlert>Inventory is private, change your privacy settings or try another account</ErrorAlert>;
+      case STEAM_FETCH_ERRORS.PROFILE_NOT_FOUND:
+        return <ErrorAlert>There is not such profile, try another SteamID</ErrorAlert>;
+      case STEAM_FETCH_ERRORS.TOO_MANY_REQUESTS:
+        return <ErrorAlert>Too many requests last time, try later or try to fetch another account</ErrorAlert>;
     }
   };
 
