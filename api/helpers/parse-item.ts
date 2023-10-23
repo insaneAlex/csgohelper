@@ -1,6 +1,6 @@
 import {InventoryGlobalType} from '../types';
 
-type Props = (arg: {contextID: string; item: InventoryGlobalType; descriptions: any[]}) => any;
+type Props = (arg: {contextID: number; item: InventoryGlobalType; descriptions: any[]}) => any;
 
 export const parseItem: Props = ({item, descriptions, contextID}) => {
   const parsed = {
@@ -23,9 +23,8 @@ export const parseItem: Props = ({item, descriptions, contextID}) => {
     const description = descriptions.find(
       (desc) => desc.classid === parsed.classid && desc.instanceid === parsed.instanceid
     );
-    if (description) {
-      Object.assign(parsed, description);
-    }
+
+    description && Object.assign(parsed, description);
   }
 
   if (parsed.owner && JSON.stringify(parsed.owner) === '{}') {

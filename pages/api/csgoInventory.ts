@@ -44,8 +44,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const command = createCommand({steamid: storedSteamid as string});
 
     try {
-      const {Item} = (await docClient.send(command)) as unknown as {Item: {update_time: string; inventory: string}};
-      const {update_time, inventory} = Item;
+      const {Item} = await docClient.send(command);
+      const {update_time, inventory} = Item as {update_time: string; inventory: string};
       const withPrices = prices
         ? JSON.stringify(
             JSON.parse(inventory).map((item: any) => ({...item, prices: prices[item.market_hash_name]?.price}))
@@ -61,12 +61,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const {items}: {items: InventoryGlobalType[]} = await Object.create(InventoryApi).get({
-      appid: 730,
-      contextid: 2,
-      steamid,
-      tradable: false
-    });
+    const {items}: {items: InventoryGlobalType[]} = await Object.create(InventoryApi).get({steamid});
 
     const minimizedInventory = items.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
       const exterior = getByTagName({tags, tagName: 'Exterior'}).localized_tag_name;

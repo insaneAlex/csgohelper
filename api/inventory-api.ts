@@ -8,14 +8,14 @@ type InventoryResult = {
 };
 
 type GetInventoryParams = {
-  appid: string;
-  contextid: string;
   steamid: string;
+  appid?: number;
+  contextid?: number;
   start: string;
   result: InventoryResult;
   count?: number;
-  retries?: number;
-  retryDelay?: number;
+  retries: number;
+  retryDelay: number;
   language?: string;
   tradable?: boolean;
   retryFn?: (result: InventoryResult) => boolean;
@@ -27,16 +27,16 @@ export const InventoryApi = {
   recentRequests: 0,
 
   get({
-    appid,
-    contextid,
     steamid,
     start,
     result,
+    appid = 730,
+    contextid = 2,
     count = 1000,
     retries = 1,
     retryDelay = 100,
     language = 'english',
-    tradable = true,
+    tradable = false,
     retryFn = () => true
   }: GetInventoryParams): Promise<InventoryResult> {
     if (this.recentRotations >= this.maxUse) {
@@ -84,7 +84,7 @@ export const InventoryApi = {
         throw err;
       });
   },
-  parse(res: any, progress: InventoryResult, contextid: string, tradable: boolean) {
+  parse(res: any, progress: InventoryResult, contextid: number, tradable: boolean) {
     const parsed = progress || {
       items: [],
       total: 0
