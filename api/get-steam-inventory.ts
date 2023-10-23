@@ -8,8 +8,8 @@ type InitialInvReqType = {signal: AbortSignal};
 type InvReqType = {steamid?: string; signal: AbortSignal};
 
 export const fetchInitialInventory = async ({signal}: InitialInvReqType): Promise<InitialInvResType> => {
-  const steamId = storage.localStorage.get(STEAMID_PARAM);
-  const url = steamId ? `${getInventoryEndpoint}?steamId=${steamId}` : (getInventoryEndpoint as string);
+  const storedSteamid = storage.localStorage.get(STEAMID_PARAM);
+  const url = storedSteamid && `${getInventoryEndpoint}?storedSteamid=${storedSteamid}`;
 
   const response = await fetch(url, {signal});
   return response.json();

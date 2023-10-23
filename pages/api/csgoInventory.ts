@@ -26,7 +26,7 @@ const getCSGOInventory = async ({steamid}: SteamIDType) => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const {steamid, steamId} = req.query;
+  const {steamid, storedSteamid} = req.query;
 
   const now = new Date();
 
@@ -42,12 +42,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const {prices} = cache;
 
-  if (!steamid && !steamId) {
+  if (!steamid && !storedSteamid) {
     return res.json({statusCode: 204, inventory: [], description: INVENTORY_ERRORS.NO_STEAMID_PROVIDED});
   }
 
-  if (steamId || !isNumeric(steamid as string)) {
-    const command = createCommand({steamid: steamId as string});
+  if (storedSteamid || !isNumeric(steamid as string)) {
+    const command = createCommand({steamid: storedSteamid as string});
 
     try {
       const {Item} = (await docClient.send(command)) as unknown as {Item: {update_time: string; inventory: string}};
