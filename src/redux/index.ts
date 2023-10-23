@@ -6,7 +6,8 @@ export {
   itemsSelector,
   getInitialItemsStart,
   itemsLoadingSelector,
-  itemsUpdateTimeSelector
+  itemsUpdateTimeSelector,
+  itemsErrorSelector
 } from './features';
 
 export type {RootState, AppDispath} from './store';

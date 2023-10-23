@@ -1,8 +1,8 @@
+import {PRIVATE_INVENTORY_ERROR, PROFILE_NOT_FOUND, STEAMID_PARAM} from '@/api/constants';
 import {InitialInvResType, InventoryResType} from '@/api/get-steam-inventory';
 import {fetchInitialInventory, fetchInventory} from '@/api';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
-import {STEAMID_PARAM} from '@/api/constants';
 import {SteamIDType} from '@/api/types';
 import {storage} from '@/src/services';
 import {
@@ -31,10 +31,17 @@ function* getInventoryTask({payload}: PayloadAction<SteamIDType>): Generator<unk
   const {steamid} = payload;
 
   try {
-    const {inventory, statusCode, update_time} = yield call(fetchInventory, {steamid, signal});
-    statusCode === 200 && steamid && storage.localStorage.set(STEAMID_PARAM, steamid);
+    const {inventory: inventoryJson, statusCode, update_time} = yield call(fetchInventory, {steamid, signal});
+    const inventory = JSON.parse(inventoryJson);
+    inventory?.length > 0 && storage.localStorage.set(STEAMID_PARAM, steamid);
 
-    yield put(getItemsSuccess({inventory: JSON.parse(inventory), update_time}));
+    if (statusCode === 403) {
+      yield put(getItemsError(PRIVATE_INVENTORY_ERROR));
+    } else if (statusCode === 404) {
+      yield put(getItemsError(PROFILE_NOT_FOUND));
+    } else {
+      yield put(getItemsSuccess({inventory, update_time}));
+    }
   } catch (e) {
     yield put(getItemsError(e));
   }

@@ -17,6 +17,7 @@ const inventory = createSlice({
   reducers: {
     getItemsStart: (state: InventoryState, _action) => {
       state.isLoading = true;
+      state.error = null;
     },
     getItemsSuccess: (
       state: InventoryState,
@@ -32,6 +33,7 @@ const inventory = createSlice({
     },
     getInitialItemsStart: (state: InventoryState) => {
       state.isLoading = true;
+      state.error = null;
     },
     getInitialItemsSuccess: (
       state: InventoryState,

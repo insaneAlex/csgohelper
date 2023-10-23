@@ -9,33 +9,35 @@ export enum TagsType {
 }
 
 export type ItemType = Readonly<
-  | 'Pistol'
-  | 'Container'
   | 'Sniper Rifle'
-  | 'Shotgun'
-  | 'Rifle'
-  | 'SMG'
-  | 'Machinegun'
-  | 'Graffiti'
-  | 'Pass'
   | 'Collectible'
+  | 'Machinegun'
   | 'Music Kit'
+  | 'Container'
+  | 'Graffiti'
+  | 'Shotgun'
+  | 'Pistol'
+  | 'Knife'
+  | 'Rifle'
   | 'Tool'
+  | 'Pass'
+  | 'SMG'
 >;
 
 export const ItemTypes: ItemType[] = [
-  'Pistol',
-  'Container',
   'Sniper Rifle',
-  'Shotgun',
-  'Rifle',
-  'SMG',
-  'Machinegun',
-  'Graffiti',
-  'Pass',
   'Collectible',
+  'Machinegun',
   'Music Kit',
-  'Tool'
+  'Container',
+  'Graffiti',
+  'Shotgun',
+  'Pistol',
+  'Knife',
+  'Rifle',
+  'Tool',
+  'Pass',
+  'SMG'
 ];
 
 export type TagsTypeIndex = {

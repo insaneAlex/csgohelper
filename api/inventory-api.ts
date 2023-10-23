@@ -53,33 +53,36 @@ export const InventoryApi = {
         const {data} = res;
         result = this.parse(data, result, contextid, tradable);
       } catch (err) {
-        console.log('Retry error', err);
         if (retries > 1) {
           await new Promise((resolve) => setTimeout(resolve, retryDelay));
           return makeRequest();
         }
-        throw new Error();
+        throw err;
       }
     };
 
-    return makeRequest().then(() => {
-      if (result.items.length < result.total && retryFn(result)) {
-        start = result.items[result.items.length - 1].assetid;
-        return this.get({
-          appid,
-          contextid,
-          steamid,
-          start,
-          result,
-          retries,
-          retryDelay,
-          language,
-          tradable
-        });
-      }
+    return makeRequest()
+      .then(() => {
+        if (result.items.length < result.total && retryFn(result)) {
+          start = result.items[result.items.length - 1].assetid;
+          return this.get({
+            appid,
+            contextid,
+            steamid,
+            start,
+            result,
+            retries,
+            retryDelay,
+            language,
+            tradable
+          });
+        }
 
-      return result;
-    });
+        return result;
+      })
+      .catch((err) => {
+        throw err;
+      });
   },
   parse(res: any, progress: InventoryResult, contextid: string, tradable: boolean) {
     const parsed = progress || {
