@@ -1,4 +1,4 @@
-import {InventoryGlobalType} from '../types';
+import {InventoryGlobalType} from './types';
 
 type Props = (arg: {contextID: number; item: InventoryGlobalType; descriptions: any[]}) => any;
 

@@ -2,11 +2,11 @@ import {INVENTORY_ERRORS, INVENTORY_TABLE, AWS_REGION, ONE_DAY, STEAM_FETCH_ERRO
 import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers';
 import {PriceCacheType, fetchPrices} from '@/api/fetch-prices';
 import {fetchFromDynamoDB} from '@/api/fetch-from-dynamo-db';
+import {InventoryGlobalType} from '@/src/services/types';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
+import {InventoryApi} from '@/src/services/inventory';
 import {NextApiRequest, NextApiResponse} from 'next';
 import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
-import {InventoryApi} from '@/api/inventory-api';
-import {InventoryGlobalType} from '@/api/types';
 import {InventoryItemType} from '@/types';
 
 const cache: PriceCacheType = {prices: null, lastUpdated: null};

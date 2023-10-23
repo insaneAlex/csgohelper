@@ -1,6 +1,6 @@
+import {parseItem} from './parse';
 import {InventoryGlobalType} from './types';
 import axios, {AxiosResponse} from 'axios';
-import {parseItem} from './helpers';
 
 type InventoryResult = {items: InventoryGlobalType[]; total: number};
 
