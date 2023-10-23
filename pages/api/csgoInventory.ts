@@ -1,40 +1,30 @@
-import {INVENTORY_ERRORS, INVENTORY_TABLE, PRICES_API_URL, AWS_REGION, ONE_DAY} from '@/api/constants';
 import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers';
 import {GetCommand, DynamoDBDocumentClient, UpdateCommand} from '@aws-sdk/lib-dynamodb';
-import {InventoryGlobalType, PriceType, SteamIDType} from '@/api/types';
+import {INVENTORY_ERRORS, INVENTORY_TABLE, AWS_REGION, ONE_DAY} from '@/api/constants';
+import {PriceCacheType, fetchPrices} from '@/api/fetch-prices';
+import {InventoryGlobalType, SteamIDType} from '@/api/types';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {NextApiRequest, NextApiResponse} from 'next';
 import {InventoryApi} from '@/api/inventory-api';
 import {InventoryItemType} from '@/types';
-import axios from 'axios';
 
-type CacheType = {prices: {[key: string]: {price: PriceType}} | null; lastUpdated: Date | null};
-
-const cache: CacheType = {prices: null, lastUpdated: null};
+const cache: PriceCacheType = {prices: null, lastUpdated: null};
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
 
 const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
 const docClient = DynamoDBDocumentClient.from(client);
-
 const createCommand = ({steamid}: SteamIDType) => new GetCommand({TableName: INVENTORY_TABLE, Key: {steamid}});
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {steamid, storedSteamid} = req.query;
 
   const now = new Date();
+  const {prices, lastUpdated} = cache;
 
-  if (!cache.prices || !cache.lastUpdated || now.getTime() - cache.lastUpdated.getTime() > ONE_DAY) {
-    try {
-      const pricesResp = await axios.get(PRICES_API_URL);
-      cache.prices = pricesResp?.data?.items_list;
-      cache.lastUpdated = new Date();
-    } catch (e) {
-      console.log(`${INVENTORY_ERRORS.PRICES_API_FETCH_ERROR} : ${e}`);
-    }
+  if (!prices || !lastUpdated || now.getTime() - lastUpdated.getTime() > ONE_DAY) {
+    await fetchPrices({cache});
   }
-
-  const {prices} = cache;
 
   if (!steamid && !storedSteamid) {
     return res.json({statusCode: 204, inventory: '[]', error: INVENTORY_ERRORS.NO_STEAMID_PROVIDED});
@@ -47,9 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const {Item} = await docClient.send(command);
       const {update_time, inventory} = Item as {update_time: string; inventory: string};
       const withPrices = prices
-        ? JSON.stringify(
-            JSON.parse(inventory).map((item: any) => ({...item, prices: prices[item.market_hash_name]?.price}))
-          )
+        ? JSON.stringify(calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices}))
         : inventory;
 
       return res.json({statusCode: 201, inventory: withPrices, update_time});
