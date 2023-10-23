@@ -6,6 +6,7 @@ export {
   itemsSelector,
   itemsLoadingSelector,
   itemsUpdateTimeSelector,
+  itemsErrorSelector,
   getInitialItemsError,
   getInitialItemsStart,
   getInitialItemsSuccess

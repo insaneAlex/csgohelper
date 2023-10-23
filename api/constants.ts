@@ -1,5 +1,5 @@
 export const inventoryImageBaseUrl = 'https://steamcommunity-a.akamaihd.net/economy/image/';
-export const PRICES_API_URL = 'http://csgobackpack.net/api/GetItemsList/v2/';
+export const PRICES_API_URL = 'http://csgobackpack.net/api/GetItemsList/v2/?no_details=true';
 
 export const STEAMID_PARAM = 'steamid';
 export const FILTERS_PARAM = 'filters';
@@ -14,5 +14,9 @@ export const INVENTORY_ERRORS = {
   PRICES_API_FETCH_ERROR: 'PRICES_API_FETCH_ERROR',
   NO_STEAMID_PROVIDED: 'NO_STEAMID_PROVIDED'
 };
+
+export const PRIVATE_INVENTORY_ERROR = 'PRIVATE_INVENTORY_ERROR';
+export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
+export const TOO_MANY_REQUESTS = 'TOO_MANY_REQUESTS';
 
 export const getInventoryEndpoint = typeof window !== 'undefined' ? `${window.location.origin}/api/csgoInventory` : '';

@@ -7,3 +7,4 @@ const inventorySelector = (state: RootState) => state[INVENTORY_KEY];
 export const itemsSelector = createSelector(inventorySelector, ({items}) => items);
 export const itemsLoadingSelector = createSelector(inventorySelector, ({isLoading}) => isLoading);
 export const itemsUpdateTimeSelector = createSelector(inventorySelector, ({update_time}) => update_time);
+export const itemsErrorSelector = createSelector(inventorySelector, ({error}) => error);

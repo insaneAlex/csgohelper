@@ -1,6 +1,4 @@
-import {FC, ReactNode} from "react";
-import classes from "./error-alert.module.css";
+import {FC, ReactNode} from 'react';
+import styles from './error-alert.module.scss';
 
-export const ErrorAlert: FC<{children: ReactNode}> = ({children}) => (
-  <div className={classes.alert}>{children}</div>
-);
+export const ErrorAlert: FC<{children: ReactNode}> = ({children}) => <div className={styles.alert}>{children}</div>;
