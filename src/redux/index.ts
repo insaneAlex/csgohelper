@@ -10,5 +10,7 @@ export {
   itemsErrorSelector
 } from './features';
 
+export {SteamFetchErrors} from './sagas';
+
 export type {RootState, AppDispath} from './store';
-export type {InventoryState} from './types';
+export type {InventoryState, SteamIDType} from './types';

@@ -1,4 +1,5 @@
 import {TagsTypeIndex} from '@/types';
+import {PriceOptions} from '../components/steam';
 
 export type InventoryGlobalType = {
   id: string;
@@ -31,4 +32,20 @@ export type InventoryGlobalType = {
   market_buy_country_restriction?: string;
   actions?: {link: string; name: string}[];
   market_actions?: {link: string; name: string}[];
+};
+
+type PriceOptionType = {
+  sold: string;
+  median: number;
+  average: number;
+  lowest_price: number;
+  highest_price: number;
+  standard_deviation: string;
+};
+
+export type PriceType = {
+  [PriceOptions.DAY]: PriceOptionType;
+  [PriceOptions.WEEK]: PriceOptionType;
+  [PriceOptions.MONTH]: PriceOptionType;
+  [PriceOptions.ALL]: PriceOptionType;
 };

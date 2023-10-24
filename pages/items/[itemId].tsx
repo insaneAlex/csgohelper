@@ -1,8 +1,8 @@
 import {FC} from 'react';
-import {BackIcon, Loader} from '@/src/ui';
+import {BackIcon, Loader} from '@/src/components/ui';
 import {InventoryItemType} from '@/types';
 import Link from 'next/link';
-import {ItemDetails} from '@/src/steam';
+import {ItemDetails} from '@/src/components/steam';
 import {useRouter} from 'next/router';
 import {useSelector} from 'react-redux';
 import {InventoryState} from '@/src/redux';

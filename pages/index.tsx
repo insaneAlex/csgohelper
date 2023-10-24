@@ -1,19 +1,20 @@
-import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/steam/helpers';
-import {STEAM_FETCH_ERRORS, FILTERS_PARAM, STEAMID_PARAM} from '@/api/constants';
-import {Inventory, InventoryFilters, SearchInventory} from '@/src/steam';
+import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/components/steam/helpers';
+import {FILTERS_PARAM, Inventory, InventoryFilters, SearchInventory} from '@/src/components/steam';
 import {ChangeEvent, FC, useEffect, useState} from 'react';
-import {Loader, Checkbox, ErrorAlert} from '@/src/ui';
+import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
 import {useSearchParams} from 'next/navigation';
 import {InventoryItemType} from '@/types';
-import {SteamIDType} from '@/api/types';
 import {storage} from '@/src/services';
+import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {
   itemsLoadingSelector,
   getInitialItemsStart,
   itemsErrorSelector,
+  SteamFetchErrors,
   itemsSelector,
   getItemsStart,
+  SteamIDType,
   RootState
 } from '@/src/redux';
 
@@ -49,11 +50,11 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
 
   const renderError = () => {
     switch (error) {
-      case STEAM_FETCH_ERRORS.PRIVATE_INVENTORY_ERROR:
+      case SteamFetchErrors.PRIVATE_INVENTORY_ERROR:
         return <ErrorAlert>Inventory is private, change your privacy settings or try another account</ErrorAlert>;
-      case STEAM_FETCH_ERRORS.PROFILE_NOT_FOUND:
+      case SteamFetchErrors.PROFILE_NOT_FOUND:
         return <ErrorAlert>There is not such profile, try another SteamID</ErrorAlert>;
-      case STEAM_FETCH_ERRORS.TOO_MANY_REQUESTS:
+      case SteamFetchErrors.TOO_MANY_REQUESTS:
         return <ErrorAlert>Too many requests last time, try later or try to fetch another account</ErrorAlert>;
     }
   };

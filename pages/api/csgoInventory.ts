@@ -1,13 +1,16 @@
-import {INVENTORY_ERRORS, INVENTORY_TABLE, AWS_REGION, ONE_DAY, STEAM_FETCH_ERRORS} from '@/api/constants';
-import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/api/helpers';
-import {PriceCacheType, fetchPrices} from '@/api/fetch-prices';
-import {fetchFromDynamoDB} from '@/api/fetch-from-dynamo-db';
+import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/server-helpers';
+import {PriceCacheType, fetchPrices} from '@/src/services/fetch-prices';
+import {fetchFromDynamoDB} from '@/src/services/fetch-from-dynamo-db';
+import {AWS_REGION, INVENTORY_TABLE} from '@/src/services';
 import {InventoryGlobalType} from '@/src/services/types';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {InventoryApi} from '@/src/services/inventory';
 import {NextApiRequest, NextApiResponse} from 'next';
 import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
+import {SteamFetchErrors} from '@/src/redux';
 import {InventoryItemType} from '@/types';
+
+const ONE_DAY = 24 * 60 * 60 * 1000;
 
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
@@ -26,7 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (!steamid && !storedSteamid) {
-    return res.json({statusCode: 204, inventory: '[]', error: INVENTORY_ERRORS.NO_STEAMID_PROVIDED});
+    return res.json({statusCode: 404, inventory: '[]', error: 'NO_STEAMID_PROVIDED'});
   }
 
   if (storedSteamid || !isNumeric(steamid as string)) {
@@ -59,10 +62,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json({statusCode: 200, inventory: JSON.stringify(withPrices)});
   } catch (e: any) {
     const error: any = {};
-    console.log(`${INVENTORY_ERRORS.STEAM_INVENTORY_FETCH_ERROR}: ${e}`);
+    console.log(`STEAM_INVENTORY_FETCH_ERROR`);
 
     if (e?.response.status === 429) {
-      error.steamAccountFetchError = STEAM_FETCH_ERRORS.TOO_MANY_REQUESTS;
+      error.steamAccountFetchError = SteamFetchErrors.TOO_MANY_REQUESTS;
     }
 
     if (e?.response.status === 404) {
@@ -76,7 +79,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return await fetchFromDynamoDB({
       priceCache: cache,
       res,
-      error: {...error, dynamoDBAccountFetchError: INVENTORY_ERRORS.DYNAMO_DB_INVENTORY_FETCH_ERROR},
+      error: {...error, dynamoDBAccountFetchError: 'DYNAMO_DB_INVENTORY_FETCH_ERROR'},
       steamid: steamid as string
     });
   }
