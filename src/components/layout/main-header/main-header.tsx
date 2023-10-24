@@ -9,7 +9,7 @@ type Props = {setIsVisible: (arg: boolean) => void; navLinks: NavLinksType};
 
 export const MainHeader: FC<Props> = ({setIsVisible, navLinks}) => {
   const width = useWindowWidth();
-  const hideHamburger = width >= 768;
+  const hideHamburger = width > 768;
 
   if (hideHamburger) {
     setIsVisible(false);
