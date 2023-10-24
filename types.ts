@@ -1,4 +1,4 @@
-import {PriceType} from './api/types';
+import {PriceType} from './src/services';
 
 export enum TagsType {
   CATEGORY = 'category',
@@ -15,6 +15,7 @@ export type ItemType = Readonly<
   | 'Music Kit'
   | 'Container'
   | 'Graffiti'
+  | 'Sticker'
   | 'Shotgun'
   | 'Pistol'
   | 'Knife'
@@ -31,6 +32,7 @@ export const ItemTypes: ItemType[] = [
   'Music Kit',
   'Container',
   'Graffiti',
+  'Sticker',
   'Shotgun',
   'Pistol',
   'Knife',
