@@ -2,6 +2,7 @@ import {inventoryImageBaseUrl} from '../../constants';
 import {InventoryItemType} from '@/types';
 import Image from 'next/image';
 import {FC} from 'react';
+import {Separator} from '@/src/components/ui';
 
 import styles from './item-details.module.scss';
 
@@ -13,6 +14,7 @@ export const ItemDetails: FC<{item: InventoryItemType}> = ({item}) => {
       <h1>{name}</h1>
       {exterior && <h2 className={styles.exterior}>{`(${exterior})`}</h2>}
       <Image src={inventoryImageBaseUrl + icon_url} alt={name} unoptimized width={256} priority height={198} />
+      <Separator />
     </section>
   );
 };

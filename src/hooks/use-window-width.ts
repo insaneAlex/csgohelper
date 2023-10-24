@@ -11,6 +11,6 @@ export const useWindowWidth = () => {
   return useSyncExternalStore(
     subscribe,
     () => window.innerWidth,
-    () => 0
+    () => 1000
   );
 };
