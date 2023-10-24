@@ -17,6 +17,7 @@ import {
   SteamIDType,
   RootState
 } from '@/src/redux';
+import Head from 'next/head';
 
 type Props = {
   onGetInventory: (arg: SteamIDType) => void;
@@ -28,7 +29,7 @@ type Props = {
 
 const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, error, loading}) => {
   const steamId = storage.localStorage.get(STEAMID_PARAM);
-  const [steamid, setSteamid] = useState(steamId);
+  const [steamid, setSteamid] = useState(steamId || 76561198080636799);
   const [stack, setStack] = useState(false);
 
   useEffect(() => {
@@ -77,6 +78,11 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
 
   return (
     <>
+      <Head>
+        <title>CS2.Helper - Home</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="google-adsense-account" content="ca-pub-7972775133662836" />;
+      </Head>
       <SearchInventory id={steamid} disabled={loading} onSearch={handleSearch} onIdChange={handleIdChange} />
       {renderError()}
       <InventoryFilters />
