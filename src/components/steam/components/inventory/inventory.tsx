@@ -12,18 +12,26 @@ import styles from './inventory.module.scss';
 export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const updateTime = useSelector(itemsUpdateTimeSelector);
-  const itemsLength = items.length;
+  const itemsAmount = items.length;
+  const MAX_ITEMS = 40;
 
   const gridConfig = {
-    col: {lg: 16, md: 12, sm: 20, xs: 20, xxs: 16},
-    width: {lg: 2, md: 2, sm: 4, xs: 4, xxs: 4},
-    height: {lg: 1.5, md: 1.5, sm: 1.5, xs: 1, xxs: 1}
+    col: {lg: 16, md: 12, sm: 20, xs: 12, xxs: 6},
+    width: {lg: 2, md: 2, sm: 4, xs: 3, xxs: 3},
+    height: {lg: 1.5, md: 1.5, sm: 1.5, xs: 1.5, xxs: 2}
   };
 
   const screenSize = getScreenSize({width: useWindowWidth()});
-  const pageSize = (gridConfig.col[screenSize] / gridConfig.width[screenSize]) * 5;
-  const pagesCount = Math.ceil(itemsLength / pageSize);
-  const emptyTiles = pagesCount * pageSize - itemsLength;
+
+  const width = gridConfig.width[screenSize];
+  const cols = gridConfig.col[screenSize];
+
+  const itemsPerRow = cols / width;
+  const rowsConfig = {[screenSize]: Math.floor(MAX_ITEMS / itemsPerRow)};
+
+  const pageSize = itemsPerRow * rowsConfig[screenSize];
+  const pagesCount = Math.ceil(itemsAmount / pageSize);
+  const emptyTiles = pagesCount * pageSize - itemsAmount;
   const totalPrice = calculateInventoryPrice({items});
 
   if (currentPage > pagesCount) {
@@ -43,7 +51,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   return (
     <>
       <section className={styles.gridHeader}>
-        <h2 className={styles.title}>{`Items:${itemsLength}`}</h2>
+        <h2 className={styles.title}>{`Items:${itemsAmount}`}</h2>
         {totalPrice && <span>{` | value: ${totalPrice}$`}</span>}
       </section>
 
