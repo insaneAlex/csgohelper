@@ -1,43 +1,37 @@
-import {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import Link from 'next/link';
-import classNames from 'classnames';
-import {AccountIcon, FeedbackIcon, StonksIcon} from '../../ui';
-
+import {HamburgerButton} from './components';
+import {useWindowWidth} from '@/src/hooks';
 import styles from './main-header.module.scss';
 
-export const MainHeader: FC = () => {
+export type NavLinksType = {name: string; href: string; renderIcon: () => ReactNode}[];
+type Props = {setIsVisible: (arg: boolean) => void; navLinks: NavLinksType};
+
+export const MainHeader: FC<Props> = ({setIsVisible, navLinks}) => {
+  const width = useWindowWidth();
+  const hideHamburger = width >= 768;
+
+  if (hideHamburger) {
+    setIsVisible(false);
+  }
+
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
-        <section className={classNames(styles.navbarContainer, styles.container)}>
-          <input type="checkbox" name="hamburger" />
-          <div className={styles.hamburgerLines}>
-            <span className={classNames(styles.line, styles.line1)}></span>
-            <span className={classNames(styles.line, styles.line2)}></span>
-            <span className={classNames(styles.line, styles.line3)}></span>
-          </div>
-
-          <ul className={styles.items}>
-            <li className={styles.item}>
-              <Link href="/stonks">
-                <StonksIcon />
-                <span className={styles.iconText}>Stonks</span>
-              </Link>
-            </li>
-            <li className={styles.item}>
-              <Link href="/feedback">
-                <FeedbackIcon />
-                <span className={styles.iconText}>Feedback</span>
-              </Link>
-            </li>
-
-            <li className={styles.item}>
-              <Link href="/login">
-                <AccountIcon />
-                <span className={styles.iconText}>Login</span>
-              </Link>
-            </li>
-          </ul>
+        <section className={styles.container}>
+          {!hideHamburger && <HamburgerButton onClick={() => setIsVisible(true)} />}
+          {hideHamburger && (
+            <ul className={styles.items}>
+              {navLinks.map(({name, href, renderIcon}, i) => (
+                <li key={i} className={styles.item}>
+                  <Link href={href}>
+                    {renderIcon()}
+                    <span className={styles.iconText}>{name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
           <div className={styles.logo}>
             <Link href="/">CS2.Helper</Link>
           </div>

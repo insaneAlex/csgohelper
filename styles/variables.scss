@@ -4,3 +4,17 @@ $darken-light: #323949;
 $lighten-bg: #232527;
 $base-dark: #202020;
 $darken-bg: #1d1f20;
+
+$z-index-prompter-overlay: 99;
+$z-index-modal-overlay: 100;
+$z-index-modal: 101;
+$z-index-modal-hidden: -1;
+
+@mixin portal-overlay {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: $z-index-modal-overlay;
+}
