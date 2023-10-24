@@ -5,7 +5,8 @@ export const getImgSizes = ({screenSize}: {screenSize: ScreenSizes}): ImgSize =>
   const imgSizes = {
     lg: {width: 128, height: 99},
     md: {width: 110, height: 82},
-    sm: {width: 140, height: 108}
+    sm: {width: 140, height: 108},
+    xs: {width: 77, height: 60}
   };
 
   switch (screenSize) {
@@ -16,7 +17,7 @@ export const getImgSizes = ({screenSize}: {screenSize: ScreenSizes}): ImgSize =>
     case ScreenSizes.Sm:
       return imgSizes.md;
     case ScreenSizes.Xs:
-      return imgSizes.md;
+      return imgSizes.xs;
     case ScreenSizes.Xxs:
       return imgSizes.sm;
     default:
