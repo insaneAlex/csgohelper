@@ -29,7 +29,7 @@ type Props = {
 
 const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, error, loading}) => {
   const steamId = storage.localStorage.get(STEAMID_PARAM);
-  const [steamid, setSteamid] = useState(steamId || 76561198080636799);
+  const [steamid, setSteamid] = useState(steamId || '76561198080636799');
   const [stack, setStack] = useState(false);
 
   useEffect(() => {
