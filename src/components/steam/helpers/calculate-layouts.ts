@@ -1,5 +1,5 @@
 import {InventoryItemType} from '@/types';
-import {GridConfigType} from '../components/types';
+import {GridConfigType} from '../types';
 
 type Props = {items: InventoryItemType[]; gridConfig: GridConfigType};
 
