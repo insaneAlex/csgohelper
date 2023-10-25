@@ -1,5 +1,4 @@
 import {FC} from 'react';
-import {Portal} from '../../../../ui';
 import styles from './mobile-menu.module.scss';
 import {useSwipeable} from 'react-swipeable';
 import Link from 'next/link';
@@ -15,7 +14,6 @@ export const MobileMenu: FC<Props> = ({setIsVisible, navLinks}) => {
 
   return (
     <div {...handlers} className={styles.menu}>
-      <Portal.CloseButton onClick={() => setIsVisible(false)} />
       <ul className={styles.links}>
         {navLinks.map(({name, href, renderIcon}, i) => (
           <li key={i}>

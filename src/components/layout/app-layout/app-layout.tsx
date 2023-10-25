@@ -20,7 +20,7 @@ export const AppLayout: FC<Props> = ({children}) => {
       <HeaderPortal links={navLinks} isHidden={!isVisible} onExit={() => setIsVisible(false)} />
       <MainHeader navLinks={navLinks} setIsVisible={setIsVisible} />
       <main className={styles.main}>{children}</main>
-      <footer className={styles.footer}>All rights reserved &#169;2023</footer>
+      <footer className={styles.footer}> 2023 &#169;CS2.Helper</footer>
     </>
   );
 };

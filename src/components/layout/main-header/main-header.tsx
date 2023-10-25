@@ -9,29 +9,26 @@ type Props = {setIsVisible: (arg: boolean) => void; navLinks: NavLinksType};
 
 export const MainHeader: FC<Props> = ({setIsVisible, navLinks}) => {
   const width = useWindowWidth();
-  const hideHamburger = width > 768;
 
-  if (hideHamburger) {
-    setIsVisible(false);
-  }
+  width > 768 && setIsVisible(false);
 
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
         <section className={styles.container}>
-          {!hideHamburger && <HamburgerButton onClick={() => setIsVisible(true)} />}
-          {hideHamburger && (
-            <ul className={styles.items}>
-              {navLinks.map(({name, href, renderIcon}, i) => (
-                <li key={i} className={styles.item}>
-                  <Link href={href}>
-                    {renderIcon()}
-                    <span className={styles.iconText}>{name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          <span className={styles.hamburger}>
+            <HamburgerButton onClick={() => setIsVisible(true)} />
+          </span>
+          <ul className={styles.items}>
+            {navLinks.map(({name, href, renderIcon}, i) => (
+              <li key={i} className={styles.item}>
+                <Link href={href}>
+                  {renderIcon()}
+                  <span className={styles.iconText}>{name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
           <div className={styles.logo}>
             <Link href="/">CS2.Helper</Link>
           </div>

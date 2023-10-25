@@ -18,12 +18,12 @@ export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig}) => {
 
   return (
     <ResponsiveReactGridLayout
+      cols={gridConfig.col}
       isResizable={false}
       isDraggable={false}
       isDroppable={false}
       layouts={layouts}
       rowHeight={100}
-      cols={gridConfig.col}
     >
       {layouts[screenSize].map((item) => (
         <div style={{border: `1px solid #${item.rarity_color}`}} className={styles.item} key={item.i}>

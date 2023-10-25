@@ -7,7 +7,6 @@
 }
 
 .container {
-  padding: 0 15px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -39,7 +38,9 @@
 
 .items {
   display: flex;
+  margin-right: 10px;
 }
+
 .item {
   list-style: none;
   margin-left: 1.6rem;
@@ -51,11 +52,22 @@
 }
 
 .logo {
+  margin: 0 15px;
   font-size: 24px;
 }
 
+.hamburger {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .hamburger {
+    display: inline;
+  }
   .container {
     flex-direction: row;
+  }
+  .items {
+    display: none;
   }
 }

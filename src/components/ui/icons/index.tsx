@@ -10,5 +10,5 @@ export const Icons = {
   Cross: () => <CrossIcon fill="currentColor" width={20} height={20} />,
   CrossSmall: () => <CrossIcon fill="currentColor" />,
   CrossLarge: () => <CrossIcon fill="currentColor" width={25} height={25} />,
-  Hamburger: () => <HamburgerIcon width={50} height={50} />
+  Hamburger: () => <HamburgerIcon width={30} height={30} />
 };
