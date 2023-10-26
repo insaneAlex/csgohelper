@@ -8,3 +8,7 @@
   justify-content: center;
   transition: transform 100ms linear;
 }
+
+.empty {
+  z-index: -1;
+}

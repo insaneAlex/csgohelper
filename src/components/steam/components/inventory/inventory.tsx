@@ -39,7 +39,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   }
 
   const missingTiles = useMemo(
-    () => Array.from({length: emptyTiles}, (_, index) => ({assetid: String(index)})),
+    () => Array.from({length: emptyTiles}, (_, i) => ({assetid: String(i), isEmpty: true})),
     [emptyTiles]
   );
 

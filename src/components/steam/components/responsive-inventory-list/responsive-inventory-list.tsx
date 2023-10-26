@@ -5,6 +5,7 @@ import {useWindowWidth} from '@/src/hooks';
 import {GridConfigType} from '../../types';
 import {InventoryItemType} from '@/types';
 import React, {FC, useMemo} from 'react';
+import classNames from 'classnames';
 
 import styles from './responsive-inventory-list.module.scss';
 
@@ -26,7 +27,11 @@ export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig}) => {
       rowHeight={100}
     >
       {layouts[screenSize].map((item) => (
-        <div style={{border: `1px solid #${item.rarity_color}`}} className={styles.item} key={item.i}>
+        <div
+          style={{border: `1px solid #${item.rarity_color}`}}
+          className={classNames(styles.item, {[styles.empty]: item.isEmpty})}
+          key={item.i}
+        >
           <InventoryItem item={item} imgSize={imgSize} />
         </div>
       ))}
