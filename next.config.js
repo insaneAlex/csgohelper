@@ -1,22 +1,26 @@
 /** @type {import('next').NextConfig} */
 
-const path = require("path");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
-    includesPaths: [path.join(__dirname, "styles")],
+    includesPaths: [path.join(__dirname, 'styles')]
   },
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "steamcommunity-a.akamaihd.net",
-        port: "",
-        pathname: "/economy/image/**",
-      },
-    ],
+        protocol: 'https',
+        hostname: 'steamcommunity-a.akamaihd.net',
+        port: '',
+        pathname: '/economy/image/**'
+      }
+    ]
   },
+  eslint: {
+    dirs: ['src', 'server-helpers', 'pages', 'core', 'public']
+  }
 };
 
 module.exports = nextConfig;

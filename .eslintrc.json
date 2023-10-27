@@ -1,11 +1,21 @@
 {
-  "extends": ["next/core-web-vitals", "eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y"],
+  "extends": [
+    "plugin:jsx-a11y/recommended",
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "next",
+    "prettier"
+  ],
   "rules": {
     "no-duplicate-imports": "error",
     "react-hooks/exhaustive-deps": "off",
     "import/no-unresolved": "error",
     "no-restricted-imports": "error",
     "import/named": "error"
-  },
-  "parser": "@typescript-eslint/parser"
+  }
 }
