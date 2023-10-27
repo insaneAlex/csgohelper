@@ -1,7 +1,6 @@
 @import 'styles/variables.scss';
 
 .overlay {
-  background-color: rgba($darken-bg, 0.25);
   height: 100vh;
 
   @include portal-overlay;

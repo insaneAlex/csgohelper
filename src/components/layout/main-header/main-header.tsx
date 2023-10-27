@@ -1,23 +1,23 @@
-import React, {FC, ReactNode} from 'react';
+import {AccountIcon, FeedbackIcon, StonksIcon} from '../../ui';
+import {HamburgerMenu} from './components';
+import React, {FC} from 'react';
 import Link from 'next/link';
-import {HamburgerButton} from './components';
-import {useWindowWidth} from '@/src/hooks';
+
 import styles from './main-header.module.scss';
 
-export type NavLinksType = {name: string; href: string; renderIcon: () => ReactNode}[];
-type Props = {setIsVisible: (arg: boolean) => void; navLinks: NavLinksType};
-
-export const MainHeader: FC<Props> = ({setIsVisible, navLinks}) => {
-  const width = useWindowWidth();
-
-  width > 768 && setIsVisible(false);
+export const MainHeader: FC = () => {
+  const navLinks = [
+    {name: 'Stonks', href: '/stonks', renderIcon: () => <StonksIcon />},
+    {name: 'Feedback', href: '/feedback', renderIcon: () => <FeedbackIcon />},
+    {name: 'Login', href: '/login', renderIcon: () => <AccountIcon />}
+  ];
 
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
         <section className={styles.container}>
           <span className={styles.hamburger}>
-            <HamburgerButton onClick={() => setIsVisible(true)} />
+            <HamburgerMenu navLinks={navLinks} />
           </span>
           <ul className={styles.items}>
             {navLinks.map(({name, href, renderIcon}, i) => (
