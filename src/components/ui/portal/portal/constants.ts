@@ -1,3 +1,3 @@
-export enum KEY_CODES {
-  escape = 27
+export enum KEYS {
+  escape = 'Escape'
 }

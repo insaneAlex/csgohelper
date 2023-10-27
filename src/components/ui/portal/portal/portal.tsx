@@ -1,32 +1,16 @@
 import {FC, useCallback, useEffect, useState} from 'react';
-import {createPortal} from 'react-dom';
+import {PORTAL_ANIMATION_DURATION} from '../constants';
+import {useSpring, animated} from 'react-spring';
+import {useEventListener} from '@/src/hooks';
+import {calculateZindex} from '../helpers';
 import styles from './portal.module.scss';
-import classNames from 'classnames';
-import {useEventListener} from '@/src/hooks/use-event-listener';
-import {KEY_CODES} from './constants';
+import {createPortal} from 'react-dom';
+import {noop} from '@/src/services';
+import {KEYS} from './constants';
 
-type Props = {
-  children: React.ReactNode;
-  centered?: boolean;
-  shouldDisableScroll?: boolean;
-  scrollableContentRef?: React.RefObject<HTMLElement>;
-  isAbovePortals?: boolean;
-  shouldFitContent?: boolean;
-  isUnderPortals?: boolean;
-  onEscapePressed?: (e: React.MouseEvent) => void;
-  onTouchMoveWithDisabledScroll?: (node: Element) => boolean | void;
-  isHidden?: boolean;
-};
+type Props = {visible?: boolean; children: React.ReactNode; onEscapePressed?: (e: KeyboardEvent) => void};
 
-export const Portal: FC<Props> = ({
-  children,
-  centered,
-  isAbovePortals,
-  isUnderPortals,
-  shouldFitContent,
-  isHidden,
-  onEscapePressed = () => {}
-}) => {
+export const Portal: FC<Props> = ({children, visible, onEscapePressed = noop}) => {
   const [portalNode, setPortalNode] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -40,29 +24,23 @@ export const Portal: FC<Props> = ({
   }, []);
 
   const onKeyupHandler = useCallback(
-    (event: any) => {
-      event.keyCode === KEY_CODES.escape && onEscapePressed(event);
+    (event: KeyboardEvent) => {
+      event.key === KEYS.escape && onEscapePressed(event);
     },
     [onEscapePressed]
   );
+  useEventListener('keyup', !visible ? noop : onKeyupHandler);
 
-  const keyUpHandler = isHidden ? () => {} : onKeyupHandler;
-  useEventListener('keyup', keyUpHandler);
+  const portalConfig = useSpring({
+    zIndex: calculateZindex({visible}),
+    from: {zIndex: calculateZindex({visible: visible === undefined ? visible : !visible})},
+    config: {duration: PORTAL_ANIMATION_DURATION}
+  });
 
   const content = (
-    <div
-      className={classNames(styles.portal, {
-        [styles.centered]: centered,
-        [styles.hidden]: isHidden,
-        [styles.abovePortals]: isAbovePortals,
-        [styles.underPortals]: isUnderPortals,
-        [styles.fitContent]: shouldFitContent
-      })}
-      aria-hidden={isHidden}
-      role="dialog"
-    >
+    <animated.div style={portalConfig} className={styles.portal} aria-hidden={!visible} role="dialog">
       {children}
-    </div>
+    </animated.div>
   );
   if (portalNode) return createPortal(content, portalNode);
 };

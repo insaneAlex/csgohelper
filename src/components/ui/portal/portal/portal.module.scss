@@ -1,24 +1,5 @@
 @import 'styles/variables.scss';
 
 .portal {
-  display: flex;
   @include portal-overlay;
-}
-.centered {
-  align-items: center;
-  justify-content: center;
-}
-.hidden {
-  opacity: 0;
-  visibility: hidden;
-  z-index: $z-index-modal-hidden;
-}
-.abovePortals {
-  z-index: $z-index-modal;
-}
-.underPortals {
-  z-index: $z-index-prompter-overlay;
-}
-.fitContent {
-  display: table;
 }

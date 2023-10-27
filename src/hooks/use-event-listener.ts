@@ -1,4 +1,5 @@
 import {MutableRefObject, useEffect, useRef} from 'react';
+import {noop} from '../services';
 
 type handlerType = (data: any) => void;
 
@@ -16,7 +17,7 @@ export const useEventListener = (
 
   useEffect(() => {
     if (!savedHandler.current) {
-      return () => {};
+      return noop;
     }
 
     const eventListener = (event: Event) => savedHandler.current && savedHandler?.current(event);
