@@ -15,7 +15,7 @@ export const InventoryItem: FC<Props> = ({item, imgSize}) => {
   const {name_color, assetid, icon_url, count, prices} = item;
   const {width, height} = imgSize;
 
-  const price = prices?.[PriceOptions.MONTH]?.average * (count || 1);
+  const price = prices?.[PriceOptions.WEEK]?.average * (count || 1);
   const formattedPrice = !isNaN(price) && price.toFixed(2);
 
   if (!icon_url) {

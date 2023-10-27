@@ -7,7 +7,6 @@ import {InventoryItemType} from '@/types';
 import {storage} from '@/src/services';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
-import Head from 'next/head';
 import {
   itemsLoadingSelector,
   getInitialItemsStart,
@@ -80,11 +79,6 @@ const SteamInventory: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, 
 
   return (
     <>
-      <Head>
-        <title>CS2.Helper - Home</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="google-adsense-account" content="ca-pub-7972775133662836" />;
-      </Head>
       <SearchInventory id={steamid} disabled={loading} onSearch={handleSearch} onIdChange={handleIdChange} />
       {renderError()}
       <InventoryFilters />
