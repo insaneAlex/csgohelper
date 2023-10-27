@@ -1,7 +1,7 @@
 import {MutableRefObject, useEffect, useRef} from 'react';
 import {noop} from '../services';
 
-type handlerType = (data: unknown) => void;
+type handlerType = (event: KeyboardEvent) => void;
 
 export const useEventListener = (
   eventName: string,
@@ -20,11 +20,10 @@ export const useEventListener = (
       return noop;
     }
 
-    const eventListener = (event: Event) => savedHandler.current && savedHandler?.current(event);
-    target?.addEventListener(eventName, eventListener, options);
-
+    const eventListener = (event: KeyboardEvent) => savedHandler.current && savedHandler?.current(event);
+    target?.addEventListener(eventName, eventListener as EventListenerOrEventListenerObject, options);
     return () => {
-      target?.removeEventListener(eventName, eventListener, options);
+      target?.removeEventListener(eventName, eventListener as EventListenerOrEventListenerObject, options);
     };
   }, [eventName, options]);
 };
