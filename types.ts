@@ -57,7 +57,8 @@ export type InventoryItemType = {
   type: ItemType;
   market_hash_name: string;
   prices: PriceType;
+  isEmpty?: boolean;
 };
 export type ImgSize = {width: number; height: number};
 
-export type NumObject = {[key: string]: number};
+export type NumObject = Record<string, number>;

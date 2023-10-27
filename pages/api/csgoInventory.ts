@@ -10,13 +10,20 @@ import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {SteamFetchErrors} from '@/src/redux';
 import {InventoryItemType} from '@/types';
 
+export type CS2InventoryFetchErrorType = {
+  response?: {status: number};
+  steamAccountFetchError?: string;
+  dynamoDBAccountFetchError?: string;
+};
+export type inventoryCacheType = {inventory?: null | string; update_time?: string | null};
+
+type inventoryCacheTypes = Record<string, inventoryCacheType>;
+
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
-export type inventoryCacheType = {inventory?: null | string; update_time?: string | null};
-type inventoryCacheTypes = {[key: string]: inventoryCacheType};
 
 const inventoryCache: inventoryCacheTypes = {};
 const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
@@ -90,19 +97,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     inventoryCache[steamid as string].update_time = update_time;
 
     return res.json({statusCode: 200, inventory: JSON.stringify(withPrices)});
-  } catch (e: any) {
-    const error: any = {};
+  } catch (e) {
+    const error = (e || {}) as CS2InventoryFetchErrorType;
     console.log(`STEAM_INVENTORY_FETCH_ERROR`);
 
-    if (e?.response.status === 429) {
+    if (error?.response?.status === 429) {
       error.steamAccountFetchError = SteamFetchErrors.TOO_MANY_REQUESTS;
     }
 
-    if (e?.response.status === 404) {
+    if (error?.response?.status === 404) {
       return res.status(404).json({statusCode: 404, inventory: '[]'});
     }
 
-    if (e?.response.status === 403) {
+    if (error?.response?.status === 403) {
       return res.status(403).json({statusCode: 403, inventory: '[]'});
     }
 

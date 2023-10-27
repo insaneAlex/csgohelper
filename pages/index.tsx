@@ -1,34 +1,36 @@
 import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/components/steam/helpers';
 import {FILTERS_PARAM, Inventory, InventoryFilters, SearchInventory} from '@/src/components/steam';
-import {ChangeEvent, FC, useEffect, useState} from 'react';
 import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
+import {ChangeEvent, FC, useEffect, useState} from 'react';
 import {useSearchParams} from 'next/navigation';
 import {InventoryItemType} from '@/types';
 import {storage} from '@/src/services';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
+import Head from 'next/head';
 import {
   itemsLoadingSelector,
   getInitialItemsStart,
   itemsErrorSelector,
+  InventoryErrorType,
   SteamFetchErrors,
   itemsSelector,
   getItemsStart,
   SteamIDType,
   RootState
 } from '@/src/redux';
-import Head from 'next/head';
 
 type Props = {
   onGetInventory: (arg: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
   onGetItems: () => void;
   loading: boolean;
-  error: any;
+  error: InventoryErrorType;
 };
 
-const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, error, loading}) => {
+const SteamInventory: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, error, loading}) => {
   const steamId = storage.localStorage.get(STEAMID_PARAM);
+
   const [steamid, setSteamid] = useState(steamId);
   const [stack, setStack] = useState(false);
 
@@ -41,7 +43,7 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
 
   const toggleStackDupes = () => setStack(!stack);
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value);
-  const handleSearch = () => onGetInventory({steamid});
+  const handleSearch = () => steamid && onGetInventory({steamid});
 
   let items = stack ? getInventoryUniqueItems({inventory: inventoryItems}) : inventoryItems;
 
@@ -105,5 +107,4 @@ const mapDispatchToProps = {
   onGetInventory: getItemsStart
 };
 
-const SteamInventoryContainer = connect(mapStateToProps, mapDispatchToProps);
-export default SteamInventoryContainer(SteamInventoryComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(SteamInventory);

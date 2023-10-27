@@ -1,10 +1,10 @@
-import {PayloadAction} from '@reduxjs/toolkit';
-import {call, put} from 'redux-saga/effects';
-import {getItemsError, getItemsSuccess} from '../features';
 import {InventoryResponseType, STEAMID_PARAM, fetchInventory} from '@/core';
-import {SteamIDType} from '../types';
-import {storage} from '@/src/services';
+import {getItemsError, getItemsSuccess} from '../features';
+import {InventoryErrorType, SteamIDType} from '../types';
+import type {PayloadAction} from '@reduxjs/toolkit';
+import {call, put} from 'redux-saga/effects';
 import {SteamFetchErrors} from './constants';
+import {storage} from '@/src/services';
 
 export function* getInventoryTask({
   payload
@@ -27,6 +27,6 @@ export function* getInventoryTask({
       yield put(getItemsSuccess({inventory, update_time}));
     }
   } catch (e) {
-    yield put(getItemsError(e));
+    yield put(getItemsError(e as InventoryErrorType));
   }
 }

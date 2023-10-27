@@ -16,4 +16,3 @@ export const store = configureStore({
 sagaMiddleware.run(InventorySaga);
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispath = typeof store.dispatch;

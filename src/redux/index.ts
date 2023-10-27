@@ -12,5 +12,5 @@ export {
 
 export {SteamFetchErrors} from './sagas';
 
-export type {RootState, AppDispath} from './store';
-export type {InventoryState, SteamIDType} from './types';
+export type {RootState} from './store';
+export type {InventoryState, SteamIDType, InventoryErrorType} from './types';

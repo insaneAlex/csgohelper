@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import styles from './search-inventory.module.scss';
 
 type Props = {
-  id: string;
+  id: string | null;
   disabled: boolean;
   onSearch: () => void;
   onIdChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,7 +17,7 @@ export const SearchInventory: FC<Props> = ({id, disabled, onSearch, onIdChange})
       <form autoComplete="on">
         <label htmlFor="steamId">
           <input
-            defaultValue={id}
+            defaultValue={id || ''}
             onChange={onIdChange}
             className={styles.input}
             placeholder="Enter your SteamID"

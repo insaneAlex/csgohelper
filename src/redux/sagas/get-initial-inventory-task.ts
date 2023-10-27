@@ -1,6 +1,7 @@
-import {call, put} from 'redux-saga/effects';
-import {getInitialItemsError, getInitialItemsSuccess} from '../features';
 import {InitialInventoryResponseType, fetchInitialInventory} from '@/core';
+import {getInitialItemsError, getInitialItemsSuccess} from '../features';
+import {call, put} from 'redux-saga/effects';
+import {InventoryErrorType} from '../types';
 
 export function* getInitialInventoryTask(): Generator<unknown, void, InitialInventoryResponseType> {
   const {signal} = new AbortController();
@@ -10,6 +11,6 @@ export function* getInitialInventoryTask(): Generator<unknown, void, InitialInve
 
     yield put(getInitialItemsSuccess({inventory: JSON.parse(inventory), update_time}));
   } catch (e) {
-    yield put(getInitialItemsError(e));
+    yield put(getInitialItemsError(e as InventoryErrorType));
   }
 }

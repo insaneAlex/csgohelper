@@ -39,7 +39,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   }
 
   const missingTiles = useMemo(
-    () => Array.from({length: emptyTiles}, (_, i) => ({assetid: String(i), isEmpty: true})),
+    () => Array.from({length: emptyTiles}, (_, i) => ({assetid: String(i), isEmpty: true}) as InventoryItemType),
     [emptyTiles]
   );
 
@@ -62,7 +62,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
         <Pagination
           pagesCount={pagesCount}
           currentPage={currentPage}
-          onPageChange={(page: any) => setCurrentPage(page)}
+          onPageChange={(page: number) => setCurrentPage(page)}
         />
       </section>
     </>

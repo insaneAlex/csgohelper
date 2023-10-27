@@ -1,7 +1,7 @@
 import {MutableRefObject, useEffect, useRef} from 'react';
 import {noop} from '../services';
 
-type handlerType = (data: any) => void;
+type handlerType = (data: unknown) => void;
 
 export const useEventListener = (
   eventName: string,
