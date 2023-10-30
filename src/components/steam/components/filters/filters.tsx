@@ -15,15 +15,15 @@ export const Filters: FC = () => {
 
     if (Array.isArray(currentValue)) {
       if (currentValue.includes(value)) {
-        return router.replace({query: {...router.query, [filterName]: currentValue.filter((v) => v !== value)}});
+        return router.push({query: {...router.query, [filterName]: currentValue.filter((v) => v !== value)}});
       } else {
-        return router.replace({query: {...router.query, [filterName]: [...currentValue, value]}});
+        return router.push({query: {...router.query, [filterName]: [...currentValue, value]}});
       }
     } else if (typeof currentValue === 'string') {
       const newValue = currentValue === value ? [] : [currentValue, value];
-      return router.replace({query: {...router.query, [filterName]: newValue}});
+      return router.push({query: {...router.query, [filterName]: newValue}});
     } else {
-      return router.replace({query: {...router.query, [filterName]: [value]}});
+      return router.push({query: {...router.query, [filterName]: [value]}});
     }
   };
 
