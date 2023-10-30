@@ -6,9 +6,10 @@ import {call, put, type PutEffect, type CallEffect} from 'redux-saga/effects';
 import {SteamFetchErrors} from './constants';
 import {storage} from '@/src/services';
 
-export function* getInventoryTask({
-  payload
-}: PayloadAction<SteamIDType>): Generator<CallEffect | PutEffect, void, InventoryResponseType> {
+export type InventoryPayloadType = PayloadAction<SteamIDType>;
+type ReturnType = Generator<CallEffect | PutEffect, void, InventoryResponseType>;
+
+export function* getInventoryTask({payload}: InventoryPayloadType): ReturnType {
   const {signal} = new AbortController();
   const {steamid} = payload;
 

@@ -3,7 +3,9 @@ import {Filters, Inventory, SearchInventory} from '@/src/components/steam';
 import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
 import {FC, useEffect, useState} from 'react';
 import {InventoryItemType} from '@/types';
+import {storage} from '@/src/services';
 import {useRouter} from 'next/router';
+import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {
   itemsLoadingSelector,
@@ -12,22 +14,24 @@ import {
   InventoryErrorType,
   SteamFetchErrors,
   itemsSelector,
+  SteamIDType,
   RootState
 } from '@/src/redux';
 
 type Props = {
+  onGetItems: (a: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
   error: InventoryErrorType;
-  onGetItems: () => void;
   loading: boolean;
 };
 
 const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading}) => {
   const router = useRouter();
   const [stack, setStack] = useState(false);
+  const steamid = storage.localStorage.get(STEAMID_PARAM);
 
   useEffect(() => {
-    inventoryItems.length === 0 && onGetItems();
+    inventoryItems.length === 0 && steamid && onGetItems({steamid});
   }, []);
 
   const filters = (typeof router.query.type === 'string' ? [router.query.type] : router.query.type) || [];
@@ -53,15 +57,7 @@ const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading})
   };
 
   const renderContent = () => {
-    const itemsLength = items?.length;
-    const hasNoItems = itemsLength === 0;
-    if (loading && hasNoItems) {
-      return <Loader />;
-    }
-    if (hasNoItems && hasFilters) {
-      return <ErrorAlert>No items with such filters</ErrorAlert>;
-    }
-    if (itemsLength > 0) {
+    if (items?.length > 0) {
       return (
         <>
           <div style={{display: 'flex'}}>
@@ -70,6 +66,10 @@ const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading})
           <Inventory items={items} />
         </>
       );
+    } else {
+      if (loading) {
+        return <Loader />;
+      }
     }
   };
 

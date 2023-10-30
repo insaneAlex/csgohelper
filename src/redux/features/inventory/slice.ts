@@ -31,7 +31,8 @@ const inventory = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    getInitialItemsStart: (state: InventoryState) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getInitialItemsStart: (state: InventoryState, _action: PayloadAction<SteamIDType>) => {
       state.isLoading = true;
       state.error = null;
     },

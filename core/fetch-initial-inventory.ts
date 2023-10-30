@@ -1,15 +1,11 @@
-import {STEAMID_PARAM, fetchInventoryUrl} from './constants';
+import {fetchInventoryUrl} from './constants';
 import {InitialInventoryResponseType} from './types';
-import {storage} from '@/src/services';
 
-type fetchInitialInventoryType = (a: {signal: AbortSignal}) => Promise<InitialInventoryResponseType>;
+type fetchInitialInventoryType = (a: {steamid: string; signal: AbortSignal}) => Promise<InitialInventoryResponseType>;
 
-export const fetchInitialInventory: fetchInitialInventoryType = async ({signal}) => {
-  const storedSteamid = storage.localStorage.get(STEAMID_PARAM);
-  if (storedSteamid) {
-    const url = storedSteamid && `${fetchInventoryUrl}?storedSteamid=${storedSteamid}`;
+export const fetchInitialInventory: fetchInitialInventoryType = async ({steamid, signal}) => {
+  const url = `${fetchInventoryUrl}?storedSteamid=${steamid}`;
 
-    const response = await fetch(url, {signal});
-    return response.json();
-  }
+  const response = await fetch(url, {signal});
+  return response.json();
 };

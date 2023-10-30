@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import {FC, useEffect} from 'react';
+import {STEAMID_PARAM} from '@/core';
 import {useRouter} from 'next/router';
+import {storage} from '@/src/services';
 import {ItemDetails} from '@/src/components/steam';
 import {useDispatch, useSelector} from 'react-redux';
 import {ErrorAlert, Icons, Loader} from '@/src/components/ui';
@@ -11,15 +13,20 @@ const ItemDetailsPage: FC = () => {
   const dispatch = useDispatch();
   const items = useSelector(itemsSelector);
 
+  const steamid = storage.localStorage.get(STEAMID_PARAM);
   const item = items?.find((item) => item?.assetid === router.query.itemId);
+  const shouldRedirect = !item && !steamid;
+  const hasItems = items?.length > 0;
 
   useEffect(() => {
-    if (items.length === 0 && !item) {
-      dispatch(getInitialItemsStart());
+    !hasItems && steamid && dispatch(getInitialItemsStart({steamid}));
+
+    if (shouldRedirect) {
+      router.replace('/');
     }
   }, []);
 
-  if (items.length > 0 && !item) {
+  if (hasItems && !item) {
     return <ErrorAlert>There is no such item in inventory.</ErrorAlert>;
   }
 
@@ -29,7 +36,7 @@ const ItemDetailsPage: FC = () => {
 
   return (
     <>
-      <Link href="/">
+      <Link onClick={router.back} href="/">
         <Icons.Back />
       </Link>
 
