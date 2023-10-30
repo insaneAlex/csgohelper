@@ -2,8 +2,7 @@ import {STEAMID_PARAM, fetchInventoryUrl} from './constants';
 import {InitialInventoryResponseType} from './types';
 import {storage} from '@/src/services';
 
-type fetchInitialInventoryType = (a: Props) => Promise<InitialInventoryResponseType>;
-type Props = {signal: AbortSignal};
+type fetchInitialInventoryType = (a: {signal: AbortSignal}) => Promise<InitialInventoryResponseType>;
 
 export const fetchInitialInventory: fetchInitialInventoryType = async ({signal}) => {
   const storedSteamid = storage.localStorage.get(STEAMID_PARAM);
