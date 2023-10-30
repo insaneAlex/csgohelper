@@ -1,9 +1,9 @@
 import {InitialInventoryResponseType, fetchInitialInventory} from '@/core';
 import {getInitialItemsError, getInitialItemsSuccess} from '../features';
-import {type StrictEffect, call, put} from 'redux-saga/effects';
+import {call, put, type CallEffect, type PutEffect} from 'redux-saga/effects';
 import {InventoryErrorType} from '../types';
 
-export function* getInitialInventoryTask(): Generator<StrictEffect, void, InitialInventoryResponseType> {
+export function* getInitialInventoryTask(): Generator<CallEffect | PutEffect, void, InitialInventoryResponseType> {
   const {signal} = new AbortController();
 
   try {

@@ -2,13 +2,13 @@ import {InventoryResponseType, STEAMID_PARAM, fetchInventory} from '@/core';
 import {getItemsError, getItemsSuccess} from '../features';
 import {InventoryErrorType, SteamIDType} from '../types';
 import type {PayloadAction} from '@reduxjs/toolkit';
-import {type StrictEffect, call, put} from 'redux-saga/effects';
+import {call, put, type PutEffect, type CallEffect} from 'redux-saga/effects';
 import {SteamFetchErrors} from './constants';
 import {storage} from '@/src/services';
 
 export function* getInventoryTask({
   payload
-}: PayloadAction<SteamIDType>): Generator<StrictEffect, void, InventoryResponseType> {
+}: PayloadAction<SteamIDType>): Generator<CallEffect | PutEffect, void, InventoryResponseType> {
   const {signal} = new AbortController();
   const {steamid} = payload;
 
