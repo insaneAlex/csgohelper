@@ -3,9 +3,7 @@ import {Filters, Inventory, SearchInventory} from '@/src/components/steam';
 import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
 import {FC, useEffect, useState} from 'react';
 import {InventoryItemType} from '@/types';
-import {storage} from '@/src/services';
 import {useRouter} from 'next/router';
-import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {
   itemsLoadingSelector,
@@ -27,10 +25,9 @@ type Props = {
 const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading}) => {
   const router = useRouter();
   const [stack, setStack] = useState(false);
-  const steamId = storage.localStorage.get(STEAMID_PARAM);
 
   useEffect(() => {
-    inventoryItems.length === 0 && steamId && onGetItems();
+    inventoryItems.length === 0 && onGetItems();
   }, []);
 
   const filters = (typeof router.query.type === 'string' ? [router.query.type] : router.query.type) || [];
@@ -78,7 +75,7 @@ const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading})
 
   return (
     <>
-      <SearchInventory id={steamId} disabled={loading} />
+      <SearchInventory disabled={loading} />
       {renderError()}
       <Filters />
       {renderContent()}

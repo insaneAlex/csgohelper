@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FC, useState} from 'react';
 import {getItemsStart} from '@/src/redux';
-import {isClient} from '@/src/services';
+import {isClient, storage} from '@/src/services';
 import {useDispatch} from 'react-redux';
 import {isEmpty} from '../../helpers';
 import {STEAMID_PARAM} from '@/core';
@@ -8,9 +8,9 @@ import classNames from 'classnames';
 
 import styles from './search-inventory.module.scss';
 
-export const SearchInventory: FC<{id: string | null; disabled: boolean}> = ({id, disabled}) => {
+export const SearchInventory: FC<{disabled: boolean}> = ({disabled}) => {
   const dispatch = useDispatch();
-  const [steamid, setSteamid] = useState(id || '');
+  const [steamid, setSteamid] = useState(storage.localStorage.get(STEAMID_PARAM) || '');
 
   const handleChangeId = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value);
   const handleSearch = () => steamid && dispatch(getItemsStart({steamid}));
