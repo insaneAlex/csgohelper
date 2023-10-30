@@ -8,56 +8,23 @@ export enum TagsType {
   COLOR = 'color'
 }
 
-export type ItemType = Readonly<
-  | 'Sniper Rifle'
-  | 'Collectible'
-  | 'Machinegun'
-  | 'Music Kit'
-  | 'Container'
-  | 'Graffiti'
-  | 'Sticker'
-  | 'Shotgun'
-  | 'Pistol'
-  | 'Knife'
-  | 'Rifle'
-  | 'Tool'
-  | 'Pass'
-  | 'SMG'
->;
-
-export const ItemTypes: ItemType[] = [
-  'Sniper Rifle',
-  'Collectible',
-  'Machinegun',
-  'Music Kit',
-  'Container',
-  'Graffiti',
-  'Sticker',
-  'Shotgun',
-  'Pistol',
-  'Knife',
-  'Rifle',
-  'Tool',
-  'Pass',
-  'SMG'
-];
-
 export type TagsTypeIndex = {
   [key in TagsType]: string;
 };
 
 export type InventoryItemType = {
-  assetid: string;
-  count?: number;
-  exterior?: string;
-  icon_url: string;
   name: string;
+  type: string;
+  count?: number;
+  weapon?: string;
+  assetid: string;
+  icon_url: string;
+  prices: PriceType;
+  exterior?: string;
+  isEmpty?: boolean;
   name_color: string;
   rarity_color: string;
-  type: ItemType;
   market_hash_name: string;
-  prices: PriceType;
-  isEmpty?: boolean;
 };
 export type ImgSize = {width: number; height: number};
 

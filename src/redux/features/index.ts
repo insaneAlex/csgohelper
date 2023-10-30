@@ -1,13 +1,14 @@
 export {
-  inventoryReducer,
   getItemsStart,
-  getItemsSuccess,
   getItemsError,
   itemsSelector,
-  itemsLoadingSelector,
-  itemsUpdateTimeSelector,
+  getItemsSuccess,
+  inventoryReducer,
   itemsErrorSelector,
   getInitialItemsError,
+  itemsLoadingSelector,
+  itemsFiltersSelector,
   getInitialItemsStart,
-  getInitialItemsSuccess
+  getInitialItemsSuccess,
+  itemsUpdateTimeSelector
 } from './inventory';

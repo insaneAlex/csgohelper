@@ -1,15 +1,15 @@
-import {AccountIcon, FeedbackIcon, StonksIcon} from '../../ui';
-import {HamburgerMenu} from './components';
-import React, {FC} from 'react';
 import Link from 'next/link';
+import {Icons} from '../../ui';
+import React, {FC} from 'react';
+import {HamburgerMenu} from './components';
 
 import styles from './main-header.module.scss';
 
 export const MainHeader: FC = () => {
   const navLinks = [
-    {name: 'Stonks', href: '/stonks', renderIcon: () => <StonksIcon />},
-    {name: 'Feedback', href: '/feedback', renderIcon: () => <FeedbackIcon />},
-    {name: 'Login', href: '/login', renderIcon: () => <AccountIcon />}
+    {name: 'Stonks', href: '/stonks', renderIcon: () => <Icons.Stonks />},
+    {name: 'Feedback', href: '/feedback', renderIcon: () => <Icons.Feedback />},
+    {name: 'Login', href: '/login', renderIcon: () => <Icons.Account />}
   ];
 
   return (
@@ -22,16 +22,16 @@ export const MainHeader: FC = () => {
           <ul className={styles.items}>
             {navLinks.map(({name, href, renderIcon}, i) => (
               <li key={i} className={styles.item}>
-                <Link href={href}>
+                <Link className={styles.link} href={href}>
                   {renderIcon()}
-                  <span className={styles.iconText}>{name}</span>
+                  {name}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className={styles.logo}>
-            <Link href="/">CS2.Helper</Link>
-          </div>
+          <Link className={styles.logo} href="/">
+            CS2.Helper
+          </Link>
         </section>
       </nav>
     </header>

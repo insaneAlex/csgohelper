@@ -1,4 +1,3 @@
-export {ResponsiveInventoryList, InventoryFilters, SearchInventory, ItemDetails, Inventory} from './components';
-export {FILTERS_PARAM} from './constants';
+export {ResponsiveInventoryList, SearchInventory, ItemDetails, Inventory, Filters} from './components';
 
 export {PriceOptions} from './types';

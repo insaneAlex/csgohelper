@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import classNames from 'classnames';
 import {isEmpty} from '../../helpers';
+import {isClient} from '@/src/services';
 
 import styles from './search-inventory.module.scss';
 
@@ -12,7 +13,9 @@ type Props = {
 };
 
 export const SearchInventory: FC<Props> = ({id, disabled, onSearch, onIdChange}) => {
-  const isDisabled = disabled || isEmpty(id);
+  // need isClient check, because id uses localStorage, on server we dont have access to it, and it returns different value on server and client
+  const isDisabled = isClient() ? disabled || isEmpty(id) : disabled;
+
   return (
     <section className={styles.searchBlock}>
       <label htmlFor="steamId">

@@ -1,13 +1,14 @@
 export {
-  inventoryReducer,
   getItemsStart,
-  getItemsSuccess,
   getItemsError,
   itemsSelector,
+  getItemsSuccess,
+  inventoryReducer,
+  itemsErrorSelector,
   getInitialItemsStart,
   itemsLoadingSelector,
-  itemsUpdateTimeSelector,
-  itemsErrorSelector
+  itemsFiltersSelector,
+  itemsUpdateTimeSelector
 } from './features';
 
 export {SteamFetchErrors} from './sagas';

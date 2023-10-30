@@ -1,12 +1,12 @@
 import {MutableRefObject, useEffect, useRef} from 'react';
-import {noop} from '../services';
+import {isClient, noop} from '../services';
 
 type handlerType = (event: KeyboardEvent) => void;
 
 export const useEventListener = (
   eventName: string,
   handler: handlerType,
-  target: Window | HTMLDivElement | null | HTMLLinkElement = typeof window !== 'undefined' ? window : null,
+  target: Window | HTMLDivElement | null | HTMLLinkElement = isClient() ? window : null,
   options?: AddEventListenerOptions
 ) => {
   const savedHandler: MutableRefObject<handlerType | null> = useRef(null);

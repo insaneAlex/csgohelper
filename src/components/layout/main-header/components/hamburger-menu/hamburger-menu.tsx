@@ -33,9 +33,9 @@ export const HamburgerMenu: FC<Props> = ({navLinks}) => {
           <ul className={styles.links}>
             {navLinks.map(({name, href, renderIcon}, i) => (
               <li key={i}>
-                <Link href={href} onClick={handleClose}>
+                <Link href={href} onClick={handleClose} className={styles.link}>
                   {renderIcon()}
-                  <span className={styles.linkText}>{name}</span>
+                  {name}
                 </Link>
               </li>
             ))}

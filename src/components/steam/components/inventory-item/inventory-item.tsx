@@ -12,10 +12,10 @@ import styles from './inventory-item.module.scss';
 type Props = {imgSize: ImgSize; item: InventoryItemType & Layout};
 
 export const InventoryItem: FC<Props> = ({item, imgSize}) => {
-  const {name_color, assetid, icon_url, count, prices} = item;
+  const {name_color, assetid, icon_url, count = 1, prices} = item;
   const {width, height} = imgSize;
 
-  const price = prices?.[PriceOptions.WEEK]?.average * (count || 1);
+  const price = prices?.[PriceOptions.WEEK]?.average * count;
   const formattedPrice = !isNaN(price) && price.toFixed(2);
 
   if (!icon_url) {

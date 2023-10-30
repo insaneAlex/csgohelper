@@ -1,19 +1,17 @@
-import {FC, useEffect} from 'react';
-import {BackIcon, ErrorAlert, Loader} from '@/src/components/ui';
-import {InventoryItemType} from '@/types';
 import Link from 'next/link';
-import {ItemDetails} from '@/src/components/steam';
+import {FC, useEffect} from 'react';
 import {useRouter} from 'next/router';
+import {ItemDetails} from '@/src/components/steam';
 import {useDispatch, useSelector} from 'react-redux';
+import {ErrorAlert, Icons, Loader} from '@/src/components/ui';
 import {getInitialItemsStart, itemsSelector} from '@/src/redux';
 
 const ItemDetailsPage: FC = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
-
-  const itemId = router.query.itemId;
+  const dispatch = useDispatch();
   const items = useSelector(itemsSelector);
-  const item = items?.find((item) => item?.assetid === itemId);
+
+  const item = items?.find((item) => item?.assetid === router.query.itemId);
 
   useEffect(() => {
     if (items.length === 0 && !item) {
@@ -32,10 +30,10 @@ const ItemDetailsPage: FC = () => {
   return (
     <>
       <Link href="/">
-        <BackIcon height={32} width={32} />
+        <Icons.Back />
       </Link>
 
-      <ItemDetails item={item as unknown as InventoryItemType} />
+      <ItemDetails item={item} />
     </>
   );
 };
