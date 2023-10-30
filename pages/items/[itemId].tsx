@@ -15,6 +15,7 @@ const ItemDetailsPage: FC = () => {
 
   const steamid = storage.localStorage.get(STEAMID_PARAM);
   const item = items?.find((item) => item?.assetid === router.query.itemId);
+  const query = {...router.query, itemId: []};
   const shouldRedirect = !item && !steamid;
   const hasItems = items?.length > 0;
 
@@ -22,7 +23,7 @@ const ItemDetailsPage: FC = () => {
     !hasItems && steamid && dispatch(getInitialItemsStart({steamid}));
 
     if (shouldRedirect) {
-      router.replace('/');
+      router.replace('/', {query});
     }
   }, []);
 
@@ -36,7 +37,7 @@ const ItemDetailsPage: FC = () => {
 
   return (
     <>
-      <Link onClick={router.back} href="/">
+      <Link href={{pathname: '/', query}}>
         <Icons.Back />
       </Link>
 
