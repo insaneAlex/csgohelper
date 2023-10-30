@@ -37,7 +37,7 @@ const ItemDetailsPage: FC = () => {
 
   return (
     <>
-      <Link href={{pathname: '/', query}}>
+      <Link href={{pathname: '/', query}} scroll={false}>
         <Icons.Back />
       </Link>
 
