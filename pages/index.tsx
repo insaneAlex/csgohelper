@@ -1,10 +1,10 @@
-import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/components/steam/helpers';
-import {FILTERS_PARAM, Inventory, InventoryFilters, SearchInventory} from '@/src/components/steam';
+import {getInventoryUniqueItems, filterInventoryByTypes} from '@/src/components/steam/helpers';
+import {Filters, Inventory, SearchInventory} from '@/src/components/steam';
 import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
 import {ChangeEvent, FC, useEffect, useState} from 'react';
-import {useSearchParams} from 'next/navigation';
 import {InventoryItemType} from '@/types';
 import {storage} from '@/src/services';
+import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {
@@ -18,26 +18,25 @@ import {
   SteamIDType,
   RootState
 } from '@/src/redux';
-
 type Props = {
   onGetInventory: (arg: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
+  error: InventoryErrorType;
   onGetItems: () => void;
   loading: boolean;
-  error: InventoryErrorType;
 };
 
 const SteamInventory: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, error, loading}) => {
-  const steamId = storage.localStorage.get(STEAMID_PARAM);
-
-  const [steamid, setSteamid] = useState(steamId);
+  const router = useRouter();
+  const [steamid, setSteamid] = useState(storage.localStorage.get(STEAMID_PARAM));
   const [stack, setStack] = useState(false);
 
   useEffect(() => {
     inventoryItems.length === 0 && steamid && onGetItems();
   }, []);
 
-  const filters = getParamValues(useSearchParams(), FILTERS_PARAM);
+  const filters = (typeof router.query.type === 'string' ? [router.query.type] : router.query.type) || [];
+
   const hasFilters = filters.length > 0;
 
   const toggleStackDupes = () => setStack(!stack);
@@ -63,13 +62,14 @@ const SteamInventory: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, 
 
   const renderContent = () => {
     const itemsLength = items?.length;
+    const hasNoItems = itemsLength === 0;
 
-    if (loading) {
+    if (loading && hasNoItems) {
       return <Loader />;
     }
 
-    if (itemsLength === 0 && hasFilters) {
-      return <p style={{textAlign: 'center', marginTop: '50px'}}>No items with such filters</p>;
+    if (hasNoItems && hasFilters) {
+      return <ErrorAlert>No items with such filters</ErrorAlert>;
     }
 
     if (itemsLength > 0) {
@@ -81,7 +81,7 @@ const SteamInventory: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, 
     <>
       <SearchInventory id={steamid} disabled={loading} onSearch={handleSearch} onIdChange={handleIdChange} />
       {renderError()}
-      <InventoryFilters />
+      <Filters />
       <div style={{display: 'flex'}}>
         <Checkbox onChange={toggleStackDupes} checked={stack} name="STACK DUPES" label="STACK DUPES" />
       </div>

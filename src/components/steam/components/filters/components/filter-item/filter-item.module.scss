@@ -1,0 +1,43 @@
+@import 'styles/variables.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  background: $lighten-bg;
+  padding-right: 5px;
+  border-top: 1px solid transparent;
+}
+.checked {
+  border-top: 1px solid $main-font-color;
+}
+
+.listWrapper {
+  position: relative;
+}
+
+.list {
+  background: $lighten-bg;
+  text-align: center;
+  width: 150px;
+  z-index: $z-index-normal;
+  position: absolute;
+}
+
+.button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  height: 30px;
+
+  @include body-short;
+}
+
+.listActive {
+  pointer-events: auto;
+}
+
+.iconWrapper {
+  display: flex;
+}
