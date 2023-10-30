@@ -9,6 +9,11 @@
   font-size: 15px;
 
   @include body-short;
+
+  @media (max-width: 768px) {
+    padding-bottom: 5px;
+    text-align: center;
+  }
 }
 
 .updateTime {
