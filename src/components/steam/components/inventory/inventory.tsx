@@ -50,10 +50,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
 
   return (
     <>
-      <section className={styles.gridHeader}>
-        <h2 className={styles.title}>{`Items:${itemsAmount}`}</h2>
-        {totalPrice && <span>{` | value: ${totalPrice}$`}</span>}
-      </section>
+      <p className={styles.info}>{`Items:${itemsAmount}${totalPrice ? ` | value ${totalPrice}` : ''}`}</p>
 
       {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}
       <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} />
