@@ -22,16 +22,13 @@ export const InventoryItem: FC<Props> = ({item, imgSize}) => {
   if (!icon_url) {
     return null;
   }
-  let name = item.name;
+
   const imgSrc = `${inventoryImageBaseUrl}${icon_url}`;
   const amount = count && count > 1 ? ` x ${count}` : '';
-
-  if (name?.match(STAT_TRAK_PATTERN)) {
-    name = name.replace(STAT_TRAK_PATTERN, '');
-  }
+  const name = item.name?.match(STAT_TRAK_PATTERN) ? item.name.replace(STAT_TRAK_PATTERN, '') : item.name;
 
   return (
-    <Link className={styles.item} href={{pathname: `/items/${assetid}`, query: router.query}}>
+    <Link className={styles.item} href={{pathname: `/items/${assetid}`, query: router.query}} scroll={false}>
       <Image src={imgSrc} priority alt={name} width={width} height={height} />
       {name && (
         <p style={{color: `#${name_color}`}} className={styles.describe}>

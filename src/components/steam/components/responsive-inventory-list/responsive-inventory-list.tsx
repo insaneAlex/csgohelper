@@ -13,7 +13,7 @@ type Props = {items: InventoryItemType[]; gridConfig: GridConfigType};
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig}) => {
-  const layouts = useMemo(() => calculateLayouts({items, gridConfig}), [items, gridConfig]);
+  const layouts = useMemo(() => calculateLayouts({items, gridConfig}), [items]);
   const screenSize = getScreenSize({width: useWindowWidth()});
   const imgSize = useMemo(() => getImgSizes({screenSize}), [screenSize]);
 
