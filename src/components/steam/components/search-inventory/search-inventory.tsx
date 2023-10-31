@@ -1,5 +1,5 @@
-import React, {ChangeEvent, FC, useState} from 'react';
-import {isClient, storage} from '@/src/services';
+import React, {ChangeEvent, FC, useEffect, useState} from 'react';
+import {storage} from '@/src/services';
 import {getItemsStart} from '@/src/redux';
 import {useDispatch} from 'react-redux';
 import {isEmpty} from '../../helpers';
@@ -10,21 +10,22 @@ import styles from './search-inventory.module.scss';
 
 export const SearchInventory: FC<{disabled: boolean}> = ({disabled}) => {
   const dispatch = useDispatch();
-  const [steamid, setSteamid] = useState(storage.localStorage.get(STEAMID_PARAM) || '');
+  const [steamid, setSteamid] = useState('');
 
-  const handleChangeId = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value);
-  const handleSearch = () => steamid && dispatch(getItemsStart({steamid}));
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value.trim());
+  const handleSearch = () => dispatch(getItemsStart({steamid}));
 
-  // we need isClient check, because id gets its value from localStorage,
-  // on server we dont have access to it, and it returns different value on server and client
-  const isDisabled = isClient() ? disabled || isEmpty(steamid) : disabled;
+  useEffect(() => {
+    setSteamid(storage.localStorage.get(STEAMID_PARAM) || '');
+  }, []);
 
+  const isDisabled = disabled || isEmpty(steamid);
   return (
     <section className={styles.searchBlock}>
       <label htmlFor={STEAMID_PARAM}>
         <input
-          defaultValue={steamid}
-          onChange={handleChangeId}
+          value={steamid}
+          onInput={handleChange}
           className={styles.input}
           placeholder="Enter your SteamID"
           type="text"
