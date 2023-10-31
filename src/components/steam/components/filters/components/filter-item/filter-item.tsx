@@ -26,7 +26,7 @@ export const FilterItem: FC<Props> = ({title, label, renderIcon, isChecked, subF
 
   const listVariants = {
     open: {
-      clipPath: 'inset(0% 0% 0% 0% round 0)',
+      clipPath: 'inset(0% 0% 0% 0% round 0px)',
       transition: {type: 'spring', bounce: 0, duration: 0.2, delayChildren: 0.1, staggerChildren: 0.05}
     },
     closed: {
