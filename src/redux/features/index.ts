@@ -12,3 +12,5 @@ export {
   getInitialItemsSuccess,
   itemsUpdateTimeSelector
 } from './inventory';
+
+export {feedbackReducer, feedbackStatusSelector, FeedbackStatuses, onResetState} from './feedback';

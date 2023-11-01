@@ -1,0 +1,44 @@
+@import 'styles/variables.scss';
+
+.wrapper {
+  width: 500px;
+  border: 1px solid $main-font-color;
+  border-radius: 5px;
+  height: 360px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include body-short;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.link {
+  background-color: transparent;
+  border: 1px solid $darken-light;
+  cursor: pointer;
+  text-align: center;
+  margin: 15px 5px 5px 5px;
+  padding: 5px;
+  width: 150px;
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @include body-short-link;
+}
+
+@media (max-width: 768px) {
+  .link {
+    width: calc(100% - 40px);
+  }
+  .wrapper {
+    border: none;
+  }
+}

@@ -1,3 +1,4 @@
+export {FeedbackForm, FeedbackHeader, FeedbackSuccess} from './feedback-form';
 export {ResponsiveInventoryList} from './responsive-inventory-list';
 export {SearchInventory} from './search-inventory';
 export {InventoryItem} from './inventory-item';

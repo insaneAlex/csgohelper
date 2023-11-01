@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {inventoryReducer} from './features';
-import {INVENTORY_KEY} from './constants';
+import {feedbackReducer, inventoryReducer} from './features';
+import {FEEDBACK_KEY, INVENTORY_KEY} from './constants';
 import createSagaMiddleware from 'redux-saga';
 import {InventorySaga} from './sagas';
 
-const rootReducer = {[INVENTORY_KEY]: inventoryReducer};
+const rootReducer = {[INVENTORY_KEY]: inventoryReducer, [FEEDBACK_KEY]: feedbackReducer};
 
 const sagaMiddleware = createSagaMiddleware();
 
