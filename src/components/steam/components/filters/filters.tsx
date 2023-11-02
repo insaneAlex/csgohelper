@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {isFilterApplied} from './helpers';
 import styles from './filters.module.scss';
 import {itemsFiltersSelector} from '@/src/redux';
-import {getParamValuesArray, removeParamValue} from '../../helpers';
+import {areEqualArrays, getParamValuesArray, removeParamValue} from '../../helpers';
 
 export const Filters: FC = () => {
   const router = useRouter();
@@ -35,7 +35,7 @@ export const Filters: FC = () => {
             : {[filterName]: [...currentValues, value]};
       }
     }
-    if (newFilterValue[filterName]?.length === possibleFilters[filterName]?.length) {
+    if (areEqualArrays(newFilterValue[filterName], possibleFilters[filterName])) {
       if (!newFilterValue.type) {
         newFilterValue.type = removeParamValue(typeParamValues, filterName);
       }
