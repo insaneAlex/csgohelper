@@ -11,7 +11,7 @@ import classNames from 'classnames';
 
 import styles from './search-inventory.module.scss';
 
-export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
+export const SearchInventory: FC<{loading: boolean; showNote?: boolean}> = ({loading, showNote}) => {
   const dispatch = useDispatch();
   const [steamid, setSteamid] = useState('');
 
@@ -30,21 +30,26 @@ export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
   const isDisabled = loading || isEmpty(steamid);
 
   return (
-    <section className={styles.searchBlock}>
-      <label htmlFor={STEAMID_PARAM}>
-        <input
-          value={steamid}
-          onInput={handleChange}
-          className={styles.input}
-          placeholder="Enter your SteamID"
-          type="text"
-          id={STEAMID_PARAM}
-        />
-      </label>
+    <>
+      <section className={styles.searchBlock}>
+        <label htmlFor={STEAMID_PARAM}>
+          <input
+            value={steamid}
+            onInput={handleChange}
+            className={styles.input}
+            placeholder="Enter your SteamID"
+            type="text"
+            id={STEAMID_PARAM}
+          />
+        </label>
 
-      <Button {...buttonProps} disabled={isDisabled} onClick={handleSearch} loading={loading}>
-        <p className={classNames(styles.buttonText, {[styles.disabled]: isDisabled})}>SEARCH BY SteamID</p>
-      </Button>
-    </section>
+        <Button {...buttonProps} disabled={isDisabled} onClick={handleSearch} loading={loading}>
+          <p className={classNames(styles.buttonText, {[styles.disabled]: isDisabled})}>SEARCH BY SteamID</p>
+        </Button>
+      </section>
+      {!steamid && showNote && (
+        <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
+      )}
+    </>
   );
 };

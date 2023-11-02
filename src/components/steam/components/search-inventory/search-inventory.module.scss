@@ -4,7 +4,6 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
 }
 
 .buttonText {
@@ -20,6 +19,12 @@
   margin: 0 -10px;
   padding-left: 10px;
 
+  @include body-short;
+}
+
+.note {
+  text-align: center;
+  margin: 10px;
   @include body-short;
 }
 

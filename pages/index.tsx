@@ -37,9 +37,10 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
   const router = useRouter();
   const [stack, setStack] = useState(false);
   const steamid = storage.localStorage.get(STEAMID_PARAM);
+  const hasNoItems = inventoryItems.length === 0;
 
   useEffect(() => {
-    inventoryItems.length === 0 && steamid && onGetItems({steamid});
+    hasNoItems && steamid && onGetItems({steamid});
   }, []);
 
   const validFilters = getAppliedFilterParams(possibleFilters, router.query);
@@ -83,7 +84,7 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
 
   return (
     <>
-      <SearchInventory loading={loading} />
+      <SearchInventory loading={loading} showNote={hasNoItems} />
       {renderError()}
       <Filters />
       {renderContent()}
