@@ -9,6 +9,6 @@ export {
   Filters
 } from './components';
 
-export {getInventoryUniqueItems, filterInventoryByTypes} from './helpers';
+export {getInventoryUniqueItems, filterInventory, getAppliedFilterParams} from './helpers';
 
 export {PriceOptions} from './types';

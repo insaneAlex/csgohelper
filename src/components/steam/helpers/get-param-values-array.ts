@@ -1,7 +1,7 @@
-import {NextRouter} from 'next/router';
+import {ParsedUrlQuery} from 'querystring';
 
-export const getParamValuesArray = (router: NextRouter, name: string) => {
-  const paramValues = router.query[name];
+export const getParamValuesArray = (query: ParsedUrlQuery, name: string) => {
+  const paramValues = query[name];
   if (typeof paramValues === 'string') {
     return [paramValues];
   } else if (Array.isArray(paramValues)) {

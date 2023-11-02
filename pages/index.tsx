@@ -1,10 +1,3 @@
-import {
-  getInventoryUniqueItems,
-  filterInventoryByTypes,
-  SearchInventory,
-  Inventory,
-  Filters
-} from '@/src/components/steam';
 import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
 import {FC, useEffect, useState} from 'react';
 import {InventoryItemType} from '@/types';
@@ -13,6 +6,14 @@ import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {
+  getInventoryUniqueItems,
+  getAppliedFilterParams,
+  filterInventory,
+  SearchInventory,
+  Inventory,
+  Filters
+} from '@/src/components/steam';
+import {
   itemsLoadingSelector,
   getInitialItemsStart,
   itemsErrorSelector,
@@ -20,17 +21,19 @@ import {
   SteamFetchErrors,
   itemsSelector,
   SteamIDType,
-  RootState
+  RootState,
+  itemsFiltersSelector
 } from '@/src/redux';
 
 type Props = {
   onGetItems: (a: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
   error: InventoryErrorType;
+  possibleFilters: {[key: string]: string[]};
   loading: boolean;
 };
 
-const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading}) => {
+const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, error, loading}) => {
   const router = useRouter();
   const [stack, setStack] = useState(false);
   const steamid = storage.localStorage.get(STEAMID_PARAM);
@@ -39,15 +42,15 @@ const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading})
     inventoryItems.length === 0 && steamid && onGetItems({steamid});
   }, []);
 
-  const filters = (typeof router.query.type === 'string' ? [router.query.type] : router.query.type) || [];
-  const hasFilters = filters.length > 0;
+  const validFilters = getAppliedFilterParams(possibleFilters, router.query);
+  const hasValidFilters = Object.keys(validFilters).length > 0;
 
   const toggleStackDupes = () => setStack(!stack);
 
   let items = stack ? getInventoryUniqueItems({inventory: inventoryItems}) : inventoryItems;
 
-  if (hasFilters) {
-    items = filterInventoryByTypes({inventory: items, types: filters});
+  if (hasValidFilters) {
+    items = filterInventory({inventory: items, filters: validFilters});
   }
 
   const renderError = () => {
@@ -91,7 +94,8 @@ const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading})
 const mapStateToProps = (state: RootState) => ({
   inventoryItems: itemsSelector(state),
   loading: itemsLoadingSelector(state),
-  error: itemsErrorSelector(state)
+  error: itemsErrorSelector(state),
+  possibleFilters: itemsFiltersSelector(state)
 });
 
 const mapDispatchToProps = {onGetItems: getInitialItemsStart};

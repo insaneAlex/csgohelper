@@ -19,9 +19,7 @@ export const FilterItem: FC<Props> = ({label, isChecked, subFilters, onFilterUpd
 
   const subFiltersLenght = subFilters.length;
   const hasSubfilters = subFiltersLenght > 0;
-
-  const handleOpenOptions = () => setOpen(true);
-  const handleCloseOptions = () => setOpen(false);
+  const appliedSubfilters = router.query[label];
 
   const listVariants = {
     open: {
@@ -39,14 +37,15 @@ export const FilterItem: FC<Props> = ({label, isChecked, subFilters, onFilterUpd
     closed: {opacity: 0, y: 20, transition: {duration: 0.2}}
   };
 
+  const hasAppliedSubfilter = subFilters?.some((filter) => isFilterApplied(appliedSubfilters, filter));
   return (
     <motion.nav
       initial={false}
-      onMouseLeave={handleCloseOptions}
+      onMouseLeave={() => setOpen(false)}
       animate={open ? 'open' : 'closed'}
-      className={classNames(styles.wrapper, {[styles.checked]: isChecked})}
+      className={classNames(styles.wrapper, {[styles.topBordered]: hasAppliedSubfilter || isChecked})}
     >
-      <motion.button whileTap={{scale: 0.97}} className={styles.button} onMouseEnter={handleOpenOptions}>
+      <motion.button whileTap={{scale: 0.97}} className={styles.button} onMouseEnter={() => setOpen(true)}>
         <Checkbox
           readOnly
           name={label}
@@ -74,7 +73,7 @@ export const FilterItem: FC<Props> = ({label, isChecked, subFilters, onFilterUpd
                   name={filterKey}
                   label={filterKey}
                   onChange={() => onFilterUpdate({subFilter: filterKey, filter: label})}
-                  checked={isFilterApplied(router.query[label], filterKey) || isFilterApplied(router.query.type, label)}
+                  checked={isFilterApplied(appliedSubfilters, filterKey) || isFilterApplied(router.query.type, label)}
                 />
                 {!(i === subFiltersLenght - 1) && <Separator noMargin />}
               </motion.li>

@@ -12,9 +12,10 @@ export const Filters: FC = () => {
   const possibleFilters = useSelector(itemsFiltersSelector);
 
   const handleFilterUpdate = (filterName: string, value: string) => {
-    const currentValues = getParamValuesArray(router, filterName);
+    const currentValues = getParamValuesArray(router.query, filterName);
     const filterIsApplied = isFilterApplied(currentValues, value);
-    const typeParamValues = getParamValuesArray(router, 'type');
+    const typeParamValues = getParamValuesArray(router.query, 'type');
+
     let newFilterValue: Record<string, string[]> = {};
 
     if (!filterIsApplied && typeParamValues.includes(filterName)) {
@@ -26,14 +27,11 @@ export const Filters: FC = () => {
         }
       });
     } else {
-      if (filterIsApplied) {
-        newFilterValue = {[filterName]: removeParamValue(currentValues, value)};
-      } else {
-        newFilterValue =
-          filterName === 'type'
-            ? {[filterName]: [...currentValues, value], [value]: []}
-            : {[filterName]: [...currentValues, value]};
-      }
+      newFilterValue = filterIsApplied
+        ? {[filterName]: removeParamValue(currentValues, value)}
+        : filterName === 'type'
+        ? {[filterName]: [...currentValues, value], [value]: []}
+        : {[filterName]: [...currentValues, value]};
     }
     if (areEqualArrays(newFilterValue[filterName], possibleFilters[filterName])) {
       if (!newFilterValue.type) {
@@ -55,8 +53,8 @@ export const Filters: FC = () => {
       handleFilterUpdate('type', filter);
     }
   };
-  const typefilters = Object.keys(possibleFilters).sort();
 
+  const typefilters = Object.keys(possibleFilters).sort();
   return (
     <section className={styles.filters}>
       {typefilters.map((filter) => (
