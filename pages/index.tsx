@@ -1,5 +1,10 @@
-import {getInventoryUniqueItems, filterInventoryByTypes} from '@/src/components/steam/helpers';
-import {Filters, Inventory, SearchInventory} from '@/src/components/steam';
+import {
+  getInventoryUniqueItems,
+  filterInventoryByTypes,
+  SearchInventory,
+  Inventory,
+  Filters
+} from '@/src/components/steam';
 import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
 import {FC, useEffect, useState} from 'react';
 import {InventoryItemType} from '@/types';
@@ -75,7 +80,7 @@ const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, error, loading})
 
   return (
     <>
-      <SearchInventory disabled={loading} />
+      <SearchInventory loading={loading} />
       {renderError()}
       <Filters />
       {renderContent()}

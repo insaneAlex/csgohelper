@@ -1,2 +1,2 @@
 export {AppLayout} from './app-layout';
-export {MainHeader} from './main-header';
+export {MainHeader, MAX_MOBILE_WIDTH} from './main-header';

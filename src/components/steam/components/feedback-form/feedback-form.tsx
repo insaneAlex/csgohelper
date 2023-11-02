@@ -64,7 +64,9 @@ export const FeedbackForm: FC = () => {
       {formState?.errors?.text && <div className={styles.error}>{formState?.errors?.text}</div>}
 
       <Separator smallMargin />
-      <Button label="Submit" isSubmit loading={isLoading} disabled={isLoading} />
+      <Button isSubmit loading={isLoading} disabled={isLoading}>
+        Submit
+      </Button>
     </form>
   );
 };

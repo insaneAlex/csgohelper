@@ -13,7 +13,7 @@ export const FeedbackSuccess: FC = () => {
       <h3 className={styles.title}>Thank you!</h3>
       <p className={styles.text}>Feedback have been successfully sent!</p>
 
-      <Button label="Return to Home" onClick={handleReturnClick} />
+      <Button onClick={handleReturnClick}>Return to Home</Button>
     </section>
   );
 };

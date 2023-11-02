@@ -1,25 +1,34 @@
+import {Button, ButtonColor, ButtonShape, ButtonSizes} from '@/src/components/ui';
 import React, {ChangeEvent, FC, useEffect, useState} from 'react';
-import {storage} from '@/src/services';
+import {MAX_MOBILE_WIDTH} from '@/src/components/layout';
+import {useWindowWidth} from '@/src/hooks';
 import {getItemsStart} from '@/src/redux';
 import {useDispatch} from 'react-redux';
+import {storage} from '@/src/services';
 import {isEmpty} from '../../helpers';
 import {STEAMID_PARAM} from '@/core';
 import classNames from 'classnames';
 
 import styles from './search-inventory.module.scss';
 
-export const SearchInventory: FC<{disabled: boolean}> = ({disabled}) => {
+export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
   const dispatch = useDispatch();
   const [steamid, setSteamid] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value.trim());
   const handleSearch = () => dispatch(getItemsStart({steamid}));
+  const isDesktop = useWindowWidth() > MAX_MOBILE_WIDTH;
+
+  const buttonProps = isDesktop
+    ? {size: ButtonSizes.Large, color: ButtonColor.Light, shape: ButtonShape.Rounded}
+    : {size: ButtonSizes.Medium, color: ButtonColor.Dark, shape: ButtonShape.Straight};
 
   useEffect(() => {
     setSteamid(storage.localStorage.get(STEAMID_PARAM) || '');
   }, []);
 
-  const isDisabled = disabled || isEmpty(steamid);
+  const isDisabled = loading || isEmpty(steamid);
+
   return (
     <section className={styles.searchBlock}>
       <label htmlFor={STEAMID_PARAM}>
@@ -33,13 +42,9 @@ export const SearchInventory: FC<{disabled: boolean}> = ({disabled}) => {
         />
       </label>
 
-      <button
-        className={classNames(styles.search, {[styles.searchDisabled]: isDisabled})}
-        disabled={isDisabled}
-        onClick={handleSearch}
-      >
-        SEARCH BY SteamID
-      </button>
+      <Button {...buttonProps} disabled={isDisabled} onClick={handleSearch} loading={loading}>
+        <p className={classNames(styles.buttonText, {[styles.disabled]: isDisabled})}>SEARCH BY SteamID</p>
+      </Button>
     </section>
   );
 };
