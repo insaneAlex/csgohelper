@@ -15,9 +15,36 @@ export const Filters: FC = () => {
     const currentValue = getParamValue(router, filterName);
     const filterIsApplied = isFilterApplied(currentValue, value);
 
-    const newFilterValue = filterIsApplied ? currentValue.filter((v) => v !== value) : [...currentValue, value];
+    let newFilterValue: Record<string, string[]> = {};
 
-    return router.push({query: {...router.query, [filterName]: newFilterValue}});
+    if (!filterIsApplied && getParamValue(router, 'type').includes(filterName)) {
+      newFilterValue = {['type']: getParamValue(router, 'type').filter((v) => v !== filterName)};
+      newFilterValue[filterName] = [];
+      possibleFilters[filterName].forEach((el) => {
+        if (el !== value) {
+          newFilterValue[filterName].push(el);
+        }
+      });
+    } else {
+      if (filterIsApplied) {
+        newFilterValue = {[filterName]: currentValue.filter((v) => v !== value)};
+      } else {
+        newFilterValue =
+          filterName === 'type'
+            ? {[filterName]: [...currentValue, value], [value]: []}
+            : {[filterName]: [...currentValue, value]};
+      }
+    }
+    if (newFilterValue[filterName]?.length === possibleFilters[filterName]?.length) {
+      if (!newFilterValue['type']) {
+        newFilterValue['type'] = [];
+      }
+
+      newFilterValue[filterName] = [];
+      newFilterValue['type'].push(filterName);
+    }
+
+    return router.push({query: {...router.query, ...newFilterValue}});
   };
 
   const handleUpdateFilter = (filters: {subFilter?: string; filter: string}) => {
