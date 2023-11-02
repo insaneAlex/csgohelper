@@ -5,20 +5,20 @@ import {useSelector} from 'react-redux';
 import {isFilterApplied} from './helpers';
 import styles from './filters.module.scss';
 import {itemsFiltersSelector} from '@/src/redux';
-import {getParamValuesArray} from '../../helpers';
+import {getParamValuesArray, removeParamValue} from '../../helpers';
 
 export const Filters: FC = () => {
   const router = useRouter();
   const possibleFilters = useSelector(itemsFiltersSelector);
 
   const handleFilterUpdate = (filterName: string, value: string) => {
-    const currentValue = getParamValuesArray(router, filterName);
-    const filterIsApplied = isFilterApplied(currentValue, value);
-
+    const currentValues = getParamValuesArray(router, filterName);
+    const filterIsApplied = isFilterApplied(currentValues, value);
+    const typeParamValues = getParamValuesArray(router, 'type');
     let newFilterValue: Record<string, string[]> = {};
 
-    if (!filterIsApplied && getParamValuesArray(router, 'type').includes(filterName)) {
-      newFilterValue = {['type']: getParamValuesArray(router, 'type').filter((v) => v !== filterName)};
+    if (!filterIsApplied && typeParamValues.includes(filterName)) {
+      newFilterValue = {type: removeParamValue(typeParamValues, filterName)};
       newFilterValue[filterName] = [];
       possibleFilters[filterName].forEach((el) => {
         if (el !== value) {
@@ -27,22 +27,21 @@ export const Filters: FC = () => {
       });
     } else {
       if (filterIsApplied) {
-        newFilterValue = {[filterName]: currentValue.filter((v) => v !== value)};
+        newFilterValue = {[filterName]: removeParamValue(currentValues, value)};
       } else {
-        if (filterName === 'type') {
-          newFilterValue = {[filterName]: [...currentValue, value], [value]: []};
-        } else {
-          newFilterValue = {[filterName]: [...currentValue, value]};
-        }
+        newFilterValue =
+          filterName === 'type'
+            ? {[filterName]: [...currentValues, value], [value]: []}
+            : {[filterName]: [...currentValues, value]};
       }
     }
     if (newFilterValue[filterName]?.length === possibleFilters[filterName]?.length) {
-      if (!newFilterValue['type']) {
-        newFilterValue['type'] = getParamValuesArray(router, 'type').filter((el) => el !== filterName);
+      if (!newFilterValue.type) {
+        newFilterValue.type = removeParamValue(typeParamValues, filterName);
       }
 
       newFilterValue[filterName] = [];
-      newFilterValue['type'].push(filterName);
+      newFilterValue.type.push(filterName);
     }
 
     return router.push({query: {...router.query, ...newFilterValue}});
