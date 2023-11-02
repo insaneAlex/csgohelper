@@ -1,0 +1,10 @@
+import {SendEmailCommand} from '@aws-sdk/client-ses';
+
+type Props = {toAddress: string; fromAddress: string; data: {text: string; name: string}};
+
+export const createSendEmailCommand = ({toAddress, fromAddress, data}: Props) =>
+  new SendEmailCommand({
+    Destination: {ToAddresses: [toAddress]},
+    Message: {Body: {Text: {Data: data.text}}, Subject: {Data: `New Feedback from ${data.name}!`}},
+    Source: fromAddress
+  });
