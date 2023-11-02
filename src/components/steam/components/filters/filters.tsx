@@ -29,15 +29,16 @@ export const Filters: FC = () => {
       if (filterIsApplied) {
         newFilterValue = {[filterName]: currentValue.filter((v) => v !== value)};
       } else {
-        newFilterValue =
-          filterName === 'type'
-            ? {[filterName]: [...currentValue, value], [value]: []}
-            : {[filterName]: [...currentValue, value]};
+        if (filterName === 'type') {
+          newFilterValue = {[filterName]: [...currentValue, value], [value]: []};
+        } else {
+          newFilterValue = {[filterName]: [...currentValue, value]};
+        }
       }
     }
     if (newFilterValue[filterName]?.length === possibleFilters[filterName]?.length) {
       if (!newFilterValue['type']) {
-        newFilterValue['type'] = [];
+        newFilterValue['type'] = getParamValue(router, 'type').filter((el) => el !== filterName);
       }
 
       newFilterValue[filterName] = [];
