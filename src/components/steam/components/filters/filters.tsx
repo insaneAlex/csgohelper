@@ -5,20 +5,20 @@ import {useSelector} from 'react-redux';
 import {isFilterApplied} from './helpers';
 import styles from './filters.module.scss';
 import {itemsFiltersSelector} from '@/src/redux';
-import {getParamValue} from '../../helpers';
+import {getParamValuesArray} from '../../helpers';
 
 export const Filters: FC = () => {
   const router = useRouter();
   const possibleFilters = useSelector(itemsFiltersSelector);
 
   const handleFilterUpdate = (filterName: string, value: string) => {
-    const currentValue = getParamValue(router, filterName);
+    const currentValue = getParamValuesArray(router, filterName);
     const filterIsApplied = isFilterApplied(currentValue, value);
 
     let newFilterValue: Record<string, string[]> = {};
 
-    if (!filterIsApplied && getParamValue(router, 'type').includes(filterName)) {
-      newFilterValue = {['type']: getParamValue(router, 'type').filter((v) => v !== filterName)};
+    if (!filterIsApplied && getParamValuesArray(router, 'type').includes(filterName)) {
+      newFilterValue = {['type']: getParamValuesArray(router, 'type').filter((v) => v !== filterName)};
       newFilterValue[filterName] = [];
       possibleFilters[filterName].forEach((el) => {
         if (el !== value) {
@@ -38,7 +38,7 @@ export const Filters: FC = () => {
     }
     if (newFilterValue[filterName]?.length === possibleFilters[filterName]?.length) {
       if (!newFilterValue['type']) {
-        newFilterValue['type'] = getParamValue(router, 'type').filter((el) => el !== filterName);
+        newFilterValue['type'] = getParamValuesArray(router, 'type').filter((el) => el !== filterName);
       }
 
       newFilterValue[filterName] = [];

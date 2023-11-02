@@ -1,6 +1,6 @@
 import {NextRouter} from 'next/router';
 
-export const getParamValue = (router: NextRouter, name: string) => {
+export const getParamValuesArray = (router: NextRouter, name: string) => {
   const paramValues = router.query[name];
   if (typeof paramValues === 'string') {
     return [paramValues];
