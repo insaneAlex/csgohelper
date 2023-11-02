@@ -11,7 +11,7 @@ export const FeedbackSuccess: FC = () => {
   return (
     <section className={styles.wrapper}>
       <h3 className={styles.title}>Thank you!</h3>
-      <p className={styles.text}>Feedback have been successfully sent!</p>
+      <p className={styles.text}>Feedback have been successfully sent.</p>
 
       <Button onClick={handleReturnClick}>Return to Home</Button>
     </section>

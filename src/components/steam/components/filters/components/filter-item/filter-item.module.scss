@@ -18,7 +18,7 @@
 .list {
   background: $lighten-bg;
   text-align: center;
-  width: 150px;
+  white-space: nowrap;
   z-index: $z-index-normal;
   position: absolute;
 }
