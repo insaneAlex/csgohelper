@@ -1,8 +1,9 @@
 @import 'styles/variables.scss';
 
 .header {
+  margin: 0 20px 25px 20px;
   text-align: center;
-  margin-bottom: 50px;
+  font-size: 20px;
 
   @include body-short;
 }

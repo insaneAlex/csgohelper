@@ -5,12 +5,19 @@ export {
   getItemsSuccess,
   inventoryReducer,
   itemsErrorSelector,
-  getInitialItemsError,
-  itemsLoadingSelector,
   itemsFiltersSelector,
   getInitialItemsStart,
+  itemsLoadingSelector,
+  getInitialItemsError,
   getInitialItemsSuccess,
   itemsUpdateTimeSelector
 } from './inventory';
 
-export {feedbackReducer, feedbackStatusSelector, FeedbackStatuses, onResetState} from './feedback';
+export {
+  feedbackReducer,
+  FeedbackStatuses,
+  feedbackStatusSelector,
+  isFeedbackLoadingSelector,
+  postFeedbackStart,
+  onResetState
+} from './feedback';

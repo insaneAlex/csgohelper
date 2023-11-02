@@ -7,4 +7,4 @@ export {
   onResetState
 } from './slice';
 
-export {feedbackStatusSelector} from './selectors';
+export {feedbackStatusSelector, isFeedbackLoadingSelector} from './selectors';

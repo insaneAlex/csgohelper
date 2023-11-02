@@ -1,0 +1,79 @@
+@import 'styles/variables.scss';
+
+.disabled {
+  opacity: 0.6;
+
+  &:focus,
+  &:hover {
+    opacity: 0.6;
+  }
+  &:active {
+    transform: none;
+  }
+}
+
+.button {
+  background-color: transparent;
+  cursor: pointer;
+  height: 40px;
+  width: 150px;
+  border-radius: 5px;
+  border: 1px solid $darken-light;
+  letter-spacing: 1px;
+  position: relative;
+  font-weight: 500;
+  &:active {
+    transform: scale(0.97);
+  }
+  @include body-short;
+}
+
+.loading {
+  font-size: 0;
+  &:before {
+    border-radius: 50%;
+    content: '';
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    animation: loading 1s infinite;
+  }
+}
+
+@keyframes loading {
+  0%,
+  to {
+    box-shadow:
+      -18px 0 0 1px $main-font-color,
+      -6px 0 0 1px rgba($main-font-color, 0.6),
+      6px 0 0 1px rgba($main-font-color, 0.3),
+      18px 0 0 1px rgba($main-font-color, 0.3);
+  }
+
+  33% {
+    box-shadow:
+      -18px 0 0 1px rgba($main-font-color, 0.6),
+      -6px 0 0 1px $main-font-color,
+      6px 0 0 1px rgba($main-font-color, 0.6),
+      18px 0 0 1px rgba($main-font-color, 0.3);
+  }
+
+  50% {
+    box-shadow:
+      -18px 0 0 1px rgba($main-font-color, 0.3),
+      -6px 0 0 1px rgba($main-font-color, 0.6),
+      6px 0 0 1px $main-font-color,
+      18px 0 0 1px rgba($main-font-color, 0.6);
+  }
+
+  75% {
+    box-shadow:
+      -18px 0 0 1px rgba($main-font-color, 0.3),
+      -6px 0 0 1px rgba($main-font-color, 0.3),
+      6px 0 0 1px rgba($main-font-color, 0.6),
+      18px 0 0 1px $main-font-color;
+  }
+}

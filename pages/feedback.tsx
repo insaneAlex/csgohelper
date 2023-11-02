@@ -1,7 +1,7 @@
 import {FeedbackStatuses, feedbackStatusSelector, onResetState} from '@/src/redux/features';
 import {FeedbackForm, FeedbackSuccess, FeedbackHeader} from '@/src/components/steam';
 import {useSelector, useDispatch} from 'react-redux';
-import {Loader} from '@/src/components/ui';
+
 import {FC, useEffect} from 'react';
 import Head from 'next/head';
 
@@ -15,22 +15,6 @@ const Feedback: FC = () => {
     };
   }, []);
 
-  const renderContent = () => {
-    switch (feedbackStatus) {
-      case FeedbackStatuses.LOADING:
-        return <Loader />;
-      case FeedbackStatuses.SUCCESS:
-        return <FeedbackSuccess />;
-      default:
-        return (
-          <>
-            <FeedbackHeader title="Have any thoughts or ideas? Share them with us below" />
-            <FeedbackForm />
-          </>
-        );
-    }
-  };
-
   return (
     <>
       <Head>
@@ -38,7 +22,14 @@ const Feedback: FC = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      {renderContent()}
+      {feedbackStatus === FeedbackStatuses.SUCCESS ? (
+        <FeedbackSuccess />
+      ) : (
+        <>
+          <FeedbackHeader title="Have any thoughts or ideas? Share them with us below" />
+          <FeedbackForm />
+        </>
+      )}
     </>
   );
 };
