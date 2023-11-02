@@ -1,5 +1,5 @@
 import {COMPONENT_NAME, MAX_MOBILE_WIDTH} from './constants';
-import React, {FC, ReactNode, useState} from 'react';
+import React, {FC, ReactNode, useEffect, useState} from 'react';
 import {Icons, Portal} from '@/src/components/ui';
 import {useWindowWidth} from '@/src/hooks';
 import Link from 'next/link';
@@ -13,6 +13,10 @@ export const HamburgerMenu: FC<Props> = ({navLinks}) => {
   const handleClose = () => visible && setVisible(false);
 
   useWindowWidth() > MAX_MOBILE_WIDTH && handleClose();
+
+  useEffect(() => {
+    document.body.style.overflow = visible ? 'hidden' : 'unset';
+  }, [visible]);
 
   return (
     <>

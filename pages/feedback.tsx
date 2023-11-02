@@ -1,7 +1,6 @@
 import {FeedbackStatuses, feedbackStatusSelector, onResetState} from '@/src/redux/features';
 import {FeedbackForm, FeedbackSuccess, FeedbackHeader} from '@/src/components/steam';
 import {useSelector, useDispatch} from 'react-redux';
-
 import {FC, useEffect} from 'react';
 import Head from 'next/head';
 
