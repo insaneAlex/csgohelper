@@ -2,7 +2,7 @@ import {ParsedUrlQuery} from 'querystring';
 import {getParamValuesArray} from './get-param-values-array';
 
 export const getAppliedFilterParams = (possibleFilters: {[key: string]: string[]}, params: ParsedUrlQuery) => {
-  const filters: {[key: string]: string[]} = {};
+  const filters: Record<string, string[]> = {};
   const parameters = {...params};
 
   const typeParams = getParamValuesArray(parameters, 'type');
@@ -11,8 +11,8 @@ export const getAppliedFilterParams = (possibleFilters: {[key: string]: string[]
     if (filterTypes.length > 0) {
       filters.types = filterTypes;
     }
+    delete parameters.type;
   }
-  delete parameters.type;
 
   Object.keys(parameters).forEach((param) => {
     if (param in possibleFilters) {
