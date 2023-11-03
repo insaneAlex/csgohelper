@@ -11,6 +11,7 @@ export {
 export {
   itemsSelector,
   itemsErrorSelector,
+  initLoadingSelector,
   itemsFiltersSelector,
   itemsLoadingSelector,
   itemsUpdateTimeSelector

@@ -11,7 +11,9 @@ import classNames from 'classnames';
 
 import styles from './search-inventory.module.scss';
 
-export const SearchInventory: FC<{loading: boolean; showNote?: boolean}> = ({loading, showNote}) => {
+type Props = {disabled: boolean; loading: boolean; showNote?: boolean};
+
+export const SearchInventory: FC<Props> = ({loading, disabled, showNote}) => {
   const dispatch = useDispatch();
   const [steamid, setSteamid] = useState('');
   const isDesktop = useWindowWidth() > MAX_MOBILE_WIDTH;
@@ -27,7 +29,7 @@ export const SearchInventory: FC<{loading: boolean; showNote?: boolean}> = ({loa
     setSteamid(storage.localStorage.get(STEAMID_PARAM) || '');
   }, []);
 
-  const isDisabled = loading || isEmpty(steamid);
+  const isDisabled = loading || disabled || isEmpty(steamid);
 
   return (
     <>
@@ -47,7 +49,9 @@ export const SearchInventory: FC<{loading: boolean; showNote?: boolean}> = ({loa
           <p className={classNames(styles.buttonText, {[styles.disabled]: isDisabled})}>SEARCH BY SteamID</p>
         </Button>
       </section>
-      {showNote && <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>}
+      {showNote && !disabled && (
+        <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
+      )}
     </>
   );
 };

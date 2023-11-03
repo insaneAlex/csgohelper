@@ -7,6 +7,7 @@ const initialState: InventoryState = {
   items: [],
   error: null,
   isLoading: false,
+  initLoading: false,
   update_time: null
 };
 
@@ -33,19 +34,19 @@ const inventory = createSlice({
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getInitialItemsStart: (state: InventoryState, _action: PayloadAction<SteamIDType>) => {
-      state.isLoading = true;
+      state.initLoading = true;
       state.error = null;
     },
     getInitialItemsSuccess: (
       state: InventoryState,
       action: PayloadAction<{inventory: InventoryItemType[]; update_time: string}>
     ) => {
-      state.isLoading = false;
+      state.initLoading = false;
       state.update_time = action.payload.update_time;
       state.items = action.payload.inventory;
     },
     getInitialItemsError: (state: InventoryState, action: PayloadAction<InventoryErrorType>) => {
-      state.isLoading = false;
+      state.initLoading = false;
       state.error = action.payload;
     }
   }

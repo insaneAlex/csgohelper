@@ -5,6 +5,7 @@ export {
   getItemsSuccess,
   inventoryReducer,
   itemsErrorSelector,
+  initLoadingSelector,
   getInitialItemsStart,
   itemsLoadingSelector,
   itemsFiltersSelector,

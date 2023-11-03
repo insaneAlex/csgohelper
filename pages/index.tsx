@@ -9,13 +9,14 @@ import {FC, useEffect} from 'react';
 import {
   itemsLoadingSelector,
   getInitialItemsStart,
+  itemsFiltersSelector,
   itemsErrorSelector,
+  initLoadingSelector,
   InventoryErrorType,
   SteamFetchErrors,
   itemsSelector,
   SteamIDType,
-  RootState,
-  itemsFiltersSelector
+  RootState
 } from '@/src/redux';
 
 type Props = {
@@ -23,10 +24,11 @@ type Props = {
   onGetItems: (a: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
   error: InventoryErrorType;
+  initLoading: boolean;
   loading: boolean;
 };
 
-const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, error, loading}) => {
+const SteamInventory: FC<Props> = ({onGetItems, initLoading, possibleFilters, inventoryItems, error, loading}) => {
   const router = useRouter();
 
   const steamid = storage.localStorage.get(STEAMID_PARAM);
@@ -57,7 +59,7 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
   };
 
   const renderContent = () => {
-    if (loading) {
+    if (initLoading) {
       return <Loader />;
     }
 
@@ -68,7 +70,7 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
 
   return (
     <>
-      <SearchInventory loading={loading} showNote={hasNoItems} />
+      <SearchInventory disabled={initLoading} loading={loading} showNote={hasNoItems} />
       {renderError()}
       <Filters />
       {renderContent()}
@@ -77,9 +79,10 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
 };
 
 const mapStateToProps = (state: RootState) => ({
+  error: itemsErrorSelector(state),
   inventoryItems: itemsSelector(state),
   loading: itemsLoadingSelector(state),
-  error: itemsErrorSelector(state),
+  initLoading: initLoadingSelector(state),
   possibleFilters: itemsFiltersSelector(state)
 });
 
