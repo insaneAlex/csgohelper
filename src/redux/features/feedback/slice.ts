@@ -11,9 +11,7 @@ export enum FeedbackStatuses {
   ERROR = 'error'
 }
 
-const initialState: FeedbackState = {
-  status: FeedbackStatuses.IDLE
-};
+const initialState: FeedbackState = {status: FeedbackStatuses.IDLE};
 
 const feedback = createSlice({
   name: FEEDBACK_KEY,
@@ -34,5 +32,4 @@ const feedback = createSlice({
 });
 
 export const {postFeedbackStart, postFeedbackSuccess, postFeedbackError, onResetState} = feedback.actions;
-
 export const feedbackReducer = feedback.reducer;

@@ -1,4 +1,4 @@
-import {isFeedbackLoadingSelector, postFeedbackStart} from '@/src/redux/features';
+import {FeedbackStatuses, feedbackStatusSelector, postFeedbackStart} from '@/src/redux/features';
 import {ChangeEvent, FC, FormEvent, useState} from 'react';
 import {Button, Separator} from '@/src/components/ui';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,7 +14,7 @@ type FormValuesType = FeedbackType & {errors?: FormErrorType};
 export const FeedbackForm: FC = () => {
   const dispatch = useDispatch();
   const [formState, setFormState] = useState<FormValuesType>({name: '', text: ''});
-  const isLoading = useSelector(isFeedbackLoadingSelector);
+  const isLoading = useSelector(feedbackStatusSelector) === FeedbackStatuses.LOADING;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;

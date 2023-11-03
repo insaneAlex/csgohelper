@@ -8,10 +8,9 @@ type ReturnType = Generator<CallEffect | PutEffect, void, {status: string}>;
 
 export function* postFeedbackTask({payload}: PayloadAction<FeedbackType>): ReturnType {
   const {signal} = new AbortController();
-  const {text, name} = payload;
 
   try {
-    yield call(postFeedback, {body: {text, name}, signal});
+    yield call(postFeedback, {body: payload, signal});
     yield put(postFeedbackSuccess());
   } catch (e) {
     yield put(postFeedbackError());

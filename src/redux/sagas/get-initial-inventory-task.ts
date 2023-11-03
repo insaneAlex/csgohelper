@@ -6,11 +6,11 @@ import {InventoryErrorType} from '../types';
 
 type ReturnType = Generator<CallEffect | PutEffect, void, InitialInventoryResponseType>;
 
-export function* getInitialInventoryTask({payload}: InventoryPayloadType): ReturnType {
+export function* getInitialInventoryTask({payload: {steamid}}: InventoryPayloadType): ReturnType {
   const {signal} = new AbortController();
 
   try {
-    const {inventory, update_time} = yield call(fetchInitialInventory, {steamid: payload.steamid, signal});
+    const {inventory, update_time} = yield call(fetchInitialInventory, {steamid, signal});
 
     yield put(getInitialItemsSuccess({inventory: JSON.parse(inventory), update_time}));
   } catch (e) {

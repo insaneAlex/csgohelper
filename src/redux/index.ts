@@ -8,8 +8,7 @@ export {
   getInitialItemsStart,
   itemsLoadingSelector,
   itemsFiltersSelector,
-  itemsUpdateTimeSelector,
-  isFeedbackLoadingSelector
+  itemsUpdateTimeSelector
 } from './features';
 
 export {SteamFetchErrors} from './sagas';

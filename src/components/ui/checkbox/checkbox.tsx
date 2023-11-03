@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import styles from './checkbox.module.scss';
 
 type Props = {
-  checked?: boolean;
   name: string;
   label: string;
-  onClick?: () => void;
+  checked?: boolean;
   readOnly?: boolean;
+  onClick?: () => void;
   isWithoutBorder?: boolean;
   defaultChecked?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;

@@ -13,11 +13,4 @@ export {
   itemsUpdateTimeSelector
 } from './inventory';
 
-export {
-  feedbackReducer,
-  FeedbackStatuses,
-  feedbackStatusSelector,
-  isFeedbackLoadingSelector,
-  postFeedbackStart,
-  onResetState
-} from './feedback';
+export {feedbackReducer, FeedbackStatuses, feedbackStatusSelector, postFeedbackStart, onResetState} from './feedback';
