@@ -10,16 +10,16 @@ type Props = {
   onFilterUpdate: (arg: {subFilter?: string; filter: string}) => void;
   subFilters: string[];
   isChecked: boolean;
-  label: string;
+  filter: string;
 };
 
-export const FilterItem: FC<Props> = ({label, isChecked, subFilters, onFilterUpdate}) => {
+export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUpdate}) => {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
 
   const subFiltersLenght = subFilters.length;
   const hasSubfilters = subFiltersLenght > 0;
-  const appliedSubfilters = router.query[label];
+  const appliedSubfilters = router.query[filter];
 
   const listVariants = {
     open: {
@@ -48,11 +48,11 @@ export const FilterItem: FC<Props> = ({label, isChecked, subFilters, onFilterUpd
       <motion.button whileTap={{scale: 0.97}} className={styles.button} onMouseEnter={() => setOpen(true)}>
         <Checkbox
           readOnly
-          name={label}
-          label={label}
+          name={filter}
+          label={filter}
           isWithoutBorder
           checked={isChecked}
-          onChange={() => onFilterUpdate({filter: label})}
+          onChange={() => onFilterUpdate({filter})}
         />
         <motion.div
           transition={{duration: 0.1}}
@@ -72,8 +72,8 @@ export const FilterItem: FC<Props> = ({label, isChecked, subFilters, onFilterUpd
                   isWithoutBorder
                   name={filterKey}
                   label={filterKey}
-                  onChange={() => onFilterUpdate({subFilter: filterKey, filter: label})}
-                  checked={isFilterApplied(appliedSubfilters, filterKey) || isFilterApplied(router.query.type, label)}
+                  onChange={() => onFilterUpdate({subFilter: filterKey, filter})}
+                  checked={isFilterApplied(appliedSubfilters, filterKey) || isFilterApplied(router.query.type, filter)}
                 />
                 {!(i === subFiltersLenght - 1) && <Separator noMargin />}
               </motion.li>

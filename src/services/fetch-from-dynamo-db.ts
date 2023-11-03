@@ -4,10 +4,11 @@ import {calculateInventoryWithPrices} from '../../server-helpers';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
 import {PriceType} from './types';
+import {ENV} from './environment';
 
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
+const {AWS_ACCESS_KEY_ID: accessKeyId, AWS_SECRET_ACCESS_KEY: secretAccessKey} = ENV;
 
+// TODO: Create class-service of AWS
 const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
 const docClient = DynamoDBDocumentClient.from(client);
 

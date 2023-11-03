@@ -9,6 +9,7 @@ import {NextApiRequest, NextApiResponse} from 'next';
 import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {SteamFetchErrors} from '@/src/redux';
 import {InventoryItemType} from '@/types';
+import {ENV} from '@/src/services/environment';
 
 export type CS2InventoryFetchErrorType = {
   response?: {status: number};
@@ -16,16 +17,12 @@ export type CS2InventoryFetchErrorType = {
   dynamoDBAccountFetchError?: string;
 };
 export type inventoryCacheType = {inventory?: null | string; update_time?: string | null};
-
 type inventoryCacheTypes = Record<string, inventoryCacheType>;
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
-
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
-
 const inventoryCache: inventoryCacheTypes = {};
+const {AWS_ACCESS_KEY_ID: accessKeyId, AWS_SECRET_ACCESS_KEY: secretAccessKey} = ENV;
 const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

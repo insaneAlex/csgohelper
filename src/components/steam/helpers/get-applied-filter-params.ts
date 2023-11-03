@@ -1,7 +1,7 @@
 import {ParsedUrlQuery} from 'querystring';
 import {getParamValuesArray} from './get-param-values-array';
 
-export const getAppliedFilterParams = (possibleFilters: {[key: string]: string[]}, params: ParsedUrlQuery) => {
+export const getAppliedFilterParams = (possibleFilters: Record<string, string[]>, params: ParsedUrlQuery) => {
   const filters: Record<string, string[]> = {};
   const parameters = {...params};
 

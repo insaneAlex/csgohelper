@@ -1,18 +1,11 @@
-import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
-import {FC, useEffect, useState} from 'react';
+import {getAppliedFilterParams, filterInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {Loader, ErrorAlert} from '@/src/components/ui';
 import {InventoryItemType} from '@/types';
 import {storage} from '@/src/services';
 import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
-import {
-  getInventoryUniqueItems,
-  getAppliedFilterParams,
-  filterInventory,
-  SearchInventory,
-  Inventory,
-  Filters
-} from '@/src/components/steam';
+import {FC, useEffect} from 'react';
 import {
   itemsLoadingSelector,
   getInitialItemsStart,
@@ -26,16 +19,16 @@ import {
 } from '@/src/redux';
 
 type Props = {
+  possibleFilters: Record<string, string[]>;
   onGetItems: (a: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
   error: InventoryErrorType;
-  possibleFilters: {[key: string]: string[]};
   loading: boolean;
 };
 
 const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, error, loading}) => {
   const router = useRouter();
-  const [stack, setStack] = useState(false);
+
   const steamid = storage.localStorage.get(STEAMID_PARAM);
   const hasNoItems = inventoryItems.length === 0;
 
@@ -46,9 +39,7 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
   const validFilters = getAppliedFilterParams(possibleFilters, router.query);
   const hasValidFilters = Object.keys(validFilters).length > 0;
 
-  const toggleStackDupes = () => setStack(!stack);
-
-  let items = stack ? getInventoryUniqueItems({inventory: inventoryItems}) : inventoryItems;
+  let items = inventoryItems;
 
   if (hasValidFilters) {
     items = filterInventory({inventory: items, filters: validFilters});
@@ -66,19 +57,12 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
   };
 
   const renderContent = () => {
+    if (loading) {
+      return <Loader />;
+    }
+
     if (items?.length > 0) {
-      return (
-        <>
-          <div style={{display: 'flex'}}>
-            <Checkbox onChange={toggleStackDupes} checked={stack} name="STACK DUPES" label="STACK DUPES" />
-          </div>
-          <Inventory items={items} />
-        </>
-      );
-    } else {
-      if (loading) {
-        return <Loader />;
-      }
+      return <Inventory items={items} />;
     }
   };
 

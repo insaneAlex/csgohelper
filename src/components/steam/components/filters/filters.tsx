@@ -60,7 +60,7 @@ export const Filters: FC = () => {
       {typefilters.map((filter) => (
         <FilterItem
           key={filter}
-          label={filter}
+          filter={filter}
           onFilterUpdate={handleUpdateFilter}
           subFilters={possibleFilters[filter]}
           isChecked={isFilterApplied(router.query.type, filter)}

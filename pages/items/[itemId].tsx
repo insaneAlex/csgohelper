@@ -5,8 +5,8 @@ import {useRouter} from 'next/router';
 import {storage} from '@/src/services';
 import {ItemDetails} from '@/src/components/steam';
 import {useDispatch, useSelector} from 'react-redux';
-import {ErrorAlert, Icons, Loader} from '@/src/components/ui';
 import {getInitialItemsStart, itemsSelector} from '@/src/redux';
+import {Button, ErrorAlert, Icons, Loader} from '@/src/components/ui';
 
 const ItemDetailsPage: FC = () => {
   const router = useRouter();
@@ -28,7 +28,16 @@ const ItemDetailsPage: FC = () => {
   }, []);
 
   if (hasItems && !item) {
-    return <ErrorAlert>There is no such item in inventory.</ErrorAlert>;
+    return (
+      <>
+        <ErrorAlert>There is no such item in inventory.</ErrorAlert>
+        <div style={{textAlign: 'center'}}>
+          <Link href={{pathname: '/', query}} scroll={false}>
+            <Button> Return to Home </Button>
+          </Link>
+        </div>
+      </>
+    );
   }
 
   if (!item) {

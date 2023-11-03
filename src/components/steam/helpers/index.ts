@@ -1,4 +1,3 @@
-export {getInventoryUniqueItems} from './get-inventory-unique-items';
 export {calculateInventoryPrice} from './calculate-inventory-price';
 export {getAppliedFilterParams} from './get-applied-filter-params';
 export {getParamValuesArray} from './get-param-values-array';
