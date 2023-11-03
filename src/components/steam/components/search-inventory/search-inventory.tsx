@@ -14,10 +14,10 @@ import styles from './search-inventory.module.scss';
 export const SearchInventory: FC<{loading: boolean; showNote?: boolean}> = ({loading, showNote}) => {
   const dispatch = useDispatch();
   const [steamid, setSteamid] = useState('');
+  const isDesktop = useWindowWidth() > MAX_MOBILE_WIDTH;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value.trim());
   const handleSearch = () => dispatch(getItemsStart({steamid}));
-  const isDesktop = useWindowWidth() > MAX_MOBILE_WIDTH;
 
   const buttonProps = isDesktop
     ? {size: ButtonSizes.Large, color: ButtonColor.Light, shape: ButtonShape.Rounded}
@@ -34,12 +34,12 @@ export const SearchInventory: FC<{loading: boolean; showNote?: boolean}> = ({loa
       <section className={styles.searchBlock}>
         <label htmlFor={STEAMID_PARAM}>
           <input
+            type="text"
             value={steamid}
+            id={STEAMID_PARAM}
             onInput={handleChange}
             className={styles.input}
             placeholder="Enter your SteamID"
-            type="text"
-            id={STEAMID_PARAM}
           />
         </label>
 

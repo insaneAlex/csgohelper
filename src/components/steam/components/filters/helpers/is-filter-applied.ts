@@ -1,8 +1,2 @@
-export const isFilterApplied = (filters: string | string[] | undefined, filter: string) => {
-  if (Array.isArray(filters)) {
-    return filters.includes(filter);
-  } else if (typeof filters === 'string') {
-    return filters === filter;
-  }
-  return false;
-};
+export const isFilterApplied = (filters: string | string[] | undefined, filter: string) =>
+  Array.isArray(filters) ? filters.includes(filter) : filters === filter;
