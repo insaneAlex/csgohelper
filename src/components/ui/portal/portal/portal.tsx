@@ -1,16 +1,13 @@
-import {FC, useCallback, useEffect, useState} from 'react';
 import {PORTAL_ANIMATION_DURATION} from '../constants';
 import {useSpring, animated} from 'react-spring';
-import {useEventListener} from '@/src/hooks';
+import {FC, useEffect, useState} from 'react';
 import {calculateZindex} from '../helpers';
 import styles from './portal.module.scss';
 import {createPortal} from 'react-dom';
-import {noop} from '@/src/services';
-import {KEYS} from './constants';
 
 type Props = {visible?: boolean; children: React.ReactNode; onEscapePressed?: (e: KeyboardEvent) => void};
 
-export const Portal: FC<Props> = ({children, visible, onEscapePressed = noop}) => {
+export const Portal: FC<Props> = ({children, visible}) => {
   const [portalNode, setPortalNode] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -22,14 +19,6 @@ export const Portal: FC<Props> = ({children, visible, onEscapePressed = noop}) =
       document.body.removeChild(node);
     };
   }, []);
-
-  const onKeyupHandler = useCallback(
-    (event: KeyboardEvent) => {
-      event.key === KEYS.escape && onEscapePressed(event);
-    },
-    [onEscapePressed]
-  );
-  useEventListener('keyup', !visible ? noop : onKeyupHandler);
 
   const portalConfig = useSpring({
     zIndex: calculateZindex({visible}),
