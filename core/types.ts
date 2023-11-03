@@ -8,3 +8,5 @@ export type InventoryResponseType = {
   statusCode: number;
   inventory: string;
 };
+
+export type FeedbackType = {text: string; name: string};

@@ -1,5 +1,6 @@
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {FEEDBACK_KEY} from '../../constants';
+import {FeedbackType} from '@/core/types';
 
 type FeedbackState = {status: FeedbackStatuses};
 
@@ -19,7 +20,7 @@ const feedback = createSlice({
   initialState,
   reducers: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    postFeedbackStart: (state: FeedbackState, _action: PayloadAction<{text: string; name: string}>) => {
+    postFeedbackStart: (state: FeedbackState, _action: PayloadAction<FeedbackType>) => {
       state.status = FeedbackStatuses.LOADING;
     },
     postFeedbackSuccess: (state: FeedbackState) => {

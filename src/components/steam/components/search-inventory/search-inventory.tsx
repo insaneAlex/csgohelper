@@ -47,9 +47,7 @@ export const SearchInventory: FC<{loading: boolean; showNote?: boolean}> = ({loa
           <p className={classNames(styles.buttonText, {[styles.disabled]: isDisabled})}>SEARCH BY SteamID</p>
         </Button>
       </section>
-      {!steamid && showNote && (
-        <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
-      )}
+      {showNote && <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>}
     </>
   );
 };

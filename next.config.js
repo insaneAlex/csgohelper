@@ -17,9 +17,6 @@ const nextConfig = {
         pathname: '/economy/image/**'
       }
     ]
-  },
-  eslint: {
-    dirs: ['src', 'server-helpers', 'pages', 'core', 'public']
   }
 };
 

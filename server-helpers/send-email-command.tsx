@@ -1,6 +1,7 @@
+import {FeedbackType} from '@/core/types';
 import {SendEmailCommand} from '@aws-sdk/client-ses';
 
-type Props = {toAddress: string; fromAddress: string; data: {text: string; name: string}};
+type Props = {toAddress: string; fromAddress: string; data: FeedbackType};
 
 export const createSendEmailCommand = ({toAddress, fromAddress, data}: Props) =>
   new SendEmailCommand({

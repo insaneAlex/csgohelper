@@ -1,6 +1,6 @@
-type Props = {body: {text: string; name: string}; signal: AbortSignal};
+import {FeedbackType} from './types';
 
-export const postFeedback = async ({body, signal}: Props) => {
+export const postFeedback = async ({body, signal}: {body: FeedbackType; signal: AbortSignal}) => {
   const url = '/api/feedback';
 
   const response = await fetch(url, {
