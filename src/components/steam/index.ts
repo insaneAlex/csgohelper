@@ -2,7 +2,6 @@ export {
   ResponsiveInventoryList,
   SearchInventory,
   FeedbackSuccess,
-  FeedbackHeader,
   FeedbackForm,
   ItemDetails,
   Inventory,
