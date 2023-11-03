@@ -14,6 +14,7 @@
   align-items: center;
   min-height: 50px;
   background-color: $base-dark;
-  color: $main-font-color;
   letter-spacing: 1px;
+
+  @include body-short;
 }

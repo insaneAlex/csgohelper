@@ -1,6 +1,6 @@
-import {COMPONENT_NAME, MIN_MOBILE_WIDTH} from './constants';
-import {Icons, Portal} from '@/src/components/ui';
+import {COMPONENT_NAME, MAX_MOBILE_WIDTH} from './constants';
 import React, {FC, ReactNode, useState} from 'react';
+import {Icons, Portal} from '@/src/components/ui';
 import {useWindowWidth} from '@/src/hooks';
 import Link from 'next/link';
 
@@ -12,7 +12,7 @@ export const HamburgerMenu: FC<Props> = ({navLinks}) => {
   const [visible, setVisible] = useState<undefined | boolean>();
   const handleClose = () => visible && setVisible(false);
 
-  useWindowWidth() > MIN_MOBILE_WIDTH && handleClose();
+  useWindowWidth() > MAX_MOBILE_WIDTH && handleClose();
 
   return (
     <>
@@ -31,11 +31,11 @@ export const HamburgerMenu: FC<Props> = ({navLinks}) => {
 
         <Portal.Content onClose={handleClose} visible={visible}>
           <ul className={styles.links}>
-            {navLinks.map(({name, href, renderIcon}, i) => (
-              <li key={i}>
-                <Link href={href} onClick={handleClose}>
+            {navLinks.map(({name, href, renderIcon}) => (
+              <li key={name}>
+                <Link href={href} onClick={handleClose} className={styles.link}>
                   {renderIcon()}
-                  <span className={styles.linkText}>{name}</span>
+                  {name}
                 </Link>
               </li>
             ))}

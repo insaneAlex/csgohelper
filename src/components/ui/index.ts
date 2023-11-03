@@ -1,4 +1,4 @@
-export {BackIcon, StonksIcon, AccountIcon, FeedbackIcon} from './icons';
+export {Button, ButtonShape, ButtonColor, ButtonSizes} from './button';
 export {ErrorAlert} from './error-alert';
 export {Pagination} from './pagination';
 export {Separator} from './separator';

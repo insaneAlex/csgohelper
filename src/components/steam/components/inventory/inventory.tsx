@@ -39,7 +39,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   }
 
   const missingTiles = useMemo(
-    () => Array.from({length: emptyTiles}, (_, i) => ({assetid: String(i), isEmpty: true})),
+    () => Array.from({length: emptyTiles}, (_, i) => ({assetid: String(i), isEmpty: true}) as InventoryItemType),
     [emptyTiles]
   );
 
@@ -50,10 +50,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
 
   return (
     <>
-      <section className={styles.gridHeader}>
-        <h2 className={styles.title}>{`Items:${itemsAmount}`}</h2>
-        {totalPrice && <span>{` | value: ${totalPrice}$`}</span>}
-      </section>
+      <p className={styles.info}>{`Items:${itemsAmount}${totalPrice ? ` | value ${totalPrice}` : ''}`}</p>
 
       {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}
       <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} />
@@ -62,7 +59,7 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
         <Pagination
           pagesCount={pagesCount}
           currentPage={currentPage}
-          onPageChange={(page: any) => setCurrentPage(page)}
+          onPageChange={(page: number) => setCurrentPage(page)}
         />
       </section>
     </>

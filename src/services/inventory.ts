@@ -1,6 +1,6 @@
 import {parseItem} from './parse';
-import {InventoryGlobalType} from './types';
-import axios, {AxiosResponse} from 'axios';
+import {type Descriptions, InventoryGlobalType, type ItemType} from './types';
+import axios, {type AxiosResponse} from 'axios';
 
 type InventoryResult = {items: InventoryGlobalType[]; total: number};
 
@@ -16,6 +16,13 @@ type GetInventoryParams = {
   language?: string;
   tradable?: boolean;
   retryFn?: (result: InventoryResult) => boolean;
+};
+
+type ResponseType = {
+  success: string;
+  total_inventory_count: number;
+  assets: ItemType[];
+  descriptions: Descriptions[];
 };
 
 export const InventoryApi = {
@@ -81,7 +88,7 @@ export const InventoryApi = {
         throw err;
       });
   },
-  parse(res: any, progress: InventoryResult, contextid: number, tradable: boolean) {
+  parse(res: ResponseType, progress: InventoryResult, contextid: number, tradable: boolean) {
     const parsed = progress || {
       items: [],
       total: 0
@@ -96,7 +103,7 @@ export const InventoryApi = {
 
     parsed.total = res.total_inventory_count;
 
-    Object.values(res.assets).forEach((item: any) => {
+    Object.values(res.assets).forEach((item: ItemType) => {
       const parsedItem = parseItem({item, descriptions: res.descriptions, contextID: contextid});
       if (!tradable || parsedItem.tradable) {
         parsed.items.push(parsedItem);

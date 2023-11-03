@@ -1,20 +1,22 @@
+import {CS2InventoryFetchErrorType, inventoryCacheType} from '@/pages/api/csgoInventory';
 import {DynamoDBDocumentClient, GetCommand} from '@aws-sdk/lib-dynamodb';
 import {calculateInventoryWithPrices} from '../../server-helpers';
-import {inventoryCacheType} from '@/pages/api/csgoInventory';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
 import {PriceType} from './types';
+import {ENV} from './environment';
 
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
+const {AWS_ACCESS_KEY_ID: accessKeyId, AWS_SECRET_ACCESS_KEY: secretAccessKey} = ENV;
 
+// TODO: Create class-service of AWS
 const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
 const docClient = DynamoDBDocumentClient.from(client);
+
 type Props = {
-  error?: any;
   steamid: string;
+  error?: CS2InventoryFetchErrorType;
   inventoryCache: inventoryCacheType;
-  prices: {[key: string]: {price: PriceType}} | null;
+  prices: Record<string, {price: PriceType}> | null;
 };
 
 export const fetchFromDynamoDB = async ({inventoryCache, error, steamid, prices}: Props) => {
@@ -37,8 +39,10 @@ export const fetchFromDynamoDB = async ({inventoryCache, error, steamid, prices}
     }
 
     throw error;
-  } catch (e: any) {
-    if (e?.$metadata?.httpStatusCode === 400) {
+  } catch (e) {
+    const err = e as {$metadata?: {httpStatusCode?: number}};
+
+    if (err?.$metadata?.httpStatusCode === 400) {
       return {statusCode: 404, inventory: '[]', error: 'NO_SUCH_RECORD_IN_DATABASE'};
     }
 

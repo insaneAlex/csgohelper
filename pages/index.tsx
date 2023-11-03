@@ -1,52 +1,48 @@
-import {filterInventoryByTypes, getInventoryUniqueItems, getParamValues} from '@/src/components/steam/helpers';
-import {FILTERS_PARAM, Inventory, InventoryFilters, SearchInventory} from '@/src/components/steam';
-import {ChangeEvent, FC, useEffect, useState} from 'react';
-import {Loader, Checkbox, ErrorAlert} from '@/src/components/ui';
-import {useSearchParams} from 'next/navigation';
+import {getAppliedFilterParams, filterInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {Loader, ErrorAlert} from '@/src/components/ui';
 import {InventoryItemType} from '@/types';
 import {storage} from '@/src/services';
+import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
+import {FC, useEffect} from 'react';
 import {
   itemsLoadingSelector,
   getInitialItemsStart,
   itemsErrorSelector,
+  InventoryErrorType,
   SteamFetchErrors,
   itemsSelector,
-  getItemsStart,
   SteamIDType,
-  RootState
+  RootState,
+  itemsFiltersSelector
 } from '@/src/redux';
-import Head from 'next/head';
 
 type Props = {
-  onGetInventory: (arg: SteamIDType) => void;
+  possibleFilters: Record<string, string[]>;
+  onGetItems: (a: SteamIDType) => void;
   inventoryItems: InventoryItemType[];
-  onGetItems: () => void;
+  error: InventoryErrorType;
   loading: boolean;
-  error: any;
 };
 
-const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, inventoryItems, error, loading}) => {
-  const steamId = storage.localStorage.get(STEAMID_PARAM);
-  const [steamid, setSteamid] = useState(steamId);
-  const [stack, setStack] = useState(false);
+const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, error, loading}) => {
+  const router = useRouter();
+
+  const steamid = storage.localStorage.get(STEAMID_PARAM);
+  const hasNoItems = inventoryItems.length === 0;
 
   useEffect(() => {
-    inventoryItems.length === 0 && steamid && onGetItems();
+    hasNoItems && steamid && onGetItems({steamid});
   }, []);
 
-  const filters = getParamValues(useSearchParams(), FILTERS_PARAM);
-  const hasFilters = filters.length > 0;
+  const validFilters = getAppliedFilterParams(possibleFilters, router.query);
+  const hasValidFilters = Object.keys(validFilters).length > 0;
 
-  const toggleStackDupes = () => setStack(!stack);
-  const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value);
-  const handleSearch = () => onGetInventory({steamid});
+  let items = inventoryItems;
 
-  let items = stack ? getInventoryUniqueItems({inventory: inventoryItems}) : inventoryItems;
-
-  if (hasFilters) {
-    items = filterInventoryByTypes({inventory: items, types: filters});
+  if (hasValidFilters) {
+    items = filterInventory({inventory: items, filters: validFilters});
   }
 
   const renderError = () => {
@@ -61,34 +57,20 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
   };
 
   const renderContent = () => {
-    const itemsLength = items?.length;
-
     if (loading) {
       return <Loader />;
     }
 
-    if (itemsLength === 0 && hasFilters) {
-      return <p style={{textAlign: 'center', marginTop: '50px'}}>No items with such filters</p>;
-    }
-
-    if (itemsLength > 0) {
+    if (items?.length > 0) {
       return <Inventory items={items} />;
     }
   };
 
   return (
     <>
-      <Head>
-        <title>CS2.Helper - Home</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="google-adsense-account" content="ca-pub-7972775133662836" />;
-      </Head>
-      <SearchInventory id={steamid} disabled={loading} onSearch={handleSearch} onIdChange={handleIdChange} />
+      <SearchInventory loading={loading} showNote={hasNoItems} />
       {renderError()}
-      <InventoryFilters />
-      <div style={{display: 'flex'}}>
-        <Checkbox onChange={toggleStackDupes} checked={stack} name="STACK DUPES" label="STACK DUPES" />
-      </div>
+      <Filters />
       {renderContent()}
     </>
   );
@@ -97,13 +79,10 @@ const SteamInventoryComponent: FC<Props> = ({onGetInventory, onGetItems, invento
 const mapStateToProps = (state: RootState) => ({
   inventoryItems: itemsSelector(state),
   loading: itemsLoadingSelector(state),
-  error: itemsErrorSelector(state)
+  error: itemsErrorSelector(state),
+  possibleFilters: itemsFiltersSelector(state)
 });
 
-const mapDispatchToProps = {
-  onGetItems: getInitialItemsStart,
-  onGetInventory: getItemsStart
-};
+const mapDispatchToProps = {onGetItems: getInitialItemsStart};
 
-const SteamInventoryContainer = connect(mapStateToProps, mapDispatchToProps);
-export default SteamInventoryContainer(SteamInventoryComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(SteamInventory);

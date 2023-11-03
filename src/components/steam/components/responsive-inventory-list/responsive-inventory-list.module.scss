@@ -10,5 +10,6 @@
 }
 
 .empty {
+  transition: none;
   z-index: $z-index-hidden;
 }

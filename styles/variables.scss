@@ -5,7 +5,12 @@ $lighten-bg: #232527;
 $base-dark: #202020;
 $darken-bg: #1d1f20;
 
+$dark-disabled: #333;
+
+$dark-red: #800000;
+
 $z-index-hidden: -1;
+$z-index-normal: 1;
 
 @mixin portal-overlay {
   bottom: 0;
@@ -13,4 +18,14 @@ $z-index-hidden: -1;
   position: fixed;
   right: 0;
   top: 0;
+}
+
+@mixin body-short {
+  color: $main-font-color;
+  font-family: monospace;
+}
+
+@mixin body-short-link {
+  text-decoration: none;
+  @include body-short;
 }

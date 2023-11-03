@@ -9,16 +9,20 @@ import {NextApiRequest, NextApiResponse} from 'next';
 import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {SteamFetchErrors} from '@/src/redux';
 import {InventoryItemType} from '@/types';
+import {ENV} from '@/src/services/environment';
+
+export type CS2InventoryFetchErrorType = {
+  response?: {status: number};
+  steamAccountFetchError?: string;
+  dynamoDBAccountFetchError?: string;
+};
+export type inventoryCacheType = {inventory?: null | string; update_time?: string | null};
+type inventoryCacheTypes = Record<string, inventoryCacheType>;
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
-
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
-export type inventoryCacheType = {inventory?: null | string; update_time?: string | null};
-type inventoryCacheTypes = {[key: string]: inventoryCacheType};
-
 const inventoryCache: inventoryCacheTypes = {};
+const {AWS_ACCESS_KEY_ID: accessKeyId, AWS_SECRET_ACCESS_KEY: secretAccessKey} = ENV;
 const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -65,9 +69,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const minimizedInventory = items.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
       const exterior = getByTagName({tags, tagName: 'Exterior'}).localized_tag_name;
       const type = getByTagName({tags, tagName: 'Type'}).localized_tag_name;
+      const weapon = getByTagName({tags, tagName: 'Weapon'})?.localized_tag_name;
       const rarity_color = getByTagName({tags, tagName: 'Rarity'}).color;
 
-      return {type, name, assetid, exterior, icon_url, name_color, market_hash_name, rarity_color};
+      return {type, name, assetid, exterior, icon_url, name_color, market_hash_name, weapon, rarity_color};
     }) as InventoryItemType[];
 
     const update_time = getFormattedDate();
@@ -90,19 +95,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     inventoryCache[steamid as string].update_time = update_time;
 
     return res.json({statusCode: 200, inventory: JSON.stringify(withPrices)});
-  } catch (e: any) {
-    const error: any = {};
+  } catch (e) {
+    const error = (e || {}) as CS2InventoryFetchErrorType;
     console.log(`STEAM_INVENTORY_FETCH_ERROR`);
 
-    if (e?.response.status === 429) {
+    if (error?.response?.status === 429) {
       error.steamAccountFetchError = SteamFetchErrors.TOO_MANY_REQUESTS;
     }
 
-    if (e?.response.status === 404) {
+    if (error?.response?.status === 404) {
       return res.status(404).json({statusCode: 404, inventory: '[]'});
     }
 
-    if (e?.response.status === 403) {
+    if (error?.response?.status === 403) {
       return res.status(403).json({statusCode: 403, inventory: '[]'});
     }
 

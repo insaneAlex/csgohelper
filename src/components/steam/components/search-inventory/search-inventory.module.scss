@@ -1,64 +1,50 @@
 @import 'styles/variables.scss';
 
 .searchBlock {
-  margin-bottom: 20px;
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
-  input[type='text'] {
-    height: 40px;
-    margin: 0 -10px;
-    background-color: $lighten-bg;
-    border: 1px solid $main-font-color;
-    padding-left: 10px;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    &::placeholder {
-      font-family: monospace;
-    }
+}
+
+.buttonText {
+  width: 200px;
+}
+
+.input {
+  background-color: $lighten-bg;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  border: 1px solid $main-font-color;
+  height: 40px;
+  margin: 0 -10px;
+  padding-left: 10px;
+
+  @include body-short;
+}
+
+.note {
+  text-align: center;
+  margin: 10px;
+  @include body-short;
+}
+
+@media (max-width: 768px) {
+  .buttonText {
+    width: auto;
+    padding: 0 5px;
   }
 
-  @media (max-width: 768px) {
+  .searchBlock {
     margin: 10px;
-    form {
+    gap: 5px;
+    label {
       flex: 1;
     }
-    input[type='text'] {
-      margin: 0;
-      border: 1px solid $base-dark;
-      width: 100%;
-      border-radius: 0;
-    }
   }
-}
-
-.searchBtn {
-  background-color: $lighten-bg;
-  border-radius: 15px;
-  cursor: pointer;
-  border: 1px solid $main-font-color;
-  font-family: monospace;
-  height: 50px;
-  width: 200px;
-  padding: 0;
-  &:active {
-    background-color: $base-dark;
-  }
-
-  @media (max-width: 768px) {
-    width: 150px;
-    height: 40px;
+  .input {
+    margin: 0;
     border: 1px solid $base-dark;
+    width: 100%;
     border-radius: 0;
-    margin-left: 10px;
   }
-}
-
-.searchBtnDisabled {
-  color: gray;
-  border: 1px solid gray;
-}
-
-.searchBtnDisabled:active {
-  background-color: $lighten-bg;
 }

@@ -4,29 +4,41 @@ import classNames from 'classnames';
 import styles from './checkbox.module.scss';
 
 type Props = {
-  checked?: boolean;
   name: string;
   label: string;
+  checked?: boolean;
   readOnly?: boolean;
+  onClick?: () => void;
+  isWithoutBorder?: boolean;
   defaultChecked?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
-export const Checkbox: FC<Props> = ({checked, name, readOnly, label, defaultChecked, onChange}) => (
+export const Checkbox: FC<Props> = ({
+  name,
+  label,
+  checked,
+  onClick,
+  onChange,
+  readOnly,
+  defaultChecked,
+  isWithoutBorder = false
+}) => (
   <label
     className={classNames(styles.label, {
-      [styles.checked]: checked || defaultChecked
+      [styles.checked]: (checked || defaultChecked) && !isWithoutBorder
     })}
     htmlFor={name}
   >
     <input
       id={name}
-      className={styles.input}
       type="checkbox"
-      readOnly={readOnly}
-      defaultChecked={defaultChecked}
+      onClick={onClick}
       checked={checked}
+      readOnly={readOnly}
       onChange={onChange}
+      className={styles.input}
+      defaultChecked={defaultChecked}
     />
     <span>{label}</span>
   </label>

@@ -1,16 +1,17 @@
 export {
-  inventoryReducer,
   getItemsStart,
-  getItemsSuccess,
   getItemsError,
   itemsSelector,
+  getItemsSuccess,
+  inventoryReducer,
+  itemsErrorSelector,
   getInitialItemsStart,
   itemsLoadingSelector,
-  itemsUpdateTimeSelector,
-  itemsErrorSelector
+  itemsFiltersSelector,
+  itemsUpdateTimeSelector
 } from './features';
 
 export {SteamFetchErrors} from './sagas';
 
-export type {RootState, AppDispath} from './store';
-export type {InventoryState, SteamIDType} from './types';
+export type {RootState} from './store';
+export type {InventoryState, SteamIDType, InventoryErrorType} from './types';

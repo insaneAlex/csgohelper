@@ -1,0 +1,92 @@
+@import 'styles/variables.scss';
+
+.button {
+  background-color: $lighten-bg;
+  cursor: pointer;
+  font-size: 13px;
+  height: 40px;
+  min-width: 150px;
+  border-radius: 5px;
+  border: 1px solid $darken-light;
+  letter-spacing: 1px;
+  position: relative;
+  font-weight: 500;
+  transition: background-color 200ms ease-in-out;
+  &:active {
+    transform: scale(0.97);
+  }
+  @include body-short;
+}
+
+.rounded {
+  border-radius: 15px;
+}
+
+.light {
+  border: 1px solid $main-font-color;
+}
+
+.large {
+  height: 50px;
+}
+
+.loading {
+  font-size: 0;
+  &:before {
+    border-radius: 50%;
+    content: '';
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    animation: loading 1s infinite;
+  }
+}
+
+.disabled {
+  background-color: $dark-disabled;
+
+  &:active {
+    transform: none;
+  }
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+@keyframes loading {
+  0%,
+  to {
+    box-shadow:
+      -18px 0 0 1px $main-font-color,
+      -6px 0 0 1px rgba($main-font-color, 0.6),
+      6px 0 0 1px rgba($main-font-color, 0.3),
+      18px 0 0 1px rgba($main-font-color, 0.3);
+  }
+
+  33% {
+    box-shadow:
+      -18px 0 0 1px rgba($main-font-color, 0.6),
+      -6px 0 0 1px $main-font-color,
+      6px 0 0 1px rgba($main-font-color, 0.6),
+      18px 0 0 1px rgba($main-font-color, 0.3);
+  }
+
+  50% {
+    box-shadow:
+      -18px 0 0 1px rgba($main-font-color, 0.3),
+      -6px 0 0 1px rgba($main-font-color, 0.6),
+      6px 0 0 1px $main-font-color,
+      18px 0 0 1px rgba($main-font-color, 0.6);
+  }
+
+  75% {
+    box-shadow:
+      -18px 0 0 1px rgba($main-font-color, 0.3),
+      -6px 0 0 1px rgba($main-font-color, 0.3),
+      6px 0 0 1px rgba($main-font-color, 0.6),
+      18px 0 0 1px $main-font-color;
+  }
+}

@@ -1,14 +1,15 @@
-import {CrossIcon} from './close-icon';
+import {AccountIcon} from './account-icon';
+import {BackIcon} from './back-icon';
+import {FeedbackIcon} from './feedback-icon';
 import {HamburgerIcon} from './hamburger-icon';
-
-export {BackIcon} from './back-icon';
-export {StonksIcon} from './stonks-icon';
-export {AccountIcon} from './account-icon';
-export {FeedbackIcon} from './feedback-icon';
+import {StonksIcon} from './stonks-icon';
 
 export const Icons = {
-  Cross: () => <CrossIcon fill="currentColor" width={20} height={20} />,
-  CrossSmall: () => <CrossIcon fill="currentColor" />,
-  CrossLarge: () => <CrossIcon fill="currentColor" width={25} height={25} />,
-  Hamburger: () => <HamburgerIcon width={30} height={30} />
+  Hamburger: () => <HamburgerIcon width={30} height={30} />,
+  Back: () => <BackIcon width={30} height={30} />,
+  BackSmall: () => <BackIcon />,
+
+  Stonks: () => <StonksIcon />,
+  Feedback: () => <FeedbackIcon />,
+  Account: () => <AccountIcon />
 };

@@ -7,4 +7,4 @@ export enum PriceOptions {
   ALL = 'all_time'
 }
 
-export type GridConfigType = {[key: string]: NumObject};
+export type GridConfigType = Record<string, NumObject>;

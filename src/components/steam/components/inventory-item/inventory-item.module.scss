@@ -1,8 +1,12 @@
+@import 'styles/variables.scss';
+
 .item {
   align-items: center;
   display: inline-flex;
   flex-direction: column;
   margin: 10px;
+
+  @include body-short-link;
 }
 
 .price {
@@ -16,16 +20,11 @@
   font-size: 10px;
   padding: 0px 5px;
   text-align: center;
-}
 
-@media (min-width: 425px) {
-  .describe {
+  @media (min-width: 425px) {
     font-size: 12px;
   }
-}
-
-@media (min-width: 1024px) {
-  .describe {
+  @media (min-width: 1024px) {
     font-size: 13px;
   }
 }

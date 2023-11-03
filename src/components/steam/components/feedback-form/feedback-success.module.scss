@@ -1,0 +1,17 @@
+@import 'styles/variables.scss';
+
+.title {
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+.text {
+  margin-bottom: 25px;
+}
+
+.wrapper {
+  margin: 40px auto;
+  text-align: center;
+
+  @include body-short;
+}

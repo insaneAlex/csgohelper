@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 
-type Props = {fill?: string; width: number; height: number};
+type Props = {fill?: string; width?: number; height?: number};
 
-export const BackIcon: FC<Props> = ({fill = 'gainsboro', width, height}) => {
+export const BackIcon: FC<Props> = ({fill = 'gainsboro', width = 16, height = 16}) => {
   return (
     <svg width={width} height={height} viewBox="0 0 1024 1024" fill="#000000">
       <path

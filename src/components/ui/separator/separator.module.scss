@@ -1,10 +1,9 @@
+@import 'styles/variables.scss';
+
 .separator {
-  border-bottom: 1px solid grey;
-  border-left: 0;
-  border-right: 0;
-  border-top: 0;
+  border: none;
+  border-bottom: 1px solid $darken-light;
   margin: 20px auto;
-  width: calc(100% - 40px);
 }
 .smallMargin {
   margin: 10px auto;

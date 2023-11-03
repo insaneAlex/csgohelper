@@ -1,31 +1,23 @@
-class MemoryStorage {
-  store = {};
+import {isClient} from './is-client';
 
-  getItem(key: string) {
-    // @ts-ignore
+class MemoryStorage {
+  private store: Record<string, string> = {};
+
+  getItem(key: string): string | null {
     return this.store[key] || null;
   }
-  setItem(key: string, value: any) {
-    // @ts-ignore
-    this.store[key] = value.toString();
-  }
-  removeItem(key: string) {
-    // @ts-ignore
-    delete this.store[key];
-  }
-  clear() {
-    this.store = {};
+  setItem(key: string, value: string): void {
+    this.store[key] = value;
   }
 }
-
-const createStorage = (storage: any) => {
+const createStorage = (storage: Storage | MemoryStorage) => {
   return {
-    set: (key: string, item: any) => {
+    set: (key: string, item: unknown) => {
       try {
         if (typeof item === 'object') {
           storage.setItem(key, JSON.stringify(item));
         } else {
-          storage.setItem(key, item);
+          storage.setItem(key, String(item));
         }
       } catch (e) {
         return null;
@@ -33,27 +25,12 @@ const createStorage = (storage: any) => {
     },
     get: (key: string) => {
       return storage.getItem(key);
-    },
-    getJSON: (key: string) => {
-      try {
-        return JSON.parse(storage.getItem(key));
-      } catch (e) {
-        return null;
-      }
-    },
-    remove: (key: string) => {
-      storage.removeItem(key);
-    },
-    clear: () => {
-      storage.clear();
     }
   };
 };
 
-const sessionStorage = typeof window !== 'undefined' ? window.sessionStorage : new MemoryStorage();
-const localStorage = typeof window !== 'undefined' ? window.localStorage : new MemoryStorage();
+const localStorage = isClient() ? window.localStorage : new MemoryStorage();
 
 export const storage = {
-  sessionStorage: createStorage(sessionStorage),
   localStorage: createStorage(localStorage)
 };

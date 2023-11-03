@@ -1,6 +1,6 @@
-import {InventoryGlobalType} from './types';
+import {type Descriptions, type ItemType, type InventoryGlobalType} from './types';
 
-type Props = (arg: {contextID: number; item: InventoryGlobalType; descriptions: any[]}) => any;
+type Props = (arg: {contextID: number; item: ItemType; descriptions?: Descriptions[]}) => InventoryGlobalType;
 
 export const parseItem: Props = ({item, descriptions, contextID}) => {
   const parsed = {
@@ -10,11 +10,11 @@ export const parseItem: Props = ({item, descriptions, contextID}) => {
     amount: parseInt(item.amount, 10),
     contextid: item.contextid || contextID.toString(),
     is_currency: !!item.is_currency,
-    tradable: !!item.tradable,
-    marketable: !!item.marketable,
-    commodity: !!item.commodity,
-    market_tradable_restriction: parseInt(item.market_tradable_restriction, 10) || 0,
-    market_marketable_restriction: parseInt(item.market_marketable_restriction, 10) || 0,
+    tradable: item.tradable,
+    marketable: item.marketable,
+    commodity: item.commodity,
+    market_tradable_restriction: item.market_tradable_restriction || 0,
+    market_marketable_restriction: item.market_marketable_restriction || 0,
     fraudwarnings: item.fraudwarnings || [],
     descriptions: item.descriptions || []
   };
@@ -27,9 +27,5 @@ export const parseItem: Props = ({item, descriptions, contextID}) => {
     description && Object.assign(parsed, description);
   }
 
-  if (parsed.owner && JSON.stringify(parsed.owner) === '{}') {
-    parsed.owner = null;
-  }
-
-  return parsed;
+  return parsed as unknown as InventoryGlobalType;
 };

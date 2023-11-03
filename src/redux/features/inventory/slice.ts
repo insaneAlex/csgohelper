@@ -1,21 +1,21 @@
-import {InventoryItemType} from '@/types';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {InventoryState} from '../../types';
+import {InventoryErrorType, InventoryState, SteamIDType} from '../../types';
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {INVENTORY_KEY} from '../../constants';
+import {InventoryItemType} from '@/types';
 
 const initialState: InventoryState = {
   items: [],
+  error: null,
   isLoading: false,
-  update_time: null,
-  prices: [],
-  error: null
+  update_time: null
 };
 
 const inventory = createSlice({
   name: INVENTORY_KEY,
   initialState,
   reducers: {
-    getItemsStart: (state: InventoryState, _action) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getItemsStart: (state: InventoryState, _action: PayloadAction<SteamIDType>) => {
       state.isLoading = true;
       state.error = null;
     },
@@ -27,11 +27,12 @@ const inventory = createSlice({
       state.update_time = action.payload.update_time;
       state.items = action.payload.inventory;
     },
-    getItemsError: (state: InventoryState, action: PayloadAction<any>) => {
+    getItemsError: (state: InventoryState, action: PayloadAction<InventoryErrorType>) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    getInitialItemsStart: (state: InventoryState) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getInitialItemsStart: (state: InventoryState, _action: PayloadAction<SteamIDType>) => {
       state.isLoading = true;
       state.error = null;
     },
@@ -43,7 +44,7 @@ const inventory = createSlice({
       state.update_time = action.payload.update_time;
       state.items = action.payload.inventory;
     },
-    getInitialItemsError: (state: InventoryState, action: PayloadAction<any>) => {
+    getInitialItemsError: (state: InventoryState, action: PayloadAction<InventoryErrorType>) => {
       state.isLoading = false;
       state.error = action.payload;
     }
@@ -52,11 +53,11 @@ const inventory = createSlice({
 
 export const {
   getItemsStart,
-  getItemsSuccess,
   getItemsError,
+  getItemsSuccess,
   getInitialItemsStart,
-  getInitialItemsSuccess,
-  getInitialItemsError
+  getInitialItemsError,
+  getInitialItemsSuccess
 } = inventory.actions;
 
 export const inventoryReducer = inventory.reducer;

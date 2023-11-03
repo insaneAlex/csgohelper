@@ -1,15 +1,27 @@
-import {ErrorAlert} from '@/src/components/ui';
+import {FeedbackStatuses, feedbackStatusSelector, onResetState} from '@/src/redux/features';
+import {FeedbackForm, FeedbackSuccess} from '@/src/components/steam';
+import {useSelector, useDispatch} from 'react-redux';
+import {FC, useEffect} from 'react';
 import Head from 'next/head';
-import {FC} from 'react';
 
 const Feedback: FC = () => {
+  const dispatch = useDispatch();
+  const feedbackStatus = useSelector(feedbackStatusSelector);
+
+  useEffect(() => {
+    return () => {
+      dispatch(onResetState());
+    };
+  }, []);
+
   return (
     <>
       <Head>
-        <title>CS2.Helper - Leave Feedback</title>
+        <title>CS2.Helper - Share your thoughts with us</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <ErrorAlert>Coming soon</ErrorAlert>
+
+      {feedbackStatus === FeedbackStatuses.SUCCESS ? <FeedbackSuccess /> : <FeedbackForm />}
     </>
   );
 };

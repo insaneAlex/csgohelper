@@ -1,18 +1,20 @@
 @import 'styles/variables.scss';
 
 .label {
-  background: $lighten-bg;
+  background: transparent;
   border: 1px solid transparent;
   border-radius: 5px;
   cursor: pointer;
-  display: block;
-  margin: 5px;
-  padding: 5px;
   display: flex;
+  margin: 5px;
+  padding: 3px 0 3px 3px;
+
+  @include body-short;
 }
 
 .input {
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .checked {

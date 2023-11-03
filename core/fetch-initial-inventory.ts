@@ -1,13 +1,11 @@
-import {STEAMID_PARAM, fetchInventoryUrl} from './constants';
+import {SteamIDType} from '@/src/redux';
+import {fetchInventoryUrl} from './constants';
 import {InitialInventoryResponseType} from './types';
-import {storage} from '@/src/services';
 
-type fetchInitialInventoryType = (a: Props) => Promise<InitialInventoryResponseType>;
+type fetchInitialInventoryType = (a: SteamIDType & {signal: AbortSignal}) => Promise<InitialInventoryResponseType>;
 
-type Props = {signal: AbortSignal};
-export const fetchInitialInventory: fetchInitialInventoryType = async ({signal}) => {
-  const storedSteamid = storage.localStorage.get(STEAMID_PARAM);
-  const url = storedSteamid && `${fetchInventoryUrl}?storedSteamid=${storedSteamid}`;
+export const fetchInitialInventory: fetchInitialInventoryType = async ({steamid, signal}) => {
+  const url = `${fetchInventoryUrl}?storedSteamid=${steamid}`;
 
   const response = await fetch(url, {signal});
   return response.json();

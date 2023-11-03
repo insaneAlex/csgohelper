@@ -1,4 +1,6 @@
-type Props = {items: any[]; pageNumber: number; pageSize: number};
+import {InventoryItemType} from '@/types';
+
+type Props = {items: InventoryItemType[]; pageNumber: number; pageSize: number};
 
 export const paginate = ({items, pageNumber, pageSize}: Props) => {
   if (pageSize <= items.length) {

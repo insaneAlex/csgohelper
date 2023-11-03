@@ -1,20 +1,25 @@
-.title {
-  margin: 25px 10px 5px 10px;
-}
+@import 'styles/variables.scss';
 
 .pages {
   margin: 10px;
 }
 
-.gridHeader {
-  display: flex;
+.info {
+  margin: 20px 10px 0 10px;
   font-size: 15px;
-  justify-content: flex-start;
-  align-items: baseline;
+
+  @include body-short;
+
+  @media (max-width: 768px) {
+    padding-bottom: 5px;
+    text-align: center;
+  }
 }
 
 .updateTime {
   font-size: 0.9em;
   text-align: center;
-  padding: 10px 10px 0 10px;
+  padding: 0 10px;
+
+  @include body-short;
 }

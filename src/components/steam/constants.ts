@@ -15,5 +15,3 @@ export const screenSizes = {
   [ScreenSizes.Xs]: 776,
   [ScreenSizes.Xxs]: 488
 };
-
-export const FILTERS_PARAM = 'filters';
