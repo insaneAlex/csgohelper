@@ -1,15 +1,11 @@
 import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/server-helpers';
 import {PriceCacheType, fetchPrices} from '@/src/services/fetch-prices';
-import {fetchFromDynamoDB} from '@/src/services/fetch-from-dynamo-db';
-import {AWS_REGION, INVENTORY_TABLE} from '@/src/services';
-import {InventoryGlobalType} from '@/src/services/types';
-import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
-import {InventoryApi} from '@/src/services/inventory';
 import {NextApiRequest, NextApiResponse} from 'next';
-import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {SteamFetchErrors} from '@/src/redux';
 import {InventoryItemType} from '@/types';
-import {ENV} from '@/src/services/environment';
+import {awsServices} from '@/src/services';
+import {InventoryApi} from '@/src/services/inventory';
+import {InventoryGlobalType} from '@/src/services/types';
 
 export type CS2InventoryFetchErrorType = {
   response?: {status: number};
@@ -19,18 +15,17 @@ export type CS2InventoryFetchErrorType = {
 export type inventoryCacheType = {inventory?: null | string; update_time?: string | null};
 type inventoryCacheTypes = Record<string, inventoryCacheType>;
 
-const ONE_DAY = 24 * 60 * 60 * 1000;
+const THIRD_OF_THE_DAY = 8 * 60 * 60 * 1000;
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
 const inventoryCache: inventoryCacheTypes = {};
-const {AWS_ACCESS_KEY_ID: accessKeyId, AWS_SECRET_ACCESS_KEY: secretAccessKey} = ENV;
-const client = new DynamoDBClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const {steamid, storedSteamid} = req.query;
+  const storedSteamid = req.query.storedSteamid as string;
+  const steamid = req.query.steamid as string;
 
   const now = new Date();
 
-  if (!cache.prices || !cache.lastUpdated || now.getTime() - cache.lastUpdated.getTime() > ONE_DAY) {
+  if (!cache.prices || !cache.lastUpdated || now.getTime() - cache.lastUpdated.getTime() > THIRD_OF_THE_DAY) {
     await fetchPrices({cache});
   }
 
@@ -42,11 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!inventoryCache?.[storedSteamid as string]?.inventory) {
       inventoryCache[storedSteamid as string] = {} as inventoryCacheType;
 
-      const response = await fetchFromDynamoDB({
-        prices: cache.prices,
-        inventoryCache: inventoryCache[storedSteamid as string],
-        steamid: storedSteamid as string
-      });
+      const response = await awsServices.fetchFromDynamoDB(storedSteamid, inventoryCache[storedSteamid], cache.prices);
       return res.json(response);
     } else
       return res.json({
@@ -77,18 +68,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const update_time = getFormattedDate();
 
-    const command = new UpdateCommand({
-      Key: {steamid},
-      TableName: INVENTORY_TABLE,
-      UpdateExpression: 'SET inventory=:inventory, update_time=:update_time',
-      ExpressionAttributeValues: {':inventory': JSON.stringify(minimizedInventory), ':update_time': update_time}
-    });
-
     const withPrices = cache.prices
       ? calculateInventoryWithPrices({inventory: minimizedInventory, prices: cache.prices})
       : minimizedInventory;
 
-    await client.send(command);
+    await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
 
     inventoryCache[steamid as string] = {} as inventoryCacheType;
     inventoryCache[steamid as string].inventory = JSON.stringify(minimizedInventory);
@@ -111,11 +95,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(403).json({statusCode: 403, inventory: '[]'});
     }
 
-    const response = await fetchFromDynamoDB({
-      inventoryCache: inventoryCache?.[steamid as string],
-      error: {...error, dynamoDBAccountFetchError: 'DYNAMO_DB_INVENTORY_FETCH_ERROR'},
-      steamid: steamid as string,
-      prices: cache.prices
+    const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache[steamid], cache.prices, {
+      ...error,
+      dynamoDBAccountFetchError: 'DYNAMO_DB_INVENTORY_FETCH_ERROR'
     });
 
     return res.json(response);

@@ -18,7 +18,7 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
   const [open, setOpen] = useState<boolean>(false);
 
   const subFiltersLenght = subFilters.length;
-  const hasSubfilters = subFiltersLenght > 0;
+  const hasSubfilters = subFiltersLenght > 1;
   const appliedSubfilters = router.query[filter];
 
   const listVariants = {
