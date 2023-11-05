@@ -1,14 +1,12 @@
 import {Descriptions, InventoryGlobalType, ItemType} from './types';
 
-type Props = (arg: {contextID: number; item: ItemType; descriptions?: Descriptions[]}) => InventoryGlobalType;
+type Props = (arg: {item: ItemType; descriptions?: Descriptions[]}) => InventoryGlobalType;
 
-export const parseItem: Props = ({item, descriptions, contextID}) => {
+export const parseItem: Props = ({item, descriptions}) => {
   const parsed = {
     ...item,
     assetid: item.id || item.assetid,
-    instanceid: item.instanceid || '0',
     amount: parseInt(item.amount, 10),
-    contextid: item.contextid || contextID.toString(),
     is_currency: !!item.is_currency,
     tradable: item.tradable,
     marketable: item.marketable,

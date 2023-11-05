@@ -1,20 +1,14 @@
 import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/server-helpers';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {PriceCacheType, fetchPrices} from '@/src/services/fetch-prices';
-import {NextApiRequest, NextApiResponse} from 'next';
-import {SteamFetchErrors} from '@/src/redux';
-
-import {awsServices} from '@/src/services';
 import {inventoryApi} from '@/src/services/steam-inventory/inventory';
-
 import {INVENTORY_NOT_SAVED_ERROR} from '@/src/services/aws';
-import {InventoryGlobalType, InventoryItemType} from '@/src/services/steam-inventory';
+import {NextApiRequest, NextApiResponse} from 'next';
+import {awsServices} from '@/src/services';
 
-export type CS2InventoryFetchErrorType = {
-  response?: {status: number};
-  steamAccountFetchError?: string;
-  dynamoDBAccountFetchError?: string;
-};
-export type inventoryCacheType = {inventory?: null | string; update_time?: string | null};
+export type CS2InventoryFetchErrorType = {response?: {status: number}};
+type InventoryRecordType = {inventory?: null | string; update_time?: string | null};
+export type inventoryCacheType = Record<string, InventoryRecordType>;
 type inventoryCacheTypes = Record<string, inventoryCacheType>;
 
 const THIRD_OF_THE_DAY = 8 * 60 * 60 * 1000;
@@ -57,9 +51,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const {items}: {items: InventoryGlobalType[]} = await inventoryApi.get({steamid});
+    const items = await inventoryApi.get({steamid});
 
     const minimizedInventory = items.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
       const exterior = getByTagName({tags, tagName: 'Exterior'}).localized_tag_name;
@@ -77,18 +69,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       : minimizedInventory;
 
     const dynamoResponse = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
-    const itemNotSaved = dynamoResponse?.errorMessage === INVENTORY_NOT_SAVED_ERROR;
+    const isSavedOnDynamo = dynamoResponse?.errorMessage !== INVENTORY_NOT_SAVED_ERROR;
 
-    inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time};
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time} as InventoryRecordType;
 
-    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices), itemNotSaved});
+    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices), isSavedOnDynamo: isSavedOnDynamo});
   } catch (e) {
     const error = (e || {}) as CS2InventoryFetchErrorType;
     console.log(e);
-
-    if (error?.response?.status === 429) {
-      error.steamAccountFetchError = SteamFetchErrors.TOO_MANY_REQUESTS;
-    }
 
     if (error?.response?.status === 404) {
       return res.status(404).json({statusCode: 404, inventory: '[]'});
@@ -98,9 +88,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(403).json({statusCode: 403, inventory: '[]'});
     }
 
-    const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache[steamid], cache.prices);
-
-    return res.json(response);
+    if (!inventoryCache[steamid]) {
+      try {
+        const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
+        return res.json(response);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      const {update_time, inventory} = inventoryCache[steamid];
+      return res.status(201).json({
+        statusCode: 201,
+        update_time: update_time,
+        inventory: cache.prices
+          ? JSON.stringify(
+              calculateInventoryWithPrices({inventory: JSON.parse(inventory as string), prices: cache.prices})
+            )
+          : inventory
+      });
+    }
   }
 };
 

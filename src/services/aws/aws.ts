@@ -37,17 +37,14 @@ class AWSServices {
           ? JSON.stringify(calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices}))
           : inventory;
 
-        inventoryCache.inventory = inventory;
-        inventoryCache.update_time = update_time;
+        inventoryCache[steamid] = {inventory, update_time};
 
         return {statusCode: 201, inventory: withPrices, update_time};
       }
-
-      throw response;
     } catch (e) {
       const err = e as AmazonResponseType;
       console.log(err);
-      return {statusCode: err.$metadata.httpStatusCode, inventory: '[]'};
+      return {statusCode: 404, inventory: '[]'};
     }
   }
 
@@ -61,6 +58,8 @@ class AWSServices {
     try {
       await this.docClient.send(command);
     } catch (error) {
+      console.log(error);
+
       const {message: errorMessage} = error as {message?: string};
       return {errorMessage};
     }

@@ -23,20 +23,13 @@ export type TagsTypeIndex = {
   [key in TagsType]: string;
 };
 
-export type InventoryResult = {items: InventoryGlobalType[]; total: number};
-
 export type GetInventoryParams = {
   steamid: string;
   appid?: number;
   contextid?: number;
-  start?: string;
-  result: InventoryResult;
   count?: number;
-  retries?: number;
-  retryDelay?: number;
   language?: string;
   tradable?: boolean;
-  retryFn?: (result: InventoryResult) => boolean;
 };
 
 export type Descriptions = {
