@@ -30,7 +30,7 @@ export type GetInventoryParams = {
   appid?: number;
   contextid?: number;
   start?: string;
-  result?: InventoryResult;
+  result: InventoryResult;
   count?: number;
   retries?: number;
   retryDelay?: number;

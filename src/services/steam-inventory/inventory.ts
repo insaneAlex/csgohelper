@@ -1,5 +1,5 @@
 import {GetInventoryParams, InventoryResponseType, InventoryResult, ItemType} from './types';
-import axios, {type AxiosResponse} from 'axios';
+import axios from 'axios';
 import {parseItem} from './parse';
 
 class InventoryApi {
@@ -9,8 +9,8 @@ class InventoryApi {
 
   async get({
     steamid,
-    start = '',
-    result = {} as InventoryResult,
+    start,
+    result,
     appid = 730,
     contextid = 2,
     count = 1000,
@@ -30,8 +30,8 @@ class InventoryApi {
 
     const makeRequest = async (): Promise<void> => {
       try {
-        const res: AxiosResponse = await axios.get(url);
-        const {data} = res;
+        const {data} = await axios.get(url);
+
         result = this.parse(data, result, contextid, tradable);
       } catch (err) {
         if (retries > 1) {

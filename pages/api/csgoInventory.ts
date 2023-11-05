@@ -57,6 +57,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const {items}: {items: InventoryGlobalType[]} = await inventoryApi.get({steamid});
 
     const minimizedInventory = items.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
