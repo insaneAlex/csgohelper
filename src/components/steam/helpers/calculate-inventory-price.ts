@@ -1,4 +1,4 @@
-import {InventoryItemType} from '@/types';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {PriceOptions} from '../types';
 
 export const calculateInventoryPrice = ({items}: {items: InventoryItemType[]}) => {

@@ -14,9 +14,16 @@ export function* getInventoryTask({payload}: InventoryPayloadType): ReturnType {
   const {steamid} = payload;
 
   try {
-    const {inventory: inventoryJson, statusCode, error, update_time} = yield call(fetchInventory, {steamid, signal});
+    const {
+      inventory: inventoryJson,
+      statusCode,
+      itemNotSaved,
+      error,
+      update_time
+    } = yield call(fetchInventory, {steamid, signal});
     const inventory = JSON.parse(inventoryJson);
-    inventory?.length > 0 && storage.localStorage.set(STEAMID_PARAM, steamid);
+
+    inventory?.length > 0 && !itemNotSaved && storage.localStorage.set(STEAMID_PARAM, steamid);
 
     if (statusCode === 403) {
       yield put(getItemsError(SteamFetchErrors.PRIVATE_INVENTORY_ERROR));

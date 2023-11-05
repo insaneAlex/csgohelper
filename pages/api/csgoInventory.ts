@@ -2,10 +2,12 @@ import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric}
 import {PriceCacheType, fetchPrices} from '@/src/services/fetch-prices';
 import {NextApiRequest, NextApiResponse} from 'next';
 import {SteamFetchErrors} from '@/src/redux';
-import {InventoryItemType} from '@/types';
+
 import {awsServices} from '@/src/services';
-import {InventoryApi} from '@/src/services/inventory';
-import {InventoryGlobalType} from '@/src/services/types';
+import {inventoryApi} from '@/src/services/steam-inventory/inventory';
+
+import {INVENTORY_NOT_SAVED_ERROR} from '@/src/services/aws';
+import {InventoryGlobalType, InventoryItemType} from '@/src/services/steam-inventory';
 
 export type CS2InventoryFetchErrorType = {
   response?: {status: number};
@@ -55,7 +57,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const {items}: {items: InventoryGlobalType[]} = await Object.create(InventoryApi).get({steamid});
+    const {items}: {items: InventoryGlobalType[]} = await inventoryApi.get({steamid});
 
     const minimizedInventory = items.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
       const exterior = getByTagName({tags, tagName: 'Exterior'}).localized_tag_name;
@@ -72,16 +74,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ? calculateInventoryWithPrices({inventory: minimizedInventory, prices: cache.prices})
       : minimizedInventory;
 
-    await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
+    const dynamoResponse = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
+    const itemNotSaved = dynamoResponse?.errorMessage === INVENTORY_NOT_SAVED_ERROR;
 
-    inventoryCache[steamid as string] = {} as inventoryCacheType;
-    inventoryCache[steamid as string].inventory = JSON.stringify(minimizedInventory);
-    inventoryCache[steamid as string].update_time = update_time;
+    inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time};
 
-    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices)});
+    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices), itemNotSaved});
   } catch (e) {
     const error = (e || {}) as CS2InventoryFetchErrorType;
-    console.log(`STEAM_INVENTORY_FETCH_ERROR`);
+    console.log(e);
 
     if (error?.response?.status === 429) {
       error.steamAccountFetchError = SteamFetchErrors.TOO_MANY_REQUESTS;
@@ -95,10 +96,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(403).json({statusCode: 403, inventory: '[]'});
     }
 
-    const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache[steamid], cache.prices, {
-      ...error,
-      dynamoDBAccountFetchError: 'DYNAMO_DB_INVENTORY_FETCH_ERROR'
-    });
+    const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache[steamid], cache.prices);
 
     return res.json(response);
   }

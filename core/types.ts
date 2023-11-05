@@ -4,6 +4,7 @@ export type InitialInventoryResponseType = {inventory: string; update_time: stri
 
 export type InventoryResponseType = {
   error?: InventoryResponseErrorType;
+  itemNotSaved: boolean;
   update_time?: string;
   statusCode: number;
   inventory: string;

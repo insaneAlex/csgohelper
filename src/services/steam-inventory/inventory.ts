@@ -1,39 +1,16 @@
-import {parseItem} from './parse';
-import {type Descriptions, InventoryGlobalType, type ItemType} from './types';
+import {GetInventoryParams, InventoryResponseType, InventoryResult, ItemType} from './types';
 import axios, {type AxiosResponse} from 'axios';
+import {parseItem} from './parse';
 
-type InventoryResult = {items: InventoryGlobalType[]; total: number};
+class InventoryApi {
+  recentRotations = 0;
+  maxUse = 5;
+  recentRequests = 0;
 
-type GetInventoryParams = {
-  steamid: string;
-  appid?: number;
-  contextid?: number;
-  start: string;
-  result: InventoryResult;
-  count?: number;
-  retries: number;
-  retryDelay: number;
-  language?: string;
-  tradable?: boolean;
-  retryFn?: (result: InventoryResult) => boolean;
-};
-
-type ResponseType = {
-  success: string;
-  total_inventory_count: number;
-  assets: ItemType[];
-  descriptions: Descriptions[];
-};
-
-export const InventoryApi = {
-  recentRotations: 0,
-  maxUse: 5,
-  recentRequests: 0,
-
-  get({
+  async get({
     steamid,
-    start,
-    result,
+    start = '',
+    result = {} as InventoryResult,
     appid = 730,
     contextid = 2,
     count = 1000,
@@ -87,8 +64,9 @@ export const InventoryApi = {
       .catch((err) => {
         throw err;
       });
-  },
-  parse(res: ResponseType, progress: InventoryResult, contextid: number, tradable: boolean) {
+  }
+
+  parse(res: InventoryResponseType, progress: InventoryResult, contextid: number, tradable: boolean) {
     const parsed = progress || {
       items: [],
       total: 0
@@ -114,4 +92,6 @@ export const InventoryApi = {
 
     return parsed;
   }
-};
+}
+
+export const inventoryApi = new InventoryApi();

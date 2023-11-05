@@ -1,9 +1,10 @@
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {inventoryImageBaseUrl} from '../../constants';
-import {ImgSize, InventoryItemType} from '@/types';
 import {STAT_TRAK_PATTERN} from './constants';
 import {Layout} from 'react-grid-layout';
 import {PriceOptions} from '../../types';
 import {useRouter} from 'next/router';
+import {ImgSize} from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import {FC} from 'react';

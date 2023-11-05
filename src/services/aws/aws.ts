@@ -1,13 +1,12 @@
-import {CS2InventoryFetchErrorType, inventoryCacheType} from '@/pages/api/csgoInventory';
 import {DynamoDBDocumentClient, GetCommand, UpdateCommand} from '@aws-sdk/lib-dynamodb';
+import {AWSConfigType, AmazonResponseType, PricesType} from './types';
 import {calculateInventoryWithPrices} from '../../../server-helpers';
 import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
+import {inventoryCacheType} from '@/pages/api/csgoInventory';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
+import {InventoryItemType} from '../steam-inventory';
 import {FeedbackType} from '@/core/types';
-import {InventoryItemType} from '@/types';
-import {AWSConfigType} from './types';
-import {PriceType} from '../types';
 import {ENV} from '../environment';
 
 const awsConfig: AWSConfigType = {
@@ -25,12 +24,7 @@ class AWSServices {
     this.docClient = DynamoDBDocumentClient.from(dynamoClient);
   }
 
-  async fetchFromDynamoDB(
-    steamid: string,
-    inventoryCache: inventoryCacheType,
-    prices: Record<string, {price: PriceType}> | null,
-    error?: CS2InventoryFetchErrorType
-  ) {
+  async fetchFromDynamoDB(steamid: string, inventoryCache: inventoryCacheType, prices: PricesType) {
     const command = new GetCommand({TableName: INVENTORY_TABLE, Key: {steamid}});
 
     try {
@@ -49,14 +43,11 @@ class AWSServices {
         return {statusCode: 201, inventory: withPrices, update_time};
       }
 
-      throw error;
+      throw response;
     } catch (e) {
-      const err = e as {$metadata?: {httpStatusCode?: number}};
-
-      if (err?.$metadata?.httpStatusCode === 400) {
-        return {statusCode: 404, inventory: '[]', error: 'NO_SUCH_RECORD_IN_DATABASE'};
-      }
-      return {statusCode: 205, inventory: '[]', error};
+      const err = e as AmazonResponseType;
+      console.log(err);
+      return {statusCode: err.$metadata.httpStatusCode, inventory: '[]'};
     }
   }
 
@@ -67,8 +58,12 @@ class AWSServices {
       UpdateExpression: 'SET inventory=:inventory, update_time=:update_time',
       ExpressionAttributeValues: {':inventory': JSON.stringify(inventory), ':update_time': update_time}
     });
-
-    await this.docClient.send(command);
+    try {
+      await this.docClient.send(command);
+    } catch (error) {
+      const {message: errorMessage} = error as {message?: string};
+      return {errorMessage};
+    }
   }
 
   async sendFeedback(data: FeedbackType) {
@@ -77,8 +72,11 @@ class AWSServices {
       Message: {Body: {Text: {Data: data.text}}, Subject: {Data: `New Feedback from ${data.name}!`}},
       Source: ENV.AWS_SES_EMAIL_FROM
     });
-
-    await this.sesClient.send(sendEmailCommand);
+    try {
+      await this.sesClient.send(sendEmailCommand);
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 

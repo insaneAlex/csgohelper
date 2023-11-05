@@ -1,6 +1,6 @@
 import {getAppliedFilterParams, filterInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {Loader, ErrorAlert} from '@/src/components/ui';
-import {InventoryItemType} from '@/types';
 import {storage} from '@/src/services';
 import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
