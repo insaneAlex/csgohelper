@@ -1,9 +1,11 @@
 @import 'styles/variables.scss';
 
-.searchBlock {
+.block {
   align-items: center;
   display: flex;
   justify-content: center;
+  gap: 10px;
+  margin: 10px;
 }
 
 .buttonText {
@@ -16,7 +18,6 @@
   border-radius: 5px;
   width: 250px;
   height: 40px;
-  margin: 0 10px;
   padding-left: 10px;
 
   @include body-short;
@@ -33,16 +34,7 @@
     width: auto;
     padding: 0 5px;
   }
-
-  .searchBlock {
-    margin: 10px;
-    gap: 5px;
-    label {
-      flex: 1;
-    }
-  }
   .input {
-    margin: 0;
     width: 100%;
   }
 }

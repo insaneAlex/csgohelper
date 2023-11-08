@@ -5,7 +5,6 @@ import {useDispatch} from 'react-redux';
 import {storage} from '@/src/services';
 import {isEmpty} from '../../helpers';
 import {STEAMID_PARAM} from '@/core';
-import classNames from 'classnames';
 
 import styles from './search-inventory.module.scss';
 
@@ -26,21 +25,20 @@ export const SearchInventory: FC<Props> = ({loading, disabled}) => {
 
   return (
     <>
-      <section className={styles.searchBlock}>
-        <label htmlFor={STEAMID_PARAM}>
-          <input
-            type="text"
-            value={steamid}
-            id={STEAMID_PARAM}
-            onInput={handleChange}
-            className={styles.input}
-            placeholder="Enter your SteamID"
-          />
-        </label>
+      <label className={styles.block} htmlFor={STEAMID_PARAM}>
+        <input
+          type="text"
+          value={steamid}
+          id={STEAMID_PARAM}
+          onInput={handleChange}
+          className={styles.input}
+          placeholder="Enter your SteamID"
+        />
         <Button disabled={isDisabled} onClick={handleSearch} loading={loading}>
-          <p className={classNames(styles.buttonText, {[styles.disabled]: isDisabled})}>Search SteamID</p>
+          <p className={styles.buttonText}>Search SteamID</p>
         </Button>
-      </section>
+      </label>
+
       <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
       <Separator noMargin />
     </>
