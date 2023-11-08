@@ -1,4 +1,4 @@
-import {InventoryItemType} from '@/types';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {GridConfigType} from '../types';
 import {Layout} from 'react-grid-layout';
 

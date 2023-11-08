@@ -18,18 +18,6 @@
   @include body-short;
 }
 
-.rounded {
-  border-radius: 15px;
-}
-
-.light {
-  border: 1px solid $main-font-color;
-}
-
-.large {
-  height: 50px;
-}
-
 .loading {
   font-size: 0;
   &:before {

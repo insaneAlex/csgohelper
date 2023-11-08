@@ -1,8 +1,8 @@
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {inventoryImageBaseUrl} from '../../constants';
-import {InventoryItemType} from '@/types';
+import {Separator} from '@/src/components/ui';
 import Image from 'next/image';
 import {FC} from 'react';
-import {Separator} from '@/src/components/ui';
 
 import styles from './item-details.module.scss';
 

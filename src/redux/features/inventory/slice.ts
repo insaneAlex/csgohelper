@@ -1,7 +1,7 @@
 import {InventoryErrorType, InventoryState, SteamIDType} from '../../types';
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {INVENTORY_KEY} from '../../constants';
-import {InventoryItemType} from '@/types';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 
 const initialState: InventoryState = {
   items: [],

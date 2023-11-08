@@ -1,4 +1,4 @@
-import {InventoryItemType} from '@/types';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 
 type Props = {items: InventoryItemType[]; pageNumber: number; pageSize: number};
 

@@ -1,10 +1,10 @@
 import {paginate, getScreenSize, calculateInventoryPrice} from '../../helpers';
 import {ResponsiveInventoryList} from '../responsive-inventory-list';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {itemsUpdateTimeSelector} from '@/src/redux';
 import {Pagination} from '@/src/components/ui';
 import {useState, FC, useMemo} from 'react';
 import {useWindowWidth} from '@/src/hooks';
-import {InventoryItemType} from '@/types';
 import {useSelector} from 'react-redux';
 
 import styles from './inventory.module.scss';

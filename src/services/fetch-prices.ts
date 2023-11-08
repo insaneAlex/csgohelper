@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {PriceType} from './types';
+import {PricesType} from './aws/types';
 
-export type PriceCacheType = {prices: Record<string, {price: PriceType}> | null; lastUpdated: Date | null};
+export type PriceCacheType = {prices: PricesType; lastUpdated: Date | null};
 
 export const fetchPricesUrl = 'http://csgobackpack.net/api/GetItemsList/v2/?no_details=true';
 

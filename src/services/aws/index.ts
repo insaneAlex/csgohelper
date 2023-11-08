@@ -1,0 +1,1 @@
+export {awsServices} from './aws';

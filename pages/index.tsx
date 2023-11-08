@@ -1,6 +1,6 @@
 import {getAppliedFilterParams, filterInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {Loader, ErrorAlert} from '@/src/components/ui';
-import {InventoryItemType} from '@/types';
 import {storage} from '@/src/services';
 import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
@@ -53,8 +53,6 @@ const SteamInventory: FC<Props> = ({onGetItems, initLoading, possibleFilters, in
         return <ErrorAlert>Inventory is private, change your privacy settings or try another account</ErrorAlert>;
       case SteamFetchErrors.PROFILE_NOT_FOUND:
         return <ErrorAlert>There is not such profile, try another SteamID</ErrorAlert>;
-      case SteamFetchErrors.TOO_MANY_REQUESTS:
-        return <ErrorAlert>Too many requests last time, try later or try to fetch another account</ErrorAlert>;
     }
   };
 
@@ -70,7 +68,7 @@ const SteamInventory: FC<Props> = ({onGetItems, initLoading, possibleFilters, in
 
   return (
     <>
-      <SearchInventory disabled={initLoading} loading={loading} showNote={hasNoItems} />
+      <SearchInventory disabled={initLoading} loading={loading} />
       {renderError()}
       <Filters />
       {renderContent()}

@@ -1,9 +1,9 @@
 import {calculateLayouts, getImgSizes, getScreenSize} from '../../helpers';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {WidthProvider, Responsive} from 'react-grid-layout';
 import {InventoryItem} from '../inventory-item';
 import {useWindowWidth} from '@/src/hooks';
 import {GridConfigType} from '../../types';
-import {InventoryItemType} from '@/types';
 import React, {FC, useMemo} from 'react';
 import classNames from 'classnames';
 

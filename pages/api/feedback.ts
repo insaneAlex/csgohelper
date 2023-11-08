@@ -1,21 +1,13 @@
-import {createSendEmailCommand} from '@/server-helpers';
 import {NextApiRequest, NextApiResponse} from 'next';
-import {SESClient} from '@aws-sdk/client-ses';
-import {AWS_REGION} from '@/src/services';
-import {ENV} from '@/src/services/environment';
+import {awsServices} from '@/src/services';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const {AWS_ACCESS_KEY_ID: accessKeyId, AWS_SECRET_ACCESS_KEY: secretAccessKey, AWS_SES_EMAIL: email} = ENV;
-
-    const sesClient = new SESClient({region: AWS_REGION, credentials: {accessKeyId, secretAccessKey}});
-    const sendEmailCommand = createSendEmailCommand({data: req.body, fromAddress: email, toAddress: email});
-
     try {
-      await sesClient.send(sendEmailCommand);
-      res.status(200).json({});
+      await awsServices.sendFeedback(req.body);
+      res.status(200).json({status: 'ok'});
     } catch (e) {
-      res.status(401).json({});
+      res.status(401).json({status: 'fail'});
     }
   } else {
     res.status(400).json({});

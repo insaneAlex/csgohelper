@@ -1,5 +1,5 @@
-import {InventoryItemType} from '@/types';
 import {CS2InventoryFetchErrorType} from '@/pages/api/csgoInventory';
+import {InventoryItemType} from '../services/steam-inventory';
 
 export type SteamIDType = {steamid: string};
 export type InventoryErrorType = null | string | CS2InventoryFetchErrorType;
