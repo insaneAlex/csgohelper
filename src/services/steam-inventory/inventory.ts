@@ -1,6 +1,6 @@
 import {GetInventoryParams, InventoryGlobalType, InventoryResponseType, ItemType} from './types';
-import axios from 'axios';
 import {parseItem} from './parse-item';
+import axios from 'axios';
 
 class InventoryApi {
   async get({
