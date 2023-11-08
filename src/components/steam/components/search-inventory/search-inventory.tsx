@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FC, useEffect, useState} from 'react';
-import {Button} from '@/src/components/ui';
+import {Button, Separator} from '@/src/components/ui';
 import {getItemsStart} from '@/src/redux';
 import {useDispatch} from 'react-redux';
 import {storage} from '@/src/services';
@@ -42,6 +42,7 @@ export const SearchInventory: FC<Props> = ({loading, disabled}) => {
         </Button>
       </section>
       <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
+      <Separator noMargin />
     </>
   );
 };
