@@ -2,10 +2,9 @@ import {DynamoDBDocumentClient, GetCommand, UpdateCommand} from '@aws-sdk/lib-dy
 import {AWSConfigType, AmazonResponseType, PricesType} from './types';
 import {calculateInventoryWithPrices} from '../../../server-helpers';
 import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
-import {inventoryCacheType} from '@/pages/api/csgoInventory';
+import {NoPriceInventory, inventoryCacheType} from '@/pages/api/csgoInventory';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
-import {InventoryItemType} from '../steam-inventory';
 import {FeedbackType} from '@/core/types';
 import {ENV} from '../environment';
 
@@ -48,7 +47,7 @@ class AWSServices {
     }
   }
 
-  async updateDynamoInventoryRecord(steamid: string, inventory: InventoryItemType[], update_time: string) {
+  async updateDynamoInventoryRecord(steamid: string, inventory: NoPriceInventory, update_time: string) {
     const command = new UpdateCommand({
       Key: {steamid},
       TableName: INVENTORY_TABLE,
@@ -56,12 +55,12 @@ class AWSServices {
       ExpressionAttributeValues: {':inventory': JSON.stringify(inventory), ':update_time': update_time}
     });
     try {
-      await this.docClient.send(command);
+      const response = (await this.docClient.send(command)) as AmazonResponseType;
+      return {isSaved: response?.$metadata?.httpStatusCode === 200};
     } catch (error) {
       console.log(error);
 
-      const {message: errorMessage} = error as {message?: string};
-      return {errorMessage};
+      return {isSaved: false};
     }
   }
 

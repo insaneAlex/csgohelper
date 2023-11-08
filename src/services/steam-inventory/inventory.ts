@@ -13,14 +13,9 @@ class InventoryApi {
   }: GetInventoryParams) {
     const url = `http://steamcommunity.com/inventory/${steamid}/${appid}/${contextid}?l=${language}&count=${count}`;
 
-    try {
-      const {data} = await axios.get(url);
+    const {data} = await axios.get(url);
 
-      return this.parse(data, tradable);
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+    return this.parse(data, tradable);
   }
 
   parse(res: InventoryResponseType, tradable: boolean) {

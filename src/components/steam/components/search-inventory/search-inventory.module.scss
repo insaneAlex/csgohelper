@@ -12,11 +12,11 @@
 
 .input {
   background-color: $lighten-bg;
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
-  border: 1px solid $main-font-color;
+  border: 1px solid $darken-light;
+  border-radius: 5px;
+  width: 250px;
   height: 40px;
-  margin: 0 -10px;
+  margin: 0 10px;
   padding-left: 10px;
 
   @include body-short;
@@ -43,8 +43,6 @@
   }
   .input {
     margin: 0;
-    border: 1px solid $base-dark;
     width: 100%;
-    border-radius: 0;
   }
 }

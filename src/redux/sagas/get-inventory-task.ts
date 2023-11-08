@@ -13,14 +13,9 @@ export function* getInventoryTask({payload: {steamid}}: InventoryPayloadType): R
   const {signal} = new AbortController();
 
   try {
-    const {
-      inventory: inventoryJson,
-      statusCode,
-      isSavedOnDynamo,
-      update_time
-    } = yield call(fetchInventory, {steamid, signal});
-    const inventory = JSON.parse(inventoryJson);
-    inventory?.length > 0 && !isSavedOnDynamo && storage.localStorage.set(STEAMID_PARAM, steamid);
+    const {inventory: inventoryStr, statusCode, savedOnDB, update_time} = yield call(fetchInventory, {steamid, signal});
+    const inventory = JSON.parse(inventoryStr);
+    inventory?.length > 0 && savedOnDB && storage.localStorage.set(STEAMID_PARAM, steamid);
 
     if (statusCode === 403) {
       yield put(getItemsError(SteamFetchErrors.PRIVATE_INVENTORY_ERROR));

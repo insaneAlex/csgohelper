@@ -1,8 +1,7 @@
-import {calculateInventoryWithPrices, getByTagName, getFormattedDate, isNumeric} from '@/server-helpers';
-import {InventoryItemType} from '@/src/services/steam-inventory';
+import {calculateInventoryWithPrices, getFormattedDate, isNumeric, minimizeInventory} from '@/server-helpers';
 import {PriceCacheType, fetchPrices} from '@/src/services/fetch-prices';
 import {inventoryApi} from '@/src/services/steam-inventory/inventory';
-import {INVENTORY_NOT_SAVED_ERROR} from '@/src/services/aws';
+import {InventoryItemType} from '@/src/services/steam-inventory';
 import {NextApiRequest, NextApiResponse} from 'next';
 import {awsServices} from '@/src/services';
 
@@ -10,6 +9,7 @@ export type CS2InventoryFetchErrorType = {response?: {status: number}};
 type InventoryRecordType = {inventory?: null | string; update_time?: string | null};
 export type inventoryCacheType = Record<string, InventoryRecordType>;
 type inventoryCacheTypes = Record<string, inventoryCacheType>;
+export type NoPriceInventory = Omit<InventoryItemType, 'prices'>[];
 
 const THIRD_OF_THE_DAY = 8 * 60 * 60 * 1000;
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (!steamid && !storedSteamid) {
-    return res.json({statusCode: 404, inventory: '[]', error: 'NO_STEAMID_PROVIDED'});
+    return res.json({statusCode: 400, inventory: '[]', error: 'BAD_REQUEST'});
   }
 
   if (storedSteamid || !isNumeric(steamid as string)) {
@@ -53,29 +53,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const items = await inventoryApi.get({steamid});
 
-    const minimizedInventory = items.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {
-      const exterior = getByTagName({tags, tagName: 'Exterior'}).localized_tag_name;
-      const type = getByTagName({tags, tagName: 'Type'}).localized_tag_name;
-      const weapon = getByTagName({tags, tagName: 'Weapon'})?.localized_tag_name;
-      const rarity_color = getByTagName({tags, tagName: 'Rarity'}).color;
-
-      return {type, name, assetid, exterior, icon_url, name_color, market_hash_name, weapon, rarity_color};
-    }) as InventoryItemType[];
-
+    const minimizedInventory = minimizeInventory(items);
     const update_time = getFormattedDate();
 
     const withPrices = cache.prices
       ? calculateInventoryWithPrices({inventory: minimizedInventory, prices: cache.prices})
       : minimizedInventory;
 
-    const dynamoResponse = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
-    const isSavedOnDynamo = dynamoResponse?.errorMessage !== INVENTORY_NOT_SAVED_ERROR;
+    const {isSaved} = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time} as InventoryRecordType;
+    inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time} as inventoryCacheType;
 
-    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices), isSavedOnDynamo: isSavedOnDynamo});
+    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices), savedOnDB: isSaved});
   } catch (e) {
     const error = (e || {}) as CS2InventoryFetchErrorType;
     console.log(e);
@@ -89,12 +78,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (!inventoryCache[steamid]) {
-      try {
-        const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
-        return res.json(response);
-      } catch (e) {
-        console.log(e);
-      }
+      const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
+      return res.json(response);
     } else {
       const {update_time, inventory} = inventoryCache[steamid];
       return res.status(201).json({
