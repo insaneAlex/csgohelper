@@ -1,4 +1,6 @@
 import {getAppliedFilterParams, filterInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {inventoryStatusSelector, itemsFiltersSelector, itemsSelector, getItemsStart, RootState} from '@/src/redux';
+import {GetInventoryPayloadType, InventoryStatuses} from '@/src/redux/features';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {Loader, ErrorAlert} from '@/src/components/ui';
 import {storage} from '@/src/services';
@@ -6,22 +8,12 @@ import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {FC, useEffect} from 'react';
-import {
-  inventoryStatusSelector,
-  itemsFiltersSelector,
-  itemsSelector,
-  getItemsStart,
-  SteamIDType,
-  RootState
-} from '@/src/redux';
-import {InventoryStatuses} from '@/src/redux/features';
 
 type Props = {
   possibleFilters: Record<string, string[]>;
-  onGetItems: (a: SteamIDType) => void;
+  onGetItems: (a: GetInventoryPayloadType) => void;
   inventoryItems: InventoryItemType[];
   status: InventoryStatuses;
-  loading: boolean;
 };
 
 const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, status}) => {
@@ -51,7 +43,7 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
     if (isLoading) {
       return <Loader />;
     }
-    if (items?.length > 0) {
+    if (!hasNoItems) {
       return <Inventory items={items} />;
     }
   };
