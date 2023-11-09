@@ -31,14 +31,15 @@ class AWSServices {
 
       if (response?.Item) {
         const {update_time, inventory} = response.Item as {update_time: string; inventory: string};
+        inventoryCache[steamid] = {inventory, update_time};
 
         const withPrices = prices
           ? JSON.stringify(calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices}))
           : inventory;
 
-        inventoryCache[steamid] = {inventory, update_time};
-
-        return {statusCode: 201, inventory: withPrices, update_time};
+        return {statusCode: 201, shouldSaveSteamId: true, inventory: withPrices, update_time};
+      } else {
+        return {statusCode: 404, inventory: '[]'};
       }
     } catch (e) {
       console.log(e);
@@ -56,8 +57,8 @@ class AWSServices {
     try {
       const response = (await this.docClient.send(command)) as AmazonResponseType;
       return {isSaved: response?.$metadata?.httpStatusCode === 200};
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
 
       return {isSaved: false};
     }

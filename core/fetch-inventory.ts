@@ -1,13 +1,12 @@
+import {GetInventoryPayloadType} from '@/src/redux/features';
+import {createUrl, fetch} from '@/src/services/network';
 import {InventoryResponseType} from './types';
 import {fetchInventoryUrl} from './constants';
-import {SteamIDType} from '@/src/redux';
 
-type fetchInventoryType = (arg: Props) => Promise<InventoryResponseType>;
+type Props = GetInventoryPayloadType & {signal: AbortSignal};
 
-type Props = SteamIDType & {signal: AbortSignal};
-export const fetchInventory: fetchInventoryType = async ({steamid, signal}) => {
-  const url = `${fetchInventoryUrl}?steamid=${steamid}`;
+export const fetchInventory = ({steamid, isForceUpdate, signal}: Props) => {
+  const getInventoryUrl = createUrl(fetchInventoryUrl, {steamid, isForceUpdate});
 
-  const response = await fetch(url, {signal});
-  return response.json();
+  return fetch.get<InventoryResponseType>(getInventoryUrl, {signal});
 };

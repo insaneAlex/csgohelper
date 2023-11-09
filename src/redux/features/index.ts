@@ -4,14 +4,11 @@ export {
   itemsSelector,
   getItemsSuccess,
   inventoryReducer,
-  itemsErrorSelector,
-  initLoadingSelector,
+  InventoryStatuses,
   itemsFiltersSelector,
-  getInitialItemsStart,
-  itemsLoadingSelector,
-  getInitialItemsError,
-  getInitialItemsSuccess,
-  itemsUpdateTimeSelector
+  inventoryStatusSelector,
+  itemsUpdateTimeSelector,
+  type GetInventoryPayloadType
 } from './inventory';
 
 export {feedbackReducer, FeedbackStatuses, feedbackStatusSelector, postFeedbackStart, onResetState} from './feedback';

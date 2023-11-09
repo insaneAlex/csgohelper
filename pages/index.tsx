@@ -1,4 +1,6 @@
 import {getAppliedFilterParams, filterInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {inventoryStatusSelector, itemsFiltersSelector, itemsSelector, getItemsStart, RootState} from '@/src/redux';
+import {GetInventoryPayloadType, InventoryStatuses} from '@/src/redux/features';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {Loader, ErrorAlert} from '@/src/components/ui';
 import {storage} from '@/src/services';
@@ -6,69 +8,49 @@ import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {FC, useEffect} from 'react';
-import {
-  itemsLoadingSelector,
-  getInitialItemsStart,
-  itemsFiltersSelector,
-  itemsErrorSelector,
-  initLoadingSelector,
-  InventoryErrorType,
-  SteamFetchErrors,
-  itemsSelector,
-  SteamIDType,
-  RootState
-} from '@/src/redux';
 
 type Props = {
   possibleFilters: Record<string, string[]>;
-  onGetItems: (a: SteamIDType) => void;
+  onGetItems: (a: GetInventoryPayloadType) => void;
   inventoryItems: InventoryItemType[];
-  error: InventoryErrorType;
-  initLoading: boolean;
-  loading: boolean;
+  status: InventoryStatuses;
 };
 
-const SteamInventory: FC<Props> = ({onGetItems, initLoading, possibleFilters, inventoryItems, error, loading}) => {
+const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, status}) => {
   const router = useRouter();
-
   const steamid = storage.localStorage.get(STEAMID_PARAM);
+  const isLoading = status === InventoryStatuses.INIT_LOAD;
   const hasNoItems = inventoryItems.length === 0;
 
   useEffect(() => {
     hasNoItems && steamid && onGetItems({steamid});
   }, []);
 
-  const validFilters = getAppliedFilterParams(possibleFilters, router.query);
-  const hasValidFilters = Object.keys(validFilters).length > 0;
-
-  let items = inventoryItems;
-
-  if (hasValidFilters) {
-    items = filterInventory({inventory: items, filters: validFilters});
-  }
+  const filters = getAppliedFilterParams(possibleFilters, router.query);
+  const shouldFilter = Object.keys(filters).length > 0;
+  const items = shouldFilter ? filterInventory({inventory: inventoryItems, filters}) : inventoryItems;
 
   const renderError = () => {
-    switch (error) {
-      case SteamFetchErrors.PRIVATE_INVENTORY_ERROR:
+    switch (status) {
+      case InventoryStatuses.PRIVATE_INVENTORY:
         return <ErrorAlert>Inventory is private, change your privacy settings or try another account</ErrorAlert>;
-      case SteamFetchErrors.PROFILE_NOT_FOUND:
+      case InventoryStatuses.NO_PROFILE:
         return <ErrorAlert>There is not such profile, try another SteamID</ErrorAlert>;
     }
   };
 
   const renderContent = () => {
-    if (initLoading) {
+    if (isLoading) {
       return <Loader />;
     }
-
-    if (items?.length > 0) {
+    if (!hasNoItems) {
       return <Inventory items={items} />;
     }
   };
 
   return (
     <>
-      <SearchInventory disabled={initLoading} loading={loading} />
+      <SearchInventory loading={isLoading} />
       {renderError()}
       <Filters />
       {renderContent()}
@@ -77,13 +59,11 @@ const SteamInventory: FC<Props> = ({onGetItems, initLoading, possibleFilters, in
 };
 
 const mapStateToProps = (state: RootState) => ({
-  error: itemsErrorSelector(state),
+  status: inventoryStatusSelector(state),
   inventoryItems: itemsSelector(state),
-  loading: itemsLoadingSelector(state),
-  initLoading: initLoadingSelector(state),
   possibleFilters: itemsFiltersSelector(state)
 });
 
-const mapDispatchToProps = {onGetItems: getInitialItemsStart};
+const mapDispatchToProps = {onGetItems: getItemsStart};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SteamInventory);

@@ -1,9 +1,9 @@
 export type InitialInventoryResponseType = {inventory: string; update_time: string};
 
 export type InventoryResponseType = {
-  savedOnDB: boolean;
+  shouldSaveSteamId: boolean;
   update_time?: string;
-  statusCode: number;
+  status: number;
   inventory: string;
 };
 

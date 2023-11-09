@@ -1,14 +1,12 @@
 import {createSelector} from '@reduxjs/toolkit';
-import {RootState} from '../../store';
 import {INVENTORY_KEY} from '../../constants';
+import {RootState} from '../../store';
 
 const inventorySelector = (state: RootState) => state[INVENTORY_KEY];
 
 export const itemsSelector = createSelector(inventorySelector, ({items}) => items);
-export const itemsLoadingSelector = createSelector(inventorySelector, ({isLoading}) => isLoading);
-export const initLoadingSelector = createSelector(inventorySelector, ({initLoading}) => initLoading);
 export const itemsUpdateTimeSelector = createSelector(inventorySelector, ({update_time}) => update_time);
-export const itemsErrorSelector = createSelector(inventorySelector, ({error}) => error);
+export const inventoryStatusSelector = createSelector(inventorySelector, ({status}) => status);
 export const itemsFiltersSelector = createSelector(inventorySelector, ({items}) =>
   items.reduce(
     (accumutator, {type, weapon}) => {
