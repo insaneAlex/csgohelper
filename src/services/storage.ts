@@ -1,5 +1,3 @@
-import {isClient} from './is-client';
-
 class MemoryStorage {
   private store: Record<string, string> = {};
 
@@ -29,7 +27,7 @@ const createStorage = (storage: Storage | MemoryStorage) => {
   };
 };
 
-const localStorage = isClient() ? window.localStorage : new MemoryStorage();
+const localStorage = typeof window !== 'undefined' ? window.localStorage : new MemoryStorage();
 
 export const storage = {
   localStorage: createStorage(localStorage)

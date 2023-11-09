@@ -27,11 +27,49 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json({statusCode: 400, inventory: '[]', error: 'BAD_REQUEST'});
   }
 
-  if (!isForceUpdate) {
-    if (!(steamid in inventoryCache)) {
-      const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
-      return res.json(response);
-    } else
+  if (isForceUpdate) {
+    try {
+      const items = await inventoryApi.get({steamid});
+      const minimizedInventory = minimizeInventory(items);
+      const update_time = getFormattedDate();
+      const withPrices = cache.prices
+        ? calculateInventoryWithPrices({inventory: minimizedInventory, prices: cache.prices})
+        : minimizedInventory;
+
+      const {isSaved} = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
+      inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time} as inventoryCacheType;
+
+      return res.status(200).json({inventory: JSON.stringify(withPrices), shouldSaveSteamId: isSaved});
+    } catch (e) {
+      const error = (e as {response?: {status?: number}}) || {};
+      console.log(e);
+
+      if (error?.response?.status === 404) {
+        return res.status(404).json({inventory: '[]'});
+      }
+
+      if (error?.response?.status === 403) {
+        return res.status(403).json({inventory: '[]'});
+      }
+
+      if (!inventoryCache[steamid]) {
+        const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
+        return res.status(response.statusCode).json(response);
+      } else {
+        const {update_time, inventory} = inventoryCache[steamid];
+        return res.status(201).json({
+          update_time: update_time,
+          shouldSaveSteamId: true,
+          inventory: cache.prices
+            ? JSON.stringify(
+                calculateInventoryWithPrices({inventory: JSON.parse(inventory as string), prices: cache.prices})
+              )
+            : inventory
+        });
+      }
+    }
+  } else {
+    if (steamid in inventoryCache) {
       return res.status(201).json({
         inventory: cache.prices
           ? JSON.stringify(
@@ -44,48 +82,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         update_time: inventoryCache[steamid].update_time,
         shouldSaveSteamId: true
       });
-  }
-
-  try {
-    const items = await inventoryApi.get({steamid});
-
-    const minimizedInventory = minimizeInventory(items);
-    const update_time = getFormattedDate();
-
-    const withPrices = cache.prices
-      ? calculateInventoryWithPrices({inventory: minimizedInventory, prices: cache.prices})
-      : minimizedInventory;
-
-    const {isSaved} = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
-    inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time} as inventoryCacheType;
-
-    return res.status(200).json({inventory: JSON.stringify(withPrices), shouldSaveSteamId: isSaved});
-  } catch (e) {
-    const error = (e as {response?: {status?: number}}) || {};
-    console.log(e);
-
-    if (error?.response?.status === 404) {
-      return res.status(404).json({inventory: '[]'});
-    }
-
-    if (error?.response?.status === 403) {
-      return res.status(403).json({inventory: '[]'});
-    }
-
-    if (!inventoryCache[steamid]) {
-      const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
-      return res.json(response);
     } else {
-      const {update_time, inventory} = inventoryCache[steamid];
-      return res.status(201).json({
-        update_time: update_time,
-        shouldSaveSteamId: true,
-        inventory: cache.prices
-          ? JSON.stringify(
-              calculateInventoryWithPrices({inventory: JSON.parse(inventory as string), prices: cache.prices})
-            )
-          : inventory
-      });
+      const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
+      return res.status(response.statusCode).json(response);
     }
   }
 };

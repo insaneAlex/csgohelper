@@ -11,6 +11,6 @@ export const fetchPrices = async ({cache}: {cache: PriceCacheType}) => {
     cache.prices = data?.items_list;
     cache.lastUpdated = new Date();
   } catch (e) {
-    console.log('PRICES_API_FETCH_ERROR');
+    console.log(e);
   }
 };

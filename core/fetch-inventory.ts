@@ -5,8 +5,8 @@ import {fetchInventoryUrl} from './constants';
 
 type Props = GetInventoryPayloadType & {signal: AbortSignal};
 
-export const fetchInventory = ({steamid, force, signal}: Props) => {
-  const getInventoryUrl = createUrl(fetchInventoryUrl, {steamid, force});
+export const fetchInventory = ({steamid, isForceUpdate, signal}: Props) => {
+  const getInventoryUrl = createUrl(fetchInventoryUrl, {steamid, isForceUpdate});
 
   return fetch.get<InventoryResponseType>(getInventoryUrl, {signal});
 };

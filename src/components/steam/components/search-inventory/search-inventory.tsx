@@ -15,7 +15,7 @@ export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
   const isLoading = useSelector(inventoryStatusSelector) === InventoryStatuses.FORCE_LOAD;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value.trim());
-  const handleSearch = () => dispatch(getItemsStart({steamid, force: true}));
+  const handleSearch = () => dispatch(getItemsStart({steamid, isForceUpdate: true}));
 
   useEffect(() => {
     setSteamid(storage.localStorage.get(STEAMID_PARAM) || '');

@@ -1,14 +1,13 @@
-import {InventoryErrorType, InventoryState} from '../../types';
-import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
-import {INVENTORY_KEY} from '../../constants';
-import {InventoryItemType} from '@/src/services/steam-inventory';
 import {GetInventoryPayloadType, InventoryStatuses} from './types';
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import {InventoryItemType} from '@/src/services/steam-inventory';
+import {INVENTORY_KEY} from '../../constants';
+import {InventoryState} from '../../types';
 
 const initialState: InventoryState = {
   items: [],
-  error: null,
-  status: InventoryStatuses.IDLE,
-  update_time: null
+  update_time: null,
+  status: InventoryStatuses.IDLE
 };
 
 const inventory = createSlice({
@@ -16,8 +15,7 @@ const inventory = createSlice({
   initialState,
   reducers: {
     getItemsStart: (state: InventoryState, action: PayloadAction<GetInventoryPayloadType>) => {
-      state.status = action.payload.force ? InventoryStatuses.FORCE_LOAD : InventoryStatuses.INIT_LOAD;
-      state.error = null;
+      state.status = action.payload.isForceUpdate ? InventoryStatuses.FORCE_LOAD : InventoryStatuses.INIT_LOAD;
     },
     getItemsSuccess: (
       state: InventoryState,
@@ -27,9 +25,8 @@ const inventory = createSlice({
       state.update_time = action.payload.update_time;
       state.items = action.payload.inventory;
     },
-    getItemsError: (state: InventoryState, action: PayloadAction<InventoryErrorType>) => {
-      state.status = InventoryStatuses.IDLE;
-      state.error = action.payload;
+    getItemsError: (state: InventoryState, action: PayloadAction<InventoryStatuses>) => {
+      state.status = action.payload;
     }
   }
 });

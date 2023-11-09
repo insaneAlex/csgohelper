@@ -25,3 +25,14 @@ export const createUrl = (url: string, params?: Record<string, UrlParam>): strin
 
   return queryString ? `${url}${url.includes('?') ? '&' : '?'}${queryString}` : url;
 };
+
+export const bareRequest = (url: string, options = {}) => {
+  return fetch(url, options)
+    .then((response) => {
+      if (response.status === 404 || response.status === 403) {
+        throw {status: response.status};
+      }
+      return Promise.all([response.json(), response.status]);
+    })
+    .then(([json, status]) => ({...json, status}));
+};

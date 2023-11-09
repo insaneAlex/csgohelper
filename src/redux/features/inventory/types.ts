@@ -8,4 +8,4 @@ export enum InventoryStatuses {
   PRIVATE_INVENTORY = 'Private inventory'
 }
 
-export type GetInventoryPayloadType = SteamIDType & {force?: boolean};
+export type GetInventoryPayloadType = SteamIDType & {isForceUpdate?: boolean};

@@ -2,10 +2,9 @@ import {GetInventoryPayloadType, InventoryStatuses, getItemsError, getItemsSucce
 import {STEAMID_PARAM, fetchInventory} from '@/core';
 import type {PayloadAction} from '@reduxjs/toolkit';
 import {call, put} from 'redux-saga/effects';
-import {InventoryErrorType} from '../types';
 import {storage} from '@/src/services';
 
-export function* getInventoryTask({payload: {steamid, force = false}}: PayloadAction<GetInventoryPayloadType>) {
+export function* getInventoryTask({payload: {steamid, isForceUpdate}}: PayloadAction<GetInventoryPayloadType>) {
   const {signal} = new AbortController();
 
   try {
@@ -13,7 +12,7 @@ export function* getInventoryTask({payload: {steamid, force = false}}: PayloadAc
       inventory: inventoryStr,
       shouldSaveSteamId,
       update_time
-    } = yield call(fetchInventory, {steamid, force, signal});
+    } = yield call(fetchInventory, {steamid, isForceUpdate, signal});
     const inventory = JSON.parse(inventoryStr);
     inventory?.length > 0 && shouldSaveSteamId && storage.localStorage.set(STEAMID_PARAM, steamid);
     yield put(getItemsSuccess({inventory, update_time}));
@@ -25,7 +24,7 @@ export function* getInventoryTask({payload: {steamid, force = false}}: PayloadAc
     } else if (errStatus === 404) {
       yield put(getItemsError(InventoryStatuses.NO_PROFILE));
     } else {
-      yield put(getItemsError(e as InventoryErrorType));
+      yield put(getItemsError(e as InventoryStatuses));
     }
   }
 }
