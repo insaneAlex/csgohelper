@@ -19,8 +19,7 @@ export const Filters: FC = () => {
     let newFilterValue: Record<string, string[]> = {};
 
     if (!filterIsApplied && typeParamValues.includes(filterName)) {
-      newFilterValue = {type: removeParamValue(typeParamValues, filterName)};
-      newFilterValue[filterName] = [];
+      newFilterValue = {type: removeParamValue(typeParamValues, filterName), [filterName]: []};
       possibleFilters[filterName].forEach((el) => {
         if (el !== value) {
           newFilterValue[filterName].push(el);
