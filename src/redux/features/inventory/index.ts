@@ -1,18 +1,3 @@
-export {
-  getItemsStart,
-  getItemsError,
-  getItemsSuccess,
-  inventoryReducer,
-  getInitialItemsStart,
-  getInitialItemsError,
-  getInitialItemsSuccess
-} from './slice';
-
-export {
-  itemsSelector,
-  itemsErrorSelector,
-  initLoadingSelector,
-  itemsFiltersSelector,
-  itemsLoadingSelector,
-  itemsUpdateTimeSelector
-} from './selectors';
+export {getItemsStart, getItemsError, getItemsSuccess, inventoryReducer} from './slice';
+export {itemsSelector, itemsFiltersSelector, itemsUpdateTimeSelector, inventoryStatusSelector} from './selectors';
+export {InventoryStatuses} from './types';

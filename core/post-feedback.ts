@@ -1,13 +1,5 @@
+import {fetch} from '@/src/services/network';
 import {FeedbackType} from './types';
 
-export const postFeedback = async ({body, signal}: {body: FeedbackType; signal: AbortSignal}) => {
-  const url = '/api/feedback';
-
-  const response = await fetch(url, {
-    signal,
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {'Content-Type': 'application/json'}
-  });
-  return response.json();
-};
+export const postFeedback = async ({body: {name, text}, signal}: {body: FeedbackType; signal: AbortSignal}) =>
+  fetch.post('/api/feedback', {name, text}, {signal});

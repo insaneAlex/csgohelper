@@ -1,27 +1,27 @@
 import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {Button, Separator} from '@/src/components/ui';
-import {getItemsStart} from '@/src/redux';
-import {useDispatch} from 'react-redux';
+import {getItemsStart, inventoryStatusSelector} from '@/src/redux';
+import {InventoryStatuses} from '@/src/redux/features';
+import {useDispatch, useSelector} from 'react-redux';
 import {storage} from '@/src/services';
 import {isEmpty} from '../../helpers';
 import {STEAMID_PARAM} from '@/core';
 
 import styles from './search-inventory.module.scss';
 
-type Props = {disabled: boolean; loading: boolean};
-
-export const SearchInventory: FC<Props> = ({loading, disabled}) => {
+export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
   const dispatch = useDispatch();
   const [steamid, setSteamid] = useState('');
+  const isLoading = useSelector(inventoryStatusSelector) === InventoryStatuses.FORCE_LOAD;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value.trim());
-  const handleSearch = () => dispatch(getItemsStart({steamid}));
+  const handleSearch = () => dispatch(getItemsStart({steamid, force: true}));
 
   useEffect(() => {
     setSteamid(storage.localStorage.get(STEAMID_PARAM) || '');
   }, []);
 
-  const isDisabled = loading || disabled || isEmpty(steamid);
+  const isDisabled = loading || isLoading || isEmpty(steamid);
 
   return (
     <>
@@ -34,7 +34,7 @@ export const SearchInventory: FC<Props> = ({loading, disabled}) => {
           className={styles.input}
           placeholder="Enter your SteamID"
         />
-        <Button disabled={isDisabled} onClick={handleSearch} loading={loading}>
+        <Button disabled={isDisabled} onClick={handleSearch} loading={isLoading}>
           <p className={styles.buttonText}>Search SteamID</p>
         </Button>
       </label>

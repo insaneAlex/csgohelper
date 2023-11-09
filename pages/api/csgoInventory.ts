@@ -1,11 +1,10 @@
-import {calculateInventoryWithPrices, getFormattedDate, isNumeric, minimizeInventory} from '@/server-helpers';
+import {calculateInventoryWithPrices, getFormattedDate, minimizeInventory} from '@/server-helpers';
 import {PriceCacheType, fetchPrices} from '@/src/services/fetch-prices';
 import {inventoryApi} from '@/src/services/steam-inventory/inventory';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {NextApiRequest, NextApiResponse} from 'next';
 import {awsServices} from '@/src/services';
 
-export type CS2InventoryFetchErrorType = {response?: {status: number}};
 type InventoryRecordType = {inventory?: null | string; update_time?: string | null};
 export type inventoryCacheType = Record<string, InventoryRecordType>;
 type inventoryCacheTypes = Record<string, inventoryCacheType>;
@@ -16,8 +15,7 @@ const cache: PriceCacheType = {prices: null, lastUpdated: null};
 const inventoryCache: inventoryCacheTypes = {};
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const storedSteamid = req.query.storedSteamid as string;
-  const steamid = req.query.steamid as string;
+  const {steamid, isForceUpdate} = req.query as unknown as {steamid: string; isForceUpdate: boolean};
 
   const now = new Date();
 
@@ -25,28 +23,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await fetchPrices({cache});
   }
 
-  if (!steamid && !storedSteamid) {
+  if (!steamid) {
     return res.json({statusCode: 400, inventory: '[]', error: 'BAD_REQUEST'});
   }
 
-  if (storedSteamid || !isNumeric(steamid as string)) {
-    if (!inventoryCache?.[storedSteamid as string]?.inventory) {
-      inventoryCache[storedSteamid as string] = {} as inventoryCacheType;
-
-      const response = await awsServices.fetchFromDynamoDB(storedSteamid, inventoryCache, cache.prices);
+  if (!isForceUpdate) {
+    if (!(steamid in inventoryCache)) {
+      const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
       return res.json(response);
     } else
-      return res.json({
-        statusCode: 201,
+      return res.status(201).json({
         inventory: cache.prices
           ? JSON.stringify(
               calculateInventoryWithPrices({
-                inventory: JSON.parse(inventoryCache?.[storedSteamid as string]?.inventory as string),
+                inventory: JSON.parse(inventoryCache[steamid].inventory as string),
                 prices: cache.prices
               })
             )
-          : inventoryCache?.[storedSteamid as string]?.inventory,
-        update_time: inventoryCache?.[storedSteamid as string]?.update_time
+          : inventoryCache[steamid].inventory,
+        update_time: inventoryCache[steamid].update_time
       });
   }
 
@@ -61,20 +56,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       : minimizedInventory;
 
     const {isSaved} = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
-
     inventoryCache[steamid] = {inventory: JSON.stringify(minimizedInventory), update_time} as inventoryCacheType;
 
-    return res.json({statusCode: 200, inventory: JSON.stringify(withPrices), savedOnDB: isSaved});
+    return res.status(200).json({inventory: JSON.stringify(withPrices), savedOnDB: isSaved});
   } catch (e) {
-    const error = (e || {}) as CS2InventoryFetchErrorType;
+    const error = (e as {response?: {status?: number}}) || {};
     console.log(e);
 
     if (error?.response?.status === 404) {
-      return res.status(404).json({statusCode: 404, inventory: '[]'});
+      return res.status(404).json({inventory: '[]'});
     }
 
     if (error?.response?.status === 403) {
-      return res.status(403).json({statusCode: 403, inventory: '[]'});
+      return res.status(403).json({inventory: '[]'});
     }
 
     if (!inventoryCache[steamid]) {
@@ -82,8 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.json(response);
     } else {
       const {update_time, inventory} = inventoryCache[steamid];
-      return res.status(201).json({
-        statusCode: 201,
+      return res.status(304).json({
         update_time: update_time,
         inventory: cache.prices
           ? JSON.stringify(

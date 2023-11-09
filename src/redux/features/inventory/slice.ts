@@ -2,12 +2,12 @@ import {InventoryErrorType, InventoryState, SteamIDType} from '../../types';
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {INVENTORY_KEY} from '../../constants';
 import {InventoryItemType} from '@/src/services/steam-inventory';
+import {InventoryStatuses} from './types';
 
 const initialState: InventoryState = {
   items: [],
   error: null,
-  isLoading: false,
-  initLoading: false,
+  status: InventoryStatuses.IDLE,
   update_time: null
 };
 
@@ -15,50 +15,25 @@ const inventory = createSlice({
   name: INVENTORY_KEY,
   initialState,
   reducers: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getItemsStart: (state: InventoryState, _action: PayloadAction<SteamIDType>) => {
-      state.isLoading = true;
+    getItemsStart: (state: InventoryState, action: PayloadAction<SteamIDType & {force?: boolean}>) => {
+      state.status = action.payload.force ? InventoryStatuses.FORCE_LOAD : InventoryStatuses.INIT_LOAD;
       state.error = null;
     },
     getItemsSuccess: (
       state: InventoryState,
       action: PayloadAction<{inventory: InventoryItemType[]; update_time?: string}>
     ) => {
-      state.isLoading = false;
+      state.status = InventoryStatuses.IDLE;
       state.update_time = action.payload.update_time;
       state.items = action.payload.inventory;
     },
     getItemsError: (state: InventoryState, action: PayloadAction<InventoryErrorType>) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getInitialItemsStart: (state: InventoryState, _action: PayloadAction<SteamIDType>) => {
-      state.initLoading = true;
-      state.error = null;
-    },
-    getInitialItemsSuccess: (
-      state: InventoryState,
-      action: PayloadAction<{inventory: InventoryItemType[]; update_time: string}>
-    ) => {
-      state.initLoading = false;
-      state.update_time = action.payload.update_time;
-      state.items = action.payload.inventory;
-    },
-    getInitialItemsError: (state: InventoryState, action: PayloadAction<InventoryErrorType>) => {
-      state.initLoading = false;
+      state.status = InventoryStatuses.IDLE;
       state.error = action.payload;
     }
   }
 });
 
-export const {
-  getItemsStart,
-  getItemsError,
-  getItemsSuccess,
-  getInitialItemsStart,
-  getInitialItemsError,
-  getInitialItemsSuccess
-} = inventory.actions;
+export const {getItemsStart, getItemsError, getItemsSuccess} = inventory.actions;
 
 export const inventoryReducer = inventory.reducer;

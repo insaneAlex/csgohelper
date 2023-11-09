@@ -3,7 +3,7 @@ export type InitialInventoryResponseType = {inventory: string; update_time: stri
 export type InventoryResponseType = {
   savedOnDB: boolean;
   update_time?: string;
-  statusCode: number;
+  status: number;
   inventory: string;
 };
 

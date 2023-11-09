@@ -4,13 +4,9 @@ export {
   itemsSelector,
   getItemsSuccess,
   inventoryReducer,
-  itemsErrorSelector,
-  initLoadingSelector,
+  InventoryStatuses,
   itemsFiltersSelector,
-  getInitialItemsStart,
-  itemsLoadingSelector,
-  getInitialItemsError,
-  getInitialItemsSuccess,
+  inventoryStatusSelector,
   itemsUpdateTimeSelector
 } from './inventory';
 
