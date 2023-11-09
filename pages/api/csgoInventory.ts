@@ -33,7 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!inventoryCache?.[storedSteamid as string]?.inventory) {
       inventoryCache[storedSteamid as string] = {} as inventoryCacheType;
 
-      const response = await awsServices.fetchFromDynamoDB(storedSteamid, inventoryCache[storedSteamid], cache.prices);
+      const response = await awsServices.fetchFromDynamoDB(storedSteamid, inventoryCache, cache.prices);
       return res.json(response);
     } else
       return res.json({
