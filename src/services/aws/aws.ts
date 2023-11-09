@@ -41,8 +41,7 @@ class AWSServices {
         return {statusCode: 201, inventory: withPrices, update_time};
       }
     } catch (e) {
-      const err = e as AmazonResponseType;
-      console.log(err);
+      console.log(e);
       return {statusCode: 404, inventory: '[]'};
     }
   }
