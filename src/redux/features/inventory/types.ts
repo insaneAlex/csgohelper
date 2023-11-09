@@ -1,3 +1,5 @@
+import {SteamIDType} from '../../types';
+
 export enum InventoryStatuses {
   IDLE = 'idle',
   INIT_LOAD = 'Init loading',
@@ -5,3 +7,5 @@ export enum InventoryStatuses {
   NO_PROFILE = 'Profile not found',
   PRIVATE_INVENTORY = 'Private inventory'
 }
+
+export type GetInventoryPayloadType = SteamIDType & {force?: boolean};

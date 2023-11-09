@@ -7,7 +7,8 @@ export {
   InventoryStatuses,
   itemsFiltersSelector,
   inventoryStatusSelector,
-  itemsUpdateTimeSelector
+  itemsUpdateTimeSelector,
+  type GetInventoryPayloadType
 } from './inventory';
 
 export {feedbackReducer, FeedbackStatuses, feedbackStatusSelector, postFeedbackStart, onResetState} from './feedback';

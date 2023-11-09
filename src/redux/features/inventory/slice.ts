@@ -1,8 +1,8 @@
-import {InventoryErrorType, InventoryState, SteamIDType} from '../../types';
+import {InventoryErrorType, InventoryState} from '../../types';
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {INVENTORY_KEY} from '../../constants';
 import {InventoryItemType} from '@/src/services/steam-inventory';
-import {InventoryStatuses} from './types';
+import {GetInventoryPayloadType, InventoryStatuses} from './types';
 
 const initialState: InventoryState = {
   items: [],
@@ -15,7 +15,7 @@ const inventory = createSlice({
   name: INVENTORY_KEY,
   initialState,
   reducers: {
-    getItemsStart: (state: InventoryState, action: PayloadAction<SteamIDType & {force?: boolean}>) => {
+    getItemsStart: (state: InventoryState, action: PayloadAction<GetInventoryPayloadType>) => {
       state.status = action.payload.force ? InventoryStatuses.FORCE_LOAD : InventoryStatuses.INIT_LOAD;
       state.error = null;
     },
