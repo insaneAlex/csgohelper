@@ -8,7 +8,8 @@
     "check-types": "tsc",
     "check": "npm run check-types && npm run lint",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.433.0",
@@ -41,6 +42,7 @@
     "@types/react-redux": "^7.1.27",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
+    "cypress": "^13.5.0",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",
