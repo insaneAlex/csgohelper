@@ -13,13 +13,13 @@ const customJestConfig = {
     '**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
-    '!<rootDir>/out/**',
     '!<rootDir>/.next/**',
     '!<rootDir>/*.config.js',
     '!<rootDir>/coverage/**',
     '!**/index.ts',
     '!**/types.ts',
-    '!**/constants.ts'
+    '!**/constants.ts',
+    '!<rootDir>/src/**/index.tsx'
   ],
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
