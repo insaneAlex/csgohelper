@@ -6,7 +6,7 @@ orbs:
 workflows:
   build:
     jobs:
-      - cypress/run:
+      - cypress-io/run:
           # For recording and parallelization to work you must set your CYPRESS_RECORD_KEY
           # in CircleCI → Project Settings → Environment Variables
           # Records in parallel to Cypress Cloud
