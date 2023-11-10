@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y", "testing-library"],
   "extends": [
     "plugin:jsx-a11y/recommended",
     "next/core-web-vitals",
@@ -17,5 +17,11 @@
     "import/no-unresolved": "error",
     "no-restricted-imports": "error",
     "import/named": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ]
 }
