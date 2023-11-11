@@ -4,6 +4,7 @@ exports[`Checkbox should render correctly 1`] = `
 <div>
   <label
     class="label"
+    data-testid="checkbox-label"
     for="test"
   >
     <input
