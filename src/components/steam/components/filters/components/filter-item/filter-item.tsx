@@ -37,7 +37,7 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
     closed: {opacity: 0, y: 20, transition: {duration: 0.2}}
   };
 
-  const hasAppliedSubfilter = subFilters?.some((filter) => isFilterApplied(appliedSubfilters, filter));
+  const hasAppliedSubfilter = subFilters?.some((fltr) => isFilterApplied(appliedSubfilters, fltr));
   return (
     <motion.nav
       initial={false}

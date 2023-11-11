@@ -29,10 +29,13 @@ export const createUrl = (url: string, params?: Record<string, UrlParam>): strin
 export const bareRequest = (url: string, options = {}) => {
   return fetch(url, options)
     .then((response) => {
-      if (response.status === 404 || response.status === 403) {
-        throw {status: response.status};
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
       }
       return Promise.all([response.json(), response.status]);
     })
-    .then(([json, status]) => ({...json, status}));
+    .then(([json, status]) => ({...json, status}))
+    .catch((e) => {
+      throw e;
+    });
 };

@@ -1,8 +1,8 @@
 import {DynamoDBDocumentClient, GetCommand, UpdateCommand} from '@aws-sdk/lib-dynamodb';
+import {NoPriceInventory, inventoryCacheType} from '@/pages/api/csgoInventory';
 import {AWSConfigType, AmazonResponseType, PricesType} from './types';
 import {calculateInventoryWithPrices} from '../../../server-helpers';
 import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
-import {NoPriceInventory, inventoryCacheType} from '@/pages/api/csgoInventory';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
 import {FeedbackType} from '@/core/types';
@@ -38,11 +38,11 @@ class AWSServices {
           : inventory;
 
         return {statusCode: 201, shouldSaveSteamId: true, inventory: withPrices, update_time};
-      } else {
-        return {statusCode: 404, inventory: '[]'};
       }
+      return {statusCode: 404, inventory: '[]'};
     } catch (e) {
-      console.log(e);
+      // eslint-disable-next-line no-console
+      console.error(e);
       return {statusCode: 404, inventory: '[]'};
     }
   }
@@ -58,7 +58,8 @@ class AWSServices {
       const response = (await this.docClient.send(command)) as AmazonResponseType;
       return {isSaved: response?.$metadata?.httpStatusCode === 200};
     } catch (e) {
-      console.log(e);
+      // eslint-disable-next-line no-console
+      console.error(e);
 
       return {isSaved: false};
     }
@@ -73,7 +74,8 @@ class AWSServices {
     try {
       await this.sesClient.send(sendEmailCommand);
     } catch (e) {
-      console.log(e);
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   }
 }

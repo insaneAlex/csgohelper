@@ -14,6 +14,7 @@ const THIRD_OF_THE_DAY = 8 * 60 * 60 * 1000;
 const cache: PriceCacheType = {prices: null, lastUpdated: null};
 const inventoryCache: inventoryCacheTypes = {};
 
+// eslint-disable-next-line max-statements, complexity
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {steamid, isForceUpdate} = req.query as unknown as {steamid: string; isForceUpdate: boolean};
 
@@ -42,31 +43,34 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json({inventory: JSON.stringify(withPrices), shouldSaveSteamId: isSaved});
     } catch (e) {
       const error = (e as {response?: {status?: number}}) || {};
-      console.log(e);
+      // eslint-disable-next-line no-console
+      console.error(e);
 
+      // eslint-disable-next-line max-depth
       if (error?.response?.status === 404) {
         return res.status(404).json({inventory: '[]'});
       }
 
+      // eslint-disable-next-line max-depth
       if (error?.response?.status === 403) {
         return res.status(403).json({inventory: '[]'});
       }
 
+      // eslint-disable-next-line max-depth
       if (!inventoryCache[steamid]) {
         const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
         return res.status(response.statusCode).json(response);
-      } else {
-        const {update_time, inventory} = inventoryCache[steamid];
-        return res.status(201).json({
-          update_time: update_time,
-          shouldSaveSteamId: true,
-          inventory: cache.prices
-            ? JSON.stringify(
-                calculateInventoryWithPrices({inventory: JSON.parse(inventory as string), prices: cache.prices})
-              )
-            : inventory
-        });
       }
+      const {update_time, inventory} = inventoryCache[steamid];
+      return res.status(201).json({
+        update_time: update_time,
+        shouldSaveSteamId: true,
+        inventory: cache.prices
+          ? JSON.stringify(
+              calculateInventoryWithPrices({inventory: JSON.parse(inventory as string), prices: cache.prices})
+            )
+          : inventory
+      });
     }
   } else {
     if (steamid in inventoryCache) {
@@ -82,10 +86,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         update_time: inventoryCache[steamid].update_time,
         shouldSaveSteamId: true
       });
-    } else {
-      const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
-      return res.status(response.statusCode).json(response);
     }
+    const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, cache.prices);
+    return res.status(response.statusCode).json(response);
   }
 };
 

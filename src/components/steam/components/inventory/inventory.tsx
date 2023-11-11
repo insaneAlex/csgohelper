@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 
 import styles from './inventory.module.scss';
 
+// eslint-disable-next-line max-statements
 export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const updateTime = useSelector(itemsUpdateTimeSelector);

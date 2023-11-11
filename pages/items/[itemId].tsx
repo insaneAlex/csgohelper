@@ -14,7 +14,7 @@ const ItemDetailsPage: FC = () => {
   const items = useSelector(itemsSelector);
 
   const steamid = storage.localStorage.get(STEAMID_PARAM);
-  const item = items?.find((item) => item?.assetid === router.query.itemId);
+  const item = items?.find((el) => el?.assetid === router.query.itemId);
   const query = {...router.query, itemId: []};
   const shouldRedirect = !item && !steamid;
   const hasItems = items?.length > 0;
