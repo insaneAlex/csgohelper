@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InventoryItem should render correctly 1`] = `
+<div>
+  <a
+    class="item"
+    href="/items/id"
+  >
+    <img
+      alt="itmName"
+      data-nimg="1"
+      decoding="async"
+      fetchpriority="high"
+      height="100"
+      src="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=256&q=75"
+      srcset="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=128&q=75 1x, /_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=256&q=75 2x"
+      style="color: transparent;"
+      width="100"
+    />
+    <p
+      class="describe"
+    >
+      itmName
+    </p>
+    <span
+      class="price"
+    >
+      2.00$
+    </span>
+  </a>
+</div>
+`;
