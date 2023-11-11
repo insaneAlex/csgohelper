@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination should render correctly 1`] = `
+<div>
+  <ul
+    class="list"
+  >
+    <li
+      class="item"
+    >
+      <button
+        class="link linkActive"
+      >
+        1
+      </button>
+    </li>
+    <li
+      class="item"
+    >
+      <button
+        class="link"
+      >
+        2
+      </button>
+    </li>
+  </ul>
+</div>
+`;

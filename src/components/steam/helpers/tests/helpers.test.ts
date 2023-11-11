@@ -1,5 +1,6 @@
 import {isEmpty} from '../is-empty';
 import {areEqualArrays} from '../are-equal-arrays';
+import {getParamValuesArray} from '../get-param-values-array';
 
 describe('helpers', () => {
   describe('isEmpty', () => {
@@ -26,7 +27,6 @@ describe('helpers', () => {
       });
     });
   });
-
   describe('areEqualArrays', () => {
     describe('arrays are equal', () => {
       it('should return true', () => {
@@ -42,12 +42,36 @@ describe('helpers', () => {
         expect(areEqualArrays(arr1, arr2)).toBeFalsy();
       });
     });
-
     describe("arrays aren't equal", () => {
       const arr1 = ['val1', 'val1'];
       const arr2 = ['val1', 'val2'];
       it('should return false', () => {
         expect(areEqualArrays(arr1, arr2)).toBeFalsy();
+      });
+    });
+  });
+  describe('getParamValuesArray', () => {
+    describe('if param value is Array', () => {
+      it('should return array', () => {
+        const param = 'param1';
+        const params = {[param]: ['val1', 'val2', 'val3']};
+
+        expect(getParamValuesArray(params, param)).toBe(params[param]);
+      });
+    });
+    describe('if param value is string', () => {
+      it('should return array', () => {
+        const val1 = 'val1';
+        const param = 'param1';
+        const params = {[param]: val1};
+
+        expect(getParamValuesArray(params, param)).toEqual([val1]);
+      });
+    });
+    describe('if param doesnt exist in params', () => {
+      it('should return empty array', () => {
+        const params = {param1: 'val1'};
+        expect(getParamValuesArray(params, 'param2')).toEqual([]);
       });
     });
   });
