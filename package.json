@@ -9,7 +9,7 @@
     "check": "npm run check-types && npm run lint",
     "build": "next build",
     "start": "next start",
-    "test": "jest --watchAll --coverage"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.433.0",
