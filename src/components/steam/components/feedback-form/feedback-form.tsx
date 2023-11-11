@@ -36,7 +36,7 @@ export const FeedbackForm: FC = () => {
     <>
       <h1 className={styles.header}>Have any thoughts or ideas? Share them with us below</h1>
 
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit} data-testid="feedback-form">
         <input
           id={NAME_FIELD}
           name={NAME_FIELD}
