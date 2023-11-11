@@ -13,7 +13,6 @@ describe('FeedbackForm', () => {
     const {container} = render(<FeedbackForm />);
     expect(container).toMatchSnapshot();
   });
-
   describe('when changing form value', () => {
     it('updates form state', () => {
       render(<FeedbackForm />);
@@ -24,7 +23,6 @@ describe('FeedbackForm', () => {
       expect(screen.getByTestId('feedback-form')).toHaveFormValues({name: changedValue});
     });
   });
-
   describe('when required fields not filled', () => {
     it('should render validation error messages', () => {
       render(<FeedbackForm />);
@@ -32,6 +30,18 @@ describe('FeedbackForm', () => {
       fireEvent.click(submitButton);
 
       expect(screen.getAllByText('Required field')).toHaveLength(2);
+    });
+  });
+  describe('when entered data is correct and user submit form', () => {
+    it('should call dispatch action', () => {
+      render(<FeedbackForm />);
+      const nameInput = screen.getByPlaceholderText('Your name or e-mail');
+      const textInput = screen.getByPlaceholderText('Write feedback');
+      fireEvent.change(nameInput, {target: {value: 'John'}});
+      fireEvent.change(textInput, {target: {value: 'Text'}});
+      fireEvent.click(screen.getByText('Submit'));
+
+      expect(dispatchMock).toHaveBeenCalled();
     });
   });
 });
