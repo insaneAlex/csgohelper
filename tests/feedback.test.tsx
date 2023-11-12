@@ -1,13 +1,13 @@
 import {render} from '@testing-library/react';
-import Login from '../index';
+import Feedback from '../pages/feedback';
 
-jest.mock('../../../src/services', () => ({noop: () => jest.fn()}));
+jest.mock('../src/services', () => ({noop: () => jest.fn()}));
 jest.mock('next/router', () => ({useRouter: () => ({push: jest.fn()})}));
 jest.mock('react-redux', () => ({useDispatch: () => jest.fn(), useSelector: jest.fn()}));
 
-describe('Login', () => {
+describe('Feedback', () => {
   it('should render correctly', () => {
-    const {container} = render(<Login />);
+    const {container} = render(<Feedback />);
     expect(container).toMatchSnapshot();
   });
 });
