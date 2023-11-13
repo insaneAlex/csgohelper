@@ -1,7 +1,7 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import {Button} from '../button';
 
-jest.mock('../../../../services', () => ({noop: () => jest.fn()}));
+jest.mock('../../../../services', () => ({}));
 
 describe('Button', () => {
   it('should render correctly', () => {

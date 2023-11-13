@@ -2,7 +2,7 @@ import {render} from '@testing-library/react';
 import {ItemDetails} from '../item-details';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 
-jest.mock('../../../../../services', () => ({noop: () => jest.fn()}));
+jest.mock('../../../../../services', () => ({}));
 
 describe('ItemDetails', () => {
   const item = {icon_url: 'iconUrl', name: 'itemName', exterior: 'fine condition'} as InventoryItemType;

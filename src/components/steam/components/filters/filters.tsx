@@ -57,6 +57,7 @@ export const Filters: FC<Props> = ({router, possibleFilters}) => {
       {typefilters.map((filter) => (
         <FilterItem
           key={filter}
+          router={router}
           filter={filter}
           onFilterUpdate={handleUpdateFilter}
           subFilters={possibleFilters[filter]}

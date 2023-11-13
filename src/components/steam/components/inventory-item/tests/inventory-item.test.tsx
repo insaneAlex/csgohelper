@@ -5,7 +5,7 @@ import {PriceOptions} from '../../../types';
 import {Layout} from 'react-grid-layout';
 
 const routerPushMock = jest.fn();
-jest.mock('../../../../../services', () => ({noop: () => jest.fn()}));
+jest.mock('../../../../../services', () => ({}));
 jest.mock('next/router', () => ({useRouter: () => ({push: routerPushMock})}));
 
 describe('InventoryItem', () => {

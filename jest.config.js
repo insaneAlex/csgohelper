@@ -21,7 +21,8 @@ const customJestConfig = {
     '!**/types.ts',
     '!**/constants.ts',
     '!<rootDir>/src/**/index.tsx',
-    '!<rootDir>/pages/_*.tsx'
+    '!<rootDir>/pages/_*.tsx',
+    '!<rootDir>/src/services/environment.ts'
   ],
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],

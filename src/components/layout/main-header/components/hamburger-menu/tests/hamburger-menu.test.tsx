@@ -1,7 +1,7 @@
 import {render, screen} from '@testing-library/react';
 import {HamburgerMenu} from '../hamburger-menu';
 
-jest.mock('../../../../../../services', () => ({noop: () => jest.fn()}));
+jest.mock('../../../../../../services', () => ({}));
 
 const navLinksMock = [
   {name: 'Stonks', href: '/stonks', renderIcon: () => <span>icon1</span>},
