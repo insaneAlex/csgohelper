@@ -1,16 +1,14 @@
-import {FC} from 'react';
-import {useRouter} from 'next/router';
-import {FilterItem} from './components';
-import {useSelector} from 'react-redux';
-import {isFilterApplied} from './helpers';
-import styles from './filters.module.scss';
-import {itemsFiltersSelector} from '@/src/redux';
 import {areEqualArrays, getParamValuesArray, removeParamValue} from '../../helpers';
+import {isFilterApplied} from './helpers';
+import {FilterItem} from './components';
+import {NextRouter} from 'next/router';
+import {FC} from 'react';
 
-export const Filters: FC = () => {
-  const router = useRouter();
-  const possibleFilters = useSelector(itemsFiltersSelector);
+import styles from './filters.module.scss';
 
+type Props = {router: NextRouter; possibleFilters: Record<string, string[]>};
+
+export const Filters: FC<Props> = ({router, possibleFilters}) => {
   const handleFilterUpdate = (filterName: string, value: string) => {
     const currentValues = getParamValuesArray(router.query, filterName);
     const filterIsApplied = isFilterApplied(currentValues, value);

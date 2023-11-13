@@ -1,5 +1,6 @@
-import {InventoryStatuses} from '../..';
 import {getItemsStart, getItemsSuccess, getItemsError, inventoryReducer} from '../slice';
+import {InventoryItemType} from '@/src/services/steam-inventory';
+import {InventoryStatuses} from '../types';
 
 describe('Inventory Slice', () => {
   it('should handle getItemsStart action with isForceUpdate true', () => {
@@ -18,13 +19,7 @@ describe('Inventory Slice', () => {
 
   it('should handle getItemsSuccess action', () => {
     const initialState = {items: [], update_time: null, status: InventoryStatuses.INIT_LOAD};
-    const mockPayload = {
-      inventory: [
-        {id: 1, name: 'Itm1'},
-        {id: 2, name: 'Itm2'}
-      ],
-      update_time: '2023-01'
-    };
+    const mockPayload = {inventory: [{id: 1, name: 'Itm1'}] as unknown as InventoryItemType[], update_time: '2023-01'};
     const newState = inventoryReducer(initialState, getItemsSuccess(mockPayload));
     const expected = {status: InventoryStatuses.IDLE, update_time: '2023-01', items: mockPayload.inventory};
 

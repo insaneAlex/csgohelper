@@ -1,0 +1,30 @@
+[
+  {
+    "name": "string",
+    "type": "Rifle",
+    "count": 1,
+    "weapon": "Rif",
+    "assetid": "string",
+    "icon_url": "string",
+    "prices": {},
+    "exterior": "string",
+    "isEmpty": false,
+    "name_color": "string",
+    "rarity_color": "string",
+    "market_hash_name": "string"
+  },
+  {
+    "name": "string",
+    "type": "Pistol",
+    "count": 1,
+    "weapon": "Fiv",
+    "assetid": "string",
+    "icon_url": "string",
+    "prices": {},
+    "exterior": "string",
+    "isEmpty": false,
+    "name_color": "string",
+    "rarity_color": "string",
+    "market_hash_name": "string"
+  }
+]

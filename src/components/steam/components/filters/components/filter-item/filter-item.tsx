@@ -39,7 +39,7 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
 
   const hasAppliedSubfilter = subFilters?.some((fltr) => isFilterApplied(appliedSubfilters, fltr));
   return (
-    <motion.nav
+    <motion.header
       initial={false}
       onMouseLeave={() => setOpen(false)}
       animate={open ? 'open' : 'closed'}
@@ -81,6 +81,6 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
           </motion.ul>
         </motion.div>
       )}
-    </motion.nav>
+    </motion.header>
   );
 };

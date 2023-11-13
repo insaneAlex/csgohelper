@@ -25,7 +25,7 @@ export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
 
   return (
     <>
-      <label className={styles.block} htmlFor={STEAMID_PARAM}>
+      <label className={styles.block} htmlFor={STEAMID_PARAM} data-testid="search-block">
         <input
           type="text"
           value={steamid}

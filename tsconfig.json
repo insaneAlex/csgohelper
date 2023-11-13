@@ -23,6 +23,6 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/tests/*.test.ts"],
+  "exclude": ["node_modules"],
   "rules": {"@typescript-eslint/no-unused-vars": ["error"]}
 }

@@ -1,3 +1,4 @@
+import {FeedbackType} from '@/core/types';
 import {
   postFeedbackSuccess,
   postFeedbackStart,
@@ -10,7 +11,7 @@ import {
 describe('Feedback Slice', () => {
   it('should handle postFeedbackStart action', () => {
     const initialState = {status: FeedbackStatuses.IDLE};
-    const newState = feedbackReducer(initialState, postFeedbackStart({}));
+    const newState = feedbackReducer(initialState, postFeedbackStart({} as FeedbackType));
     expect(newState.status).toEqual(FeedbackStatuses.LOADING);
   });
 
