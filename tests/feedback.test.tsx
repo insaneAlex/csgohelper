@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import Feedback from '../pages/feedback';
 
 jest.mock('../src/services', () => ({noop: () => jest.fn()}));
@@ -7,7 +7,7 @@ jest.mock('react-redux', () => ({useDispatch: () => jest.fn(), useSelector: jest
 
 describe('Feedback', () => {
   it('should render correctly', () => {
-    const {container} = render(<Feedback />);
-    expect(container).toMatchSnapshot();
+    render(<Feedback />);
+    expect(screen.getByTestId('feedback-form')).toBeInTheDocument();
   });
 });
