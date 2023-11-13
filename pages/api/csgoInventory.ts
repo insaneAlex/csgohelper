@@ -32,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const items = await inventoryApi.get({steamid});
       const minimizedInventory = minimizeInventory(items);
-      const update_time = getFormattedDate();
+      const update_time = getFormattedDate(new Date());
       const withPrices = cache.prices
         ? calculateInventoryWithPrices({inventory: minimizedInventory, prices: cache.prices})
         : minimizedInventory;
