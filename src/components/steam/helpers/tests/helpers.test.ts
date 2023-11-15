@@ -1,6 +1,7 @@
-import {isEmpty} from '../is-empty';
-import {areEqualArrays} from '../are-equal-arrays';
 import {getParamValuesArray} from '../get-param-values-array';
+import {removeParamValue} from '../remove-param-value';
+import {areEqualArrays} from '../are-equal-arrays';
+import {isEmpty} from '../is-empty';
 
 describe('helpers', () => {
   describe('isEmpty', () => {
@@ -72,6 +73,16 @@ describe('helpers', () => {
       it('should return empty array', () => {
         const params = {param1: 'val1'};
         expect(getParamValuesArray(params, 'param2')).toEqual([]);
+      });
+    });
+  });
+  describe('removeParamValue', () => {
+    describe('when array received', () => {
+      it('should return without filtered value', () => {
+        const filteredValue = 'val2';
+        const expectedResult = ['val1', 'val3'];
+        const params = ['val1', 'val2', 'val3'];
+        expect(removeParamValue(params, filteredValue)).toEqual(expectedResult);
       });
     });
   });
