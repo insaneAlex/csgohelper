@@ -13,11 +13,19 @@ import styles from './inventory-item.module.scss';
 
 type Props = {imgSize: ImgSize; item: InventoryItemType & Layout};
 
+// eslint-disable-next-line complexity
 export const InventoryItem: FC<Props> = ({item, imgSize}) => {
   const router = useRouter();
   const {name_color, assetid, icon_url, count = 1, prices} = item;
   const {width, height} = imgSize;
-  const price = prices?.[PriceOptions.WEEK]?.average * count;
+
+  const availablePrice =
+    prices?.[PriceOptions.DAY] ||
+    prices?.[PriceOptions.WEEK] ||
+    prices?.[PriceOptions.MONTH] ||
+    prices?.[PriceOptions.ALL];
+
+  const price = availablePrice?.average * count;
   const formattedPrice = !isNaN(price) && price.toFixed(2);
 
   if (!icon_url) {
