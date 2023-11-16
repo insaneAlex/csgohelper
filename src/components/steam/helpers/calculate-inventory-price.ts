@@ -10,8 +10,7 @@ export const calculateInventoryPrice = ({items}: {items: InventoryItemType[]}) =
       prices?.[PriceOptions.ALL];
 
     const price = Number(availablePrice?.average);
-    const amount = count || 1;
-    return isNaN(price) ? accumulator : accumulator + price * amount;
+    return isNaN(price) ? accumulator : accumulator + price * (count || 1);
   }, 0);
   return total === 0 ? '' : total.toFixed(2);
 };
