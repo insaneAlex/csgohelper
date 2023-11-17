@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {bareRequest, createUrl} from '../network';
 
 describe('network', () => {

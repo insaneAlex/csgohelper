@@ -49,8 +49,15 @@
   },
   "overrides": [
     {
-      "files": ["**/tests/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
-      "extends": ["plugin:testing-library/react"]
-    }
+      "files": ["**/tests/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)", "mocks/*"],
+      "extends": ["plugin:testing-library/react"],
+      "rules": {"@typescript-eslint/no-explicit-any": "off"}
+    },
+    {
+      "files": ["src/services/aws/*", "src/services/fetch-prices.ts", "pages/api/*"],
+      "rules": {"no-console": "off"}
+    },
+    {"files": ["*.config.js"], "rules": {"@typescript-eslint/no-var-requires": "off"}},
+    {"files": ["slice.ts"], "rules": {"@typescript-eslint/no-unused-vars": "warn"}}
   ]
 }

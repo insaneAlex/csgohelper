@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {FeedbackStatuses, onResetState} from '../src/redux/features';
 import {render, screen} from '@testing-library/react';
 import Feedback from '../pages/feedback';

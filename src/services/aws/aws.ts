@@ -41,7 +41,6 @@ class AWSServices {
       }
       return {statusCode: 404, inventory: '[]'};
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(e);
       return {statusCode: 404, inventory: '[]'};
     }
@@ -58,7 +57,6 @@ class AWSServices {
       const response = (await this.docClient.send(command)) as AmazonResponseType;
       return {isSaved: response?.$metadata?.httpStatusCode === 200};
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(e);
 
       return {isSaved: false};
@@ -74,7 +72,6 @@ class AWSServices {
     try {
       await this.sesClient.send(sendEmailCommand);
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(e);
     }
   }

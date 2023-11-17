@@ -43,7 +43,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json({inventory: JSON.stringify(withPrices), shouldSaveSteamId: isSaved});
     } catch (e) {
       const error = (e as {response?: {status?: number}}) || {};
-      // eslint-disable-next-line no-console
       console.error(e);
 
       // eslint-disable-next-line max-depth

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {fetch} from '@/src/services/network';
 
 interface FetchMock {
