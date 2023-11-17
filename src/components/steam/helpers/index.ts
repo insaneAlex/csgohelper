@@ -2,6 +2,7 @@ export {calculateInventoryPrice} from './calculate-inventory-price';
 export {getAppliedFilterParams} from './get-applied-filter-params';
 export {getParamValuesArray} from './get-param-values-array';
 export {getEmptyFormValues} from './get-empty-form-falues';
+export {getAvailablePrice} from './get-available-price';
 export {removeParamValue} from './remove-param-value';
 export {calculateLayouts} from './calculate-layouts';
 export {filterInventory} from './filter-inventory';
