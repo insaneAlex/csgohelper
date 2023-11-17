@@ -8,12 +8,12 @@ import {AWS_REGION, INVENTORY_TABLE} from './constants';
 import {FeedbackType} from '@/core/types';
 import {ENV} from '../environment';
 
-const awsConfig: AWSConfigType = {
+export const awsConfig: AWSConfigType = {
   region: AWS_REGION,
   credentials: {accessKeyId: ENV.AWS_ACCESS_KEY_ID, secretAccessKey: ENV.AWS_SECRET_ACCESS_KEY}
 };
 
-class AWSServices {
+export class AWSServices {
   private docClient: DynamoDBDocumentClient;
   private sesClient: SESClient;
 
