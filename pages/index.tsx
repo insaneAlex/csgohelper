@@ -8,11 +8,12 @@ import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {FC, useEffect} from 'react';
+import {StrArrObject} from '@/types';
 
 type Props = {
   onGetItems: (a: GetInventoryPayloadType) => void;
-  possibleFilters: Record<string, string[]>;
   inventoryItems: InventoryItemType[];
+  possibleFilters: StrArrObject;
   status: InventoryStatuses;
 };
 

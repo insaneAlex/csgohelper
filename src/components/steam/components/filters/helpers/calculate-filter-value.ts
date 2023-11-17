@@ -1,26 +1,20 @@
-import {ParsedUrlQuery} from 'querystring';
 import {areEqualArrays, getParamValuesArray, removeParamValue} from '../../../helpers';
 import {isFilterApplied} from './is-filter-applied';
+import {ParsedUrlQuery} from 'querystring';
+import {StrArrObject} from '@/types';
 
-export const calculateFilterValue = (
-  filterName: string,
-  value: string,
-  query: ParsedUrlQuery,
-  possibleFilters: Record<string, string[]>
-) => {
+type calculateFilterValueType = (a: string, b: string, c: ParsedUrlQuery, d: StrArrObject) => StrArrObject;
+
+export const calculateFilterValue: calculateFilterValueType = (filterName, value, query, possibleFilters) => {
   const currentValues = getParamValuesArray(query, filterName);
   const filterIsApplied = isFilterApplied(currentValues, value);
   const typeParamValues = getParamValuesArray(query, 'type');
 
-  let newFilterValue: Record<string, string[]> = {};
+  let newFilterValue: StrArrObject = {};
 
   if (!filterIsApplied && typeParamValues.includes(filterName)) {
-    newFilterValue = {type: removeParamValue(typeParamValues, filterName), [filterName]: []};
-    possibleFilters[filterName].forEach((el) => {
-      if (el !== value) {
-        newFilterValue[filterName].push(el);
-      }
-    });
+    const remainingSubfilters = possibleFilters[filterName].filter((el) => el !== value);
+    newFilterValue = {type: removeParamValue(typeParamValues, filterName), [filterName]: remainingSubfilters};
   } else {
     newFilterValue = filterIsApplied
       ? {[filterName]: removeParamValue(currentValues, value)}

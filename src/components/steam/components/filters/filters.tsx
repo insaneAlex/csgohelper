@@ -2,11 +2,12 @@ import {calculateFilterValue} from './helpers/calculate-filter-value';
 import {isFilterApplied} from './helpers';
 import {FilterItem} from './components';
 import {NextRouter} from 'next/router';
+import {StrArrObject} from '@/types';
 import {FC} from 'react';
 
 import styles from './filters.module.scss';
 
-type Props = {router: NextRouter; possibleFilters: Record<string, string[]>};
+type Props = {router: NextRouter; possibleFilters: StrArrObject};
 type FiltersType = {subFilter?: string; filter: string};
 
 export const Filters: FC<Props> = ({router, possibleFilters}) => {
