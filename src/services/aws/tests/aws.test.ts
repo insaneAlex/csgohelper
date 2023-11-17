@@ -5,6 +5,7 @@ import {UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import items from '../../../../mocks/items.json';
 import {SESClient} from '@aws-sdk/client-ses';
 import {awsConfig, AWSServices} from '../aws';
+import {PricesType} from '../types';
 
 const sendMock = jest.fn();
 
@@ -31,7 +32,6 @@ describe('AWSServices', () => {
         (SESClient.prototype.send as jest.Mock).mockImplementationOnce(mockSend);
         const feedbackData = {name: 'John', text: 'feedback message'};
         await awsServices.sendFeedback(feedbackData);
-
         expect(mockSend).toHaveBeenCalled();
       });
     });
@@ -42,7 +42,6 @@ describe('AWSServices', () => {
         (SESClient.prototype.send as jest.Mock).mockImplementationOnce(mockSend);
         const feedbackData = {name: 'John', text: 'feedback message'};
         await awsServices.sendFeedback(feedbackData);
-
         expect(mockConsoleError).toHaveBeenCalledWith(requestFailError);
       });
     });
@@ -80,13 +79,12 @@ describe('AWSServices', () => {
   describe('fetchFromDynamoDB', () => {
     const steamid = '123';
     const inventoryCache = {};
-    const prices = {};
+    const prices = null;
     const responseItem = {update_time: '2023-11-17T12:00:00', inventory: '[]'};
     describe('on success and existed item', () => {
       it('should return Item', async () => {
         sendMock.mockResolvedValueOnce({Item: responseItem});
         const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
-
         expect(result).toEqual({
           statusCode: 201,
           shouldSaveSteamId: true,
@@ -95,7 +93,6 @@ describe('AWSServices', () => {
         });
       });
     });
-
     describe('on success and not existed item', () => {
       it('should return with 404 error', async () => {
         sendMock.mockResolvedValueOnce({Item: null});
@@ -104,15 +101,29 @@ describe('AWSServices', () => {
         expect(result).toEqual({statusCode: 404, inventory: '[]'});
       });
     });
-
     describe('on request fail', () => {
       it('should return with 404 error', async () => {
         sendMock.mockRejectedValueOnce(requestFailError);
         const mockConsoleError = jest.spyOn(console, 'error').mockImplementation();
         const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
-
         expect(mockConsoleError).toHaveBeenCalledWith(requestFailError);
         expect(result).toEqual({statusCode: 404, inventory: '[]'});
+      });
+    });
+    describe('when price is avalable', () => {
+      it('should return Item with price', async () => {
+        const prices = {'qwe': {price: 'ITEM_PRICE'}} as unknown as PricesType;
+        const itemValue = {market_hash_name: 'qwe'};
+        const responseItem = {update_time: '2023-11-17T12:00:00', inventory: JSON.stringify([itemValue])};
+        sendMock.mockResolvedValueOnce({Item: responseItem});
+        const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
+        const withPrices = JSON.stringify([{...itemValue, prices: prices?.[itemValue.market_hash_name]?.price}]);
+        expect(result).toEqual({
+          statusCode: 201,
+          shouldSaveSteamId: true,
+          inventory: withPrices,
+          update_time: '2023-11-17T12:00:00'
+        });
       });
     });
   });
