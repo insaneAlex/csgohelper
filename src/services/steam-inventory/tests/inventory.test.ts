@@ -11,12 +11,7 @@ describe('InventoryApi', () => {
   describe('get inventory', () => {
     describe('on request call', () => {
       it('should call with valid url', async () => {
-        const mockData = {
-          success: true,
-          total_inventory_count: 5,
-          assets: {},
-          descriptions: {}
-        };
+        const mockData = {success: true, total_inventory_count: 5, assets: {}, descriptions: {}};
         (axios.get as jest.Mock).mockResolvedValueOnce({data: mockData});
         await inventoryApi.get({steamid: '123'});
         expect(axios.get).toHaveBeenCalledWith(
@@ -37,19 +32,13 @@ describe('InventoryApi', () => {
   describe('parseItem', () => {
     describe('when parsing item', () => {
       it('should return modified item', async () => {
-        const item = {
-          id: '123',
-          tradable: true,
-          marketable: false,
-          descriptions: [{classid: 'class1', instanceid: 'instance1'}]
-        } as unknown as ItemType;
-        const descriptions = [{classid: 'class1', instanceid: 'instance1'}] as Descriptions[];
+        const item = {id: '123', tradable: true, descriptions: [{classid: 'class1'}]} as unknown as ItemType;
+        const descriptions = [{classid: 'class1'}] as Descriptions[];
         const result = inventoryApi.parseItem(item, descriptions);
         const expectedResult = {
           'assetid': '123',
-          'descriptions': [{'classid': 'class1', 'instanceid': 'instance1'}],
+          'descriptions': [{'classid': 'class1'}],
           'id': '123',
-          'marketable': false,
           'tradable': true
         };
         expect(result).toEqual(expectedResult);
