@@ -13,7 +13,7 @@ const defaultProps = {
   possibleFilters: {'Pistol': ['Fiv'], 'Rifle': ['Rif']},
   onGetItems: onGetItemsMock,
   status: InventoryStatuses.IDLE,
-  inventoryItems: itemsMock as InventoryItemType[]
+  inventoryItems: itemsMock as unknown as InventoryItemType[]
 };
 
 describe('SteamInventory', () => {

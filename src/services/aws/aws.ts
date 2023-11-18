@@ -31,11 +31,9 @@ export class AWSServices {
 
       if (response?.Item) {
         const {update_time, inventory} = response.Item as {update_time: string; inventory: string};
-        inventoryCache[steamid] = {inventory, update_time};
-
-        const withPrices = prices
-          ? JSON.stringify(calculateInventoryWithPrices({inventory: JSON.parse(inventory), prices}))
-          : inventory;
+        const inventoryItems = JSON.parse(inventory);
+        inventoryCache[steamid] = {inventory: inventoryItems, update_time};
+        const withPrices = JSON.stringify(calculateInventoryWithPrices(inventoryItems, prices));
 
         return {statusCode: 201, shouldSaveSteamId: true, inventory: withPrices, update_time};
       }

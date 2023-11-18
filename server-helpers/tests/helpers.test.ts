@@ -25,8 +25,8 @@ describe('helpers', () => {
     const inventoryMock = [{market_hash_name: HASH_MOCK}] as NoPriceInventory;
     const pricesMock = {[HASH_MOCK]: {price: {}}} as unknown as PricesType;
     it('should add price object to item', () => {
-      const result = calculateInventoryWithPrices({inventory: inventoryMock, prices: pricesMock});
-      const modifiedItem = result.find((item) => item.market_hash_name === HASH_MOCK) as InventoryItemType;
+      const result = calculateInventoryWithPrices(inventoryMock, pricesMock);
+      const modifiedItem = result?.find((item) => item.market_hash_name === HASH_MOCK) as InventoryItemType;
       expect('prices' in modifiedItem).toBeTruthy();
     });
   });
