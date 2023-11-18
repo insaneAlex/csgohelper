@@ -1,4 +1,4 @@
-class MemoryStorage {
+export class MemoryStorage {
   private store: Record<string, string> = {};
 
   getItem(key: string): string | null {
