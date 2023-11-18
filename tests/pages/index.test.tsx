@@ -1,10 +1,10 @@
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {InventoryStatuses} from '@/src/redux/features';
 import {render, screen} from '@testing-library/react';
-import itemsMock from '../mocks/items.json';
+import itemsMock from '../../mocks/items.json';
 import {SteamInventory} from '@/pages';
 
-jest.mock('../src/services', () => ({storage: {localStorage: {get: () => 'steamid'}}}));
+jest.mock('../../src/services', () => ({storage: {localStorage: {get: () => 'steamid'}}}));
 jest.mock('next/router', () => ({useRouter: () => ({query: {'Pistol': 'Fiv'}})}));
 jest.mock('react-redux', () => ({useDispatch: () => jest.fn(), useSelector: jest.fn(), connect: () => jest.fn}));
 

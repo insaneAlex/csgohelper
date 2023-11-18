@@ -1,10 +1,10 @@
-import {FeedbackStatuses, onResetState} from '../src/redux/features';
+import {FeedbackStatuses, onResetState} from '../../src/redux/features';
 import {render, screen} from '@testing-library/react';
-import Feedback from '../pages/feedback';
+import Feedback from '../../pages/feedback';
 import {useSelector} from 'react-redux';
 
 const dispatchMock = jest.fn();
-jest.mock('../src/services', () => ({}));
+jest.mock('../../src/services', () => ({}));
 jest.mock('next/router', () => ({useRouter: () => ({push: jest.fn()})}));
 jest.mock('react-redux', () => ({useSelector: jest.fn(), useDispatch: () => dispatchMock}));
 
