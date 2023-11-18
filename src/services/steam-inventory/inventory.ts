@@ -1,5 +1,4 @@
-import {GetInventoryParams, InventoryGlobalType, InventoryResponseType, ItemType} from './types';
-import {parseItem} from './parse-item';
+import {Descriptions, GetInventoryParams, InventoryGlobalType, InventoryResponseType, ItemType} from './types';
 import axios from 'axios';
 
 class InventoryApi {
@@ -21,21 +20,40 @@ class InventoryApi {
   parse(res: InventoryResponseType, tradable: boolean) {
     const items = [] as InventoryGlobalType[];
 
-    if (res.success && res.total_inventory_count === 0) {
+    if (res?.success && res?.total_inventory_count === 0) {
       return items;
     }
-    if (!res || !res.success || !res.assets || !res.descriptions) {
+    if (!res || !res?.success || !res?.assets || !res?.descriptions) {
       throw new Error('Malformed response');
     }
 
     Object.values(res.assets).forEach((item: ItemType) => {
-      const parsedItem = parseItem({item, descriptions: res.descriptions});
+      const parsedItem = this.parseItem(item, res.descriptions);
       if (!tradable || parsedItem.tradable) {
         items.push(parsedItem);
       }
     });
 
     return items;
+  }
+
+  parseItem(item: ItemType, descriptions: Descriptions[]) {
+    const parsed = {
+      ...item,
+      assetid: item.id || item.assetid,
+      tradable: item.tradable,
+      marketable: item.marketable,
+      descriptions: item.descriptions || []
+    };
+
+    if (descriptions) {
+      const description = descriptions.find(
+        (desc) => desc.classid === parsed.classid && desc.instanceid === parsed.instanceid
+      );
+      description && Object.assign(parsed, description);
+    }
+
+    return parsed as unknown as InventoryGlobalType;
   }
 }
 
