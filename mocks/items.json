@@ -11,7 +11,8 @@
     "isEmpty": false,
     "name_color": "string",
     "rarity_color": "string",
-    "market_hash_name": "string"
+    "market_hash_name": "string",
+    "tags": []
   },
   {
     "name": "string",
@@ -25,6 +26,7 @@
     "isEmpty": false,
     "name_color": "string",
     "rarity_color": "string",
-    "market_hash_name": "string"
+    "market_hash_name": "string",
+    "tags": []
   }
 ]

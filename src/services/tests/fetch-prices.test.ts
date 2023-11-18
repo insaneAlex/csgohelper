@@ -1,8 +1,8 @@
-import axios from 'axios';
-import {fetchPrices, PriceCacheType} from '../fetch-prices';
+import {PriceCacheType, fetchPrices} from '../';
 import {PricesType} from '../aws/types';
+import axios from 'axios';
 jest.mock('axios');
-
+jest.mock('../../services/aws', () => ({}));
 describe('fetchPrices', () => {
   afterEach(() => {
     jest.resetAllMocks();
