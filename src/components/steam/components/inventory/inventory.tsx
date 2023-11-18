@@ -6,15 +6,14 @@ import {Pagination} from '@/src/components/ui';
 import {useState, FC, useMemo} from 'react';
 import {useWindowWidth} from '@/src/hooks';
 import {useSelector} from 'react-redux';
+import {MAX_ITEMS} from './constants';
 
 import styles from './inventory.module.scss';
 
-// eslint-disable-next-line max-statements
 export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const updateTime = useSelector(itemsUpdateTimeSelector);
   const itemsAmount = items.length;
-  const MAX_ITEMS = 40;
 
   const gridConfig = {
     col: {lg: 16, md: 12, sm: 20, xs: 12, xxs: 6},
@@ -23,14 +22,9 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   };
 
   const screenSize = getScreenSize({width: useWindowWidth()});
+  const itemsPerRow = gridConfig.col[screenSize] / gridConfig.width[screenSize];
 
-  const width = gridConfig.width[screenSize];
-  const cols = gridConfig.col[screenSize];
-
-  const itemsPerRow = cols / width;
-  const rowsConfig = {[screenSize]: Math.floor(MAX_ITEMS / itemsPerRow)};
-
-  const pageSize = itemsPerRow * rowsConfig[screenSize];
+  const pageSize = itemsPerRow * Math.floor(MAX_ITEMS / itemsPerRow);
   const pagesCount = Math.ceil(itemsAmount / pageSize);
   const emptyTiles = pagesCount * pageSize - itemsAmount;
   const totalPrice = calculateInventoryPrice({items});
