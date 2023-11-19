@@ -16,13 +16,7 @@ export const HamburgerMenu: FC<Props> = ({navLinks}) => {
 
   return (
     <>
-      <button
-        onClick={() => setVisible(true)}
-        className={styles.hamburgerBtn}
-        aria-label={COMPONENT_NAME}
-        title={COMPONENT_NAME}
-        type="button"
-      >
+      <button onClick={() => setVisible(true)} className={styles.hamburgerBtn} title={COMPONENT_NAME} type="button">
         <Icons.Hamburger />
       </button>
 
