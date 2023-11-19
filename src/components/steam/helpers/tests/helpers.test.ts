@@ -1,13 +1,13 @@
+import {getAppliedFilterParams} from '../get-applied-filter-params';
 import {getParamValuesArray} from '../get-param-values-array';
+import {ScreenSizes, screenSizes} from '../../constants';
 import {removeParamValue} from '../remove-param-value';
 import {areEqualArrays} from '../are-equal-arrays';
-import {isEmpty} from '../is-empty';
-import {getAppliedFilterParams} from '../get-applied-filter-params';
 import {getScreenSize} from '../get-screen-size';
-import {ScreenSizes, screenSizes} from '../../constants';
-import {paginate} from '../paginate';
 import {InventoryItemType} from '@/src/services';
 import {getImgSizes} from '../get-img-sizes';
+import {paginate} from '../paginate';
+import {isEmpty} from '../is-empty';
 
 describe('helpers', () => {
   afterEach(() => {
