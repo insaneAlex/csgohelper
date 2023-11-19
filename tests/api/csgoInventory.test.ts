@@ -1,6 +1,7 @@
 import handler, {inventoryCache, pricesCache} from '../../pages/api/csgoInventory';
 import {createMocks} from 'node-mocks-http';
 import items from '../../mocks/items.json';
+import {noop} from '@/src/services';
 
 const sendMock = jest.fn();
 const fetchDynamoMock = jest.fn();
@@ -62,6 +63,7 @@ describe('api/csgoInventory', () => {
   describe('when its force update', () => {
     it('should call getInventory', async () => {
       fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
+      jest.spyOn(console, 'error').mockImplementation(noop);
       const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true}});
       await handler(req, res);
       expect(getInventoryMock).toHaveBeenCalled();

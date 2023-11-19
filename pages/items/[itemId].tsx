@@ -5,13 +5,15 @@ import {useRouter} from 'next/router';
 import {storage} from '@/src/services';
 import {ItemDetails} from '@/src/components/steam';
 import {useDispatch, useSelector} from 'react-redux';
-import {getItemsStart, itemsSelector} from '@/src/redux';
+import {getItemsStart, inventoryStatusSelector, itemsSelector} from '@/src/redux';
 import {Button, ErrorAlert, Icons, Loader} from '@/src/components/ui';
+import {InventoryStatuses} from '@/src/redux/features';
 
 const ItemDetailsPage: FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const items = useSelector(itemsSelector);
+  const status = useSelector(inventoryStatusSelector);
 
   const steamid = storage.localStorage.get(STEAMID_PARAM);
   const item = items?.find((el) => el?.assetid === router.query.itemId);
@@ -40,9 +42,9 @@ const ItemDetailsPage: FC = () => {
     );
   }
 
-  if (!item) {
-    return <Loader />;
-  }
+  const renderItem = () => {
+    return item ? <ItemDetails item={item} /> : status === InventoryStatuses.INIT_LOAD ? <Loader /> : null;
+  };
 
   return (
     <>
@@ -50,7 +52,7 @@ const ItemDetailsPage: FC = () => {
         <Icons.Back />
       </Link>
 
-      <ItemDetails item={item} />
+      {renderItem()}
     </>
   );
 };
