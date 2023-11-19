@@ -67,4 +67,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {onGetItems: getItemsStart};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SteamInventory);
+export const SteamInventoryContainer = connect(mapStateToProps, mapDispatchToProps);
+
+export default SteamInventoryContainer(SteamInventory);
