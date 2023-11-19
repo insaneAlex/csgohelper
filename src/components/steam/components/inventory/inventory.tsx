@@ -10,16 +10,16 @@ import {MAX_ITEMS} from './constants';
 
 import styles from './inventory.module.scss';
 
+export const gridConfig = {
+  col: {lg: 16, md: 12, sm: 20, xs: 12, xxs: 6},
+  width: {lg: 2, md: 2, sm: 4, xs: 3, xxs: 3},
+  height: {lg: 1.5, md: 1.5, sm: 1.5, xs: 1.5, xxs: 2}
+};
+
 export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const updateTime = useSelector(itemsUpdateTimeSelector);
   const itemsAmount = items.length;
-
-  const gridConfig = {
-    col: {lg: 16, md: 12, sm: 20, xs: 12, xxs: 6},
-    width: {lg: 2, md: 2, sm: 4, xs: 3, xxs: 3},
-    height: {lg: 1.5, md: 1.5, sm: 1.5, xs: 1.5, xxs: 2}
-  };
 
   const screenSize = getScreenSize({width: useWindowWidth()});
   const itemsPerRow = gridConfig.col[screenSize] / gridConfig.width[screenSize];

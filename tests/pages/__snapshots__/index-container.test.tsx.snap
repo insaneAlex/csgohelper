@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SteamInventoryContainer should successfully pass props 1`] = `
-[
-  "inventoryItems",
-  "onGetItems",
-  "possibleFilters",
-  "status",
-]
+<div>
+  inventoryItems
+  onGetItems
+  possibleFilters
+  status
+</div>
 `;

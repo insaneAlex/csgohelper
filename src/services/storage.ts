@@ -11,14 +11,10 @@ export class MemoryStorage {
 const createStorage = (storage: Storage | MemoryStorage) => {
   return {
     set: (key: string, item: unknown) => {
-      try {
-        if (typeof item === 'object') {
-          storage.setItem(key, JSON.stringify(item));
-        } else {
-          storage.setItem(key, String(item));
-        }
-      } catch (e) {
-        return null;
+      if (typeof item === 'object') {
+        storage.setItem(key, JSON.stringify(item));
+      } else {
+        storage.setItem(key, String(item));
       }
     },
     get: (key: string) => {
