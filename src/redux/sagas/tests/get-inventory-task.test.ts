@@ -7,11 +7,9 @@ import {STEAMID_PARAM} from '@/core';
 const fetchInventoryMock = jest.fn();
 const setLocalStorageMock = jest.fn();
 
+jest.mock('../../../../core', () => ({fetchInventory: () => fetchInventoryMock()}));
 jest.mock('../../../services', () => ({
   storage: {localStorage: {set: (a: string) => setLocalStorageMock(a), get: () => STEAMID_PARAM}}
-}));
-jest.mock('../../../../core', () => ({
-  fetchInventory: () => fetchInventoryMock()
 }));
 
 describe('postFeedbackTask', () => {
