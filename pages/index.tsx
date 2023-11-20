@@ -8,24 +8,25 @@ import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {FC, useEffect} from 'react';
+import {StrArrObject} from '@/types';
 
 type Props = {
-  possibleFilters: Record<string, string[]>;
   onGetItems: (a: GetInventoryPayloadType) => void;
   inventoryItems: InventoryItemType[];
+  possibleFilters: StrArrObject;
   status: InventoryStatuses;
 };
 
-const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, status}) => {
-  const router = useRouter();
+export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, status}) => {
   const steamid = storage.localStorage.get(STEAMID_PARAM);
-  const isLoading = status === InventoryStatuses.INIT_LOAD;
   const hasNoItems = inventoryItems.length === 0;
 
   useEffect(() => {
     hasNoItems && steamid && onGetItems({steamid});
   }, []);
 
+  const router = useRouter();
+  const isLoading = status === InventoryStatuses.INIT_LOAD;
   const filters = getAppliedFilterParams(possibleFilters, router.query);
   const shouldFilter = Object.keys(filters).length > 0;
   const items = shouldFilter ? filterInventory({inventory: inventoryItems, filters}) : inventoryItems;
@@ -52,7 +53,7 @@ const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems,
     <>
       <SearchInventory loading={isLoading} />
       {renderError()}
-      <Filters />
+      <Filters router={router} possibleFilters={possibleFilters} />
       {renderContent()}
     </>
   );
@@ -66,4 +67,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {onGetItems: getItemsStart};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SteamInventory);
+export const SteamInventoryContainer = connect(mapStateToProps, mapDispatchToProps);
+
+export default SteamInventoryContainer(SteamInventory);

@@ -27,7 +27,13 @@ export const Portal: FC<Props> = ({children, visible}) => {
   });
 
   const content = (
-    <animated.div style={portalConfig} className={styles.portal} aria-hidden={!visible} role="dialog">
+    <animated.div
+      style={portalConfig}
+      className={styles.portal}
+      aria-hidden={!visible}
+      role="dialog"
+      data-testid="portal"
+    >
       {children}
     </animated.div>
   );

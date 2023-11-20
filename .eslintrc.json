@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y", "testing-library"],
   "extends": [
     "plugin:jsx-a11y/recommended",
     "next/core-web-vitals",
@@ -16,6 +16,48 @@
     "react-hooks/exhaustive-deps": "off",
     "import/no-unresolved": "error",
     "no-restricted-imports": "error",
-    "import/named": "error"
-  }
+    "import/named": "error",
+    "no-restricted-syntax": ["error", "ForInStatement", "SequenceExpression"],
+    "no-template-curly-in-string": "error",
+    "array-callback-return": "error",
+    "no-caller": "error",
+    "no-else-return": "error",
+    "no-eval": "error",
+    "no-extend-native": "error",
+    "no-implicit-coercion": ["error", {"allow": ["!!"]}],
+    "eqeqeq": ["error", "always"],
+    "no-lone-blocks": "error",
+    "no-param-reassign": "error",
+    "no-proto": "error",
+    "no-script-url": "error",
+    "no-self-compare": "error",
+    "no-sequences": "error",
+    "no-throw-literal": "error",
+    "no-useless-call": "error",
+    "yoda": "error",
+    "no-console": "error",
+
+    "complexity": ["error", 10],
+    "max-params": ["error", 5],
+    "max-depth": ["error", 2],
+    "max-statements": ["error", 16],
+    "max-nested-callbacks": ["error", 4],
+
+    "react-hooks/rules-of-hooks": "error",
+
+    "no-undef-init": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/tests/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)", "mocks/*"],
+      "extends": ["plugin:testing-library/react"],
+      "rules": {"@typescript-eslint/no-explicit-any": "off"}
+    },
+    {
+      "files": ["src/services/aws/*", "src/services/fetch-prices.ts", "pages/api/*"],
+      "rules": {"no-console": "off"}
+    },
+    {"files": ["*.config.js"], "rules": {"@typescript-eslint/no-var-requires": "off"}},
+    {"files": ["slice.ts"], "rules": {"@typescript-eslint/no-unused-vars": "warn"}}
+  ]
 }

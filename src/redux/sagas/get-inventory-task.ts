@@ -17,14 +17,6 @@ export function* getInventoryTask({payload: {steamid, isForceUpdate}}: PayloadAc
     inventory?.length > 0 && shouldSaveSteamId && storage.localStorage.set(STEAMID_PARAM, steamid);
     yield put(getItemsSuccess({inventory, update_time}));
   } catch (e) {
-    const errStatus = (e as {status: number})?.status;
-
-    if (errStatus === 403) {
-      yield put(getItemsError(InventoryStatuses.PRIVATE_INVENTORY));
-    } else if (errStatus === 404) {
-      yield put(getItemsError(InventoryStatuses.NO_PROFILE));
-    } else {
-      yield put(getItemsError(e as InventoryStatuses));
-    }
+    yield put(getItemsError((e as {message: InventoryStatuses})?.message));
   }
 }

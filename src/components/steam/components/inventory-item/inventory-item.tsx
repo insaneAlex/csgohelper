@@ -1,8 +1,8 @@
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {inventoryImageBaseUrl} from '../../constants';
+import {getAvailablePrice} from '../../helpers';
 import {STAT_TRAK_PATTERN} from './constants';
 import {Layout} from 'react-grid-layout';
-import {PriceOptions} from '../../types';
 import {useRouter} from 'next/router';
 import {ImgSize} from '@/types';
 import Image from 'next/image';
@@ -17,7 +17,8 @@ export const InventoryItem: FC<Props> = ({item, imgSize}) => {
   const router = useRouter();
   const {name_color, assetid, icon_url, count = 1, prices} = item;
   const {width, height} = imgSize;
-  const price = prices?.[PriceOptions.WEEK]?.average * count;
+
+  const price = Number(getAvailablePrice(prices)) * count;
   const formattedPrice = !isNaN(price) && price.toFixed(2);
 
   if (!icon_url) {

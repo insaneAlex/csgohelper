@@ -25,6 +25,7 @@ export const Checkbox: FC<Props> = ({
   isWithoutBorder = false
 }) => (
   <label
+    data-testid="checkbox-label"
     className={classNames(styles.label, {
       [styles.checked]: (checked || defaultChecked) && !isWithoutBorder
     })}

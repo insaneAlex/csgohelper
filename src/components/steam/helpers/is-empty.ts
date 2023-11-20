@@ -1,6 +1,1 @@
-export const isEmpty = (value?: string | null) => {
-  if (value === undefined || value === null) {
-    return true;
-  }
-  return typeof value === 'string' ? !value.trim() : false;
-};
+export const isEmpty = (value?: string | null) => (typeof value === 'string' ? !value.trim() : true);

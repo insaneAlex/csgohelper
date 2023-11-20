@@ -4,7 +4,7 @@ type Props = {width?: number; height?: number; fill?: string};
 
 export const FeedbackIcon: FC<Props> = ({fill = 'gainsboro', width = 16, height = 16}) => {
   return (
-    <svg width={width} height={height} viewBox="0 0 216 254.5">
+    <svg data-testid="FeedbackIcon" width={width} height={height} viewBox="0 0 216 254.5">
       <path
         d="m9.05,253.41c-4.71,0-8.54-3.83-8.54-8.54V9.96C.52,5.25,4.35,1.42,9.05,1.42h135.53s.09.02.16.04c.1.03.22.06.36.07.77.05,1.5.19,2.22.44l.25.08c.18.06.37.12.54.2,1.03.48,1.85,1.02,2.5,1.67l63.25,63.25c.66.66,1.19,1.45,1.67,2.5.09.19.14.37.21.56l.08.23c.25.74.4,1.46.44,2.21,0,.14.04.27.07.36.02.06.04.13.04.16v171.67c0,4.71-3.83,8.54-8.54,8.54H9.05Zm8.54-17.07h181.71V81.74h-54.71c-4.71,0-8.54-3.83-8.54-8.54V18.5H17.59v217.85ZM153.12,64.67h34.11l-34.11-34.11v34.11Z"
         fill={fill}

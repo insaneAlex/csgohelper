@@ -1,11 +1,10 @@
 import {InventoryItemType} from '@/src/services/steam-inventory';
-import {PriceOptions} from '../types';
+import {getAvailablePrice} from './get-available-price';
 
 export const calculateInventoryPrice = ({items}: {items: InventoryItemType[]}) => {
-  const total = items.reduce((accumulator, currentValue) => {
-    const price = Number(currentValue?.prices?.[PriceOptions.WEEK]?.median);
-    const count = currentValue?.count || 1;
-    return isNaN(price) ? accumulator : accumulator + price * count;
+  const total = items.reduce((accumulator, {prices, count}) => {
+    const price = Number(getAvailablePrice(prices));
+    return isNaN(price) ? accumulator : accumulator + price * (count || 1);
   }, 0);
   return total === 0 ? '' : total.toFixed(2);
 };

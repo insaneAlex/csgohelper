@@ -1,0 +1,34 @@
+[
+  {
+    "name": "m4a1",
+    "type": "Rifle",
+    "count": 1,
+    "weapon": "Rif",
+    "assetid": "id1",
+    "icon_url": "ergrege",
+    "prices": {},
+    "exterior": "string",
+    "isEmpty": false,
+    "name_color": "string",
+    "rarity_color": "string",
+    "market_hash_name": "m4a1",
+    "tags": [],
+    "i": "1"
+  },
+  {
+    "name": "deagle",
+    "type": "Pistol",
+    "count": 1,
+    "weapon": "Fiv",
+    "assetid": "id2",
+    "icon_url": "SAfgeger",
+    "prices": {},
+    "exterior": "string",
+    "isEmpty": false,
+    "name_color": "string",
+    "rarity_color": "string",
+    "market_hash_name": "deagle",
+    "tags": [],
+    "i": "2"
+  }
+]

@@ -1,20 +1,21 @@
 import classNames from 'classnames';
-import {useRouter} from 'next/router';
+import {NextRouter} from 'next/router';
 import React, {FC, useState} from 'react';
-import styles from './filter-item.module.scss';
+import {isFilterApplied} from '../../helpers';
 import {Variants, motion} from 'framer-motion';
 import {Checkbox, Icons, Separator} from '@/src/components/ui';
-import {isFilterApplied} from '../../helpers';
+
+import styles from './filter-item.module.scss';
 
 type Props = {
   onFilterUpdate: (arg: {subFilter?: string; filter: string}) => void;
   subFilters: string[];
+  router: NextRouter;
   isChecked: boolean;
   filter: string;
 };
 
-export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUpdate}) => {
-  const router = useRouter();
+export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUpdate, router}) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const subFiltersLenght = subFilters.length;
@@ -37,9 +38,9 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
     closed: {opacity: 0, y: 20, transition: {duration: 0.2}}
   };
 
-  const hasAppliedSubfilter = subFilters?.some((filter) => isFilterApplied(appliedSubfilters, filter));
+  const hasAppliedSubfilter = subFilters?.some((fltr) => isFilterApplied(appliedSubfilters, fltr));
   return (
-    <motion.nav
+    <motion.header
       initial={false}
       onMouseLeave={() => setOpen(false)}
       animate={open ? 'open' : 'closed'}
@@ -81,6 +82,6 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
           </motion.ul>
         </motion.div>
       )}
-    </motion.nav>
+    </motion.header>
   );
 };

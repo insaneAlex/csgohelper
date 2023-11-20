@@ -11,17 +11,8 @@ type ItemAction = {
   name: string;
 };
 
-export enum TagsType {
-  CATEGORY = 'category',
-  INTERNAL_NAME = 'internal_name',
-  LOCALIZED_CATEGORY_NAME = 'localized_category_name',
-  LOCALIZED_TAG_NAME = 'localized_tag_name',
-  COLOR = 'color'
-}
-
-export type TagsTypeIndex = {
-  [key in TagsType]: string;
-};
+export type TagsType = 'category' | 'internal_name' | 'localized_category_name' | 'localized_tag_name' | 'color';
+export type TagsTypeIndex = Record<TagsType, string>;
 
 export type GetInventoryParams = {
   steamid: string;
