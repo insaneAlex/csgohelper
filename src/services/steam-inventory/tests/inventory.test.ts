@@ -24,7 +24,6 @@ describe('InventoryApi', () => {
         const mockData = {success: true, total_inventory_count: 0, assets: {}, descriptions: {}};
         (axios.get as jest.Mock).mockResolvedValueOnce({data: mockData});
         const result = await inventoryApi.get({steamid: '123'});
-
         expect(result).toEqual([]);
       });
     });

@@ -3,11 +3,10 @@ import {Inventory, gridConfig} from '../inventory';
 import items from '../../../../../../mocks/items.json';
 import {InventoryItemType} from '@/src/services';
 
-jest.mock('../../../../../services', () => ({}));
-jest.mock('../constants', () => ({MAX_ITEMS: 1}));
 const routerPushMock = jest.fn();
 const dispatchMock = jest.fn();
-
+jest.mock('../../../../../services', () => ({}));
+jest.mock('../constants', () => ({MAX_ITEMS: 1}));
 jest.mock('next/router', () => ({useRouter: () => ({push: routerPushMock})}));
 jest.mock('react-redux', () => ({useDispatch: () => dispatchMock, useSelector: jest.fn()}));
 
@@ -19,7 +18,6 @@ describe('Inventory', () => {
     afterAll(() => {
       jest.resetAllMocks();
     });
-
     it('should apply class to active buttonLink', () => {
       render(<Inventory items={inventoryItems} />);
       const buttonPage2 = screen.getByText('2');
@@ -33,7 +31,6 @@ describe('Inventory', () => {
       const buttonPageLast = screen.getByText(inventoryItems.length);
       fireEvent.click(buttonPageLast);
       expect(buttonPageLast).toHaveClass('linkActive');
-
       inventoryItems = items as unknown as InventoryItemType[];
       rerender(<Inventory items={inventoryItems} />);
       const buttonPage2 = screen.getByText('2');

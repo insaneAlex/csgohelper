@@ -97,7 +97,6 @@ describe('AWSServices', () => {
       it('should return with 404 error', async () => {
         sendMock.mockResolvedValueOnce({Item: null});
         const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
-
         expect(result).toEqual({statusCode: 404, inventory: '[]'});
       });
     });

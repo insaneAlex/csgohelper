@@ -1,13 +1,13 @@
-import Link from 'next/link';
-import {FC, useEffect} from 'react';
-import {STEAMID_PARAM} from '@/core';
-import {useRouter} from 'next/router';
-import {storage} from '@/src/services';
-import {ItemDetails} from '@/src/components/steam';
-import {useDispatch, useSelector} from 'react-redux';
 import {getItemsStart, inventoryStatusSelector, itemsSelector} from '@/src/redux';
 import {Button, ErrorAlert, Icons, Loader} from '@/src/components/ui';
 import {InventoryStatuses} from '@/src/redux/features';
+import {useDispatch, useSelector} from 'react-redux';
+import {ItemDetails} from '@/src/components/steam';
+import {storage} from '@/src/services';
+import {useRouter} from 'next/router';
+import {STEAMID_PARAM} from '@/core';
+import {FC, useEffect} from 'react';
+import Link from 'next/link';
 
 const ItemDetailsPage: FC = () => {
   const router = useRouter();

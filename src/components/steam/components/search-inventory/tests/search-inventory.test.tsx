@@ -2,10 +2,11 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {SearchInventory} from '../search-inventory';
 import {getItemsStart} from '@/src/redux';
 
-const dispatchMock = jest.fn();
 const steamid = 'steamid';
+const dispatchMock = jest.fn();
 jest.mock('../../../../../services', () => ({storage: {localStorage: {get: jest.fn(() => steamid)}}}));
 jest.mock('react-redux', () => ({useSelector: jest.fn(), useDispatch: () => dispatchMock}));
+
 describe('SearchInventory', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -15,7 +16,6 @@ describe('SearchInventory', () => {
       render(<SearchInventory loading={false} />);
       const submitButton = screen.getByText('Search SteamID');
       fireEvent.click(submitButton);
-
       expect(dispatchMock).toHaveBeenCalledWith(getItemsStart({isForceUpdate: true, steamid}));
     });
   });
@@ -27,7 +27,6 @@ describe('SearchInventory', () => {
       const submitButton = screen.getByText('Search SteamID');
       fireEvent.input(input, {target: {value: expectedValue}});
       fireEvent.click(submitButton);
-
       expect(dispatchMock).toHaveBeenCalledWith(getItemsStart({isForceUpdate: true, steamid: expectedValue}));
     });
   });
@@ -37,7 +36,6 @@ describe('SearchInventory', () => {
       const input = screen.getByPlaceholderText('Enter your SteamID');
       const submitButton = screen.getByRole('button');
       fireEvent.input(input, {target: {value: ''}});
-
       expect(submitButton).toBeDisabled();
     });
   });

@@ -10,7 +10,6 @@ describe('FeedbackSuccess', () => {
     const {container} = render(<FeedbackSuccess />);
     expect(container).toMatchSnapshot();
   });
-
   describe('when user clicks "Return to Home" button', () => {
     it('should push "/" route', () => {
       render(<FeedbackSuccess />);

@@ -71,9 +71,9 @@ describe('helpers', () => {
         expect(result).toEqual(expectedValue);
       });
     });
-    describe('when removing "type" filter', () => {
+    describe('when adding "type" filter', () => {
       const possibleFilters = {[PISTOL]: [P250], [KNIFE]: [HUNTSMAN]};
-      it('should remove this filter subfilters', () => {
+      it('should remove this filter subfilters and add "type" filter', () => {
         const result = calculateFilterValue(TYPE, PISTOL, emptyQuery, possibleFilters);
         const expectedValue = {[TYPE]: [PISTOL], [PISTOL]: []};
         expect(result).toEqual(expectedValue);

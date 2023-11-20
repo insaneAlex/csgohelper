@@ -6,7 +6,6 @@ describe('network', () => {
       const url = 'example.com';
       const urlWithParams = createUrl(url, {});
       const urlWithoutParam = createUrl(url);
-
       expect(urlWithParams).toEqual(url);
       expect(urlWithoutParam).toEqual(url);
     });
@@ -15,7 +14,6 @@ describe('network', () => {
       const params = {param1: '1', param2: '2'};
       const urlWithParams = createUrl(url, params);
       const expectedResult = 'example.com?query=0&param1=1&param2=2';
-
       expect(urlWithParams).toEqual(expectedResult);
     });
     it('should create url with get parameters explicitly with 0', () => {
@@ -23,7 +21,6 @@ describe('network', () => {
       const params = {query: 'val'};
       const urlWithParams = createUrl(url, params);
       const expectedResult = 'example.com?query=val';
-
       expect(urlWithParams).toEqual(expectedResult);
     });
     it('should create url with array parameters', () => {
@@ -31,7 +28,6 @@ describe('network', () => {
       const params = {query: ['val', 'val2']};
       const urlWithParams = createUrl(url, params);
       const expectedResult = 'example.com?query=val&query=val2';
-
       expect(urlWithParams).toEqual(expectedResult);
     });
   });
@@ -44,13 +40,11 @@ describe('network', () => {
         json: jest.fn().mockResolvedValueOnce({data: 'mocked data'})
       });
       const response = await bareRequest('https://example.com');
-
       expect(response.data).toBe('mocked data');
       expect(response.status).toBe(200);
     });
     it('should handle a failed request', async () => {
       (global as any).fetch.mockResolvedValueOnce({ok: false, status: 404});
-
       await expect(bareRequest('https://example.com')).rejects.toThrow('Request failed with status 404');
     });
   });

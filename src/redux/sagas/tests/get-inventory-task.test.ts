@@ -6,13 +6,12 @@ import {STEAMID_PARAM} from '@/core';
 
 const fetchInventoryMock = jest.fn();
 const setLocalStorageMock = jest.fn();
-
 jest.mock('../../../../core', () => ({fetchInventory: () => fetchInventoryMock()}));
 jest.mock('../../../services', () => ({
   storage: {localStorage: {set: (a: string) => setLocalStorageMock(a), get: () => STEAMID_PARAM}}
 }));
 
-describe('postFeedbackTask', () => {
+describe('getInventoryTask', () => {
   const fetchInventoryPayload = {steamid: '123', isForceUpdate: true};
   it('should dispatch getItemsSuccess on successful fetchInventory', async () => {
     const expectedResponse = {inventory: '[]', update_time: 'asdad'};
@@ -21,7 +20,7 @@ describe('postFeedbackTask', () => {
       payload: fetchInventoryPayload,
       type: ''
     })
-      .provide([[fetchInventoryMock, {status: 'ok'}]])
+      .provide([[fetchInventoryMock, {}]])
       .put(getItemsSuccess({...expectedResponse, inventory: JSON.parse(expectedResponse.inventory)}))
       .run();
   });
@@ -44,7 +43,7 @@ describe('postFeedbackTask', () => {
         payload: fetchInventoryPayload,
         type: ''
       })
-        .provide([[fetchInventoryMock, {status: 'ok'}]])
+        .provide([[fetchInventoryMock, {}]])
         .put(getItemsSuccess({inventory: JSON.parse(inventory), update_time}))
         .run();
       expect(setLocalStorageMock).toHaveBeenCalledWith(STEAMID_PARAM);

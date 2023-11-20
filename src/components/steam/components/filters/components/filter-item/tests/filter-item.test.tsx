@@ -11,7 +11,7 @@ const possibleFiltersMock = {[RIFLE]: [AUG, M4A1]};
 const mockRouter = {query: {}, push: jest.fn()} as unknown as NextRouter;
 const onFilterUpdateMock = jest.fn();
 
-describe('Filters', () => {
+describe('FilterItem', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -60,7 +60,6 @@ describe('Filters', () => {
       expect(screen.getByRole('list')).toHaveClass('listActive');
     });
   });
-
   describe('when user mouse leave filter area', () => {
     it('list should not have listActive class', () => {
       render(
