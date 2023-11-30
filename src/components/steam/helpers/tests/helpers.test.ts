@@ -1,7 +1,9 @@
+import {calculateInventoryPrice} from '../calculate-inventory-price';
 import {getAppliedFilterParams} from '../get-applied-filter-params';
 import {getParamValuesArray} from '../get-param-values-array';
 import {ScreenSizes, screenSizes} from '../../constants';
 import {removeParamValue} from '../remove-param-value';
+import items from '../../../../../mocks/items.json';
 import {areEqualArrays} from '../are-equal-arrays';
 import {getScreenSize} from '../get-screen-size';
 import {InventoryItemType} from '@/src/services';
@@ -167,6 +169,17 @@ describe('helpers', () => {
     it('returns md size for any other screenSize', () => {
       const result = getImgSizes({screenSize: ScreenSizes.Md});
       expect(result).toEqual({width: 110, height: 82});
+    });
+  });
+  describe('calculateInventoryPrice', () => {
+    it('should calculate inventory price', () => {
+      const expected = '3.00';
+      expect(calculateInventoryPrice({items: items as unknown as InventoryItemType[]})).toBe(expected);
+    });
+    describe('when inventory price is zero', () => {
+      it('should return empty string', () => {
+        expect(calculateInventoryPrice({items: [{}, {}] as unknown as InventoryItemType[]})).toBe('');
+      });
     });
   });
 });
