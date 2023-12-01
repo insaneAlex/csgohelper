@@ -46,14 +46,13 @@ export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = (
   );
 
   const isChecked = router.query?.[DUPLICATES_PARAM] === 'false';
-  const handleToggleShowDuplicates = () =>
-    router.push({query: {...router.query, duplicates: !isChecked || isChecked === undefined ? false : true}});
+  const handleToggleDuplicates = () => router.push({query: {...router.query, [DUPLICATES_PARAM]: isChecked}});
 
   return (
     <>
       <p className={styles.info}>
         {`Items: ${itemsAmount}${totalPrice ? ` | value ${totalPrice}` : ''} `}
-        <ToggleButton label="hide duplicates" onClick={handleToggleShowDuplicates} checked={isChecked} />
+        <ToggleButton label="hide duplicates" onClick={handleToggleDuplicates} checked={isChecked} />
       </p>
 
       {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}
