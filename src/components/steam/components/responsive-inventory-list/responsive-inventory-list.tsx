@@ -6,13 +6,14 @@ import {useWindowWidth} from '@/src/hooks';
 import {GridConfigType} from '../../types';
 import React, {FC, useMemo} from 'react';
 import classNames from 'classnames';
+import {NextRouter} from 'next/router';
 
 import styles from './responsive-inventory-list.module.scss';
 
-type Props = {items: InventoryItemType[]; gridConfig: GridConfigType};
+type Props = {items: InventoryItemType[]; gridConfig: GridConfigType; router: NextRouter};
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig}) => {
+export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig, router}) => {
   const layouts = useMemo(() => calculateLayouts({items, gridConfig}), [items]);
   const screenSize = getScreenSize({width: useWindowWidth()});
   const imgSize = useMemo(() => getImgSizes({screenSize}), [screenSize]);
@@ -32,7 +33,7 @@ export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig}) => {
           className={classNames(styles.item, {[styles.empty]: item.isEmpty})}
           key={item.i}
         >
-          <InventoryItem item={item} imgSize={imgSize} />
+          <InventoryItem item={item} imgSize={imgSize} router={router} />
         </div>
       ))}
     </ResponsiveReactGridLayout>

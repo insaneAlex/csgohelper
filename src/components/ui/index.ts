@@ -1,3 +1,4 @@
+export {ToggleButton} from './toggle-button';
 export {ErrorAlert} from './error-alert';
 export {Pagination} from './pagination';
 export {Separator} from './separator';

@@ -1,5 +1,6 @@
 export {
   ResponsiveInventoryList,
+  DUPLICATES_PARAM,
   SearchInventory,
   FeedbackSuccess,
   FeedbackForm,
@@ -8,6 +9,6 @@ export {
   Filters
 } from './components';
 
-export {filterInventory, getAppliedFilterParams} from './helpers';
+export {filterInventory, getUniqueItems, modifyInventory, getAppliedFilterParams} from './helpers';
 
 export {PriceOptions} from './types';

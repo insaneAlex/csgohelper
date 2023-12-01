@@ -1,12 +1,13 @@
 import {paginate, getScreenSize, calculateInventoryPrice} from '../../helpers';
 import {ResponsiveInventoryList} from '../responsive-inventory-list';
 import {InventoryItemType} from '@/src/services/steam-inventory';
+import {Pagination, ToggleButton} from '@/src/components/ui';
+import {DUPLICATES_PARAM, MAX_ITEMS} from './constants';
 import {itemsUpdateTimeSelector} from '@/src/redux';
-import {Pagination} from '@/src/components/ui';
 import {useState, FC, useMemo} from 'react';
 import {useWindowWidth} from '@/src/hooks';
 import {useSelector} from 'react-redux';
-import {MAX_ITEMS} from './constants';
+import {NextRouter} from 'next/router';
 
 import styles from './inventory.module.scss';
 
@@ -16,7 +17,7 @@ export const gridConfig = {
   height: {lg: 1.5, md: 1.5, sm: 1.5, xs: 1.5, xxs: 2}
 };
 
-export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
+export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = ({items, router}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const updateTime = useSelector(itemsUpdateTimeSelector);
   const itemsAmount = items.length;
@@ -44,12 +45,19 @@ export const Inventory: FC<{items: InventoryItemType[]}> = ({items}) => {
     [pageSize, currentPage, items, missingTiles]
   );
 
+  const isChecked = router.query?.[DUPLICATES_PARAM] === 'false';
+  const handleToggleShowDuplicates = () =>
+    router.push({query: {...router.query, duplicates: !isChecked || isChecked === undefined ? false : true}});
+
   return (
     <>
-      <p className={styles.info}>{`Items:${itemsAmount}${totalPrice ? ` | value ${totalPrice}` : ''}`}</p>
+      <p className={styles.info}>
+        {`Items: ${itemsAmount}${totalPrice ? ` | value ${totalPrice}` : ''} `}
+        <ToggleButton label="hide duplicates" onClick={handleToggleShowDuplicates} checked={isChecked} />
+      </p>
 
       {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}
-      <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} />
+      <ResponsiveInventoryList gridConfig={gridConfig} items={paginatedInventory} router={router} />
 
       <section className={styles.pages}>
         <Pagination
