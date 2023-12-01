@@ -3,7 +3,7 @@ import {inventoryImageBaseUrl} from '../../constants';
 import {getAvailablePrice} from '../../helpers';
 import {STAT_TRAK_PATTERN} from './constants';
 import {Layout} from 'react-grid-layout';
-import {useRouter} from 'next/router';
+import {NextRouter} from 'next/router';
 import {ImgSize} from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,10 +11,9 @@ import {FC} from 'react';
 
 import styles from './inventory-item.module.scss';
 
-type Props = {imgSize: ImgSize; item: InventoryItemType & Layout};
+type Props = {imgSize: ImgSize; item: InventoryItemType & Layout; router: NextRouter};
 
-export const InventoryItem: FC<Props> = ({item, imgSize}) => {
-  const router = useRouter();
+export const InventoryItem: FC<Props> = ({item, imgSize, router}) => {
   const {name_color, assetid, icon_url, count = 1, prices} = item;
   const {width, height} = imgSize;
 

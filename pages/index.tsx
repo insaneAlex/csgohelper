@@ -1,4 +1,4 @@
-import {getAppliedFilterParams, filterInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {getAppliedFilterParams, modifyInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
 import {inventoryStatusSelector, itemsFiltersSelector, itemsSelector, getItemsStart, RootState} from '@/src/redux';
 import {GetInventoryPayloadType, InventoryStatuses} from '@/src/redux/features';
 import {InventoryItemType} from '@/src/services/steam-inventory';
@@ -28,8 +28,6 @@ export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventor
   const router = useRouter();
   const isLoading = status === InventoryStatuses.INIT_LOAD;
   const filters = getAppliedFilterParams(possibleFilters, router.query);
-  const shouldFilter = Object.keys(filters).length > 0;
-  const items = shouldFilter ? filterInventory({inventory: inventoryItems, filters}) : inventoryItems;
 
   const renderError = () => {
     switch (status) {
@@ -45,7 +43,7 @@ export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventor
       return <Loader />;
     }
     if (!hasNoItems) {
-      return <Inventory items={items} />;
+      return <Inventory items={modifyInventory({inventoryItems, filters, query: router.query})} router={router} />;
     }
   };
 

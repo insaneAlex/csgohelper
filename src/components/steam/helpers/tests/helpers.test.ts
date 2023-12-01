@@ -5,12 +5,16 @@ import {ScreenSizes, screenSizes} from '../../constants';
 import {removeParamValue} from '../remove-param-value';
 import items from '../../../../../mocks/items.json';
 import {areEqualArrays} from '../are-equal-arrays';
+import {modifyInventory} from '../modify-inventory';
+import {getUniqueItems} from '../get-unique-items';
+import {DUPLICATES_PARAM} from '../../components';
 import {getScreenSize} from '../get-screen-size';
 import {InventoryItemType} from '@/src/services';
 import {getImgSizes} from '../get-img-sizes';
 import {paginate} from '../paginate';
 import {isEmpty} from '../is-empty';
 
+jest.mock('../../../../services', () => ({}));
 describe('helpers', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -180,6 +184,47 @@ describe('helpers', () => {
       it('should return empty string', () => {
         expect(calculateInventoryPrice({items: [{}, {}] as unknown as InventoryItemType[]})).toBe('');
       });
+    });
+  });
+  describe('getUniqueItems', () => {
+    it('returns an array of unique items with count', () => {
+      const inputInventory = [{name: 'item1'}, {name: 'item1'}, {name: 'item3'}] as InventoryItemType[];
+      const expectedResult = [
+        {name: 'item1', count: 2},
+        {name: 'item3', count: 1}
+      ];
+      const result = getUniqueItems({inventory: inputInventory});
+      expect(result).toEqual(expectedResult);
+    });
+    it('handles an inventory with a single item', () => {
+      const inputInventory = [{name: 'item1'}] as InventoryItemType[];
+      const expectedResult = [{name: 'item1', count: 1}];
+      const result = getUniqueItems({inventory: inputInventory});
+      expect(result).toEqual(expectedResult);
+    });
+  });
+  describe('modifyInventory', () => {
+    const query = {};
+    const filters = {};
+    const inventoryItems = [
+      {name: 'item1', type: 'awp'},
+      {name: 'item2'},
+      {name: 'item2'}
+    ] as unknown as InventoryItemType[];
+    it('returns the original inventory when no filters or query parameters are provided', () => {
+      expect(modifyInventory({filters, query, inventoryItems})).toEqual(inventoryItems);
+    });
+    it('applies filters to the inventory when filters are provided', () => {
+      const filters = {types: ['awp']};
+      expect(modifyInventory({filters, query, inventoryItems})).toEqual([inventoryItems[0]]);
+    });
+    it('removes duplicates from the inventory when query parameter DUPLICATES_PARAM is set to "false"', () => {
+      const query = {[DUPLICATES_PARAM]: 'false'};
+      const result = modifyInventory({filters, query, inventoryItems});
+      expect(result).toEqual([
+        {name: 'item1', type: 'awp', count: 1},
+        {name: 'item2', count: 2}
+      ]);
     });
   });
 });
