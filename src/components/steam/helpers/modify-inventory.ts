@@ -1,9 +1,9 @@
-import {InventoryItemType} from '@/src/services';
 import {filterInventory} from './filter-inventory';
 import {getUniqueItems} from './get-unique-items';
-import {StrArrObject} from '@/types';
-import {ParsedUrlQuery} from 'querystring';
+import {InventoryItemType} from '@/src/services';
 import {DUPLICATES_PARAM} from '../components';
+import {ParsedUrlQuery} from 'querystring';
+import {StrArrObject} from '@/types';
 
 type Props = {filters: StrArrObject; query: ParsedUrlQuery; inventoryItems: InventoryItemType[]};
 
