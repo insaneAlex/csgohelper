@@ -1,5 +1,6 @@
 import {calculateInventoryPrice} from '../calculate-inventory-price';
 import {getAppliedFilterParams} from '../get-applied-filter-params';
+import {DUPLICATES_PARAM, SORT, SortTypes} from '../../components';
 import {getParamValuesArray} from '../get-param-values-array';
 import {ScreenSizes, screenSizes} from '../../constants';
 import {removeParamValue} from '../remove-param-value';
@@ -7,10 +8,11 @@ import items from '../../../../../mocks/items.json';
 import {areEqualArrays} from '../are-equal-arrays';
 import {modifyInventory} from '../modify-inventory';
 import {getUniqueItems} from '../get-unique-items';
-import {DUPLICATES_PARAM} from '../../components';
 import {getScreenSize} from '../get-screen-size';
 import {InventoryItemType} from '@/src/services';
 import {getImgSizes} from '../get-img-sizes';
+import {PriceOptions} from '../../types';
+import {sortItems} from '../sort-items';
 import {paginate} from '../paginate';
 import {isEmpty} from '../is-empty';
 
@@ -225,6 +227,48 @@ describe('helpers', () => {
         {name: 'item1', type: 'awp', count: 1},
         {name: 'item2', count: 2}
       ]);
+    });
+  });
+  describe('sortItems', () => {
+    const mockItems = [
+      {prices: {[PriceOptions.DAY]: {average: 2}}, count: 1},
+      {prices: {[PriceOptions.DAY]: {average: 1}}, count: 1}
+    ] as InventoryItemType[];
+    it('should sort items by low price when SortTypes.LowPrice is passed', () => {
+      const sortedItems = sortItems({items: mockItems, sortType: SortTypes.LowPrice});
+      const expected = [
+        {prices: {[PriceOptions.DAY]: {average: 1}}, count: 1},
+        {prices: {[PriceOptions.DAY]: {average: 2}}, count: 1}
+      ];
+      expect(sortedItems).toEqual(expected);
+    });
+    it('should sort items by high price when SortTypes.HighPrice is passed', () => {
+      const sortedItems = sortItems({items: mockItems, sortType: SortTypes.HighPrice});
+      const expected = [
+        {prices: {[PriceOptions.DAY]: {average: 2}}, count: 1},
+        {prices: {[PriceOptions.DAY]: {average: 1}}, count: 1}
+      ];
+      expect(sortedItems).toEqual(expected);
+    });
+    it('should push items with undefined or NaN prices to end', () => {
+      const itemsMock = [{prices: undefined}, {prices: {[PriceOptions.DAY]: {average: 1}}}] as InventoryItemType[];
+      const expected = [{prices: {[PriceOptions.DAY]: {average: 1}}}, {prices: undefined}];
+      const sortedItems = sortItems({items: itemsMock, sortType: SortTypes.LowPrice});
+      expect(sortedItems).toEqual(expected);
+    });
+  });
+  describe('modifyInventory', () => {
+    const mockItems = [{prices: undefined}, {prices: {[PriceOptions.DAY]: {average: 1}}}] as InventoryItemType[];
+    describe('when should sort', () => {
+      it('should return sorted inventory', () => {
+        const sortedItems = modifyInventory({
+          inventoryItems: mockItems,
+          filters: {},
+          query: {[SORT]: SortTypes.HighPrice}
+        });
+        const expected = [{prices: {[PriceOptions.DAY]: {average: 1}}}, {prices: undefined}];
+        expect(sortedItems).toEqual(expected);
+      });
     });
   });
 });

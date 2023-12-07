@@ -1,11 +1,13 @@
+/* eslint-disable max-statements */
 import {paginate, getScreenSize, calculateInventoryPrice} from '../../helpers';
+import {DUPLICATES_PARAM, MAX_ITEMS, SORT, SortTypes} from './constants';
 import {ResponsiveInventoryList} from '../responsive-inventory-list';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {Pagination, ToggleButton} from '@/src/components/ui';
-import {DUPLICATES_PARAM, MAX_ITEMS} from './constants';
+import {useState, FC, useMemo, ChangeEvent} from 'react';
 import {itemsUpdateTimeSelector} from '@/src/redux';
-import {useState, FC, useMemo} from 'react';
 import {useWindowWidth} from '@/src/hooks';
+import {SortDropdown} from './components';
 import {useSelector} from 'react-redux';
 import {NextRouter} from 'next/router';
 
@@ -21,10 +23,9 @@ export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = (
   const [currentPage, setCurrentPage] = useState(1);
   const updateTime = useSelector(itemsUpdateTimeSelector);
   const itemsAmount = items.length;
-
   const screenSize = getScreenSize({width: useWindowWidth()});
-  const itemsPerRow = gridConfig.col[screenSize] / gridConfig.width[screenSize];
 
+  const itemsPerRow = gridConfig.col[screenSize] / gridConfig.width[screenSize];
   const pageSize = itemsPerRow * Math.floor(MAX_ITEMS / itemsPerRow);
   const pagesCount = Math.ceil(itemsAmount / pageSize);
   const emptyTiles = pagesCount * pageSize - itemsAmount;
@@ -46,13 +47,30 @@ export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = (
   );
 
   const isChecked = router.query?.[DUPLICATES_PARAM] === 'false';
-  const handleToggleDuplicates = () => router.push({query: {...router.query, [DUPLICATES_PARAM]: isChecked}});
+  const handleToggleDuplicates = () =>
+    router.push({query: {...router.query, [DUPLICATES_PARAM]: isChecked}}, '', {scroll: false});
+
+  const sortOptions = [
+    {name: 'Relevance', value: SortTypes.Relevance},
+    {name: 'High price', value: SortTypes.HighPrice},
+    {name: 'Low price', value: SortTypes.LowPrice}
+  ];
+
+  const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
+    router.push({query: {...router.query, [SORT]: e.target.value}}, '', {scroll: false});
+  };
+
+  const selectedValue = router.query[SORT] as string;
 
   return (
     <>
       <p className={styles.info}>
-        {`Items: ${itemsAmount}${totalPrice ? ` | value ${totalPrice}` : ''} `}
-        <ToggleButton label="hide duplicates" onClick={handleToggleDuplicates} checked={isChecked} />
+        <span>
+          {`Items: ${itemsAmount}${totalPrice ? ` | value ${totalPrice}$` : ''} `}
+          <ToggleButton label="hide duplicates" onClick={handleToggleDuplicates} checked={isChecked} />
+        </span>
+
+        <SortDropdown selectedValue={selectedValue} onChange={handleSort} options={sortOptions} />
       </p>
 
       {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}

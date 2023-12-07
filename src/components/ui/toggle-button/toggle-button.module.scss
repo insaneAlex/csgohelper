@@ -12,7 +12,7 @@
   position: relative;
   display: inline-block;
   width: 30px;
-  height: 17px;
+  height: 15px;
   @include body-short;
 }
 
@@ -21,15 +21,12 @@
   width: 0;
   height: 0;
   &:checked + .slider {
-    background-color: grey;
-  }
-  &:focus + .slider {
-    box-shadow: 0 0 1px grey;
+    background-color: $dark-green;
   }
   &:checked + .slider::before {
-    -webkit-transform: translateX(13px);
-    -ms-transform: translateX(13px);
-    transform: translateX(13px);
+    -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
   }
 }
 
@@ -40,14 +37,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: grey;
+  background-color: $dark-grey;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   &::before {
     position: absolute;
     content: '';
-    height: 13px;
-    width: 13px;
+    height: 11px;
+    width: 11px;
     left: 2px;
     bottom: 2px;
     background-color: $main-font-color;

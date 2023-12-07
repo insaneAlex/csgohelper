@@ -1,14 +1,14 @@
 import {fireEvent, render, screen} from '@testing-library/react';
-import {Inventory, gridConfig} from '../inventory';
+import {DUPLICATES_PARAM, SORT, SortTypes} from '../constants';
 import items from '../../../../../../mocks/items.json';
+import {Inventory, gridConfig} from '../inventory';
 import {InventoryItemType} from '@/src/services';
 import {NextRouter} from 'next/router';
-import {DUPLICATES_PARAM} from '../constants';
 
 const routerPushMock = jest.fn();
 const dispatchMock = jest.fn();
 jest.mock('../../../../../services', () => ({}));
-jest.mock('../constants', () => ({MAX_ITEMS: 1}));
+jest.mock('../constants', () => ({...jest.requireActual('../constants'), MAX_ITEMS: 1}));
 jest.mock('react-redux', () => ({useDispatch: () => dispatchMock, useSelector: jest.fn()}));
 const routerMock = {push: (a: any) => routerPushMock(a), query: {}} as unknown as NextRouter;
 describe('Inventory', () => {
@@ -52,6 +52,13 @@ describe('Inventory', () => {
         fireEvent.click(screen.getByText('hide duplicates'));
         expect(routerPushMock).toHaveBeenCalledWith({query: {[DUPLICATES_PARAM]: true}});
       });
+    });
+  });
+  describe('when user clicks on sorting', () => {
+    it(`should push "sort" query with ${SortTypes.HighPrice} value`, () => {
+      render(<Inventory items={inventoryItems} router={routerMock} />);
+      fireEvent.change(screen.getByRole('combobox'), {target: {value: SortTypes.HighPrice}});
+      expect(routerPushMock).toHaveBeenCalledWith({query: {[SORT]: SortTypes.HighPrice}});
     });
   });
 });

@@ -21,7 +21,7 @@ export const Filters: FC<Props> = ({router, possibleFilters}) => {
     } else {
       newFilterValue = calculateFilterValue('type', filter, query, possibleFilters);
     }
-    router.push({query: {...query, ...newFilterValue}});
+    router.push({query: {...query, ...newFilterValue}}, '', {scroll: false});
   };
 
   const typefilters = Object.keys(possibleFilters).sort();
