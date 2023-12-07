@@ -1,2 +1,2 @@
-export {DUPLICATES_PARAM} from './constants';
+export {DUPLICATES_PARAM, SORT, SortTypes} from './constants';
 export {Inventory} from './inventory';
