@@ -3,7 +3,7 @@ import {Inventory, gridConfig} from '../inventory';
 import items from '../../../../../../mocks/items.json';
 import {InventoryItemType} from '@/src/services';
 import {NextRouter} from 'next/router';
-import {DUPLICATES_PARAM, SORT} from '../constants';
+import {DUPLICATES_PARAM, SORT, SortTypes} from '../constants';
 
 const routerPushMock = jest.fn();
 const dispatchMock = jest.fn();
@@ -55,10 +55,10 @@ describe('Inventory', () => {
     });
   });
   describe('when user clicks on sorting', () => {
-    it('should push "sort" query with highPrice value', () => {
+    it(`should push "sort" query with ${SortTypes.HighPrice} value`, () => {
       render(<Inventory items={inventoryItems} router={routerMock} />);
-      fireEvent.change(screen.getByRole('combobox'), {target: {value: 'highPrice'}});
-      expect(routerPushMock).toHaveBeenCalledWith({query: {[SORT]: 'highPrice'}});
+      fireEvent.change(screen.getByRole('combobox'), {target: {value: SortTypes.HighPrice}});
+      expect(routerPushMock).toHaveBeenCalledWith({query: {[SORT]: SortTypes.HighPrice}});
     });
   });
 });
