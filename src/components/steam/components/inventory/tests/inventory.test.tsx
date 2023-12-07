@@ -1,9 +1,9 @@
 import {fireEvent, render, screen} from '@testing-library/react';
-import {Inventory, gridConfig} from '../inventory';
+import {DUPLICATES_PARAM, SORT, SortTypes} from '../constants';
 import items from '../../../../../../mocks/items.json';
+import {Inventory, gridConfig} from '../inventory';
 import {InventoryItemType} from '@/src/services';
 import {NextRouter} from 'next/router';
-import {DUPLICATES_PARAM, SORT, SortTypes} from '../constants';
 
 const routerPushMock = jest.fn();
 const dispatchMock = jest.fn();

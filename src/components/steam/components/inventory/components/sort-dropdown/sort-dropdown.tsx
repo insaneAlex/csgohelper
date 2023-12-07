@@ -1,5 +1,5 @@
-import {ChangeEvent, FC} from 'react';
 import {SortTypes} from '../../constants';
+import {ChangeEvent, FC} from 'react';
 
 import styles from './sort-dropdown.module.scss';
 
