@@ -38,9 +38,9 @@ describe('InventoryItem', () => {
   });
   describe('when count is more than 1', () => {
     const count = 3;
-    it('should render multiply price on count', () => {
-      render(<InventoryItem {...defaultProps} item={{...item, count}} />);
-      const price = `${(item.prices[PriceOptions.WEEK].average * count).toFixed(2)}$`;
+    it('should render price prop', () => {
+      render(<InventoryItem {...defaultProps} item={{...item, count, price: 3}} />);
+      const price = `${(3).toFixed(2)}$`;
       const multiPrice = screen.getByText(price);
       expect(multiPrice).toBeInTheDocument();
     });

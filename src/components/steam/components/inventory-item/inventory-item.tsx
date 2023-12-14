@@ -14,11 +14,11 @@ import styles from './inventory-item.module.scss';
 type Props = {imgSize: ImgSize; item: InventoryItemType & Layout; router: NextRouter};
 
 export const InventoryItem: FC<Props> = ({item, imgSize, router}) => {
-  const {name_color, assetid, icon_url, count = 1, prices} = item;
+  const {name_color, assetid, icon_url, count = 1, prices, price} = item;
   const {width, height} = imgSize;
 
-  const price = Number(getAvailablePrice(prices)) * count;
-  const formattedPrice = !isNaN(price) && price.toFixed(2);
+  const availablePrice = price ?? Number(getAvailablePrice(prices));
+  const formattedPrice = !isNaN(availablePrice) && availablePrice.toFixed(2);
 
   if (!icon_url) {
     return null;
@@ -36,7 +36,7 @@ export const InventoryItem: FC<Props> = ({item, imgSize, router}) => {
           {name + amount}
         </p>
       )}
-      {formattedPrice && !isNaN(price) && <span className={styles.price}>{`${formattedPrice}$`}</span>}
+      {formattedPrice && !isNaN(availablePrice) && <span className={styles.price}>{`${formattedPrice}$`}</span>}
     </Link>
   );
 };

@@ -24,8 +24,6 @@
     background-color: $dark-green;
   }
   &:checked + .slider::before {
-    -webkit-transform: translateX(14px);
-    -ms-transform: translateX(14px);
     transform: translateX(14px);
   }
 }
@@ -38,8 +36,7 @@
   right: 0;
   bottom: 0;
   background-color: $dark-grey;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  transition: 100ms;
   &::before {
     position: absolute;
     content: '';
@@ -48,8 +45,7 @@
     left: 2px;
     bottom: 2px;
     background-color: $main-font-color;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
+    transition: 100ms;
   }
 }
 

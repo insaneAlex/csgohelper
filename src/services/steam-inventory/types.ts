@@ -107,6 +107,7 @@ export type InventoryGlobalType = {
 export type InventoryItemType = {
   name: string;
   type: string;
+  price?: number;
   count?: number;
   weapon?: string;
   assetid: string;

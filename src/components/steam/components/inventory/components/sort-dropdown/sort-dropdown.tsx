@@ -9,7 +9,7 @@ type Props = {
   selectedValue: string;
 };
 
-export const SortDropdown: FC<Props> = ({onChange, options, selectedValue}) => (
+export const SortDropdown: FC<Props> = ({onChange, options, selectedValue = SortTypes.Relevance}) => (
   <span className={styles.container}>
     <label htmlFor="sort">sort by</label>
     <select className={styles.select} name="languages" id="sort" onChange={onChange} value={selectedValue}>
