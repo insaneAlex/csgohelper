@@ -7,7 +7,7 @@ import styles from './main-header.module.scss';
 
 export const MainHeader: FC = () => {
   const navLinks = [
-    {name: 'Stonks', href: '/stonks', renderIcon: () => <Icons.Stonks />},
+    {name: 'Portfolio', href: '/portfolio', renderIcon: () => <Icons.Portfolio />},
     {name: 'Feedback', href: '/feedback', renderIcon: () => <Icons.Feedback />},
     {name: 'Login', href: '/login', renderIcon: () => <Icons.Account />}
   ];

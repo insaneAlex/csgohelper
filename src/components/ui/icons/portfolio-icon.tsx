@@ -2,8 +2,8 @@ import React, {type FC} from 'react';
 
 type Props = {width?: number; height?: number; fill?: string};
 
-export const StonksIcon: FC<Props> = ({fill = 'gainsboro', width = 16, height = 16}) => (
-  <svg data-testid="StonksIcon" width={width} height={height} viewBox="0 0 243.95 250.24">
+export const PortfolioIcon: FC<Props> = ({fill = 'gainsboro', width = 16, height = 16}) => (
+  <svg data-testid="PortfolioIcon" width={width} height={height} viewBox="0 0 243.95 250.24">
     <path
       d="m54.21,141.82H9.04c-4.99,0-9.04,4.04-9.04,9.04v90.35c0,4.99,4.04,9.04,9.04,9.04h45.18c4.99,0,9.04-4.04,9.04-9.04v-90.35c0-4.99-4.04-9.04-9.04-9.04Zm-9.04,90.35h-27.11v-72.28h27.11v72.28Z"
       fill={fill}

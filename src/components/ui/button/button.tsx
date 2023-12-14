@@ -26,10 +26,7 @@ export const Button = forwardRef(
 
     return (
       <button
-        className={classNames(styles.button, {
-          [styles.loading]: loading,
-          [styles.disabled]: disabled
-        })}
+        className={classNames(styles.button, {[styles.loading]: loading, [styles.disabled]: disabled})}
         type={isSubmit ? ButtonTypes.Submit : ButtonTypes.Button}
         onClick={handleClick}
         disabled={disabled}

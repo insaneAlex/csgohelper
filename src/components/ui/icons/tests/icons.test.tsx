@@ -1,8 +1,8 @@
-import {HamburgerIcon} from '../hamburger-icon';
 import {render, screen} from '@testing-library/react';
+import {HamburgerIcon} from '../hamburger-icon';
+import {PortfolioIcon} from '../portfolio-icon';
 import {FeedbackIcon} from '../feedback-icon';
 import {AccountIcon} from '../account-icon';
-import {StonksIcon} from '../stonks-icon';
 import {BackIcon} from '../back-icon';
 
 describe('Icons', () => {
@@ -30,10 +30,10 @@ describe('Icons', () => {
       expect(screen.getByTestId('HamburgerIcon')).toBeInTheDocument();
     });
   });
-  describe('StonksIcon', () => {
+  describe('PortfolioIcon', () => {
     it('should render correctly', () => {
-      render(<StonksIcon />);
-      expect(screen.getByTestId('StonksIcon')).toBeInTheDocument();
+      render(<PortfolioIcon />);
+      expect(screen.getByTestId('PortfolioIcon')).toBeInTheDocument();
     });
   });
 });

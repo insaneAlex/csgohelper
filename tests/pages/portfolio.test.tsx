@@ -1,13 +1,13 @@
 import {render} from '@testing-library/react';
-import Stonks from '../../pages/stonks';
+import Portfolio from '../../pages/portfolio';
 
 jest.mock('../../src/services', () => ({}));
 jest.mock('next/router', () => ({useRouter: () => ({push: jest.fn()})}));
 jest.mock('react-redux', () => ({useDispatch: () => jest.fn(), useSelector: jest.fn()}));
 
-describe('Stonks', () => {
+describe('Portfolio', () => {
   it('should render correctly', () => {
-    const {container} = render(<Stonks />);
+    const {container} = render(<Portfolio />);
     expect(container).toMatchSnapshot();
   });
 });
