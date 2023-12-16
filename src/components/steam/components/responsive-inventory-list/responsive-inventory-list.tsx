@@ -20,7 +20,7 @@ export const ResponsiveInventoryList: FC<Props> = ({items, gridConfig, router}) 
 
   return (
     <ResponsiveReactGridLayout
-      cols={gridConfig.col}
+      cols={gridConfig.cols}
       isResizable={false}
       isDraggable={false}
       isDroppable={false}

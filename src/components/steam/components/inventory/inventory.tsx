@@ -14,7 +14,7 @@ import {NextRouter} from 'next/router';
 import styles from './inventory.module.scss';
 
 export const gridConfig = {
-  col: {lg: 16, md: 12, sm: 20, xs: 12, xxs: 6},
+  cols: {lg: 16, md: 12, sm: 20, xs: 12, xxs: 6},
   width: {lg: 2, md: 2, sm: 4, xs: 3, xxs: 3},
   height: {lg: 1.5, md: 1.5, sm: 1.5, xs: 1.5, xxs: 2}
 };
@@ -25,7 +25,7 @@ export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = (
   const itemsAmount = items.length;
   const screenSize = getScreenSize({width: useWindowWidth()});
 
-  const itemsPerRow = gridConfig.col[screenSize] / gridConfig.width[screenSize];
+  const itemsPerRow = gridConfig.cols[screenSize] / gridConfig.width[screenSize];
   const pageSize = itemsPerRow * Math.floor(MAX_ITEMS / itemsPerRow);
   const pagesCount = Math.ceil(itemsAmount / pageSize);
   const emptyTiles = pagesCount * pageSize - itemsAmount;

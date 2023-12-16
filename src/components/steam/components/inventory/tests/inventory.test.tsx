@@ -12,7 +12,7 @@ jest.mock('../constants', () => ({...jest.requireActual('../constants'), MAX_ITE
 jest.mock('react-redux', () => ({useDispatch: () => dispatchMock, useSelector: jest.fn()}));
 const routerMock = {push: (a: any) => routerPushMock(a), query: {}} as unknown as NextRouter;
 describe('Inventory', () => {
-  gridConfig.col['md'] = 1;
+  gridConfig.cols['md'] = 1;
   gridConfig.width['md'] = 1;
   let inventoryItems = [...items, ...items] as unknown as InventoryItemType[];
   describe('when changing page', () => {
