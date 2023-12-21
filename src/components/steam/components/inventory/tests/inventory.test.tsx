@@ -1,8 +1,8 @@
+import {DUPLICATES_PARAM, GRID_CONFIG, SORT, SortTypes} from '../constants';
 import {fireEvent, render, screen} from '@testing-library/react';
-import {DUPLICATES_PARAM, SORT, SortTypes} from '../constants';
 import items from '../../../../../../mocks/items.json';
-import {Inventory, gridConfig} from '../inventory';
 import {InventoryItemType} from '@/src/services';
+import {Inventory} from '../inventory';
 import {NextRouter} from 'next/router';
 
 const routerPushMock = jest.fn();
@@ -12,8 +12,8 @@ jest.mock('../constants', () => ({...jest.requireActual('../constants'), MAX_ITE
 jest.mock('react-redux', () => ({useDispatch: () => dispatchMock, useSelector: jest.fn()}));
 const routerMock = {push: (a: any) => routerPushMock(a), query: {}} as unknown as NextRouter;
 describe('Inventory', () => {
-  gridConfig.cols['md'] = 1;
-  gridConfig.width['md'] = 1;
+  GRID_CONFIG.cols['md'] = 1;
+  GRID_CONFIG.width['md'] = 1;
   let inventoryItems = [...items, ...items] as unknown as InventoryItemType[];
   describe('when changing page', () => {
     afterAll(() => {
