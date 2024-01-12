@@ -2,11 +2,11 @@ import {DynamoDBDocumentClient, GetCommand, UpdateCommand} from '@aws-sdk/lib-dy
 import {NoPriceInventory, inventoryCacheType} from '@/pages/api/csgoInventory';
 import {AWSConfigType, AmazonResponseType, PricesType} from './types';
 import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
+import {calculateInventoryWithPrices} from '@/server-helpers';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
 import {FeedbackType} from '@/core/types';
 import {ENV} from '../environment';
-import {calculateInventoryWithPrices} from '@/server-helpers';
 
 export const awsConfig: AWSConfigType = {
   region: AWS_REGION,
