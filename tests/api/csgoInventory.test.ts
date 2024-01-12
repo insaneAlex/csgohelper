@@ -1,11 +1,10 @@
-import handler, {inventoryCache, pricesCache} from '../../pages/api/csgoInventory';
+import handler, {inventoryCache} from '../../pages/api/csgoInventory';
 import {createMocks} from 'node-mocks-http';
 import items from '../../mocks/items.json';
 import {noop} from '@/src/services';
 
 const sendMock = jest.fn();
 const fetchDynamoMock = jest.fn();
-const fetchPricesMock = jest.fn();
 const getInventoryMock = jest.fn();
 const updateDynamoMock = jest.fn();
 
@@ -15,9 +14,9 @@ jest.mock('../../src/services', () => ({
     fetchFromDynamoDB: () => fetchDynamoMock(),
     updateDynamoInventoryRecord: () => updateDynamoMock()
   },
-  inventoryApi: {get: () => getInventoryMock()},
-  fetchPrices: () => fetchPricesMock()
+  inventoryApi: {get: () => getInventoryMock()}
 }));
+jest.mock('../../pages/api/prices', () => ({pricesCache: {}}));
 
 describe('api/csgoInventory', () => {
   const steamid = 'stmid';
@@ -25,31 +24,12 @@ describe('api/csgoInventory', () => {
   inventoryCache[cachedSteamid] = {};
   afterEach(() => {
     jest.resetAllMocks();
-    pricesCache.prices = null;
   });
   describe('when no steamid', () => {
     it('should return 400 status', async () => {
       const {req, res} = createMocks({method: 'GET', query: {}});
       await handler(req, res);
       expect(res._getStatusCode()).toBe(400);
-    });
-  });
-  describe('when no cached data', () => {
-    it('should call fetchPrices', async () => {
-      fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
-      const {req, res} = createMocks({method: 'GET', query: {steamid}});
-      await handler(req, res);
-      expect(fetchPricesMock).toHaveBeenCalled();
-    });
-  });
-  describe('when price is cached and updated less than 8 hours', () => {
-    it('should not call fetchPrices', async () => {
-      fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
-      pricesCache.prices = {};
-      pricesCache.lastUpdated = new Date();
-      const {req, res} = createMocks({method: 'GET', query: {steamid}});
-      await handler(req, res);
-      expect(fetchPricesMock).not.toHaveBeenCalled();
     });
   });
   describe('when its not force update and have saved cache', () => {
