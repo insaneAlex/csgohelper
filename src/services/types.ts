@@ -10,7 +10,7 @@ type PriceOptionType = {
   standard_deviation: string;
 };
 
-export type PriceCacheType = {prices: PricesType};
+export type PriceCacheType = {prices: PricesType; lastUpdated: Date | null};
 
 export type PriceType = {
   [PriceOptions.DAY]: PriceOptionType;
