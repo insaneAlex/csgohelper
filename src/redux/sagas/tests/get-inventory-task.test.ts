@@ -13,8 +13,9 @@ jest.mock('../../../services', () => ({
 
 describe('getInventoryTask', () => {
   const fetchInventoryPayload = {steamid: '123', isForceUpdate: true};
+  const profile = {avatarfull: '', personaname: '', profileurl: ''};
   it('should dispatch getItemsSuccess on successful fetchInventory', async () => {
-    const expectedResponse = {inventory: '[]', update_time: 'asdad'};
+    const expectedResponse = {inventory: '[]', update_time: 'asdad', profile};
     fetchInventoryMock.mockResolvedValueOnce(expectedResponse);
     return await expectSaga(getInventoryTask, {
       payload: fetchInventoryPayload,
@@ -36,7 +37,7 @@ describe('getInventoryTask', () => {
   });
   describe('when inventory was saved and inventory length more than 0', () => {
     it('should save steamid to local storage', async () => {
-      const expectedResponse = {inventory: '[{}]', update_time: 'asdad', shouldSaveSteamId: true};
+      const expectedResponse = {inventory: '[{}]', update_time: 'asdad', profile, shouldSaveSteamId: true};
       const {inventory, update_time} = expectedResponse;
       fetchInventoryMock.mockResolvedValueOnce(expectedResponse);
       await expectSaga(getInventoryTask, {
@@ -44,7 +45,7 @@ describe('getInventoryTask', () => {
         type: ''
       })
         .provide([[fetchInventoryMock, {}]])
-        .put(getItemsSuccess({inventory: JSON.parse(inventory), update_time}))
+        .put(getItemsSuccess({inventory: JSON.parse(inventory), update_time, profile}))
         .run();
       expect(setLocalStorageMock).toHaveBeenCalledWith(STEAMID_PARAM);
     });

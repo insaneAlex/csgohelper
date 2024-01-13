@@ -49,15 +49,20 @@ describe('AWSServices', () => {
   describe('updateDynamoInventoryRecord', () => {
     const steamid = '123';
     const update_time = '2023-11-17T12:00:00';
+    const profile = {avatarfull: '', personaname: '', profileurl: ''};
     describe('on success', () => {
       it('should be called with command', async () => {
         sendMock.mockResolvedValue({$metadata: {httpStatusCode: 200}});
-        const result = await awsServices.updateDynamoInventoryRecord(steamid, items, update_time);
+        const result = await awsServices.updateDynamoInventoryRecord(steamid, items, update_time, profile);
         expect(UpdateCommand).toHaveBeenCalledWith({
           Key: {steamid},
           TableName: 'inventories',
-          UpdateExpression: 'SET inventory=:inventory, update_time=:update_time',
-          ExpressionAttributeValues: {':inventory': JSON.stringify(items), ':update_time': update_time}
+          UpdateExpression: 'SET inventory=:inventory, update_time=:update_time, profile=:profile',
+          ExpressionAttributeValues: {
+            ':inventory': JSON.stringify(items),
+            ':update_time': update_time,
+            ':profile': profile
+          }
         });
         expect(result).toEqual({isSaved: true});
       });
@@ -65,12 +70,16 @@ describe('AWSServices', () => {
     describe('on fail', () => {
       it('should return isSaved: false prop', async () => {
         sendMock.mockRejectedValueOnce(requestFailError);
-        const result = await awsServices.updateDynamoInventoryRecord(steamid, items, update_time);
+        const result = await awsServices.updateDynamoInventoryRecord(steamid, items, update_time, profile);
         expect(UpdateCommand).toHaveBeenCalledWith({
           Key: {steamid},
           TableName: 'inventories',
-          UpdateExpression: 'SET inventory=:inventory, update_time=:update_time',
-          ExpressionAttributeValues: {':inventory': JSON.stringify(items), ':update_time': update_time}
+          UpdateExpression: 'SET inventory=:inventory, update_time=:update_time, profile=:profile',
+          ExpressionAttributeValues: {
+            ':inventory': JSON.stringify(items),
+            ':update_time': update_time,
+            ':profile': profile
+          }
         });
         expect(result).toEqual({isSaved: false});
       });
