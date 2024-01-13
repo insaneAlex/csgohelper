@@ -35,7 +35,7 @@ export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
           placeholder="Enter your SteamID"
         />
         <Button disabled={isDisabled} onClick={handleSearch} loading={isLoading}>
-          <p className={styles.buttonText}>Search SteamID</p>
+          <p className={styles.buttonText}>Search inventory</p>
         </Button>
       </label>
 
