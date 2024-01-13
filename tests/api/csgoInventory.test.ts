@@ -15,7 +15,7 @@ jest.mock('../../src/services', () => ({
     fetchFromDynamoDB: () => fetchDynamoMock(),
     updateDynamoInventoryRecord: () => updateDynamoMock()
   },
-  inventoryApi: {get: () => getInventoryMock()},
+  inventoryApi: {get: () => getInventoryMock(), getProfile: jest.fn()},
   fetchPrices: () => fetchPricesMock()
 }));
 

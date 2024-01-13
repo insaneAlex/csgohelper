@@ -14,7 +14,7 @@ describe('SearchInventory', () => {
   describe('when user submit form with saved steamId', () => {
     it('should call getItemsStart action', () => {
       render(<SearchInventory loading={false} />);
-      const submitButton = screen.getByText('Search SteamID');
+      const submitButton = screen.getByText('Search inventory');
       fireEvent.click(submitButton);
       expect(dispatchMock).toHaveBeenCalledWith(getItemsStart({isForceUpdate: true, steamid}));
     });
@@ -24,7 +24,7 @@ describe('SearchInventory', () => {
       render(<SearchInventory loading={false} />);
       const expectedValue = 'changedValue';
       const input = screen.getByPlaceholderText('Enter your SteamID');
-      const submitButton = screen.getByText('Search SteamID');
+      const submitButton = screen.getByText('Search inventory');
       fireEvent.input(input, {target: {value: expectedValue}});
       fireEvent.click(submitButton);
       expect(dispatchMock).toHaveBeenCalledWith(getItemsStart({isForceUpdate: true, steamid: expectedValue}));

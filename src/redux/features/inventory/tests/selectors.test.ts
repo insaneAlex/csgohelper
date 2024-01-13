@@ -1,4 +1,4 @@
-import {itemsUpdateTimeSelector, inventoryStatusSelector, itemsFiltersSelector} from '../selectors';
+import {itemsUpdateTimeSelector, inventoryStatusSelector, itemsFiltersSelector, profileSelector} from '../selectors';
 import {INVENTORY_KEY} from '../../../constants';
 import {InventoryStatuses} from '../types';
 import {RootState} from '../../../store';
@@ -32,5 +32,11 @@ describe('Inventory Selectors', () => {
     const expected = {Pistol: ['Fiv', 'Zal'], Riffle: ['m4a1'], 'Container': []};
     const result = itemsFiltersSelector(mockState);
     expect(result).toEqual(expected);
+  });
+  it('should select profile', () => {
+    const profile = null;
+    const mockState = {[INVENTORY_KEY]: {profile}} as RootState;
+    const result = profileSelector(mockState);
+    expect(result).toBeNull();
   });
 });

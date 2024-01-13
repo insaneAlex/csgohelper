@@ -1,8 +1,9 @@
 import {awsServices, fetchPrices, PriceCacheType, InventoryItemType, inventoryApi} from '@/src/services';
 import {calculateInventoryWithPrices, getFormattedDate, minimizeInventory} from '@/server-helpers';
 import {NextApiRequest, NextApiResponse} from 'next';
+import {SteamProfileType} from '@/core/types';
 
-type InventoryRecordType = {inventory?: NoPriceInventory; update_time?: string};
+type InventoryRecordType = {inventory?: NoPriceInventory; update_time?: string; profile?: SteamProfileType};
 export type NoPriceInventory = Omit<InventoryItemType, 'prices'>[];
 export type inventoryCacheType = Record<string, InventoryRecordType>;
 
@@ -29,13 +30,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (isForceUpdate) {
     try {
       const items = await inventoryApi.get({steamid});
+      const profile = await inventoryApi.getProfile({steamid});
       const minimizedInventory = minimizeInventory(items);
       const update_time = getFormattedDate(new Date());
       const withPrices = calculateInventoryWithPrices(minimizedInventory, pricesCache.prices);
 
-      const {isSaved} = await awsServices.updateDynamoInventoryRecord(steamid, minimizedInventory, update_time);
-      inventoryCache[steamid] = {inventory: minimizedInventory, update_time} as inventoryCacheType;
-      return res.status(200).json({inventory: JSON.stringify(withPrices), shouldSaveSteamId: isSaved});
+      const {isSaved} = await awsServices.updateDynamoInventoryRecord(
+        steamid,
+        minimizedInventory,
+        update_time,
+        profile
+      );
+      inventoryCache[steamid] = {inventory: minimizedInventory, update_time, profile} as inventoryCacheType;
+      return res.status(200).json({
+        profile,
+        shouldSaveSteamId: isSaved,
+        inventory: JSON.stringify(withPrices)
+      });
     } catch (e) {
       const error = (e as {response?: {status?: number}}) || {};
       console.error(e);
@@ -53,8 +64,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, pricesCache.prices);
         return res.status(response.statusCode).json(response);
       }
-      const {inventory, update_time} = inventoryCache[steamid];
+      const {inventory, update_time, profile} = inventoryCache[steamid];
       return res.status(201).json({
+        profile,
         update_time: update_time,
         shouldSaveSteamId: true,
         inventory: JSON.stringify(calculateInventoryWithPrices(inventory as NoPriceInventory, pricesCache.prices))
@@ -62,11 +74,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else {
     if (steamid in inventoryCache) {
-      const {inventory, update_time} = inventoryCache[steamid];
+      const {inventory, update_time, profile} = inventoryCache[steamid];
       return res.status(201).json({
-        inventory: JSON.stringify(calculateInventoryWithPrices(inventory as NoPriceInventory, pricesCache.prices)),
+        profile,
         update_time,
-        shouldSaveSteamId: true
+        shouldSaveSteamId: true,
+        inventory: JSON.stringify(calculateInventoryWithPrices(inventory as NoPriceInventory, pricesCache.prices))
       });
     }
     const response = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, pricesCache.prices);

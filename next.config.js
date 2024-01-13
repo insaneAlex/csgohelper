@@ -9,12 +9,8 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'steamcommunity-a.akamaihd.net',
-        port: '',
-        pathname: '/economy/image/**'
-      }
+      {protocol: 'https', hostname: 'steamcommunity-a.akamaihd.net', port: '', pathname: '/economy/image/**'},
+      {protocol: 'https', hostname: 'avatars.steamstatic.com', port: ''}
     ]
   }
 };

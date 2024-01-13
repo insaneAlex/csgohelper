@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {Icons} from '../../ui';
 import React, {FC} from 'react';
 import {HamburgerMenu} from './components';
@@ -20,8 +21,8 @@ export const MainHeader: FC = () => {
             <HamburgerMenu navLinks={navLinks} />
           </span>
           <ul className={styles.items}>
-            {navLinks.map(({name, href, renderIcon}, i) => (
-              <li key={i} className={styles.item}>
+            {navLinks.map(({name, href, renderIcon}) => (
+              <li key={name} className={styles.item}>
                 <Link className={styles.link} href={href}>
                   {renderIcon()}
                   {name}
@@ -30,6 +31,7 @@ export const MainHeader: FC = () => {
             ))}
           </ul>
           <Link className={styles.logo} href="/">
+            <Image src="/agent.png" width={75} height={50} priority alt="Logo" quality={45} />
             CS2.Helper
           </Link>
         </section>
