@@ -10,6 +10,7 @@ import {useWindowWidth} from '@/src/hooks';
 import {SortDropdown} from './components';
 import {useSelector} from 'react-redux';
 import {NextRouter} from 'next/router';
+import {Profile} from '../profile';
 
 import styles from './inventory.module.scss';
 
@@ -45,20 +46,22 @@ export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = (
   return (
     <>
       <p className={styles.info}>
-        <span>
-          {`Items: ${itemsAmount}${totalPrice ? ` | value ${totalPrice}$` : ''} `}
-          <ToggleButton
-            label="hide duplicates"
-            onClick={() => addRouterQueryParam({router, param: {[DUPLICATES_PARAM]: isChecked}})}
-            checked={isChecked}
-          />
-        </span>
+        <Profile itemsAmount={itemsAmount} totalPrice={totalPrice} />
 
-        <SortDropdown
-          selectedValue={selectedValue}
-          onChange={(e) => addRouterQueryParam({router, param: {[SORT]: e.target.value}})}
-          options={SORT_OPTIONS}
-        />
+        <section>
+          <span className={styles.toggle}>
+            <ToggleButton
+              label="hide duplicates"
+              onClick={() => addRouterQueryParam({router, param: {[DUPLICATES_PARAM]: isChecked}})}
+              checked={isChecked}
+            />
+          </span>
+          <SortDropdown
+            selectedValue={selectedValue}
+            onChange={(e) => addRouterQueryParam({router, param: {[SORT]: e.target.value}})}
+            options={SORT_OPTIONS}
+          />
+        </section>
       </p>
 
       {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}

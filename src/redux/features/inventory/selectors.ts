@@ -8,6 +8,7 @@ const inventorySelector = (state: RootState) => state[INVENTORY_KEY];
 export const itemsSelector = createSelector(inventorySelector, ({items}) => items);
 export const itemsUpdateTimeSelector = createSelector(inventorySelector, ({update_time}) => update_time);
 export const inventoryStatusSelector = createSelector(inventorySelector, ({status}) => status);
+export const profileSelector = createSelector(inventorySelector, ({profile}) => profile);
 export const itemsFiltersSelector = createSelector(inventorySelector, ({items}) =>
   items.reduce((accumutator, {type, weapon}) => {
     if (!weapon) {

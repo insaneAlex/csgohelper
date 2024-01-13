@@ -1,3 +1,4 @@
+import {FeedbackType, InitialInventoryResponseType, SteamProfileType} from '@/core/types';
 import {DynamoDBDocumentClient, GetCommand, UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {NoPriceInventory, inventoryCacheType} from '@/pages/api/csgoInventory';
 import {AWSConfigType, AmazonResponseType, PricesType} from './types';
@@ -5,7 +6,6 @@ import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
 import {calculateInventoryWithPrices} from '@/server-helpers';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
-import {FeedbackType} from '@/core/types';
 import {ENV} from '../environment';
 
 export const awsConfig: AWSConfigType = {
@@ -30,12 +30,12 @@ export class AWSServices {
       const response = await this.docClient.send(command);
 
       if (response?.Item) {
-        const {update_time, inventory} = response.Item as {update_time: string; inventory: string};
+        const {update_time, inventory, profile} = response.Item as InitialInventoryResponseType;
         const inventoryItems = JSON.parse(inventory);
-        inventoryCache[steamid] = {inventory: inventoryItems, update_time};
+        inventoryCache[steamid] = {inventory: inventoryItems, update_time, profile};
         const withPrices = JSON.stringify(calculateInventoryWithPrices(inventoryItems, prices));
 
-        return {statusCode: 201, shouldSaveSteamId: true, inventory: withPrices, update_time};
+        return {statusCode: 201, shouldSaveSteamId: true, inventory: withPrices, profile, update_time};
       }
       return {statusCode: 404, inventory: '[]'};
     } catch (e) {
@@ -44,12 +44,21 @@ export class AWSServices {
     }
   }
 
-  async updateDynamoInventoryRecord(steamid: string, inventory: NoPriceInventory, update_time: string) {
+  async updateDynamoInventoryRecord(
+    steamid: string,
+    inventory: NoPriceInventory,
+    update_time: string,
+    profile: SteamProfileType
+  ) {
     const command = new UpdateCommand({
       Key: {steamid},
       TableName: INVENTORY_TABLE,
-      UpdateExpression: 'SET inventory=:inventory, update_time=:update_time',
-      ExpressionAttributeValues: {':inventory': JSON.stringify(inventory), ':update_time': update_time}
+      UpdateExpression: 'SET inventory=:inventory, update_time=:update_time, profile=:profile',
+      ExpressionAttributeValues: {
+        ':inventory': JSON.stringify(inventory),
+        ':update_time': update_time,
+        ':profile': profile
+      }
     });
     try {
       const response = (await this.docClient.send(command)) as AmazonResponseType;

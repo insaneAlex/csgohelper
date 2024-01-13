@@ -1,0 +1,17 @@
+@import 'styles/variables.scss';
+
+.profile {
+  display: flex;
+  .profileName {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 0 0 10px;
+    text-align: left;
+    @include body-short;
+  }
+
+  @media (max-width: 768px) {
+    margin: 15px 0;
+  }
+}

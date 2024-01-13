@@ -1,3 +1,4 @@
+import {ENV} from '../environment';
 import {Descriptions, GetInventoryParams, InventoryGlobalType, InventoryResponseType, ItemType} from './types';
 import axios from 'axios';
 
@@ -15,6 +16,15 @@ class InventoryApi {
     const {data} = await axios.get(url);
 
     return this.parse(data, tradable);
+  }
+  async getProfile({steamid}: {steamid: string}) {
+    const url = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${ENV.STEAM_WEB_API}&steamids=${steamid}`;
+
+    const {data} = await axios.get(url);
+    const responseProfile = data?.response?.players?.[0];
+    const {avatarfull, personaname, profileurl} = responseProfile;
+
+    return {avatarfull, personaname, profileurl};
   }
 
   parse(res: InventoryResponseType, tradable: boolean) {

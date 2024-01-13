@@ -11,11 +11,12 @@ export function* getInventoryTask({payload: {steamid, isForceUpdate}}: PayloadAc
     const {
       inventory: inventoryStr,
       shouldSaveSteamId,
-      update_time
+      update_time,
+      profile
     } = yield call(fetchInventory, {steamid, isForceUpdate, signal});
     const inventory = JSON.parse(inventoryStr);
     inventory?.length > 0 && shouldSaveSteamId && storage.localStorage.set(STEAMID_PARAM, steamid);
-    yield put(getItemsSuccess({inventory, update_time}));
+    yield put(getItemsSuccess({inventory, update_time, profile}));
   } catch (e) {
     yield put(getItemsError((e as {message: InventoryStatuses})?.message));
   }
