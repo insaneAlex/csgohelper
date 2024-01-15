@@ -12,8 +12,8 @@ exports[`InventoryItem should render correctly 1`] = `
       decoding="async"
       fetchpriority="high"
       height="1"
-      src="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=16&q=75"
-      srcset="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=16&q=75 1x"
+      src="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=16&q=50"
+      srcset="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=16&q=50 1x"
       style="color: transparent;"
       width="1"
     />

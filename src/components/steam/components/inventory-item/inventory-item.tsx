@@ -30,7 +30,7 @@ export const InventoryItem: FC<Props> = ({item, imgSize, router}) => {
 
   return (
     <Link className={styles.item} href={{pathname: `/items/${assetid}`, query: router.query}} scroll={false}>
-      <Image src={imgSrc} priority alt={name} width={width} height={height} />
+      <Image src={imgSrc} priority alt={name} width={width} height={height} quality={50} />
       {name && (
         <p style={{color: `#${name_color}`}} className={styles.describe}>
           {name + amount}

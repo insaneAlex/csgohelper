@@ -16,18 +16,16 @@ export const Profile: FC<Props> = ({itemsAmount, totalPrice}) => {
   const {avatarfull, personaname, profileurl} = profile;
 
   return (
-    <div className={styles.profile}>
+    <section className={styles.profile}>
       <Link href={profileurl} target="_blank">
-        <Image src={avatarfull} width={75} height={75} alt="Steam avatar"></Image>
+        <Image src={avatarfull} width={75} height={75} alt="Steam avatar" />
       </Link>
 
-      <span className={styles.profileName}>
-        <p>{`${personaname}'s inventory:`}</p>
-        <div>
-          <p>Items: {itemsAmount}</p>
-          <p>{totalPrice ? `Value ${totalPrice}$` : ''}</p>
-        </div>
-      </span>
-    </div>
+      <div className={styles.profileName}>
+        <span>{personaname}&#39;s inventory:</span>
+        <span>Items: {itemsAmount}</span>
+        {totalPrice && <span>Value: {totalPrice}$</span>}
+      </div>
+    </section>
   );
 };
