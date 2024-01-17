@@ -4,13 +4,13 @@ import {ResponsiveInventoryList} from '../responsive-inventory-list';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {Pagination, ToggleButton} from '@/src/components/ui';
 import {addRouterQueryParam} from '@/src/services/helpers';
+import {SteamProfileTile} from '../steam-profile-tile';
 import {itemsUpdateTimeSelector} from '@/src/redux';
 import {useState, FC, useMemo} from 'react';
 import {useWindowWidth} from '@/src/hooks';
 import {SortDropdown} from './components';
 import {useSelector} from 'react-redux';
 import {NextRouter} from 'next/router';
-import {Profile} from '../profile';
 
 import styles from './inventory.module.scss';
 
@@ -45,35 +45,32 @@ export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = (
 
   return (
     <>
-      <p className={styles.info}>
-        <Profile itemsAmount={itemsAmount} totalPrice={totalPrice} />
+      <section className={styles.info}>
+        <SteamProfileTile itemsAmount={itemsAmount} totalPrice={totalPrice} />
 
-        <section>
-          <span className={styles.toggle}>
-            <ToggleButton
-              label="hide duplicates"
-              onClick={() => addRouterQueryParam({router, param: {[DUPLICATES_PARAM]: isChecked}})}
-              checked={isChecked}
-            />
-          </span>
+        <div>
+          <ToggleButton
+            label="hide duplicates"
+            onClick={() => addRouterQueryParam({router, param: {[DUPLICATES_PARAM]: isChecked}})}
+            checked={isChecked}
+          />
+
           <SortDropdown
             selectedValue={selectedValue}
             onChange={(e) => addRouterQueryParam({router, param: {[SORT]: e.target.value}})}
             options={SORT_OPTIONS}
           />
-        </section>
-      </p>
+        </div>
+      </section>
 
-      {updateTime && <p className={styles.updateTime}>{`inventory cached, last update - ${updateTime}`}</p>}
+      {updateTime && <p className={styles.updateTime}>inventory cached, last update - {updateTime}</p>}
       <ResponsiveInventoryList gridConfig={GRID_CONFIG} items={paginatedInventory} router={router} />
 
-      <section className={styles.pages}>
-        <Pagination
-          pagesCount={pagesCount}
-          currentPage={currentPage}
-          onPageChange={(page: number) => setCurrentPage(page)}
-        />
-      </section>
+      <Pagination
+        pagesCount={pagesCount}
+        currentPage={currentPage}
+        onPageChange={(page: number) => setCurrentPage(page)}
+      />
     </>
   );
 };

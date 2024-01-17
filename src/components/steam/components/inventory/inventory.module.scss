@@ -1,9 +1,5 @@
 @import 'styles/variables.scss';
 
-.pages {
-  margin: 10px;
-}
-
 .info {
   display: flex;
   justify-content: space-between;
@@ -25,8 +21,4 @@
   padding: 0 10px;
 
   @include body-short;
-}
-
-.toggle {
-  margin-right: 15px;
 }
