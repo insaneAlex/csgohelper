@@ -1,4 +1,13 @@
-import {getAppliedFilterParams, modifyInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
+import {
+  calculateInventoryPrice,
+  getAppliedFilterParams,
+  SteamProfileTile,
+  SearchInventory,
+  InventoryLayout,
+  modifyInventory,
+  Inventory,
+  Filters
+} from '@/src/components/steam';
 import {inventoryStatusSelector, itemsFiltersSelector, itemsSelector, getItemsStart, RootState} from '@/src/redux';
 import {GetInventoryPayloadType, InventoryStatuses} from '@/src/redux/features';
 import {InventoryItemType} from '@/src/services/steam-inventory';
@@ -38,12 +47,13 @@ export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventor
     }
   };
 
-  const renderContent = () => {
+  const modifiedItems = modifyInventory({inventoryItems, filters, query: router.query});
+  const renderInventory = () => {
     if (isLoading) {
       return <Loader />;
     }
     if (!hasNoItems) {
-      return <Inventory items={modifyInventory({inventoryItems, filters, query: router.query})} router={router} />;
+      return <Inventory items={modifiedItems} router={router} />;
     }
   };
 
@@ -51,8 +61,17 @@ export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventor
     <>
       <SearchInventory loading={isLoading} />
       {renderError()}
-      <Filters router={router} possibleFilters={possibleFilters} />
-      {renderContent()}
+
+      <InventoryLayout>
+        <SteamProfileTile
+          itemsAmount={modifiedItems.length}
+          totalPrice={calculateInventoryPrice({items: modifiedItems})}
+        />
+        <div style={{flex: 1}}>
+          <Filters router={router} possibleFilters={possibleFilters} />
+          {renderInventory()}
+        </div>
+      </InventoryLayout>
     </>
   );
 };

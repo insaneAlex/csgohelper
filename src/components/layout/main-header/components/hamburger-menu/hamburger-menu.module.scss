@@ -10,10 +10,10 @@
   cursor: pointer;
   box-sizing: border-box;
   &:hover {
-    background: $lighten-bg;
+    background: $box-bg;
   }
   &:active {
-    background: $darken-light;
+    background: $box-element-color;
   }
 }
 

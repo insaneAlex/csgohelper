@@ -2,8 +2,9 @@
 
 .separator {
   border: none;
-  border-bottom: 1px solid $darken-light;
+  border-bottom: 1px solid $box-element-color;
   margin: 20px auto;
+  width: 100%;
 }
 .smallMargin {
   margin: 10px auto;

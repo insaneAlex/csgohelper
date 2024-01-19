@@ -1,13 +1,12 @@
 @import 'styles/variables.scss';
 
 .button {
-  background-color: $lighten-bg;
+  background-color: $box-element-color;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   height: 40px;
-  min-width: 150px;
   border-radius: 5px;
-  border: 1px solid $darken-light;
+  border: none;
   letter-spacing: 1px;
   position: relative;
   font-weight: 500;
@@ -34,11 +33,12 @@
 }
 
 .disabled {
-  background-color: $dark-disabled;
+  background-color: $disabled;
 
   &:active {
     transform: none;
   }
+
   &:hover {
     cursor: not-allowed;
   }

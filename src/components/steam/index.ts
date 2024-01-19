@@ -1,7 +1,9 @@
 export {
   ResponsiveInventoryList,
+  SteamProfileTile,
   DUPLICATES_PARAM,
   SearchInventory,
+  InventoryLayout,
   FeedbackSuccess,
   FeedbackForm,
   ItemDetails,
@@ -9,6 +11,12 @@ export {
   Filters
 } from './components';
 
-export {filterInventory, getUniqueItems, modifyInventory, getAppliedFilterParams} from './helpers';
+export {
+  calculateInventoryPrice,
+  getAppliedFilterParams,
+  filterInventory,
+  getUniqueItems,
+  modifyInventory
+} from './helpers';
 
 export {PriceOptions} from './types';

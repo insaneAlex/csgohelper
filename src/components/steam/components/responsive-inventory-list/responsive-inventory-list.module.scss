@@ -1,15 +1,31 @@
 @import 'styles/variables.scss';
 
-.item {
-  align-items: center;
-  background-color: $lighten-bg;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  transition: transform 100ms linear;
-}
+.container {
+  flex-direction: column;
+  @include box-container;
 
-.empty {
-  transition: none;
-  z-index: $z-index-hidden;
+  .updateTime {
+    font-size: 0.9em;
+    text-align: center;
+    padding: 0 10px;
+
+    @include body-short;
+  }
+
+  .item {
+    align-items: center;
+    background-color: $box-bg;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    transition: transform 100ms linear;
+    &:hover {
+      background-color: $box-element-color;
+    }
+  }
+
+  .empty {
+    transition: none;
+    z-index: $z-index-hidden;
+  }
 }

@@ -1,19 +1,25 @@
 @import 'styles/variables.scss';
 
 .profile {
-  display: flex;
+  min-width: 15%;
+  font-size: 15px;
 
-  @media (max-width: 768px) {
-    margin: 15px 0;
+  @include box-container;
+
+  .profileImage {
+    padding-right: 10px;
   }
 
   .name {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 0 0 0 10px;
     text-align: left;
+    height: 100%;
 
     @include body-short;
+
+    @media (max-width: 768px) {
+      justify-content: space-between;
+    }
   }
 }

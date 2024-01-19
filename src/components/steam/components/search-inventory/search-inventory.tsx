@@ -25,21 +25,26 @@ export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
 
   return (
     <>
-      <label className={styles.block} htmlFor={STEAMID_PARAM} data-testid="search-block">
-        <input
-          type="text"
-          value={steamid}
-          id={STEAMID_PARAM}
-          onInput={handleChange}
-          className={styles.input}
-          placeholder="Enter your SteamID"
-        />
-        <Button disabled={isDisabled} onClick={handleSearch} loading={isLoading}>
-          <p className={styles.buttonText}>Search inventory</p>
-        </Button>
-      </label>
+      <div className={styles.wrapper}>
+        <div className={styles.fields}>
+          <label htmlFor={STEAMID_PARAM} data-testid="search-block">
+            <input
+              type="text"
+              value={steamid}
+              id={STEAMID_PARAM}
+              onInput={handleChange}
+              className={styles.input}
+              placeholder="Enter your SteamID"
+            />
+          </label>
+          <Button disabled={isDisabled} onClick={handleSearch} loading={isLoading}>
+            <p className={styles.buttonText}>Search inventory</p>
+          </Button>
+        </div>
 
-      <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
+        <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
+      </div>
+
       <Separator noMargin />
     </>
   );

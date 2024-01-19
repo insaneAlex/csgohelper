@@ -1,24 +1,8 @@
 @import 'styles/variables.scss';
 
 .info {
-  display: flex;
   justify-content: space-between;
-  margin: 15px 10px 0 10px;
-  font-size: 15px;
 
   @include body-short;
-
-  @media (max-width: 768px) {
-    padding-bottom: 5px;
-    text-align: center;
-    flex-direction: column-reverse;
-  }
-}
-
-.updateTime {
-  font-size: 0.9em;
-  text-align: center;
-  padding: 0 10px;
-
-  @include body-short;
+  @include box-container;
 }

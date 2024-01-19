@@ -10,14 +10,11 @@ type Props = {
 };
 
 export const SortDropdown: FC<Props> = ({onChange, options, selectedValue = SortTypes.Relevance}) => (
-  <span className={styles.container}>
-    <label htmlFor="sort">sort by</label>
-    <select className={styles.select} name="languages" id="sort" onChange={onChange} value={selectedValue}>
-      {options.map(({name, value}) => (
-        <option key={value} className={styles.option} value={value}>
-          {name}
-        </option>
-      ))}
-    </select>
-  </span>
+  <select className={styles.select} onChange={onChange} value={selectedValue} id="sort">
+    {options.map(({name, value}) => (
+      <option key={value} className={styles.option} value={value}>
+        {name}
+      </option>
+    ))}
+  </select>
 );

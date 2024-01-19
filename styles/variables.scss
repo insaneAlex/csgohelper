@@ -1,11 +1,8 @@
 $main-font-color: gainsboro;
 
-$darken-light: #323949;
-$lighten-bg: #232527;
-$base-dark: #202020;
-$darken-bg: #1d1f20;
-
-$dark-disabled: #333;
+$base-dark: #121217;
+$box-bg: #232527;
+$box-element-color: #333;
 
 $dark-red: #800000;
 $dark-green: #006400;
@@ -14,12 +11,22 @@ $dark-grey: #3f3f3f;
 $z-index-hidden: -1;
 $z-index-normal: 1;
 
+$disabled: #1c1d26;
+
 @mixin portal-overlay {
   bottom: 0;
   left: 0;
   position: fixed;
   right: 0;
   top: 0;
+}
+
+@mixin box-container {
+  background-color: $box-bg;
+  border-radius: 5px;
+  display: flex;
+  margin: 10px;
+  padding: 10px;
 }
 
 @mixin body-short {

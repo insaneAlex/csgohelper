@@ -1,40 +1,47 @@
 @import 'styles/variables.scss';
 
-.block {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 10px 10px 5px 10px;
-}
+.wrapper {
+  flex-direction: column;
+  @include box-container;
 
-.buttonText {
-  width: 200px;
-}
-
-.input {
-  background-color: $lighten-bg;
-  border: 1px solid $darken-light;
-  border-radius: 5px;
-  width: 250px;
-  height: 40px;
-  padding-left: 10px;
-
-  @include body-short;
-}
-
-.note {
-  text-align: center;
-  margin: 0 10px 10px 10px;
-  @include body-short;
-}
-
-@media (max-width: 768px) {
-  .buttonText {
-    width: auto;
-    padding: 0 5px;
+  @media (min-width: 769px) {
+    width: 600px;
+    margin: 10px auto;
   }
+
+  .fields {
+    display: flex;
+    gap: 10px;
+    label {
+      flex: 1;
+    }
+  }
+
+  .note {
+    text-align: center;
+    padding-top: 5px;
+    @include body-short;
+  }
+
   .input {
+    background-color: $box-element-color;
+    border: none;
+    border-radius: 5px;
+
     width: 100%;
+
+    height: 40px;
+    padding-left: 10px;
+
+    @include body-short;
+  }
+
+  .buttonText {
+    width: 200px;
+
+    @media (max-width: 768px) {
+      width: auto;
+      padding: 0 5px;
+    }
   }
 }

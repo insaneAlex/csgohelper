@@ -1,10 +1,9 @@
 @import 'styles/variables.scss';
 
 .list {
-  display: flex;
   flex-wrap: wrap;
-  margin: 5px 10px;
   gap: 5px;
+  @include box-container;
 }
 
 .item {
@@ -13,9 +12,9 @@
 }
 
 .link {
-  background: transparent;
+  background: $box-element-color;
   border-radius: 5px;
-  border: 1px solid $darken-light;
+  border: none;
   cursor: pointer;
   height: 100%;
   width: 100%;

@@ -17,14 +17,18 @@ export const SteamProfileTile: FC<Props> = ({itemsAmount, totalPrice}) => {
 
   return (
     <section className={styles.profile}>
-      <Link href={profileurl} target="_blank">
-        <Image src={avatarfull} width={75} height={75} alt="Steam avatar" />
-      </Link>
+      <div className={styles.profileImage}>
+        <Link href={profileurl} target="_blank">
+          <Image src={avatarfull} width={75} height={75} alt="Steam avatar" />
+        </Link>
+      </div>
 
       <div className={styles.name}>
-        <span>{personaname}&#39;s inventory:</span>
-        <span>Items: {itemsAmount}</span>
-        {totalPrice && <span>Value: {totalPrice}$</span>}
+        <p>{personaname}&#39;s inventory:</p>
+        <div>
+          <p>Items: {itemsAmount}</p>
+          {totalPrice && <p>Value: {totalPrice}$</p>}
+        </div>
       </div>
     </section>
   );

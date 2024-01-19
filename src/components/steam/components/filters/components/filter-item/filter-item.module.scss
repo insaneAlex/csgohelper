@@ -3,7 +3,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  background: $lighten-bg;
+  background: $box-element-color;
   padding-right: 5px;
   border-top: 1px solid transparent;
 }
@@ -17,7 +17,7 @@
 }
 
 .list {
-  background: $lighten-bg;
+  background: $box-bg;
   text-align: center;
   white-space: nowrap;
   z-index: $z-index-normal;
