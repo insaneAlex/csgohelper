@@ -1,6 +1,7 @@
 @import 'styles/variables.scss';
 
 .select {
+  cursor: pointer;
   background-color: $box-bg;
   border: none;
   @include body-short;
