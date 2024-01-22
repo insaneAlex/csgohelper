@@ -3,12 +3,9 @@
 .wrapper {
   flex-direction: column;
   min-height: 350px;
+  width: 650px;
   @include box-container;
-
-  @media (min-width: 769px) {
-    width: 650px;
-    margin: 10px auto;
-  }
+  margin: 10px auto;
 
   .header {
     margin: 0 20px 25px 20px;
@@ -48,5 +45,12 @@
       font-weight: bold;
       font-family: 'Courier New', Courier, monospace;
     }
+  }
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    width: auto;
+    margin: 10px;
   }
 }

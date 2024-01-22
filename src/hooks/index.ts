@@ -1,1 +1,1 @@
-export {useWindowWidth} from './use-window-width';
+export {useMedia} from './use-media';

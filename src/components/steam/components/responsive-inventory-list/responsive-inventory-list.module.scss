@@ -1,31 +1,8 @@
 @import 'styles/variables.scss';
 
 .container {
-  flex-direction: column;
+  align-content: flex-start;
+  flex-wrap: wrap;
+
   @include box-container;
-
-  .updateTime {
-    font-size: 0.9em;
-    text-align: center;
-    padding: 0 10px;
-
-    @include body-short;
-  }
-
-  .item {
-    align-items: center;
-    background-color: $box-bg;
-    border-radius: 3px;
-    display: flex;
-    justify-content: center;
-    transition: transform 100ms linear;
-    &:hover {
-      background-color: $box-element-color;
-    }
-  }
-
-  .empty {
-    transition: none;
-    z-index: $z-index-hidden;
-  }
 }

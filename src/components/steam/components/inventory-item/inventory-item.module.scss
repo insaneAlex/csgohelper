@@ -1,11 +1,36 @@
 @import 'styles/variables.scss';
 
 .item {
-  align-items: center;
-  display: inline-flex;
-  flex-direction: column;
-  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 5px;
+  position: relative;
+  width: calc(100% / 10);
+  transition: width 100ms;
 
+  @media (max-width: 1500px) {
+    width: calc(100% / 6);
+  }
+  @media (max-width: 1024px) {
+    width: calc(100% / 4);
+  }
+  @media (max-width: 768px) {
+    width: calc(100% / 3);
+  }
+  @media (max-width: 425px) {
+    width: calc(100% / 2);
+  }
+}
+
+.link {
+  padding: 10px;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   @include body-short-link;
 }
 
@@ -20,11 +45,12 @@
   font-size: 10px;
   padding: 0px 5px;
   text-align: center;
+  font-size: 13px;
 
-  @media (min-width: 425px) {
+  @media (max-width: 1024px) {
     font-size: 12px;
   }
-  @media (min-width: 1024px) {
-    font-size: 13px;
+  @media (max-width: 425px) {
+    font-size: 10px;
   }
 }

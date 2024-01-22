@@ -5,21 +5,23 @@
   text-align: center;
   justify-content: center;
   min-height: 350px;
+  width: 650px;
 
   @include box-container;
   @include body-short;
-
-  @media (min-width: 769px) {
-    width: 650px;
-    margin: 10px auto;
-  }
+  margin: 10px auto;
 
   .title {
     font-size: 18px;
     margin-bottom: 25px;
   }
-
   .text {
     margin-bottom: 25px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    width: auto;
   }
 }
