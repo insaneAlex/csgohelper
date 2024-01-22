@@ -1,57 +1,48 @@
 import {useEffect, useState} from 'react';
-import styles from 'styles/export.module.scss';
 import {createMediaQuery} from '../services/helpers';
+import {DeviceSizeType} from '../services/types';
+import {
+  LARGE_SCREEN_RANGE,
+  MEDIUM_SCREEN_RANGE,
+  MOBILE_SCREEN_RANGE,
+  SMALL_SCREEN_RANGE,
+  X_LARGE_SCREEN_RANGE
+} from './constants';
 
-const screenSizes = {
-  mobile: parseInt(styles.mobile, 10),
-  medium: parseInt(styles.medium, 10),
-  large: parseInt(styles.large, 10),
-  xxlarge: parseInt(styles.xxlarge, 10)
-};
-
-const SMALL_SCREEN_RANGE = {maxWidth: screenSizes.large};
-const MEDIUM_SCREEN_RANGE = {minWidth: screenSizes.medium, maxWidth: screenSizes.large};
-const LARGE_SCREEN_RANGE = {minWidth: screenSizes.large};
-
-const useListenToMediaQuery = (query: {minWidth?: number; maxWidth?: number}, onMatch: () => void) => {
+export const useListenToMediaQuery = (query: DeviceSizeType, onMatch: () => void) => {
   useEffect(() => {
     const mediaQuery = createMediaQuery(query);
-    const handler = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        onMatch();
-      }
-    };
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    const handler = (event: MediaQueryListEvent) => event?.matches && onMatch();
     mediaQuery.addListener(handler);
-
     return () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       mediaQuery.removeListener(handler);
     };
   }, []);
 };
 
-type Props = {small?: boolean; medium?: boolean; large?: boolean};
-export const useMedia = ({small = false, medium = small, large = medium}: Props) => {
+type Props = {mobile?: boolean; small?: boolean; medium?: boolean; large?: boolean; xLarge?: boolean};
+export const useMedia = ({mobile = false, small = mobile, medium = small, large = medium, xLarge = large}: Props) => {
   const [value, setValue] = useState(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    if (createMediaQuery(MOBILE_SCREEN_RANGE).matches) {
+      return mobile;
+    }
     if (createMediaQuery(SMALL_SCREEN_RANGE).matches) {
       return small;
-    } // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    }
     if (createMediaQuery(MEDIUM_SCREEN_RANGE).matches) {
       return medium;
     }
-
-    return large;
+    if (createMediaQuery(LARGE_SCREEN_RANGE).matches) {
+      return large;
+    }
+    return xLarge;
   });
 
+  useListenToMediaQuery(MOBILE_SCREEN_RANGE, () => setValue(mobile));
   useListenToMediaQuery(SMALL_SCREEN_RANGE, () => setValue(small));
   useListenToMediaQuery(MEDIUM_SCREEN_RANGE, () => setValue(medium));
   useListenToMediaQuery(LARGE_SCREEN_RANGE, () => setValue(large));
+  useListenToMediaQuery(X_LARGE_SCREEN_RANGE, () => setValue(xLarge));
 
   return value;
 };

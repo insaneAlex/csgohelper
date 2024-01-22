@@ -40,25 +40,23 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
 
   const hasAppliedSubfilter = subFilters?.some((fltr) => isFilterApplied(appliedSubfilters, fltr));
   return (
-    <motion.header
+    <motion.div
       initial={false}
       onMouseLeave={() => setOpen(false)}
       animate={open ? 'open' : 'closed'}
       className={classNames(styles.wrapper, {[styles.topBordered]: hasAppliedSubfilter || isChecked})}
     >
-      <motion.button whileTap={{scale: 0.97}} className={styles.button} onMouseEnter={() => setOpen(true)}>
-        <Checkbox
-          readOnly
-          name={filter}
-          label={filter}
-          isWithoutBorder
-          checked={isChecked}
-          onChange={() => onFilterUpdate({filter})}
-        />
+      <motion.button
+        whileTap={{scale: 0.97}}
+        className={styles.button}
+        onMouseEnter={() => setOpen(true)}
+        onClick={() => onFilterUpdate({filter})}
+      >
+        <Checkbox readOnly name={filter} label={filter} isWithoutBorder checked={isChecked} />
         <motion.div
           transition={{duration: 0.1}}
           className={styles.iconWrapper}
-          style={{originY: 0.55, originX: 0.55}}
+          style={{originY: 0.55, originX: 0.4}}
           variants={{open: {rotate: -90}, closed: {rotate: 0}}}
         >
           {hasSubfilters && <Icons.BackSmall />}
@@ -68,12 +66,17 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
         <motion.div className={styles.listWrapper}>
           <motion.ul className={classNames(styles.list, {[styles.listActive]: open})} variants={listVariants}>
             {subFilters.sort().map((filterKey, i) => (
-              <motion.li key={filterKey} variants={itemVariants}>
+              <motion.li
+                key={filterKey}
+                variants={itemVariants}
+                className={styles.subfilter}
+                onClick={() => onFilterUpdate({subFilter: filterKey, filter})}
+              >
                 <Checkbox
+                  readOnly
                   isWithoutBorder
                   name={filterKey}
                   label={filterKey}
-                  onChange={() => onFilterUpdate({subFilter: filterKey, filter})}
                   checked={isFilterApplied(appliedSubfilters, filterKey) || isFilterApplied(router.query.type, filter)}
                 />
                 {!(i === subFiltersLenght - 1) && <Separator noMargin />}
@@ -82,6 +85,6 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
           </motion.ul>
         </motion.div>
       )}
-    </motion.header>
+    </motion.div>
   );
 };

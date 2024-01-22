@@ -1,9 +1,21 @@
 @import 'styles/variables.scss';
 
-.container {
-  align-content: flex-start;
-  flex-wrap: wrap;
+.wrapper {
+  flex-direction: column;
   margin: 10px;
-
   @include box-container;
+
+  .list {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .updateTime {
+    font-size: 0.9em;
+    text-align: center;
+    padding: 0 10px;
+
+    @include body-short;
+  }
 }

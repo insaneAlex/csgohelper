@@ -1,12 +1,8 @@
 @import 'styles/variables.scss';
 
 .main {
-  align-self: center;
-  display: flex;
-  flex-direction: column;
   flex: 1;
   min-width: 320px;
-  width: 100%;
 }
 
 .footer {
