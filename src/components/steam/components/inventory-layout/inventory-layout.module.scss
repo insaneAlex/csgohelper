@@ -1,8 +1,10 @@
+@import 'styles/variables.scss';
+
 .layout {
   display: flex;
   flex: 1;
 
-  @media (max-width: 1024px) {
+  @media (max-width: $large) {
     flex-direction: column;
   }
 }

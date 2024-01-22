@@ -6,16 +6,16 @@
   width: calc(100% / 9);
   transition: width 100ms;
 
-  @media (max-width: 1500px) {
+  @media (max-width: $xx-large) {
     width: calc(100% / 6);
   }
-  @media (max-width: 1024px) {
+  @media (max-width: $large) {
     width: calc(100% / 4);
   }
-  @media (max-width: 768px) {
+  @media (max-width: $medium) {
     width: calc(100% / 3);
   }
-  @media (max-width: 425px) {
+  @media (max-width: $mobile) {
     width: calc(100% / 2);
   }
 }
@@ -43,10 +43,10 @@
   overflow: hidden;
   width: 100%;
   text-overflow: ellipsis;
-  @media (max-width: 1024px) {
+  @media (max-width: $large) {
     font-size: 12px;
   }
-  @media (max-width: 425px) {
+  @media (max-width: $mobile) {
     font-size: 10px;
   }
 }

@@ -20,7 +20,7 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: $large) {
   .wrapper {
     width: auto;
     margin: 10px;

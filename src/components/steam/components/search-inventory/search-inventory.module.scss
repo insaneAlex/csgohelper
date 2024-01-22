@@ -33,18 +33,18 @@
 
   .buttonText {
     width: 200px;
-    @media (max-width: 1024px) {
+    @media (max-width: $large) {
       width: 150px;
       padding: 0 5px;
     }
-    @media (max-width: 425px) {
+    @media (max-width: $mobile) {
       width: 120px;
       padding: 0 5px;
     }
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: $large) {
   .wrapper {
     width: auto;
     margin: 10px;

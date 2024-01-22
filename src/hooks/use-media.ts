@@ -1,10 +1,17 @@
 import {useEffect, useState} from 'react';
-import {
-  LARGE_SCREEN_RANGE,
-  MEDIUM_SCREEN_RANGE,
-  SMALL_SCREEN_RANGE,
-  createMediaQuery
-} from '../services/screen/helpers';
+import styles from 'styles/export.module.scss';
+import {createMediaQuery} from '../services/helpers';
+
+const screenSizes = {
+  mobile: parseInt(styles.mobile, 10),
+  medium: parseInt(styles.medium, 10),
+  large: parseInt(styles.large, 10),
+  xxlarge: parseInt(styles.xxlarge, 10)
+};
+
+const SMALL_SCREEN_RANGE = {maxWidth: screenSizes.large};
+const MEDIUM_SCREEN_RANGE = {minWidth: screenSizes.medium, maxWidth: screenSizes.large};
+const LARGE_SCREEN_RANGE = {minWidth: screenSizes.large};
 
 const useListenToMediaQuery = (query: {minWidth?: number; maxWidth?: number}, onMatch: () => void) => {
   useEffect(() => {
