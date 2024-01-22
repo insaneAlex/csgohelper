@@ -18,6 +18,7 @@
 
 .list {
   background: $box-bg;
+  border: 1px solid $box-element-color;
   text-align: center;
   white-space: nowrap;
   z-index: $z-index-normal;

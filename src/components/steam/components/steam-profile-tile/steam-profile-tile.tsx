@@ -1,9 +1,10 @@
-import {useSelector} from 'react-redux';
-import styles from './steam-profile-tile.module.scss';
 import {profileSelector} from '@/src/redux/features/inventory';
-import Link from 'next/link';
+import {useSelector} from 'react-redux';
 import Image from 'next/image';
+import Link from 'next/link';
 import {FC} from 'react';
+
+import styles from './steam-profile-tile.module.scss';
 
 type Props = {itemsAmount: number; totalPrice: string};
 

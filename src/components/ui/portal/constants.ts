@@ -1,9 +1,3 @@
 export const PORTAL_CONTENT_ANIMATION_DURATION = 250;
 export const OVERLAY_ANIMATION_DURATION = 500;
 export const PORTAL_ANIMATION_DURATION = 100;
-
-export const VISIBLE_OPACITY = 1;
-export const NOT_VISIBLE_OPACITY = 0;
-
-export const Z_INDEX_HIDDEN = -1;
-export const Z_INDEX_MODAL = 101;

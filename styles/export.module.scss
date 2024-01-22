@@ -1,0 +1,13 @@
+@import './variables.scss';
+
+:export {
+  zIndexHidden: $z-index-hidden;
+  zIndexNormal: $z-index-normal;
+  zIndexModal: $z-index-modal;
+
+  fullOpacity: $full-opacity;
+  noOpacity: $no-opacity;
+
+  translateXHide: $translate-x-hide;
+  translateXShow: $translate-x-show;
+}

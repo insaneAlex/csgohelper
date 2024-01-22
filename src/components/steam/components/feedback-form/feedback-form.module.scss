@@ -4,8 +4,9 @@
   flex-direction: column;
   min-height: 350px;
   width: 650px;
-  @include box-container;
   margin: 10px auto;
+
+  @include box-container;
 
   .header {
     margin: 0 20px 25px 20px;

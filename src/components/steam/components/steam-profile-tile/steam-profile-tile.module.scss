@@ -3,6 +3,7 @@
 .profile {
   font-size: 15px;
   flex-wrap: wrap;
+  margin: 10px 0 10px 10px;
   width: 15%;
 
   @include box-container;
@@ -10,7 +11,6 @@
   .profileImage {
     padding-right: 10px;
   }
-
   .name {
     display: flex;
     flex-direction: column;
@@ -23,6 +23,7 @@
 
 @media (max-width: 1024px) {
   .profile {
+    margin: 10px 10px 0 10px;
     width: auto;
   }
   .name {

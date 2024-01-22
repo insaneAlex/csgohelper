@@ -2,6 +2,7 @@
 
 .info {
   justify-content: space-between;
+  margin: 10px;
 
   @include body-short;
   @include box-container;

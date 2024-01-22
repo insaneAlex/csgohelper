@@ -3,8 +3,8 @@
 .wrapper {
   flex-direction: column;
   width: 600px;
-  @include box-container;
   margin: 10px auto;
+  @include box-container;
 
   .fields {
     display: flex;
@@ -33,7 +33,6 @@
 
   .buttonText {
     width: 200px;
-    font-size: 13px;
     @media (max-width: 1024px) {
       width: 150px;
       padding: 0 5px;

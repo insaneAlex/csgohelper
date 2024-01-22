@@ -3,6 +3,7 @@
 .container {
   align-content: flex-start;
   flex-wrap: wrap;
+  margin: 10px;
 
   @include box-container;
 }
