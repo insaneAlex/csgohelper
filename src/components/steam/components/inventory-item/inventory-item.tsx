@@ -17,18 +17,21 @@ export const InventoryItem: FC<Props> = ({item, isSelected, router}) => {
     return null;
   }
 
+  const wrapperStyle = {border: `1px solid #${rarity_color}`};
   const availablePrice = price ?? Number(getAvailablePrice(prices));
   const formattedPrice = !isNaN(availablePrice) && availablePrice.toFixed(2);
   const amount = count > 1 ? ` x ${count}` : '';
   const description = name?.match(STAT_TRAK_PATTERN) ? name.replace(STAT_TRAK_PATTERN, '') : name || '';
   const imgSrc = inventoryImageBaseUrl + icon_url;
+  const selectItem = () => addQueryParam({router, param: {item: assetid}});
+  const unselectItem = () => addQueryParam({router, param: {item: []}});
 
-  const Overlay = ({isSelected, router}: {isSelected: boolean; router: NextRouter}) => (
+  const Overlay: FC<{isSelected: boolean}> = ({isSelected}) => (
     <motion.div
       initial={false}
       animate={{opacity: isSelected ? 1 : 0}}
       transition={{duration: 0.2}}
-      onClick={() => addQueryParam({router, param: {item: []}})}
+      onClick={unselectItem}
       style={{pointerEvents: isSelected ? 'auto' : 'none'}}
       className={styles.overlay}
     />
@@ -39,14 +42,8 @@ export const InventoryItem: FC<Props> = ({item, isSelected, router}) => {
         <div className={styles.empty} />
       ) : (
         <>
-          <Overlay isSelected={isSelected} router={router} />
-          <motion.div
-            layout
-            data-isopen={isSelected}
-            onClick={() => addQueryParam({router, param: {item: assetid}})}
-            style={{border: `1px solid #${rarity_color}`}}
-            className={styles.link}
-          >
+          <Overlay isSelected={isSelected} />
+          <motion.div layout onClick={selectItem} data-isopen={isSelected} style={wrapperStyle} className={styles.link}>
             <motion.div className={styles.header}>
               <motion.img layout loading="lazy" src={imgSrc} alt={name} width={110} height={82} />
               <motion.span layout style={{color: `#${name_color}`}} className={styles.describe}>
