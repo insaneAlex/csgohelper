@@ -5,14 +5,12 @@ import {getAvailablePrice} from '../../helpers';
 import {STAT_TRAK_PATTERN} from './constants';
 import {NextRouter} from 'next/router';
 import {motion} from 'framer-motion';
-import classNames from 'classnames';
 import React, {FC} from 'react';
 
 import styles from './inventory-item.module.scss';
 
-type Props = Readonly<{item: InventoryItemType; isSelected: boolean; router: NextRouter}>;
+type Props = {item: InventoryItemType; isSelected: boolean; router: NextRouter};
 
-// eslint-disable-next-line complexity
 export const InventoryItem: FC<Props> = ({item, isSelected, router}) => {
   const {name_color, rarity_color, name, icon_url, count = 1, prices, assetid, price, isEmpty} = item;
   if (!icon_url && !isEmpty) {
@@ -37,22 +35,28 @@ export const InventoryItem: FC<Props> = ({item, isSelected, router}) => {
   );
   return (
     <div className={styles.item}>
-      <Overlay isSelected={isSelected} router={router} />
-      <motion.div
-        layout
-        data-isopen={isSelected}
-        onClick={() => addQueryParam({router, param: {item: assetid}})}
-        style={{border: `1px solid #${rarity_color}`}}
-        className={classNames(styles.link, {[styles.empty]: isEmpty})}
-      >
-        <motion.div className={styles.header}>
-          {!isEmpty && <motion.img layout loading="lazy" src={imgSrc} alt={name} width={110} height={82} />}
-          <motion.span layout style={{color: `#${name_color}`}} className={styles.describe}>
-            {description + amount}
-          </motion.span>
-        </motion.div>
-        {formattedPrice && <motion.span layout>{formattedPrice + '$'}</motion.span>}
-      </motion.div>
+      {isEmpty ? (
+        <div className={styles.empty} />
+      ) : (
+        <>
+          <Overlay isSelected={isSelected} router={router} />
+          <motion.div
+            layout
+            data-isopen={isSelected}
+            onClick={() => addQueryParam({router, param: {item: assetid}})}
+            style={{border: `1px solid #${rarity_color}`}}
+            className={styles.link}
+          >
+            <motion.div className={styles.header}>
+              <motion.img layout loading="lazy" src={imgSrc} alt={name} width={110} height={82} />
+              <motion.span layout style={{color: `#${name_color}`}} className={styles.describe}>
+                {description + amount}
+              </motion.span>
+            </motion.div>
+            {formattedPrice && <motion.span layout>{formattedPrice + '$'}</motion.span>}
+          </motion.div>
+        </>
+      )}
     </div>
   );
 };

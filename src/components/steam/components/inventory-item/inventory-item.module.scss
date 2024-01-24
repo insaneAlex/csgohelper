@@ -2,24 +2,24 @@
 
 .item {
   padding: 5px;
-  width: calc(100% / $xx-large-grid-row-items);
+  width: 100% / $xx-large-grid-row-items;
   transition: width 100ms;
   height: 170px;
 
   @media (max-width: $xx-large) {
-    width: calc(100% / $large-grid-row-items);
+    width: 100% / $large-grid-row-items;
     height: 160px;
   }
   @media (max-width: $large) {
-    width: calc(100% / $medium-grid-row-items);
+    width: 100% / $medium-grid-row-items;
     height: 200px;
   }
   @media (max-width: $medium) {
-    width: calc(100% / $small-grid-row-items);
+    width: 100% / $small-grid-row-items;
     height: 150px;
   }
   @media (max-width: $mobile) {
-    width: calc(100% / $mobile-grid-row-items);
+    width: 100% / $mobile-grid-row-items;
     height: 150px;
   }
 }
@@ -96,8 +96,12 @@
 }
 
 .empty {
-  pointer-events: none;
-  z-index: $z-index-hidden;
+  background-color: darken($box-bg, 0.9);
+  height: 100%;
+  cursor: default;
+  &:hover {
+    background-color: darken($box-bg, 0.9);
+  }
 }
 
 .describe {
