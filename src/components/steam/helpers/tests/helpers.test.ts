@@ -2,13 +2,11 @@ import {calculateInventoryPrice} from '../calculate-inventory-price';
 import {getAppliedFilterParams} from '../get-applied-filter-params';
 import {DUPLICATES_PARAM, SORT, SortTypes} from '../../components';
 import {getParamValuesArray} from '../get-param-values-array';
-import {ScreenSizes, screenSizes} from '../../constants';
 import {removeParamValue} from '../remove-param-value';
 import items from '../../../../../mocks/items.json';
 import {areEqualArrays} from '../are-equal-arrays';
 import {modifyInventory} from '../modify-inventory';
 import {getUniqueItems} from '../get-unique-items';
-import {getScreenSize} from '../get-screen-size';
 import {InventoryItemType} from '@/src/services';
 import {PriceOptions} from '../../types';
 import {sortItems} from '../sort-items';
@@ -120,28 +118,6 @@ describe('helpers', () => {
       const expected = {Rifle: ['a'], types: ['Pistol']};
       const result = getAppliedFilterParams(possibleFilters, params);
       expect(result).toEqual(expected);
-    });
-  });
-  describe('getScreenSize', () => {
-    it('returns ScreenSizes.Xxs when width is less than or equal to screenSizes.xxs', () => {
-      const result = getScreenSize({width: screenSizes.xxs});
-      expect(result).toEqual(ScreenSizes.Xxs);
-    });
-    it('returns ScreenSizes.Xs when width is less than or equal to screenSizes.xs', () => {
-      const result = getScreenSize({width: screenSizes.xs - 1});
-      expect(result).toEqual(ScreenSizes.Xs);
-    });
-    it('returns ScreenSizes.Sm when width is less than or equal to screenSizes.sm', () => {
-      const result = getScreenSize({width: screenSizes.sm});
-      expect(result).toEqual(ScreenSizes.Sm);
-    });
-    it('returns ScreenSizes.Md when width is less than or equal to screenSizes.md', () => {
-      const result = getScreenSize({width: screenSizes.md});
-      expect(result).toEqual(ScreenSizes.Md);
-    });
-    it('returns ScreenSizes.Lg when width is greater than screenSizes.md', () => {
-      const result = getScreenSize({width: screenSizes.md + 1});
-      expect(result).toEqual(ScreenSizes.Lg);
     });
   });
   describe('paginate', () => {
