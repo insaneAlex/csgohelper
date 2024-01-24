@@ -16,13 +16,12 @@
 
 .navbar {
   align-items: center;
-  background: $base-dark;
+  background: rgba($base-dark, 0.95);
   color: $main-font-color;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: auto;
-  opacity: 0.95;
   position: fixed;
   width: 100%;
   z-index: 2;

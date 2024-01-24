@@ -15,9 +15,9 @@ import {Loader, ErrorAlert} from '@/src/components/ui';
 import {storage} from '@/src/services';
 import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
+import {StrArrObject} from '@/types';
 import {connect} from 'react-redux';
 import {FC, useEffect} from 'react';
-import {StrArrObject} from '@/types';
 
 type Props = {
   onGetItems: (a: GetInventoryPayloadType) => void;
@@ -27,6 +27,7 @@ type Props = {
 };
 
 export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, status}) => {
+  const router = useRouter();
   const steamid = storage.localStorage.get(STEAMID_PARAM);
   const hasNoItems = inventoryItems.length === 0;
 
@@ -34,7 +35,6 @@ export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventor
     hasNoItems && steamid && onGetItems({steamid});
   }, []);
 
-  const router = useRouter();
   const isLoading = status === InventoryStatuses.INIT_LOAD;
   const filters = getAppliedFilterParams(possibleFilters, router.query);
 

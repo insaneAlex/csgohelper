@@ -1,42 +1,47 @@
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {inventoryImageBaseUrl} from '../../constants';
+import {addQueryParam} from '@/src/services/helpers';
 import {getAvailablePrice} from '../../helpers';
 import {STAT_TRAK_PATTERN} from './constants';
-import classNames from 'classnames';
-import {ImgSize} from '@/types';
-import Image from 'next/image';
-import {FC} from 'react';
+import {NextRouter} from 'next/router';
+import {motion} from 'framer-motion';
+import React, {FC} from 'react';
 
 import styles from './inventory-item.module.scss';
 
-type Props = {imgSize: ImgSize; item: InventoryItemType};
+type Props = {item: InventoryItemType; isSelected: boolean; router: NextRouter};
 
-export const InventoryItem: FC<Props> = ({item, imgSize}) => {
-  const {name_color, rarity_color, name, icon_url, count = 1, prices, price, isEmpty} = item;
-
+export const InventoryItem: FC<Props> = ({item, isSelected, router}) => {
+  const {name_color, rarity_color, name, icon_url, count = 1, prices, assetid, price, isEmpty} = item;
   if (!icon_url && !isEmpty) {
     return null;
   }
-  const {width, height} = imgSize;
+
+  const wrapperStyle = {border: `1px solid #${rarity_color}`};
   const availablePrice = price ?? Number(getAvailablePrice(prices));
   const formattedPrice = !isNaN(availablePrice) && availablePrice.toFixed(2);
   const amount = count > 1 ? ` x ${count}` : '';
-  const description = name?.match(STAT_TRAK_PATTERN) ? name.replace(STAT_TRAK_PATTERN, '') : name;
+  const description = name?.match(STAT_TRAK_PATTERN) ? name.replace(STAT_TRAK_PATTERN, '') : name || '';
   const imgSrc = inventoryImageBaseUrl + icon_url;
+  const selectItem = () => addQueryParam({router, param: {item: assetid}});
+
   return (
-    <div className={styles.item}>
-      <div
-        className={classNames(styles.link, {[styles.empty]: isEmpty})}
-        style={{border: `1px solid #${rarity_color}`}}
-      >
-        {!isEmpty && <Image src={imgSrc} priority alt={name} width={width} height={height} quality={50} />}
-        {description && (
-          <p style={{color: `#${name_color}`}} className={styles.describe}>
-            {description + amount}
-          </p>
-        )}
-        {formattedPrice && <span className={styles.price}>{`${formattedPrice}$`}</span>}
-      </div>
-    </div>
+    <li className={styles.item}>
+      {isEmpty ? (
+        <div className={styles.empty} />
+      ) : (
+        <>
+          <motion.div layout onClick={selectItem} data-isopen={isSelected} style={wrapperStyle} className={styles.link}>
+            <motion.div className={styles.header}>
+              <motion.img layout loading="lazy" src={imgSrc} alt={name} width={110} height={82} />
+              <motion.span layout style={{color: `#${name_color}`}} className={styles.describe}>
+                {description + amount}
+              </motion.span>
+            </motion.div>
+            {formattedPrice && <motion.span layout>{formattedPrice + '$'}</motion.span>}
+          </motion.div>
+        </>
+      )}
+    </li>
   );
 };

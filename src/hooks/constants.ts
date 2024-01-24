@@ -7,6 +7,10 @@ const screenSizes = {
   xxlarge: parseInt(styles.xxlarge, 10)
 };
 
+export const DESKTOP_ROWS = 5;
+export const TABLET_ROWS = 10;
+export const MOBILE_ROWS = 15;
+
 export const MOBILE_SCREEN_RANGE = {maxWidth: screenSizes.mobile};
 export const SMALL_SCREEN_RANGE = {minWidth: screenSizes.mobile + 1, maxWidth: screenSizes.medium};
 export const MEDIUM_SCREEN_RANGE = {minWidth: screenSizes.medium + 1, maxWidth: screenSizes.large};

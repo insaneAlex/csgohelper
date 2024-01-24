@@ -2,12 +2,11 @@ import {InventoryItemType} from '@/src/services/steam-inventory';
 import {render, screen} from '@testing-library/react';
 import {InventoryItem} from '../inventory-item';
 import {PriceOptions} from '../../../types';
-import {Layout} from 'react-grid-layout';
 import {NextRouter} from 'next/router';
 
 jest.mock('../../../../../services', () => ({}));
 const routerMock = {useRouter: () => ({push: jest.fn()})} as unknown as NextRouter;
-const defaultProps = {router: routerMock, imgSize: {width: 1, height: 1}};
+const defaultProps = {router: routerMock, isSelected: false};
 describe('InventoryItem', () => {
   const itemName = 'itmName';
   const item = {
@@ -17,7 +16,7 @@ describe('InventoryItem', () => {
     assetid: 'id',
     exterior: 'f',
     prices: {[PriceOptions.WEEK]: {average: 2.004}}
-  } as unknown as InventoryItemType & Layout;
+  } as unknown as InventoryItemType;
   it('should render correctly', () => {
     const {container} = render(<InventoryItem {...defaultProps} item={item} />);
     expect(container).toMatchSnapshot();
