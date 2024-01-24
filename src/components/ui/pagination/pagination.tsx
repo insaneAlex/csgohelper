@@ -6,10 +6,6 @@ import styles from './pagination.module.scss';
 type Props = {pagesCount: number; currentPage: number; onPageChange: (page: number) => void};
 
 export const Pagination: FC<Props> = ({pagesCount, currentPage, onPageChange}) => {
-  if (pagesCount === 1) {
-    return null;
-  }
-
   const pages = Array.from({length: pagesCount}, (_, i) => i + 1);
 
   return (
