@@ -34,9 +34,9 @@ export const InventoryItem: FC<Props> = ({item, isSelected, router}) => {
           <motion.div layout onClick={selectItem} data-isopen={isSelected} style={wrapperStyle} className={styles.link}>
             <motion.div className={styles.header}>
               <motion.img layout loading="lazy" src={imgSrc} alt={name} width={110} height={82} />
-              <motion.span layout style={{color: `#${name_color}`}} className={styles.describe}>
+              <motion.p layout style={{color: `#${name_color}`}} className={styles.describe}>
                 {description + amount}
-              </motion.span>
+              </motion.p>
             </motion.div>
             {formattedPrice && <motion.span layout>{formattedPrice + '$'}</motion.span>}
           </motion.div>
