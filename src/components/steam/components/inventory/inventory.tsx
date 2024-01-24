@@ -3,8 +3,8 @@ import {InventoryItemType} from '@/src/services/steam-inventory';
 import {DUPLICATES_PARAM, SORT, SORT_OPTIONS} from './constants';
 import {useRowGridItems} from '@/src/hooks/use-row-grid-items';
 import {Pagination, ToggleButton} from '@/src/components/ui';
+import {ChangeEvent, FC, useMemo, useState} from 'react';
 import {addQueryParam} from '@/src/services/helpers';
-import {FC, useMemo, useState} from 'react';
 import {SortDropdown} from './components';
 import {NextRouter} from 'next/router';
 import {paginate} from '../../helpers';
@@ -36,20 +36,14 @@ export const Inventory: FC<{items: InventoryItemType[]; router: NextRouter}> = (
     [pageSize, currentPage, items, missingTiles]
   );
 
+  const toggleDuplicates = () => addQueryParam({router, param: {[DUPLICATES_PARAM]: isChecked}});
+  const sortInventory = (e: ChangeEvent<HTMLSelectElement>) => addQueryParam({router, param: {[SORT]: e.target.value}});
   return (
     <>
       <section className={styles.info}>
-        <ToggleButton
-          label="hide duplicates"
-          onClick={() => addQueryParam({router, param: {[DUPLICATES_PARAM]: isChecked}})}
-          checked={isChecked}
-        />
+        <ToggleButton label="hide duplicates" onClick={toggleDuplicates} checked={isChecked} />
 
-        <SortDropdown
-          selectedValue={selectedValue}
-          onChange={(e) => addQueryParam({router, param: {[SORT]: e.target.value}})}
-          options={SORT_OPTIONS}
-        />
+        <SortDropdown selectedValue={selectedValue} onChange={sortInventory} options={SORT_OPTIONS} />
       </section>
 
       <ResponsiveInventoryList items={paginatedInventory} router={router} />
