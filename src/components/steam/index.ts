@@ -6,7 +6,6 @@ export {
   InventoryLayout,
   FeedbackSuccess,
   FeedbackForm,
-  ItemDetails,
   Inventory,
   Filters
 } from './components';

@@ -23,7 +23,7 @@ export const SteamProfileTile: FC<Props> = ({itemsAmount, totalPrice}) => {
     <section className={styles.profile}>
       <div className={styles.imageWrapper}>
         <Link href={profileurl} target="_blank">
-          <Image src={avatarfull} width={avatarSize} height={avatarSize} alt="avatar" />
+          <Image src={avatarfull} width={avatarSize} height={avatarSize} priority alt="avatar" />
         </Link>
       </div>
 

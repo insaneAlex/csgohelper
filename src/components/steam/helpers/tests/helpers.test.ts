@@ -10,7 +10,6 @@ import {modifyInventory} from '../modify-inventory';
 import {getUniqueItems} from '../get-unique-items';
 import {getScreenSize} from '../get-screen-size';
 import {InventoryItemType} from '@/src/services';
-import {getImgSizes} from '../get-img-sizes';
 import {PriceOptions} from '../../types';
 import {sortItems} from '../sort-items';
 import {paginate} from '../paginate';
@@ -161,20 +160,6 @@ describe('helpers', () => {
       const result = paginate({items, pageNumber, pageSize});
       const expectedItems = items.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
       expect(result).toEqual(expectedItems);
-    });
-  });
-  describe('getImgSizes', () => {
-    it('returns xs size when screenSize is ScreenSizes.Xs', () => {
-      const result = getImgSizes({screenSize: ScreenSizes.Xs});
-      expect(result).toEqual({width: 77, height: 60});
-    });
-    it('returns sm size when screenSize is ScreenSizes.Xxs', () => {
-      const result = getImgSizes({screenSize: ScreenSizes.Xxs});
-      expect(result).toEqual({width: 140, height: 108});
-    });
-    it('returns md size for any other screenSize', () => {
-      const result = getImgSizes({screenSize: ScreenSizes.Md});
-      expect(result).toEqual({width: 110, height: 82});
     });
   });
   describe('calculateInventoryPrice', () => {

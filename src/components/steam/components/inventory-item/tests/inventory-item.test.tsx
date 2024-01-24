@@ -7,7 +7,7 @@ import {NextRouter} from 'next/router';
 
 jest.mock('../../../../../services', () => ({}));
 const routerMock = {useRouter: () => ({push: jest.fn()})} as unknown as NextRouter;
-const defaultProps = {router: routerMock, imgSize: {width: 1, height: 1}};
+const defaultProps = {router: routerMock, isSelected: false};
 describe('InventoryItem', () => {
   const itemName = 'itmName';
   const item = {

@@ -5,5 +5,4 @@ export {SteamProfileTile} from './steam-profile-tile';
 export {SearchInventory} from './search-inventory';
 export {InventoryLayout} from './inventory-layout';
 export {InventoryItem} from './inventory-item';
-export {ItemDetails} from './item-details';
 export {Filters} from './filters';
