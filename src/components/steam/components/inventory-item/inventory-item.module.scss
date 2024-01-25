@@ -64,7 +64,8 @@
 
   @media (max-width: $large) {
     height: 70vh;
-    width: 100%;
+    margin: 10px;
+    width: auto;
   }
 
   &:hover {
@@ -75,8 +76,8 @@
     height: 246px;
     width: 330px;
     @media (max-width: $large) {
-      height: 123px;
-      width: 165px;
+      height: 164px;
+      width: 220px;
     }
   }
 
