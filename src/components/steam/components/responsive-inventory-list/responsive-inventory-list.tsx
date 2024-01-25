@@ -14,9 +14,9 @@ export const ResponsiveInventoryList: FC<Props> = ({items, router}) => {
   const updateTime = useSelector(itemsUpdateTimeSelector);
   const unselectItem = () => addQueryParam({router, param: {item: []}});
 
-  // TODO: FIX:
+  // TODO: FIX + add overlay scroll lock + overlay close on escape press + combine or replace Portal.Portal
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-  const Overlay: FC = () => <div onClick={unselectItem} className={styles.overlay} />;
+  const Overlay: FC = () => <div data-testid="overlay" onClick={unselectItem} className={styles.overlay} />;
 
   return (
     <section className={styles.wrapper}>

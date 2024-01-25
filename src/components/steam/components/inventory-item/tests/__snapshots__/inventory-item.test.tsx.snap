@@ -2,13 +2,9 @@
 
 exports[`InventoryItem should render correctly 1`] = `
 <div>
-  <div
+  <li
     class="item"
   >
-    <div
-      class="overlay"
-      style="pointer-events: none; opacity: 0;"
-    />
     <div
       class="link"
       data-isopen="false"
@@ -23,16 +19,16 @@ exports[`InventoryItem should render correctly 1`] = `
           src="https://steamcommunity-a.akamaihd.net/economy/image/icn"
           width="110"
         />
-        <span
+        <p
           class="describe"
         >
           itmName
-        </span>
+        </p>
       </div>
       <span>
         2.00$
       </span>
     </div>
-  </div>
+  </li>
 </div>
 `;

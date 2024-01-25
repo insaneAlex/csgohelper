@@ -1,10 +1,11 @@
 import {FeedbackStatuses, feedbackStatusSelector, postFeedbackStart} from '@/src/redux/features';
 import {ChangeEvent, FC, FormEvent, useState} from 'react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {Button, Separator} from '@/src/components/ui';
 import {useDispatch, useSelector} from 'react-redux';
 import {NAME_FIELD, TEXT_FIELD} from './constants';
 import {getEmptyFormValues} from '../../helpers';
 import {FeedbackType} from '@/core/types';
-import {Button, Separator} from '@/src/components/ui';
 
 import styles from './feedback-form.module.scss';
 
@@ -37,6 +38,7 @@ export const FeedbackForm: FC = () => {
 
   const textError = formState?.errors?.text;
   const nameError = formState?.errors?.name;
+  const errorAnimateProps = {className: styles.error, initial: {opacity: 0}, animate: {opacity: 1}, exit: {opacity: 0}};
   return (
     <>
       <section className={styles.wrapper}>
@@ -51,7 +53,7 @@ export const FeedbackForm: FC = () => {
             placeholder="Your name or e-mail"
             onChange={handleInputChange}
           />
-          {nameError && <div className={styles.error}>{nameError}</div>}
+          <AnimatePresence>{nameError && <motion.div {...errorAnimateProps}>{nameError}</motion.div>}</AnimatePresence>
           <textarea
             rows={10}
             id={TEXT_FIELD}
@@ -61,10 +63,8 @@ export const FeedbackForm: FC = () => {
             placeholder="Write feedback"
             onChange={handleInputChange}
           />
-          {textError && <div className={styles.error}>{textError}</div>}
-
+          <AnimatePresence>{textError && <motion.div {...errorAnimateProps}>{textError}</motion.div>}</AnimatePresence>
           <Separator noMargin />
-
           <Button isSubmit loading={isLoading} disabled={isLoading}>
             Submit
           </Button>
