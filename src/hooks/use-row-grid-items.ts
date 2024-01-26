@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useListenToMediaQuery} from './use-media';
-import {createMediaQuery} from '../services/helpers';
+import {createMediaQuery} from '../services';
 import styles from 'styles/export.module.scss';
 import {
   MOBILE_ROWS,

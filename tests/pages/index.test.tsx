@@ -4,6 +4,11 @@ import {render, screen} from '@testing-library/react';
 import itemsMock from '../../mocks/items.json';
 import {SteamInventory} from '@/pages';
 
+jest.mock('../../src/hooks', () => ({
+  useListenToMediaQuery: jest.fn(),
+  useMedia: () => jest.fn(),
+  useRowGridItems: jest.fn().mockImplementation(() => ({itemsPerRow: 5, rowsAmount: 5}))
+}));
 jest.mock('../../src/services', () => ({storage: {localStorage: {get: () => 'steamid'}}}));
 jest.mock('next/router', () => ({useRouter: () => ({query: {'Pistol': 'Fiv'}})}));
 jest.mock('react-redux', () => ({useDispatch: () => jest.fn(), useSelector: jest.fn(), connect: () => jest.fn}));

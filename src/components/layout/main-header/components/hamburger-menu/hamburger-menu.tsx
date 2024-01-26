@@ -22,7 +22,7 @@ export const HamburgerMenu: FC<Props> = ({navLinks}) => {
       <Portal.Portal visible={visible}>
         <Portal.Overlay onClick={handleClose} visible={visible} />
 
-        <Portal.Content onClose={handleClose} visible={visible}>
+        <Portal.Content visible={visible}>
           <ul className={styles.links}>
             {navLinks.map(({name, href, renderIcon}) => (
               <li key={name}>

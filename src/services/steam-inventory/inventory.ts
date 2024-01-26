@@ -1,5 +1,5 @@
-import {ENV} from '../environment';
 import {Descriptions, GetInventoryParams, InventoryGlobalType, InventoryResponseType, ItemType} from './types';
+import {ENV} from '../environment';
 import axios from 'axios';
 
 class InventoryApi {

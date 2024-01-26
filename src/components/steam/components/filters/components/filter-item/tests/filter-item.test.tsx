@@ -64,16 +64,17 @@ describe('FilterItem', () => {
     it('list should not have listActive class', () => {
       render(
         <FilterItem
-          filter={RIFLE}
           isChecked
-          subFilters={possibleFiltersMock[RIFLE]}
+          filter={RIFLE}
           router={mockRouter}
+          subFilters={possibleFiltersMock[RIFLE]}
           onFilterUpdate={onFilterUpdateMock}
         />
       );
+
       fireEvent.mouseEnter(screen.getByText(RIFLE));
       expect(screen.getByRole('list')).toHaveClass('listActive');
-      fireEvent.mouseLeave(screen.getByRole('banner'));
+      fireEvent.mouseLeave(screen.getByTestId('filterCheckbox'));
       expect(screen.getByRole('list')).not.toHaveClass('listActive');
     });
   });

@@ -6,12 +6,14 @@
 }
 
 .footer {
+  align-items: center;
+  background-color: $base-dark;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 50px;
-  background-color: $base-dark;
+  text-align: center;
   letter-spacing: 1px;
+  min-height: 50px;
+  padding: 10px;
 
   @include body-short;
 }

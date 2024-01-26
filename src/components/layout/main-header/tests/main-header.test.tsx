@@ -1,7 +1,9 @@
 import {render, screen} from '@testing-library/react';
 import {MainHeader} from '../main-header';
 
-jest.mock('../../../../services', () => ({}));
+jest.mock('../../../../services', () => ({
+  createMediaQuery: () => ({addListener: jest.fn(), removeListener: jest.fn()})
+}));
 
 describe('MainHeader', () => {
   it('should render navigation correctly', () => {

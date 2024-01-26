@@ -1,15 +1,14 @@
-import {PORTAL_ANIMATION_DURATION} from '../constants';
-import {useSpring, animated} from 'react-spring';
 import {FC, useEffect, useState} from 'react';
-import {calculateZindex} from '../helpers';
-import styles from './portal.module.scss';
 import {createPortal} from 'react-dom';
+import {Variants, motion} from 'framer-motion';
+import modalStyles from 'styles/export.module.scss';
+
+import styles from './portal.module.scss';
 
 type Props = {visible?: boolean; children: React.ReactNode; onEscapePressed?: (e: KeyboardEvent) => void};
-
 export const Portal: FC<Props> = ({children, visible}) => {
   const [portalNode, setPortalNode] = useState<HTMLDivElement | null>(null);
-
+  const {zIndexModal, zIndexHidden} = modalStyles;
   useEffect(() => {
     const node = document.createElement('div');
     document.body.appendChild(node);
@@ -20,22 +19,22 @@ export const Portal: FC<Props> = ({children, visible}) => {
     };
   }, []);
 
-  const portalConfig = useSpring({
-    zIndex: calculateZindex({visible}),
-    from: {zIndex: calculateZindex({visible: visible === undefined ? visible : !visible})},
-    config: {duration: PORTAL_ANIMATION_DURATION}
-  });
+  const itemVariants: Variants = {
+    open: {opacity: 1, zIndex: zIndexModal, transition: {type: 'spring', stiffness: 300, damping: 24}},
+    closed: {opacity: 0, zIndex: zIndexHidden, transition: {duration: 0.1}}
+  };
 
   const content = (
-    <animated.div
-      style={portalConfig}
+    <motion.div
+      animate={visible ? 'open' : 'closed'}
+      variants={itemVariants}
       className={styles.portal}
       aria-hidden={!visible}
       role="dialog"
       data-testid="portal"
     >
       {children}
-    </animated.div>
+    </motion.div>
   );
   if (portalNode) return createPortal(content, portalNode);
 };

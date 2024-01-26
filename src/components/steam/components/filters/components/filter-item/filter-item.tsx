@@ -42,6 +42,7 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
   return (
     <motion.div
       initial={false}
+      data-testid="filterCheckbox"
       onMouseLeave={() => setOpen(false)}
       animate={open ? 'open' : 'closed'}
       className={classNames(styles.wrapper, {[styles.topBordered]: hasAppliedSubfilter || isChecked})}
@@ -59,7 +60,7 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
           style={{originY: 0.55, originX: 0.4}}
           variants={{open: {rotate: -90}, closed: {rotate: 0}}}
         >
-          {hasSubfilters && <Icons.BackSmall />}
+          {hasSubfilters && <Icons.Back />}
         </motion.div>
       </motion.button>
       {hasSubfilters && (

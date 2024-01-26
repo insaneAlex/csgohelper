@@ -1,31 +1,27 @@
-import {calculateOpacity, calculateTransform, calculateZindex} from '../helpers';
-import {PORTAL_CONTENT_ANIMATION_DURATION} from '../constants';
-import {useSpring, animated} from 'react-spring';
-import {useSwipeable} from 'react-swipeable';
 import {FC} from 'react';
+import {Variants, motion} from 'framer-motion';
+import modalStyles from 'styles/export.module.scss';
 
 import styles from './content.module.scss';
 
-type Props = {children: React.ReactNode; visible?: boolean; onClose: () => void};
+type Props = {children: React.ReactNode; visible?: boolean};
 
-export const Content: FC<Props> = ({children, visible, onClose}) => {
-  const calculateSpringConfig = (visible?: boolean) => ({
-    transform: calculateTransform({visible}),
-    opacity: calculateOpacity({visible}),
-    zIndex: calculateZindex({visible})
-  });
-
-  const mobileMenuConfig = useSpring({
-    ...calculateSpringConfig(visible),
-    from: {...calculateSpringConfig(visible === undefined ? visible : !visible)},
-    config: {duration: PORTAL_CONTENT_ANIMATION_DURATION}
-  });
-
-  const handlers = useSwipeable({onSwipedLeft: onClose, swipeDuration: PORTAL_CONTENT_ANIMATION_DURATION});
+export const Content: FC<Props> = ({children, visible}) => {
+  const {zIndexModal, translateXShow, translateXHide} = modalStyles;
+  const itemVariants: Variants = {
+    open: {opacity: 1, zIndex: zIndexModal, transform: translateXShow, transition: {type: 'spring', bounce: false}},
+    closed: {opacity: 0, transform: translateXHide, transition: {duration: 0.1}}
+  };
 
   return (
-    <animated.div {...handlers} style={mobileMenuConfig} className={styles.content}>
+    <motion.div
+      initial={false}
+      variants={itemVariants}
+      className={styles.content}
+      exit={{transform: translateXHide}}
+      animate={visible ? 'open' : 'closed'}
+    >
       {children}
-    </animated.div>
+    </motion.div>
   );
 };

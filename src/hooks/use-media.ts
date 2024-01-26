@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {createMediaQuery} from '../services/helpers';
+import {createMediaQuery} from '../services';
 import {DeviceSizeType} from '../services/types';
 import {
   LARGE_SCREEN_RANGE,

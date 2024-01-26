@@ -3,7 +3,7 @@
 .item {
   padding: 5px;
   width: 100% / $xx-large-grid-row-items;
-  transition: width 100ms;
+  transition: all 300ms;
   height: 170px;
 
   @media (max-width: $xx-large) {
@@ -20,7 +20,6 @@
   }
   @media (max-width: $mobile) {
     width: 100% / $mobile-grid-row-items;
-    height: 150px;
   }
 }
 
@@ -71,7 +70,6 @@
   &:hover {
     background-color: darken($box-bg, 0.9);
   }
-
   img {
     height: 246px;
     width: 330px;
@@ -89,9 +87,8 @@
     font-weight: bold;
     margin: 10px 0;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
   }
-
   .header {
     flex-direction: column-reverse;
   }

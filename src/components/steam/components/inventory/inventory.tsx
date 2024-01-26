@@ -1,10 +1,10 @@
 import {ResponsiveInventoryList} from '../responsive-inventory-list';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {DUPLICATES_PARAM, SORT, SORT_OPTIONS} from './constants';
-import {useRowGridItems} from '@/src/hooks/use-row-grid-items';
 import {Pagination, ToggleButton} from '@/src/components/ui';
 import {ChangeEvent, FC, useMemo, useState} from 'react';
 import {addQueryParam} from '@/src/services/helpers';
+import {useRowGridItems} from '@/src/hooks';
 import {SortDropdown} from './components';
 import {NextRouter} from 'next/router';
 import {paginate} from '../../helpers';
