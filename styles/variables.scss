@@ -23,13 +23,13 @@ $translate-x-show: translateX(0px);
 $mobile: 425px;
 $medium: 768px;
 $large: 1024px;
-$xx-large: 1500px;
+$x-large: 1500px;
 
 $mobile-grid-row-items: 2;
 $small-grid-row-items: 3;
 $medium-grid-row-items: 4;
 $large-grid-row-items: 6;
-$xx-large-grid-row-items: 9;
+$x-large-grid-row-items: 9;
 
 @mixin portal-overlay {
   bottom: 0;

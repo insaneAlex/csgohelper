@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import 'styles/index.scss';
 
 .header {
   min-height: 50px;
@@ -62,7 +62,7 @@
   display: none;
 }
 
-@media (max-width: $large) {
+@include large-screen {
   .hamburger {
     display: inline;
   }

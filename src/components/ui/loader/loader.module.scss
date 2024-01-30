@@ -1,12 +1,12 @@
-@import 'styles/variables.scss';
+@import 'styles/index.scss';
 
 .loader {
-  margin: 100px auto;
-  border-top: 1px dashed $main-font-color;
-  border-bottom: 1px dashed $base-dark;
   animation: spin 1s infinite ease-in-out;
+  border-bottom: 1px dashed $base-dark;
   border-radius: 50%;
+  border-top: 1px dashed $main-font-color;
   height: 75px;
+  margin: 100px auto;
   width: 75px;
   @keyframes spin {
     0% {

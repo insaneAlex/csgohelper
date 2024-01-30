@@ -10,7 +10,7 @@ const App = ({Component, pageProps}: AppProps) => {
       <AppLayout>
         <Head>
           <title>CS2.Helper</title>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+          <meta name="viewport" content="initial-scale=1.0, width=device-width, maximum-scale=1" />
         </Head>
         <Component {...pageProps} />
       </AppLayout>

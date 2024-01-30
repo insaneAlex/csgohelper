@@ -1,10 +1,35 @@
-@import 'styles/variables.scss';
+@import 'styles/index.scss';
 
-.layout {
+.wrapper {
   display: flex;
   flex: 1;
 
-  @media (max-width: $large) {
+  @include large-screen {
     flex-direction: column;
+  }
+}
+
+.header {
+  flex: 1;
+
+  .sorting {
+    display: flex;
+    flex-direction: row;
+    @include large-screen {
+      flex-direction: column;
+    }
+
+    .filters {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+
+      .info {
+        justify-content: space-between;
+        margin: 0 10px 10px 10px;
+        @include body-short;
+        @include box-container;
+      }
+    }
   }
 }

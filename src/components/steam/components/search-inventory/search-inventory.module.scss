@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import 'styles/index.scss';
 
 .wrapper {
   flex-direction: column;
@@ -33,18 +33,18 @@
 
   .buttonText {
     width: 200px;
-    @media (max-width: $large) {
+    @include large-screen {
       width: 150px;
       padding: 0 5px;
     }
-    @media (max-width: $mobile) {
+    @include mobile-screen {
       width: 120px;
       padding: 0 5px;
     }
   }
 }
 
-@media (max-width: $large) {
+@include large-screen {
   .wrapper {
     width: auto;
     margin: 10px;

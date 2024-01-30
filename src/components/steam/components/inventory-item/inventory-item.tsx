@@ -3,6 +3,7 @@ import {inventoryImageBaseUrl} from '../../constants';
 import {addQueryParam} from '@/src/services/helpers';
 import {getAvailablePrice} from '../../helpers';
 import {STAT_TRAK_PATTERN} from './constants';
+import {ItemOpened} from './components';
 import {NextRouter} from 'next/router';
 import {motion} from 'framer-motion';
 import React, {FC} from 'react';
@@ -38,6 +39,7 @@ export const InventoryItem: FC<Props> = ({item, isSelected, router}) => {
                 {description + amount}
               </motion.p>
             </motion.div>
+            <ItemOpened isOpened={isSelected} item={item} />
             {formattedPrice && <motion.span layout>{formattedPrice + '$'}</motion.span>}
           </motion.div>
         </>

@@ -1,9 +1,7 @@
+import {SteamProfileTile} from '../steam-profile-tile';
 import {render} from '@testing-library/react';
 
-import {SteamProfileTile} from '../steam-profile-tile';
-
 const useSelectorMock = jest.fn();
-jest.mock('../../../../../hooks', () => ({useListenToMediaQuery: jest.fn(), useMedia: jest.fn()}));
 jest.mock('react-redux', () => ({useSelector: () => useSelectorMock(), useDispatch: () => jest.fn()}));
 
 const profileMock = {avatarfull: 'https://avatars.full.jpg', personaname: 'boobaii', profileurl: 'url'};

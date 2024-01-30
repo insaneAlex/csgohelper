@@ -5,44 +5,39 @@ exports[`SteamProfileTile should render correctly 1`] = `
   <section
     class="profile"
   >
-    <div
-      class="imageWrapper"
+    <a
+      href="url"
+      target="_blank"
     >
-      <a
-        href="url"
-        target="_blank"
+      <img
+        alt="avatar"
+        data-nimg="1"
+        decoding="async"
+        fetchpriority="high"
+        height="80"
+        src="/_next/image?url=https%3A%2F%2Favatars.full.jpg&w=256&q=50"
+        srcset="/_next/image?url=https%3A%2F%2Favatars.full.jpg&w=96&q=50 1x, /_next/image?url=https%3A%2F%2Favatars.full.jpg&w=256&q=50 2x"
+        style="color: transparent;"
+        width="80"
+      />
+    </a>
+    <div
+      class="profileDescribe"
+    >
+      <p
+        class="ownerName"
       >
-        <img
-          alt="avatar"
-          data-nimg="1"
-          decoding="async"
-          fetchpriority="high"
-          height="75"
-          src="/_next/image?url=https%3A%2F%2Favatars.full.jpg&w=256&q=50"
-          srcset="/_next/image?url=https%3A%2F%2Favatars.full.jpg&w=96&q=50 1x, /_next/image?url=https%3A%2F%2Favatars.full.jpg&w=256&q=50 2x"
-          style="color: transparent;"
-          width="75"
-        />
-      </a>
-    </div>
-    <div
-      class="name"
-    >
-      <p>
         boobaii
-        's inventory:
       </p>
-      <div>
-        <p>
-          Items: 
-          111
-        </p>
-        <p>
-          Value: 
-          111$
-          $
-        </p>
-      </div>
+      <p>
+        Items: 
+        111
+      </p>
+      <p>
+        Value: 
+        111$
+        $
+      </p>
     </div>
   </section>
 </div>
