@@ -10,7 +10,7 @@ import styles from './filters.module.scss';
 type Props = {router: NextRouter; possibleFilters: StrArrObject};
 type FiltersType = {subFilter?: string; filter: string};
 
-export const Filters: FC<Props> = ({router, possibleFilters}) => {
+export const Filters: FC<Props> = ({router, possibleFilters = {}}) => {
   const {query} = router;
 
   const handleUpdateFilter = (filters: FiltersType) => {

@@ -13,7 +13,6 @@ import {sortItems} from '../sort-items';
 import {paginate} from '../paginate';
 import {isEmpty} from '../is-empty';
 
-jest.mock('@/src/services', () => ({}));
 describe('helpers', () => {
   afterEach(() => {
     jest.clearAllMocks();

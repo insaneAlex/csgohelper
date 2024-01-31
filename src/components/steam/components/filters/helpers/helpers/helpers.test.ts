@@ -1,7 +1,7 @@
 import {calculateFilterValue} from '../calculate-filter-value';
 import {isFilterApplied} from '../is-filter-applied';
 import {ParsedUrlQuery} from 'querystring';
-jest.mock('@/src/services', () => ({}));
+
 describe('helpers', () => {
   describe('isFilterApplied', () => {
     describe('when filters are array', () => {

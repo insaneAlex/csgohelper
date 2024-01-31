@@ -4,7 +4,6 @@ import Feedback from '../../pages/feedback';
 import {useSelector} from 'react-redux';
 
 const dispatchMock = jest.fn();
-jest.mock('@/src/services', () => ({}));
 jest.mock('next/router', () => ({useRouter: () => ({push: jest.fn()})}));
 jest.mock('react-redux', () => ({useSelector: jest.fn(), useDispatch: () => dispatchMock}));
 

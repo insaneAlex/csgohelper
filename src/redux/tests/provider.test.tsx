@@ -4,7 +4,6 @@ import {ReduxProvider} from '../provider';
 import {store} from '../store';
 import {ReactReduxContext} from 'react-redux';
 
-jest.mock('@/src/services', () => ({}));
 describe('ReduxProvider Component', () => {
   it('renders children with Redux store', () => {
     render(

@@ -2,7 +2,6 @@ import handler from '.,/../../pages/api/feedback';
 import {createMocks} from 'node-mocks-http';
 
 const sendMock = jest.fn();
-
 jest.mock('@/src/services', () => ({awsServices: {sendFeedback: () => sendMock()}}));
 
 describe('api/feedback', () => {

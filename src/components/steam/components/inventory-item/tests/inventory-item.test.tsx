@@ -4,7 +4,6 @@ import {InventoryItem} from '../inventory-item';
 import {PriceOptions} from '../../../types';
 import {NextRouter} from 'next/router';
 
-jest.mock('@/src/services', () => ({}));
 const routerMock = {useRouter: () => ({push: jest.fn()})} as unknown as NextRouter;
 const defaultProps = {router: routerMock, isSelected: false};
 describe('InventoryItem', () => {

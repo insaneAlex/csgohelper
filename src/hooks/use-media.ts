@@ -13,9 +13,9 @@ export const useListenToMediaQuery = (query: DeviceSizeType, onMatch: () => void
   useEffect(() => {
     const mediaQuery = createMediaQuery(query);
     const handler = (event: MediaQueryListEvent) => event?.matches && onMatch();
-    mediaQuery.addListener(handler);
+    mediaQuery.addEventListener('change', handler);
     return () => {
-      mediaQuery.removeListener(handler);
+      mediaQuery.removeEventListener('change', handler);
     };
   }, []);
 };

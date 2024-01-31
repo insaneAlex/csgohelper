@@ -1,8 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import {AppLayout} from '../app-layout';
 
-jest.mock('@/src/services', () => ({}));
-jest.mock('../../../../hooks', () => ({useListenToMediaQuery: jest.fn(), useMedia: jest.fn()}));
 describe('AppLayout', () => {
   it('should render child correctly', () => {
     render(<AppLayout>mock content</AppLayout>);

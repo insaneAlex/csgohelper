@@ -2,8 +2,6 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {Filters} from '../filters';
 import {NextRouter} from 'next/router';
 
-jest.mock('@/src/services', () => ({}));
-
 const SNIPER_RIFLE = 'Sniper Rifle';
 const RIFLE = 'Rifle';
 const CONTAINER = 'Container';
