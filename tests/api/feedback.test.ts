@@ -3,7 +3,7 @@ import {createMocks} from 'node-mocks-http';
 
 const sendMock = jest.fn();
 
-jest.mock('../../src/services', () => ({awsServices: {sendFeedback: () => sendMock()}}));
+jest.mock('@/src/services', () => ({awsServices: {sendFeedback: () => sendMock()}}));
 
 describe('api/feedback', () => {
   describe('when not post request', () => {

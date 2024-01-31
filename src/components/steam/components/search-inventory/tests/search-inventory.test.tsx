@@ -5,7 +5,7 @@ import {InventoryStatuses} from '@/src/redux/features';
 
 const steamid = 'steamid';
 const dispatchMock = jest.fn();
-jest.mock('../../../../../services', () => ({storage: {localStorage: {get: jest.fn(() => steamid)}}}));
+jest.mock('@/src/services', () => ({storage: {localStorage: {get: jest.fn(() => steamid)}}}));
 jest.mock('react-redux', () => ({useSelector: jest.fn(), useDispatch: () => dispatchMock}));
 
 describe('SearchInventory', () => {

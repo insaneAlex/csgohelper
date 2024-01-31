@@ -7,7 +7,7 @@ import {ResponsiveInventoryList} from '../responsive-inventory-list';
 
 const dispatchMock = jest.fn();
 const selectedId = 'id2';
-jest.mock('../../../../../services', () => ({}));
+jest.mock('@/src/services', () => ({}));
 jest.mock('react-redux', () => ({useSelector: jest.fn(), useDispatch: () => dispatchMock}));
 const routerMock = {useRouter: () => ({push: jest.fn()}), query: {item: selectedId}} as unknown as NextRouter;
 const defaultProps = {router: routerMock};

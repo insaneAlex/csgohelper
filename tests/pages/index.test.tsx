@@ -1,6 +1,6 @@
-import {InventoryItemType} from '@/src/services/steam-inventory';
 import {InventoryStatuses} from '@/src/redux/features';
 import {render, screen} from '@testing-library/react';
+import {InventoryItemType} from '@/src/services';
 import itemsMock from '../../mocks/items.json';
 import {SteamInventory} from '@/pages';
 
@@ -9,7 +9,7 @@ jest.mock('../../src/hooks', () => ({
   useMedia: () => jest.fn(),
   useRowGridItems: jest.fn().mockImplementation(() => ({itemsPerRow: 5, rowsAmount: 5}))
 }));
-jest.mock('../../src/services', () => ({storage: {localStorage: {get: () => 'steamid'}}}));
+jest.mock('@/src/services', () => ({storage: {localStorage: {get: () => 'steamid'}}}));
 jest.mock('next/router', () => ({useRouter: () => ({query: {'Pistol': 'Fiv'}})}));
 jest.mock('react-redux', () => ({useDispatch: () => jest.fn(), useSelector: jest.fn(), connect: () => jest.fn}));
 
@@ -20,7 +20,7 @@ const defaultProps = {
   status: InventoryStatuses.IDLE,
   inventoryItems: itemsMock as unknown as InventoryItemType[]
 };
-
+jest.mock('@/src/redux/features');
 describe('SteamInventory', () => {
   it('should render elements', () => {
     render(<SteamInventory {...defaultProps} />);

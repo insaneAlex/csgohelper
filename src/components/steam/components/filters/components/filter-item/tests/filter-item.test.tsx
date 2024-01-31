@@ -2,7 +2,7 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {FilterItem} from '../filter-item';
 import {NextRouter} from 'next/router';
 
-jest.mock('../../../../../../../services', () => ({}));
+jest.mock('@/src/services', () => ({}));
 
 const RIFLE = 'Rifle';
 const AUG = 'AUG';

@@ -1,5 +1,5 @@
 import {getItemsStart, getItemsSuccess, getItemsError, inventoryReducer} from '../slice';
-import {InventoryItemType} from '@/src/services/steam-inventory';
+import {InventoryItemType} from '@/src/services';
 import {InventoryStatuses} from '../types';
 
 describe('Inventory Slice', () => {

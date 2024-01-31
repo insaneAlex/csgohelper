@@ -19,6 +19,12 @@ const customJestConfig = {
     '!<rootDir>/src/services/environment.ts'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleNameMapper: {
+    '^@/src/redux/features': '<rootDir>/src/redux/features',
+    '^@/src/services': '<rootDir>/src/services',
+    '^@/core': '<rootDir>/core',
+  },
+
   testEnvironment: 'jest-environment-jsdom'
 };
 

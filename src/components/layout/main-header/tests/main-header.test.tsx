@@ -1,7 +1,7 @@
 import {render, screen} from '@testing-library/react';
 import {MainHeader} from '../main-header';
 
-jest.mock('../../../../services', () => ({
+jest.mock('@/src/services', () => ({
   createMediaQuery: () => ({addListener: jest.fn(), removeListener: jest.fn()})
 }));
 
