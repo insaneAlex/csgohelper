@@ -22,12 +22,12 @@ export const InventoryLayout: FC<Props> = ({items, router}) => {
   const isLoading = status === InventoryStatuses.INIT_LOAD;
   const filters = getAppliedFilterParams(possibleFilters, router.query);
   const modifiedItems = modifyInventory({inventoryItems: items, filters, query: router.query});
-
+  const hasItems = items.length > 0;
   const renderInventory = () => {
     if (isLoading) {
       return <Loader />;
     }
-    if (items.length > 0) {
+    if (hasItems) {
       return <Inventory items={modifiedItems} router={router} />;
     }
   };
@@ -48,15 +48,17 @@ export const InventoryLayout: FC<Props> = ({items, router}) => {
           />
           <div className={styles.filters}>
             <Filters router={router} possibleFilters={possibleFilters} />
-            <section className={styles.info}>
-              <ToggleButton label="hide duplicates" onClick={toggleDuplicates} checked={isChecked} />
-              <Dropdown
-                name={SORT}
-                onChange={sortInventory}
-                options={SORT_OPTIONS}
-                selected={selectedValue || SortTypes.Relevance}
-              />
-            </section>
+            {hasItems && (
+              <section className={styles.info}>
+                <ToggleButton label="hide duplicates" onClick={toggleDuplicates} checked={isChecked} />
+                <Dropdown
+                  name={SORT}
+                  onChange={sortInventory}
+                  options={SORT_OPTIONS}
+                  selected={selectedValue || SortTypes.Relevance}
+                />
+              </section>
+            )}
           </div>
         </div>
         {renderInventory()}
