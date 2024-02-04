@@ -97,10 +97,6 @@
 .empty {
   background-color: darken($box-bg, 0.9);
   height: 100%;
-  cursor: default;
-  &:hover {
-    background-color: darken($box-bg, 0.9);
-  }
 }
 
 .describe {
