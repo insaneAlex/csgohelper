@@ -6,6 +6,10 @@
   margin: 10px 0 10px 10px;
 
   @include box-container;
+  @include large-screen {
+    flex-direction: row;
+    margin: 10px 10px 0;
+  }
 
   img {
     margin-right: 10px;
@@ -22,16 +26,5 @@
     justify-content: flex-start;
     width: 150px;
     @include body-short;
-  }
-}
-
-@include large-screen {
-  .profile {
-    flex-direction: row;
-    margin: 10px 10px 0;
-  }
-
-  .profileDescribe {
-    justify-content: space-between;
   }
 }

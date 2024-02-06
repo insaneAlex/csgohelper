@@ -1,12 +1,11 @@
+import {ResponsiveInventoryList} from '../responsive-inventory-list';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {render, screen} from '@testing-library/react';
-
 import {PriceOptions} from '../../../types';
 import {NextRouter} from 'next/router';
-import {ResponsiveInventoryList} from '../responsive-inventory-list';
 
-const dispatchMock = jest.fn();
 const selectedId = 'id2';
+const dispatchMock = jest.fn();
 jest.mock('react-redux', () => ({useSelector: jest.fn(), useDispatch: () => dispatchMock}));
 const routerMock = {useRouter: () => ({push: jest.fn()}), query: {item: selectedId}} as unknown as NextRouter;
 const defaultProps = {router: routerMock};
@@ -14,7 +13,6 @@ describe('ResponsiveInventoryList', () => {
   const itemName = 'itmName';
   const item = {
     icon_url: 'icn',
-    name_color: 'clr',
     name: itemName,
     assetid: 'id1',
     exterior: 'f',

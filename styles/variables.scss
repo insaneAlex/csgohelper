@@ -39,8 +39,8 @@ $large-grid-row-items: 6;
 $x-large-grid-row-items: 9;
 
 @mixin portal-overlay {
-  position: fixed;
   inset: 0;
+  position: fixed;
 }
 
 @mixin box-container {

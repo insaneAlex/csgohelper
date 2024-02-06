@@ -7,6 +7,10 @@
   margin: 10px auto;
 
   @include box-container;
+  @include large-screen {
+    width: auto;
+    margin: 10px;
+  }
 
   .header {
     margin: 0 20px 25px;
@@ -48,12 +52,5 @@
       font-weight: bold;
       font-family: 'Courier New', Courier, monospace;
     }
-  }
-}
-
-@include large-screen {
-  .wrapper {
-    width: auto;
-    margin: 10px;
   }
 }

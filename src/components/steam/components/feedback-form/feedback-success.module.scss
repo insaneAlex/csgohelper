@@ -10,6 +10,10 @@
 
   @include box-container;
   @include body-short;
+  @include large-screen {
+    width: auto;
+    margin: 10px;
+  }
 
   .title {
     font-size: 18px;
@@ -18,12 +22,5 @@
 
   .text {
     margin-bottom: 25px;
-  }
-}
-
-@include large-screen {
-  .wrapper {
-    width: auto;
-    margin: 10px;
   }
 }

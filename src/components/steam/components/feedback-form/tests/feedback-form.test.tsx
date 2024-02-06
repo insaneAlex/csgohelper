@@ -2,7 +2,6 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {FeedbackForm} from '../feedback-form';
 
 const dispatchMock = jest.fn();
-
 jest.mock('react-redux', () => ({useDispatch: () => dispatchMock, useSelector: jest.fn()}));
 
 describe('FeedbackForm', () => {

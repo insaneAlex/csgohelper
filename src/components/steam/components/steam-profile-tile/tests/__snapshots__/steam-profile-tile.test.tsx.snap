@@ -15,8 +15,8 @@ exports[`SteamProfileTile should render correctly 1`] = `
         decoding="async"
         fetchpriority="high"
         height="80"
-        src="/_next/image?url=https%3A%2F%2Favatars.full.jpg&w=256&q=50"
-        srcset="/_next/image?url=https%3A%2F%2Favatars.full.jpg&w=96&q=50 1x, /_next/image?url=https%3A%2F%2Favatars.full.jpg&w=256&q=50 2x"
+        src="/_next/image?url=https%3A%2F%2Fava.jpg&w=256&q=50"
+        srcset="/_next/image?url=https%3A%2F%2Fava.jpg&w=96&q=50 1x, /_next/image?url=https%3A%2F%2Fava.jpg&w=256&q=50 2x"
         style="color: transparent;"
         width="80"
       />
@@ -27,7 +27,7 @@ exports[`SteamProfileTile should render correctly 1`] = `
       <p
         class="ownerName"
       >
-        boobaii
+        boob
       </p>
       <p>
         Items: 
