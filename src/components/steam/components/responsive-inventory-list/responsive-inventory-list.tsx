@@ -2,6 +2,7 @@ import {InventoryItemType} from '@/src/services/steam-inventory';
 import {addQueryParam} from '@/src/services/helpers';
 import {itemsUpdateTimeSelector} from '@/src/redux';
 import {InventoryItem} from '../inventory-item';
+import {Portal} from '@/src/components/ui';
 import {useSelector} from 'react-redux';
 import {NextRouter} from 'next/router';
 import React, {FC} from 'react';
@@ -14,10 +15,6 @@ export const ResponsiveInventoryList: FC<Props> = ({items, router}) => {
   const updateTime = useSelector(itemsUpdateTimeSelector);
   const unselectItem = () => addQueryParam({router, param: {item: []}});
 
-  // TODO: FIX + add overlay scroll lock + overlay close on escape press + combine or replace Portal.Portal
-  // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-  const Overlay: FC = () => <div data-testid="overlay" onClick={unselectItem} className={styles.overlay} />;
-
   return (
     <section className={styles.wrapper}>
       {updateTime && <p className={styles.updateTime}>inventory cached, last update - {updateTime}</p>}
@@ -26,7 +23,7 @@ export const ResponsiveInventoryList: FC<Props> = ({items, router}) => {
           const isSelected = router.query.item === item.assetid;
           return (
             <React.Fragment key={item.assetid}>
-              {isSelected && <Overlay />}
+              {isSelected && <Portal.Overlay onClick={unselectItem} visible />}
               <InventoryItem item={item} router={router} isSelected={isSelected} />
             </React.Fragment>
           );

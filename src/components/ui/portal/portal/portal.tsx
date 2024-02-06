@@ -5,7 +5,7 @@ import modalStyles from 'styles/export.module.scss';
 
 import styles from './portal.module.scss';
 
-type Props = {visible?: boolean; children: React.ReactNode; onEscapePressed?: (e: KeyboardEvent) => void};
+type Props = {visible?: boolean; children: React.ReactNode};
 export const Portal: FC<Props> = ({children, visible}) => {
   const [portalNode, setPortalNode] = useState<HTMLDivElement | null>(null);
   const {zIndexModal, zIndexHidden} = modalStyles;
