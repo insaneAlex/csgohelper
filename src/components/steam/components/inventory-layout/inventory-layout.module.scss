@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .wrapper {
   display: flex;
@@ -26,7 +26,7 @@
 
       .info {
         justify-content: space-between;
-        margin: 0 10px 10px 10px;
+        margin: 0 10px 10px;
         @include body-short;
         @include box-container;
       }

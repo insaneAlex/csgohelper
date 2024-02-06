@@ -1,30 +1,37 @@
+// main font color
 $main-font-color: #dcdcdc;
 
+// main elements colors
 $base-dark: #121217;
 $box-bg: #232527;
 $box-element-color: #333;
 
+// colors
 $dark-red: #800000;
 $dark-green: #006400;
 $dark-grey: #3f3f3f;
+$disabled: #1c1d26;
 
+// z-index
 $z-index-hidden: -1;
 $z-index-normal: 1;
 $z-index-modal: 101;
 
-$disabled: #1c1d26;
-
+// opacity
 $full-opacity: 1;
 $no-opacity: 0;
 
-$translate-x-hide: translateX(-1000px);
-$translate-x-show: translateX(0px);
+// appear/disappear
+$translate-x-hide: -1000;
+$translate-x-show: 0;
 
+// screen sizes
 $mobile: 425px;
 $medium: 768px;
 $large: 1024px;
 $x-large: 1500px;
 
+// grid elements amount
 $mobile-grid-row-items: 2;
 $small-grid-row-items: 3;
 $medium-grid-row-items: 4;
@@ -32,11 +39,8 @@ $large-grid-row-items: 6;
 $x-large-grid-row-items: 9;
 
 @mixin portal-overlay {
-  bottom: 0;
-  left: 0;
   position: fixed;
-  right: 0;
-  top: 0;
+  inset: 0;
 }
 
 @mixin box-container {

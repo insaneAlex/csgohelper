@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .wrapper {
   flex-direction: column;
@@ -9,6 +9,7 @@
   .fields {
     display: flex;
     gap: 10px;
+
     label {
       flex: 1;
     }
@@ -49,6 +50,7 @@
     width: auto;
     margin: 10px;
   }
+
   .note {
     font-size: 0.9em;
   }

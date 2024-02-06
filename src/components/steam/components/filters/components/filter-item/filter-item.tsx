@@ -80,7 +80,7 @@ export const FilterItem: FC<Props> = ({filter, isChecked, subFilters, onFilterUp
                   label={filterKey}
                   checked={isFilterApplied(appliedSubfilters, filterKey) || isFilterApplied(router.query.type, filter)}
                 />
-                {!(i === subFiltersLenght - 1) && <Separator noMargin />}
+                {!(i === subFiltersLenght - 1) && <Separator />}
               </motion.li>
             ))}
           </motion.ul>

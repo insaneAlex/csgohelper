@@ -47,7 +47,7 @@ export const SearchInventory: FC<{inventoryStatus: string}> = ({inventoryStatus}
         <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
       </div>
 
-      <Separator noMargin />
+      <Separator />
     </>
   );
 };

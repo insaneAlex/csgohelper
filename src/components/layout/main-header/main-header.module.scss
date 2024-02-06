@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .header {
   min-height: 50px;
@@ -66,9 +66,11 @@
   .hamburger {
     display: inline;
   }
+
   .container {
     flex-direction: row;
   }
+
   .items {
     display: none;
   }

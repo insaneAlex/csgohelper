@@ -1,9 +1,9 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .content {
   background: $box-bg;
   position: relative;
   width: 75%;
   height: 100vh;
-  box-shadow: 5px 0px 10px 0px $base-dark;
+  box-shadow: 5px 0 10px 0 $base-dark;
 }

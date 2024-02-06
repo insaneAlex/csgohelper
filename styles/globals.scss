@@ -1,8 +1,9 @@
-@import 'styles/index.scss';
+@import 'styles/variables';
 
 html {
   background: $base-dark;
 }
+
 *,
 *::after,
 *::before {

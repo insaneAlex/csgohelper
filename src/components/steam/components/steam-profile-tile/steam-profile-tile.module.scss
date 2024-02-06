@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .profile {
   font-size: 15px;
@@ -28,8 +28,9 @@
 @include large-screen {
   .profile {
     flex-direction: row;
-    margin: 10px 10px 0 10px;
+    margin: 10px 10px 0;
   }
+
   .profileDescribe {
     justify-content: space-between;
   }

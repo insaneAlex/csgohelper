@@ -6,10 +6,11 @@
     "dev": "next dev",
     "lint": "next lint",
     "check-types": "tsc",
-    "check": "npm run check-types && npm run lint && npm run test --coverage",
-    "build": "next build",
+    "check": "npm run check-types && npm run stylelint && npm run lint && npm run test --coverage",
+    "build": "npm run check-types && npm run stylelint && npm run lint && npm run test && next build",
     "start": "next start",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "stylelint": "stylelint \"**/*.scss\""
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.433.0",
@@ -52,6 +53,9 @@
     "jest-environment-jsdom": "^29.7.0",
     "node-mocks-http": "^1.13.0",
     "prettier": "^3.0.3",
-    "redux-saga-test-plan": "^4.0.6"
+    "redux-saga-test-plan": "^4.0.6",
+    "stylelint": "^16.2.1",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^13.0.0"
   }
 }

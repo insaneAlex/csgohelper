@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .hamburgerBtn {
   align-items: center;
@@ -9,25 +9,29 @@
   height: 50px;
   cursor: pointer;
   box-sizing: border-box;
+
   &:hover {
     background: $box-bg;
   }
+
   &:active {
     background: $box-element-color;
   }
 }
 
 .links {
-  gap: 20px;
   display: flex;
   flex-direction: column;
+  gap: 20px;
   padding: 90px 0 0 40px;
 }
 
 .link {
   font-size: 24px;
+
   svg {
     margin-right: 5px;
   }
+
   @include body-short-link;
 }

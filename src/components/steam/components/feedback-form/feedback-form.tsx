@@ -64,7 +64,7 @@ export const FeedbackForm: FC = () => {
             onChange={handleInputChange}
           />
           <AnimatePresence>{textError && <motion.div {...errorAnimateProps}>{textError}</motion.div>}</AnimatePresence>
-          <Separator noMargin />
+          <Separator />
           <Button isSubmit loading={isLoading} disabled={isLoading}>
             Submit
           </Button>

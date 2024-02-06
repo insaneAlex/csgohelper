@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .wrapper {
   flex-direction: column;
@@ -15,6 +15,7 @@
     font-size: 18px;
     margin-bottom: 25px;
   }
+
   .text {
     margin-bottom: 25px;
   }

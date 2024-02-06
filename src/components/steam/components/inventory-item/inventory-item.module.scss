@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .item {
   padding: 5px;
@@ -39,12 +39,28 @@
   &:hover {
     background-color: $box-element-color;
   }
+
   .header {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
+  }
+}
+
+.describe {
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  @include large-screen {
+    font-size: 12px;
+  }
+  @include mobile-screen {
+    font-size: 10px;
   }
 }
 
@@ -70,6 +86,7 @@
   &:hover {
     background-color: darken($box-bg, 0.9);
   }
+
   img {
     height: 246px;
     width: 330px;
@@ -89,6 +106,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+
   .header {
     flex-direction: column-reverse;
   }
@@ -97,19 +115,4 @@
 .empty {
   background-color: darken($box-bg, 0.9);
   height: 100%;
-}
-
-.describe {
-  font-size: 13px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-  text-overflow: ellipsis;
-  @include large-screen {
-    font-size: 12px;
-  }
-  @include mobile-screen {
-    font-size: 10px;
-  }
 }

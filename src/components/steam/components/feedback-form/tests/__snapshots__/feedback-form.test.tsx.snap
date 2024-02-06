@@ -29,7 +29,7 @@ exports[`FeedbackForm should render correctly 1`] = `
         rows="10"
       />
       <hr
-        class="separator noMargin"
+        class="separator"
       />
       <button
         class="button"

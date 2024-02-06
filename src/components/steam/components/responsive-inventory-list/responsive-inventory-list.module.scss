@@ -1,8 +1,8 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .wrapper {
   flex-direction: column;
-  margin: 0 10px 10px 10px;
+  margin: 0 10px 10px;
   @include box-container;
 
   .list {

@@ -1,4 +1,4 @@
-@import 'styles/index.scss';
+@import 'styles/index';
 
 .button {
   background-color: $box-element-color;
@@ -11,15 +11,18 @@
   position: relative;
   font-weight: 500;
   transition: background-color 200ms ease-in-out;
+
   &:active {
     transform: scale(0.97);
   }
+
   @include body-short;
 }
 
 .loading {
   font-size: 0;
-  &:before {
+
+  &::before {
     border-radius: 50%;
     content: '';
     height: 2px;
@@ -45,8 +48,7 @@
 }
 
 @keyframes loading {
-  0%,
-  to {
+  0% {
     box-shadow:
       -18px 0 0 1px $main-font-color,
       -6px 0 0 1px rgba($main-font-color, 0.6),
