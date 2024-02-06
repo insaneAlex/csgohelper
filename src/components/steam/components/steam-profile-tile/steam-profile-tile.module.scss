@@ -1,19 +1,30 @@
-@import 'styles/variables.scss';
+@import 'styles/index';
 
 .profile {
-  display: flex;
+  font-size: 15px;
+  flex-direction: row;
+  margin: 10px 0 10px 10px;
 
-  @media (max-width: 768px) {
-    margin: 15px 0;
+  @include box-container;
+  @include large-screen {
+    flex-direction: row;
+    margin: 10px 10px 0;
   }
 
-  .name {
+  img {
+    margin-right: 10px;
+    display: block;
+  }
+
+  .ownerName {
+    margin-bottom: 25px;
+  }
+
+  .profileDescribe {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 0 0 0 10px;
-    text-align: left;
-
+    justify-content: flex-start;
+    width: 150px;
     @include body-short;
   }
 }

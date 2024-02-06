@@ -1,5 +1,6 @@
 import {FeedbackStatuses, feedbackStatusSelector, postFeedbackStart} from '@/src/redux/features';
 import {ChangeEvent, FC, FormEvent, useState} from 'react';
+import {AnimatePresence, motion} from 'framer-motion';
 import {Button, Separator} from '@/src/components/ui';
 import {useDispatch, useSelector} from 'react-redux';
 import {NAME_FIELD, TEXT_FIELD} from './constants';
@@ -37,36 +38,38 @@ export const FeedbackForm: FC = () => {
 
   const textError = formState?.errors?.text;
   const nameError = formState?.errors?.name;
+  const errorAnimateProps = {className: styles.error, initial: {opacity: 0}, animate: {opacity: 1}, exit: {opacity: 0}};
   return (
     <>
-      <h1 className={styles.header}>Have any thoughts or ideas? Share them with us below</h1>
+      <section className={styles.wrapper}>
+        <h1 className={styles.header}>Have any thoughts or ideas? Share them with us below</h1>
 
-      <form className={styles.form} onSubmit={handleSubmit} data-testid="feedback-form">
-        <input
-          id={NAME_FIELD}
-          name={NAME_FIELD}
-          value={formState.formValues.name}
-          className={styles.input}
-          placeholder="Your name or e-mail"
-          onChange={handleInputChange}
-        />
-        {nameError && <div className={styles.error}>{nameError}</div>}
-        <textarea
-          rows={10}
-          id={TEXT_FIELD}
-          name={TEXT_FIELD}
-          value={formState.formValues.text}
-          className={styles.text}
-          placeholder="Write feedback"
-          onChange={handleInputChange}
-        />
-        {textError && <div className={styles.error}>{textError}</div>}
-
-        <Separator smallMargin />
-        <Button isSubmit loading={isLoading} disabled={isLoading}>
-          Submit
-        </Button>
-      </form>
+        <form className={styles.form} onSubmit={handleSubmit} data-testid="feedback-form">
+          <input
+            id={NAME_FIELD}
+            name={NAME_FIELD}
+            value={formState.formValues.name}
+            className={styles.input}
+            placeholder="Your name or e-mail"
+            onChange={handleInputChange}
+          />
+          <AnimatePresence>{nameError && <motion.div {...errorAnimateProps}>{nameError}</motion.div>}</AnimatePresence>
+          <textarea
+            rows={10}
+            id={TEXT_FIELD}
+            name={TEXT_FIELD}
+            value={formState.formValues.text}
+            className={styles.text}
+            placeholder="Write feedback"
+            onChange={handleInputChange}
+          />
+          <AnimatePresence>{textError && <motion.div {...errorAnimateProps}>{textError}</motion.div>}</AnimatePresence>
+          <Separator />
+          <Button isSubmit loading={isLoading} disabled={isLoading}>
+            Submit
+          </Button>
+        </form>
+      </section>
     </>
   );
 };

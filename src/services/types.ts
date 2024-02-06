@@ -18,3 +18,5 @@ export type PriceType = {
   [PriceOptions.MONTH]: PriceOptionType;
   [PriceOptions.ALL]: PriceOptionType;
 };
+
+export type DeviceSizeType = {minWidth?: number; maxWidth?: number};

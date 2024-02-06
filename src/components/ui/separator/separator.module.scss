@@ -1,13 +1,6 @@
-@import 'styles/variables.scss';
+@import 'styles/index';
 
 .separator {
   border: none;
-  border-bottom: 1px solid $darken-light;
-  margin: 20px auto;
-}
-.smallMargin {
-  margin: 10px auto;
-}
-.noMargin {
-  margin: auto;
+  border-bottom: 1px solid $box-element-color;
 }

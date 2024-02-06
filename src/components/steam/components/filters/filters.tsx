@@ -10,7 +10,7 @@ import styles from './filters.module.scss';
 type Props = {router: NextRouter; possibleFilters: StrArrObject};
 type FiltersType = {subFilter?: string; filter: string};
 
-export const Filters: FC<Props> = ({router, possibleFilters}) => {
+export const Filters: FC<Props> = ({router, possibleFilters = {}}) => {
   const {query} = router;
 
   const handleUpdateFilter = (filters: FiltersType) => {
@@ -26,17 +26,19 @@ export const Filters: FC<Props> = ({router, possibleFilters}) => {
 
   const typefilters = Object.keys(possibleFilters).sort();
   return (
-    <section className={styles.filters}>
-      {typefilters.map((filter) => (
-        <FilterItem
-          key={filter}
-          router={router}
-          filter={filter}
-          onFilterUpdate={handleUpdateFilter}
-          subFilters={possibleFilters[filter]}
-          isChecked={isFilterApplied(query.type, filter)}
-        />
-      ))}
-    </section>
+    typefilters.length > 0 && (
+      <section className={styles.filters}>
+        {typefilters.map((filter) => (
+          <FilterItem
+            key={filter}
+            router={router}
+            filter={filter}
+            onFilterUpdate={handleUpdateFilter}
+            subFilters={possibleFilters[filter]}
+            isChecked={isFilterApplied(query.type, filter)}
+          />
+        ))}
+      </section>
+    )
   );
 };

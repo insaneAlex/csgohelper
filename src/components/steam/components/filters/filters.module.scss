@@ -1,6 +1,9 @@
+@import 'styles/index';
+
 .filters {
-  display: flex;
   flex-wrap: wrap;
-  margin: 15px 10px 0 10px;
   gap: 5px;
+  margin: 10px;
+
+  @include box-container;
 }

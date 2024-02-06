@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SteamProfileTile should render correctly 1`] = `
+<div>
+  <section
+    class="profile"
+  >
+    <a
+      href="url"
+      target="_blank"
+    >
+      <img
+        alt="avatar"
+        data-nimg="1"
+        decoding="async"
+        fetchpriority="high"
+        height="80"
+        src="/_next/image?url=https%3A%2F%2Fava.jpg&w=256&q=50"
+        srcset="/_next/image?url=https%3A%2F%2Fava.jpg&w=96&q=50 1x, /_next/image?url=https%3A%2F%2Fava.jpg&w=256&q=50 2x"
+        style="color: transparent;"
+        width="80"
+      />
+    </a>
+    <div
+      class="profileDescribe"
+    >
+      <p
+        class="ownerName"
+      >
+        boob
+      </p>
+      <p>
+        Items: 
+        111
+      </p>
+      <p>
+        Value: 
+        111$
+        $
+      </p>
+    </div>
+  </section>
+</div>
+`;

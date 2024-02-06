@@ -4,7 +4,6 @@ exports[`SteamInventoryContainer should successfully pass props 1`] = `
 <div>
   inventoryItems
   onGetItems
-  possibleFilters
   status
 </div>
 `;

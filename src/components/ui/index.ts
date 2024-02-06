@@ -3,6 +3,7 @@ export {ErrorAlert} from './error-alert';
 export {Pagination} from './pagination';
 export {Separator} from './separator';
 export {Checkbox} from './checkbox';
+export {Dropdown} from './dropdown';
 export {Loader} from './loader';
 export {Button} from './button';
 export {Portal} from './portal';

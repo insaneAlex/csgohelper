@@ -8,6 +8,6 @@ export const AppLayout: FC<Props> = ({children}) => (
   <>
     <MainHeader />
     <main className={styles.main}>{children}</main>
-    <footer className={styles.footer}>2023 &#169;CS2.Helper</footer>
+    <footer className={styles.footer}>2023 &#169;CS2.Helper. This site is not affiliated with Valve or Steam</footer>
   </>
 );

@@ -1,0 +1,24 @@
+@import './variables.scss';
+
+:export {
+  zIndexHidden: $z-index-hidden;
+  zIndexNormal: $z-index-normal;
+  zIndexModal: $z-index-modal;
+
+  fullOpacity: $full-opacity;
+  noOpacity: $no-opacity;
+
+  translateXHide: $translate-x-hide;
+  translateXShow: $translate-x-show;
+
+  mobile: $mobile;
+  medium: $medium;
+  large: $large;
+  xlarge: $x-large;
+
+  mobileGridRowItems: $mobile-grid-row-items;
+  smallGridRowItems: $small-grid-row-items;
+  mediumGridRowItems: $medium-grid-row-items;
+  largeGridRowItems: $large-grid-row-items;
+  xLargeGridRowItems: $x-large-grid-row-items;
+}

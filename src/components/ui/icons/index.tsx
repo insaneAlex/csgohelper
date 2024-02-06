@@ -6,8 +6,7 @@ import {BackIcon} from './back-icon';
 
 export const Icons = {
   Hamburger: () => <HamburgerIcon width={30} height={30} />,
-  Back: () => <BackIcon width={30} height={30} />,
-  BackSmall: () => <BackIcon />,
+  Back: () => <BackIcon />,
 
   Portfolio: () => <PortfolioIcon />,
   Feedback: () => <FeedbackIcon />,

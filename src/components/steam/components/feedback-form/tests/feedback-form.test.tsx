@@ -1,11 +1,7 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import {FeedbackForm} from '../feedback-form';
 
-const routerPushMock = jest.fn();
 const dispatchMock = jest.fn();
-
-jest.mock('../../../../../services', () => ({noop: jest.fn()}));
-jest.mock('next/router', () => ({useRouter: () => ({push: routerPushMock})}));
 jest.mock('react-redux', () => ({useDispatch: () => dispatchMock, useSelector: jest.fn()}));
 
 describe('FeedbackForm', () => {

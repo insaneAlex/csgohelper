@@ -1,9 +1,8 @@
-@import 'styles/variables.scss';
+@import 'styles/index';
 
 .header {
   min-height: 50px;
   background: $base-dark;
-  margin-bottom: 20px;
 }
 
 .container {
@@ -13,19 +12,16 @@
   width: 100%;
   flex-direction: row-reverse;
   justify-content: space-between;
-  max-width: 1500px;
 }
 
 .navbar {
   align-items: center;
-  background: $base-dark;
-  box-shadow: 0px 5px 10px 0px $lighten-bg;
+  background: rgba($base-dark, 0.95);
   color: $main-font-color;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: auto;
-  opacity: 0.95;
   position: fixed;
   width: 100%;
   z-index: 2;
@@ -66,13 +62,15 @@
   display: none;
 }
 
-@media (max-width: 768px) {
+@include large-screen {
   .hamburger {
     display: inline;
   }
+
   .container {
     flex-direction: row;
   }
+
   .items {
     display: none;
   }

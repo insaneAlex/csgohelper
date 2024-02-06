@@ -2,7 +2,6 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {FeedbackSuccess} from '../feedback-success';
 
 const routerPushMock = jest.fn();
-jest.mock('../../../../../services', () => ({}));
 jest.mock('next/router', () => ({useRouter: () => ({push: routerPushMock})}));
 
 describe('FeedbackSuccess', () => {

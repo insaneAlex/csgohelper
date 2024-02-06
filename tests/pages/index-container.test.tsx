@@ -7,8 +7,6 @@ import {inventoryReducer} from '@/src/redux';
 import {Provider} from 'react-redux';
 import React from 'react';
 
-jest.mock('../../src/services', () => ({}));
-
 describe('SteamInventoryContainer', () => {
   const mockStore = configureStore({reducer: {[INVENTORY_KEY]: inventoryReducer}});
   it('should successfully pass props', () => {

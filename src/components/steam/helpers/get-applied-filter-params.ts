@@ -2,7 +2,7 @@ import {ParsedUrlQuery} from 'querystring';
 import {getParamValuesArray} from './get-param-values-array';
 import {StrArrObject} from '@/types';
 
-export const getAppliedFilterParams = (possibleFilters: StrArrObject, params: ParsedUrlQuery) => {
+export const getAppliedFilterParams = (possibleFilters: StrArrObject = {}, params: ParsedUrlQuery) => {
   const filters: StrArrObject = {};
   const parameters = {...params};
 

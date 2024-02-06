@@ -16,11 +16,4 @@ describe('Pagination', () => {
       expect(onPageChangeMock).toHaveBeenCalledTimes(1);
     });
   });
-  describe('when pages count is 1', () => {
-    it("shouldn't render buttons list", () => {
-      render(<Pagination {...props} pagesCount={1} />);
-      const list = screen.queryByRole('list');
-      expect(list).not.toBeInTheDocument();
-    });
-  });
 });

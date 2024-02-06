@@ -2,31 +2,33 @@
 
 exports[`InventoryItem should render correctly 1`] = `
 <div>
-  <a
+  <li
     class="item"
-    href="/items/id"
   >
-    <img
-      alt="itmName"
-      data-nimg="1"
-      decoding="async"
-      fetchpriority="high"
-      height="1"
-      src="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=16&q=50"
-      srcset="/_next/image?url=https%3A%2F%2Fsteamcommunity-a.akamaihd.net%2Feconomy%2Fimage%2Ficn&w=16&q=50 1x"
-      style="color: transparent;"
-      width="1"
-    />
-    <p
-      class="describe"
+    <div
+      class="link"
+      data-isopen="false"
     >
-      itmName
-    </p>
-    <span
-      class="price"
-    >
-      2.00$
-    </span>
-  </a>
+      <div
+        class="header"
+      >
+        <img
+          alt="itmName"
+          height="82"
+          loading="lazy"
+          src="https://steamcommunity-a.akamaihd.net/economy/image/icn"
+          width="110"
+        />
+        <p
+          class="describe"
+        >
+          itmName
+        </p>
+      </div>
+      <span>
+        2.00$
+      </span>
+    </div>
+  </li>
 </div>
 `;

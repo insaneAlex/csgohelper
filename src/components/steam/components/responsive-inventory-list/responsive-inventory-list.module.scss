@@ -1,15 +1,21 @@
-@import 'styles/variables.scss';
+@import 'styles/index';
 
-.item {
-  align-items: center;
-  background-color: $lighten-bg;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  transition: transform 100ms linear;
-}
+.wrapper {
+  flex-direction: column;
+  margin: 0 10px 10px;
+  @include box-container;
 
-.empty {
-  transition: none;
-  z-index: $z-index-hidden;
+  .updateTime {
+    font-size: 0.9em;
+    text-align: center;
+    padding: 0 10px;
+
+    @include body-short;
+  }
+
+  .list {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+  }
 }

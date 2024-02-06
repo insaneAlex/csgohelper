@@ -1,33 +1,28 @@
-import {getAppliedFilterParams, modifyInventory, SearchInventory, Inventory, Filters} from '@/src/components/steam';
-import {inventoryStatusSelector, itemsFiltersSelector, itemsSelector, getItemsStart, RootState} from '@/src/redux';
+import {inventoryStatusSelector, itemsSelector, getItemsStart, RootState} from '@/src/redux';
 import {GetInventoryPayloadType, InventoryStatuses} from '@/src/redux/features';
+import {SearchInventory, InventoryLayout} from '@/src/components/steam';
 import {InventoryItemType} from '@/src/services/steam-inventory';
-import {Loader, ErrorAlert} from '@/src/components/ui';
+import {ErrorAlert} from '@/src/components/ui';
 import {storage} from '@/src/services';
 import {useRouter} from 'next/router';
 import {STEAMID_PARAM} from '@/core';
 import {connect} from 'react-redux';
 import {FC, useEffect} from 'react';
-import {StrArrObject} from '@/types';
 
 type Props = {
   onGetItems: (a: GetInventoryPayloadType) => void;
   inventoryItems: InventoryItemType[];
-  possibleFilters: StrArrObject;
   status: InventoryStatuses;
 };
 
-export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventoryItems, status}) => {
+export const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, status}) => {
+  const router = useRouter();
   const steamid = storage.localStorage.get(STEAMID_PARAM);
   const hasNoItems = inventoryItems.length === 0;
 
   useEffect(() => {
     hasNoItems && steamid && onGetItems({steamid});
   }, []);
-
-  const router = useRouter();
-  const isLoading = status === InventoryStatuses.INIT_LOAD;
-  const filters = getAppliedFilterParams(possibleFilters, router.query);
 
   const renderError = () => {
     switch (status) {
@@ -38,33 +33,20 @@ export const SteamInventory: FC<Props> = ({onGetItems, possibleFilters, inventor
     }
   };
 
-  const renderContent = () => {
-    if (isLoading) {
-      return <Loader />;
-    }
-    if (!hasNoItems) {
-      return <Inventory items={modifyInventory({inventoryItems, filters, query: router.query})} router={router} />;
-    }
-  };
-
   return (
     <>
-      <SearchInventory loading={isLoading} />
+      <SearchInventory inventoryStatus={status} />
       {renderError()}
-      <Filters router={router} possibleFilters={possibleFilters} />
-      {renderContent()}
+      <InventoryLayout router={router} items={inventoryItems} />
     </>
   );
 };
 
 const mapStateToProps = (state: RootState) => ({
   status: inventoryStatusSelector(state),
-  inventoryItems: itemsSelector(state),
-  possibleFilters: itemsFiltersSelector(state)
+  inventoryItems: itemsSelector(state)
 });
-
 const mapDispatchToProps = {onGetItems: getItemsStart};
 
 export const SteamInventoryContainer = connect(mapStateToProps, mapDispatchToProps);
-
 export default SteamInventoryContainer(SteamInventory);

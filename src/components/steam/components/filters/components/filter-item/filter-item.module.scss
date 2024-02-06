@@ -1,10 +1,9 @@
-@import 'styles/variables.scss';
+@import 'styles/index';
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  background: $lighten-bg;
-  padding-right: 5px;
+  background: $box-element-color;
   border-top: 1px solid transparent;
 }
 
@@ -17,16 +16,22 @@
 }
 
 .list {
-  background: $lighten-bg;
+  background: $box-bg;
+  border: 1px solid $box-element-color;
   text-align: center;
   white-space: nowrap;
   z-index: $z-index-normal;
   position: absolute;
 }
 
+.subfilter {
+  cursor: pointer;
+}
+
 .button {
   align-items: center;
   background: transparent;
+  cursor: pointer;
   border: none;
   display: flex;
   justify-content: center;
@@ -41,4 +46,5 @@
 
 .iconWrapper {
   display: flex;
+  padding-right: 5px;
 }

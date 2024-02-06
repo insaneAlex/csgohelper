@@ -1,26 +1,28 @@
-@import 'styles/variables.scss';
+@import 'styles/index';
 
 .button {
-  background-color: $lighten-bg;
+  background-color: $box-element-color;
   cursor: pointer;
   font-size: 13px;
   height: 40px;
-  min-width: 150px;
   border-radius: 5px;
-  border: 1px solid $darken-light;
+  border: none;
   letter-spacing: 1px;
   position: relative;
   font-weight: 500;
   transition: background-color 200ms ease-in-out;
+
   &:active {
     transform: scale(0.97);
   }
+
   @include body-short;
 }
 
 .loading {
   font-size: 0;
-  &:before {
+
+  &::before {
     border-radius: 50%;
     content: '';
     height: 2px;
@@ -34,19 +36,19 @@
 }
 
 .disabled {
-  background-color: $dark-disabled;
+  background-color: $disabled;
 
   &:active {
     transform: none;
   }
+
   &:hover {
     cursor: not-allowed;
   }
 }
 
 @keyframes loading {
-  0%,
-  to {
+  0% {
     box-shadow:
       -18px 0 0 1px $main-font-color,
       -6px 0 0 1px rgba($main-font-color, 0.6),

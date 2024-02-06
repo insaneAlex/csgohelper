@@ -1,1 +1,2 @@
-export {useWindowWidth} from './use-window-width';
+export {useRowGridItems} from './use-row-grid-items';
+export {useMedia} from './use-media';

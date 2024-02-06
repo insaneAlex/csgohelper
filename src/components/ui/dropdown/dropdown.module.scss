@@ -1,0 +1,8 @@
+@import 'styles/index';
+
+.select {
+  background-color: $box-bg;
+  border: none;
+  cursor: pointer;
+  @include body-short;
+}

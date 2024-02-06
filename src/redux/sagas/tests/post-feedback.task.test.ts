@@ -4,7 +4,7 @@ import {expectSaga} from 'redux-saga-test-plan';
 
 const feedbackData = {text: 'text', name: 'name'};
 const postFeedbackMock = jest.fn();
-jest.mock('../../../../core', () => ({postFeedback: () => postFeedbackMock()}));
+jest.mock('@/core', () => ({postFeedback: () => postFeedbackMock()}));
 
 describe('postFeedbackTask', () => {
   it('should dispatch postFeedbackSuccess on successful postFeedback', async () => {

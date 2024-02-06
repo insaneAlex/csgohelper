@@ -1,17 +1,26 @@
-@import 'styles/variables.scss';
-
-.title {
-  font-size: 20px;
-  margin-bottom: 25px;
-}
-
-.text {
-  margin-bottom: 25px;
-}
+@import 'styles/index';
 
 .wrapper {
-  margin: 40px auto;
+  flex-direction: column;
   text-align: center;
+  justify-content: center;
+  min-height: 350px;
+  width: 650px;
+  margin: 10px auto;
 
+  @include box-container;
   @include body-short;
+  @include large-screen {
+    width: auto;
+    margin: 10px;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  .text {
+    margin-bottom: 25px;
+  }
 }

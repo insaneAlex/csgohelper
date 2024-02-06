@@ -9,7 +9,7 @@ const fetchPricesMock = jest.fn();
 const getInventoryMock = jest.fn();
 const updateDynamoMock = jest.fn();
 
-jest.mock('../../src/services', () => ({
+jest.mock('@/src/services', () => ({
   awsServices: {
     sendFeedback: () => sendMock(),
     fetchFromDynamoDB: () => fetchDynamoMock(),

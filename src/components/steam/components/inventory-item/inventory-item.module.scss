@@ -1,30 +1,118 @@
-@import 'styles/variables.scss';
+@import 'styles/index';
 
 .item {
-  align-items: center;
-  display: inline-flex;
-  flex-direction: column;
-  margin: 10px;
+  padding: 5px;
+  width: 100% / $x-large-grid-row-items;
+  transition: all 300ms;
+  height: 165px;
 
-  @include body-short-link;
+  @include x-large-screen {
+    width: 100% / $large-grid-row-items;
+    height: 160px;
+  }
+  @include large-screen {
+    width: 100% / $medium-grid-row-items;
+    height: 200px;
+  }
+  @include medium-screen {
+    width: 100% / $small-grid-row-items;
+    height: 150px;
+  }
+  @include mobile-screen {
+    width: 100% / $mobile-grid-row-items;
+  }
 }
 
-.price {
-  left: 0;
+.link {
+  align-items: center;
+  background-color: darken($box-bg, 0.9);
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
   padding: 10px;
-  position: absolute;
-  top: 0;
+
+  @include body-short;
+
+  &:hover {
+    background-color: $box-element-color;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 }
 
 .describe {
-  font-size: 10px;
-  padding: 0px 5px;
+  font-size: 13px;
   text-align: center;
-
-  @media (min-width: 425px) {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  @include large-screen {
     font-size: 12px;
   }
-  @media (min-width: 1024px) {
-    font-size: 13px;
+  @include mobile-screen {
+    font-size: 10px;
   }
+}
+
+.link[data-isopen='true'] {
+  border-radius: 25px;
+  cursor: default;
+  height: auto;
+  justify-content: flex-start;
+  margin: 0 auto;
+  width: 600px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 15%;
+  padding-bottom: 50px;
+  z-index: $z-index-normal;
+
+  @include large-screen {
+    margin: 10px;
+    width: auto;
+  }
+
+  &:hover {
+    background-color: darken($box-bg, 0.9);
+  }
+
+  img {
+    height: 246px;
+    width: 330px;
+    @include large-screen {
+      height: 164px;
+      width: 220px;
+    }
+  }
+
+  .describe {
+    font-size: 20px;
+    cursor: text;
+    width: auto;
+    white-space: normal;
+    font-weight: bold;
+    margin: 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .header {
+    flex-direction: column-reverse;
+  }
+}
+
+.empty {
+  background-color: darken($box-bg, 0.9);
+  height: 100%;
 }

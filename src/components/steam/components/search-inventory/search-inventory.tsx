@@ -1,18 +1,20 @@
 import React, {ChangeEvent, FC, useEffect, useState} from 'react';
-import {Button, Separator} from '@/src/components/ui';
-import {getItemsStart, inventoryStatusSelector} from '@/src/redux';
 import {InventoryStatuses} from '@/src/redux/features';
-import {useDispatch, useSelector} from 'react-redux';
+import {Button, Separator} from '@/src/components/ui';
+import {getItemsStart} from '@/src/redux';
+import {useDispatch} from 'react-redux';
 import {storage} from '@/src/services';
 import {isEmpty} from '../../helpers';
 import {STEAMID_PARAM} from '@/core';
 
 import styles from './search-inventory.module.scss';
 
-export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
+export const SearchInventory: FC<{inventoryStatus: string}> = ({inventoryStatus}) => {
   const dispatch = useDispatch();
   const [steamid, setSteamid] = useState('');
-  const isLoading = useSelector(inventoryStatusSelector) === InventoryStatuses.FORCE_LOAD;
+
+  const isInitLoading = inventoryStatus === InventoryStatuses.FORCE_LOAD;
+  const isForceLoading = inventoryStatus === InventoryStatuses.INIT_LOAD;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value.trim());
   const handleSearch = () => dispatch(getItemsStart({steamid, isForceUpdate: true}));
@@ -21,26 +23,31 @@ export const SearchInventory: FC<{loading: boolean}> = ({loading}) => {
     setSteamid(storage.localStorage.get(STEAMID_PARAM) || '');
   }, []);
 
-  const isDisabled = loading || isLoading || isEmpty(steamid);
+  const isDisabled = isForceLoading || isInitLoading || isEmpty(steamid);
 
   return (
     <>
-      <label className={styles.block} htmlFor={STEAMID_PARAM} data-testid="search-block">
-        <input
-          type="text"
-          value={steamid}
-          id={STEAMID_PARAM}
-          onInput={handleChange}
-          className={styles.input}
-          placeholder="Enter your SteamID"
-        />
-        <Button disabled={isDisabled} onClick={handleSearch} loading={isLoading}>
-          <p className={styles.buttonText}>Search inventory</p>
-        </Button>
-      </label>
+      <div className={styles.wrapper}>
+        <div className={styles.fields}>
+          <label htmlFor={STEAMID_PARAM} data-testid="search-block">
+            <input
+              type="text"
+              value={steamid}
+              id={STEAMID_PARAM}
+              onInput={handleChange}
+              className={styles.input}
+              placeholder="Enter your SteamID"
+            />
+          </label>
+          <Button disabled={isDisabled} onClick={handleSearch} loading={isInitLoading}>
+            <p className={styles.buttonText}>Search inventory</p>
+          </Button>
+        </div>
 
-      <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
-      <Separator noMargin />
+        <p className={styles.note}>Any public Steam profile ID, for example: 76561198080636799</p>
+      </div>
+
+      <Separator />
     </>
   );
 };
