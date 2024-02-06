@@ -36,5 +36,7 @@ export const Portal: FC<Props> = ({children, visible}) => {
       {children}
     </motion.div>
   );
+
+  // TODO: Add scroll lock etc
   if (portalNode) return createPortal(content, portalNode);
 };
