@@ -5,6 +5,10 @@
   width: 600px;
   margin: 10px auto;
   @include box-container;
+  @include large-screen {
+    width: auto;
+    margin: 10px;
+  }
 
   .fields {
     display: flex;
@@ -19,6 +23,9 @@
     text-align: center;
     padding-top: 5px;
     @include body-short;
+    @include large-screen {
+      font-size: 0.9em;
+    }
   }
 
   .input {
@@ -42,16 +49,5 @@
       width: 120px;
       padding: 0 5px;
     }
-  }
-}
-
-@include large-screen {
-  .wrapper {
-    width: auto;
-    margin: 10px;
-  }
-
-  .note {
-    font-size: 0.9em;
   }
 }
