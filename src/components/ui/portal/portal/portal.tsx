@@ -1,5 +1,5 @@
-import {FC, useEffect, useState} from 'react';
 import {createPortal} from 'react-dom';
+import {FC, useEffect, useState} from 'react';
 import {Variants, motion} from 'framer-motion';
 import modalStyles from 'styles/export.module.scss';
 
