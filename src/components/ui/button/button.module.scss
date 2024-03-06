@@ -48,7 +48,8 @@
 }
 
 @keyframes loading {
-  0% {
+  0%,
+  to {
     box-shadow:
       -18px 0 0 1px $main-font-color,
       -6px 0 0 1px rgba($main-font-color, 0.6),
