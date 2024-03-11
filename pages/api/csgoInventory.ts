@@ -1,4 +1,4 @@
-import {awsServices, fetchPrices, PriceCacheType, InventoryItemType, inventoryApi} from '@/src/services';
+import {awsServices, PriceCacheType, InventoryItemType, inventoryApi, fetchCsPrices} from '@/src/services';
 import {calculateInventoryWithPrices, getFormattedDate, minimizeInventory} from '@/server-helpers';
 import {NextApiRequest, NextApiResponse} from 'next';
 import {SteamProfileType} from '@/core/types';
@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     !pricesCache.lastUpdated ||
     now.getTime() - pricesCache.lastUpdated.getTime() > THIRD_OF_THE_DAY
   ) {
-    await fetchPrices({cache: pricesCache});
+    await fetchCsPrices({cache: pricesCache});
   }
 
   if (isForceUpdate) {

@@ -5,7 +5,7 @@ import {noop} from '@/src/services';
 
 const sendMock = jest.fn();
 const fetchDynamoMock = jest.fn();
-const fetchPricesMock = jest.fn();
+const fetchCsPricesMock = jest.fn();
 const getInventoryMock = jest.fn();
 const updateDynamoMock = jest.fn();
 
@@ -16,7 +16,7 @@ jest.mock('@/src/services', () => ({
     updateDynamoInventoryRecord: () => updateDynamoMock()
   },
   inventoryApi: {get: () => getInventoryMock(), getProfile: jest.fn()},
-  fetchPrices: () => fetchPricesMock()
+  fetchCsPrices: () => fetchCsPricesMock()
 }));
 
 describe('api/csgoInventory', () => {
@@ -35,21 +35,21 @@ describe('api/csgoInventory', () => {
     });
   });
   describe('when no cached data', () => {
-    it('should call fetchPrices', async () => {
+    it('should call fetchCsPrices', async () => {
       fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
       const {req, res} = createMocks({method: 'GET', query: {steamid}});
       await handler(req, res);
-      expect(fetchPricesMock).toHaveBeenCalled();
+      expect(fetchCsPricesMock).toHaveBeenCalled();
     });
   });
   describe('when price is cached and updated less than 8 hours', () => {
-    it('should not call fetchPrices', async () => {
+    it('should not call fetchCsPrices', async () => {
       fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
       pricesCache.prices = {};
       pricesCache.lastUpdated = new Date();
       const {req, res} = createMocks({method: 'GET', query: {steamid}});
       await handler(req, res);
-      expect(fetchPricesMock).not.toHaveBeenCalled();
+      expect(fetchCsPricesMock).not.toHaveBeenCalled();
     });
   });
   describe('when its not force update and have saved cache', () => {
