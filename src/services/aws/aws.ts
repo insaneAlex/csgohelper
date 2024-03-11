@@ -7,6 +7,8 @@ import {calculateInventoryWithPrices} from '@/server-helpers';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {AWS_REGION, INVENTORY_TABLE} from './constants';
 import {ENV} from '../environment';
+import {InvokeCommand, LambdaClient} from '@aws-sdk/client-lambda';
+import {S3} from '@aws-sdk/client-s3';
 
 export const awsConfig: AWSConfigType = {
   region: AWS_REGION,
@@ -16,11 +18,15 @@ export const awsConfig: AWSConfigType = {
 export class AWSServices {
   private docClient: DynamoDBDocumentClient;
   private sesClient: SESClient;
+  private lambdaClient: LambdaClient;
+  private s3Client: S3;
 
   constructor(config: AWSConfigType) {
     const dynamoClient = new DynamoDBClient(config);
     this.sesClient = new SESClient(config);
     this.docClient = DynamoDBDocumentClient.from(dynamoClient);
+    this.lambdaClient = new LambdaClient(config);
+    this.s3Client = new S3(config);
   }
 
   async fetchFromDynamoDB(steamid: string, inventoryCache: inventoryCacheType, prices: PricesType) {
@@ -81,6 +87,41 @@ export class AWSServices {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async invokeLambda(name: string, data: Record<string, unknown>) {
+    const params = {
+      FunctionName: name,
+      Payload: JSON.stringify(data)
+    };
+    const command = new InvokeCommand(params);
+
+    try {
+      const response = await this.lambdaClient.send(command);
+      const jsonString = new TextDecoder().decode(response.Payload);
+      const jsonObject = JSON.parse(jsonString);
+
+      return jsonObject;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async saveToBucket(prices: PricesType, lastUpdated: string) {
+    const params = {
+      Bucket: 'cs-prices',
+      Key: 'prices.txt',
+      Body: JSON.stringify({prices, lastUpdated}),
+      ContentType: 'application/json'
+    };
+
+    this.s3Client.putObject(params, (err: unknown, data: unknown) => {
+      if (err) {
+        console.error('Error uploading data to S3:', err);
+      } else {
+        console.log('Data uploaded successfully:', data);
+      }
+    });
   }
 }
 
