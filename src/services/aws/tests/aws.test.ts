@@ -55,12 +55,11 @@ describe('AWSServices', () => {
       it('should be called with command', async () => {
         sendMock.mockResolvedValue({$metadata: {httpStatusCode: 200}});
         const result = await awsServices.updateDynamoInventoryRecord(
-          steamid,
+          {steamid, steamId64: ''},
           isSteamId64,
           items,
           update_time,
-          profile,
-          ''
+          profile
         );
         expect(UpdateCommand).toHaveBeenCalledWith({
           Key: {steamid},
@@ -80,12 +79,11 @@ describe('AWSServices', () => {
       it('should return isSaved: false prop', async () => {
         sendMock.mockRejectedValueOnce(requestFailError);
         const result = await awsServices.updateDynamoInventoryRecord(
-          steamid,
+          {steamid, steamId64: ''},
           isSteamId64,
           items,
           update_time,
-          profile,
-          ''
+          profile
         );
         expect(UpdateCommand).toHaveBeenCalledWith({
           Key: {steamid},
