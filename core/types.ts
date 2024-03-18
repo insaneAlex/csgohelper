@@ -1,5 +1,10 @@
 export type SteamProfileType = {avatarfull: string; personaname: string; profileurl: string};
-export type InitialInventoryResponseType = {inventory: string; update_time: string; profile: SteamProfileType};
+export type InitialInventoryResponseType = {
+  inventory: string;
+  update_time: string;
+  profile: SteamProfileType;
+  customUrl: string;
+};
 
 export type InventoryResponseType = {
   shouldSaveSteamId: boolean;

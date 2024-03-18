@@ -1,11 +1,10 @@
+import {AWS_REGION, CUSTOM_URL_INDEX, INVENTORY_TABLE, RECORD_ALREADY_SAVED_EXCEPTION} from './constants';
+import {AWSConfigType, AmazonResponseType, InventoryCacheType, NoPriceInventory, PricesType} from './types';
 import {FeedbackType, InitialInventoryResponseType, SteamProfileType} from '@/core/types';
-import {DynamoDBDocumentClient, GetCommand, UpdateCommand} from '@aws-sdk/lib-dynamodb';
-import {NoPriceInventory, inventoryCacheType} from '@/pages/api/csgoInventory';
-import {AWSConfigType, AmazonResponseType, PricesType} from './types';
+import {DynamoDBDocumentClient, QueryCommand, UpdateCommand} from '@aws-sdk/lib-dynamodb';
 import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
 import {calculateInventoryWithPrices} from '@/server-helpers';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
-import {AWS_REGION, INVENTORY_TABLE} from './constants';
 import {ENV} from '../environment';
 
 export const awsConfig: AWSConfigType = {
@@ -23,14 +22,27 @@ export class AWSServices {
     this.docClient = DynamoDBDocumentClient.from(dynamoClient);
   }
 
-  async fetchFromDynamoDB(steamid: string, inventoryCache: inventoryCacheType, prices: PricesType) {
-    const command = new GetCommand({TableName: INVENTORY_TABLE, Key: {steamid}});
+  async fetchFromDynamoDB(
+    steamid: string,
+    isSteamId64: boolean,
+    inventoryCache: InventoryCacheType,
+    prices: PricesType
+  ) {
+    const id = isSteamId64 ? 'steamid' : 'customUrl';
+
+    const command = new QueryCommand({
+      TableName: INVENTORY_TABLE,
+      KeyConditionExpression: `${id} = :${id}`,
+      ExpressionAttributeValues: {[`:${id}`]: steamid},
+      ...(isSteamId64 ? {} : {IndexName: CUSTOM_URL_INDEX})
+    });
 
     try {
       const response = await this.docClient.send(command);
+      const item = response?.Items?.[0] as InitialInventoryResponseType;
 
-      if (response?.Item) {
-        const {update_time, inventory, profile} = response.Item as InitialInventoryResponseType;
+      if (item) {
+        const {update_time, inventory, profile} = item;
         const inventoryItems = JSON.parse(inventory);
         inventoryCache[steamid] = {inventory: inventoryItems, update_time, profile};
         const withPrices = JSON.stringify(calculateInventoryWithPrices(inventoryItems, prices));
@@ -45,19 +57,25 @@ export class AWSServices {
   }
 
   async updateDynamoInventoryRecord(
-    steamid: string,
+    steamIdentificator: {steamid: string; steamId64: string},
+    isSteamId64: boolean,
     inventory: NoPriceInventory,
     update_time: string,
     profile: SteamProfileType
   ) {
+    const {steamid, steamId64} = steamIdentificator;
+    const UPDATE_EXPRESSION = 'SET inventory=:inventory, update_time=:update_time, profile=:profile';
+
     const command = new UpdateCommand({
-      Key: {steamid},
+      Key: {steamid: isSteamId64 ? steamid : steamId64},
       TableName: INVENTORY_TABLE,
-      UpdateExpression: 'SET inventory=:inventory, update_time=:update_time, profile=:profile',
+      ConditionExpression: 'inventory <> :inventory',
+      UpdateExpression: isSteamId64 ? UPDATE_EXPRESSION : UPDATE_EXPRESSION + ', customUrl=:customUrl',
       ExpressionAttributeValues: {
         ':inventory': JSON.stringify(inventory),
         ':update_time': update_time,
-        ':profile': profile
+        ':profile': profile,
+        ...(!isSteamId64 ? {':customUrl': steamid} : {})
       }
     });
     try {
@@ -65,15 +83,15 @@ export class AWSServices {
       return {isSaved: response?.$metadata?.httpStatusCode === 200};
     } catch (e) {
       console.error(e);
-
-      return {isSaved: false};
+      const isUpToDate = (e as {name: string})?.name === RECORD_ALREADY_SAVED_EXCEPTION;
+      return {isSaved: isUpToDate};
     }
   }
 
-  async sendFeedback(data: FeedbackType) {
+  async sendFeedback({text, name}: FeedbackType) {
     const sendEmailCommand = new SendEmailCommand({
       Destination: {ToAddresses: [ENV.AWS_SES_EMAIL_TO]},
-      Message: {Body: {Text: {Data: data.text}}, Subject: {Data: `New Feedback from ${data.name}!`}},
+      Message: {Body: {Text: {Data: text}}, Subject: {Data: `New Feedback from ${name}!`}},
       Source: ENV.AWS_SES_EMAIL_FROM
     });
     try {

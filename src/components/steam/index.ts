@@ -13,9 +13,10 @@ export {
 export {
   calculateInventoryPrice,
   getAppliedFilterParams,
+  modifyInventory,
   filterInventory,
   getUniqueItems,
-  modifyInventory
+  getSteamid
 } from './helpers';
 
 export {PriceOptions} from './types';

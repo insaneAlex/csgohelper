@@ -10,4 +10,4 @@ export {
 } from './features';
 
 export type {RootState} from './store';
-export type {InventoryState, SteamIDType} from './types';
+export type {InventoryState} from './types';

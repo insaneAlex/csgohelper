@@ -1,5 +1,3 @@
-import {SteamIDType} from '../../types';
-
 export enum InventoryStatuses {
   IDLE = 'idle',
   INIT_LOAD = 'Init loading',
@@ -8,4 +6,4 @@ export enum InventoryStatuses {
   PRIVATE_INVENTORY = 'Request failed with status 403'
 }
 
-export type GetInventoryPayloadType = SteamIDType & {isForceUpdate?: boolean};
+export type GetInventoryPayloadType = {steamid: {isSteamId64: boolean; value: string}; isForceUpdate?: boolean};
