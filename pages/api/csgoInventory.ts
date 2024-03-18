@@ -2,6 +2,7 @@ import {getSavedInventory, getShouldFetchPrices, getUpdatedInventory} from '@/se
 import {InventoryCacheType, PriceCacheType, fetchCsPrices} from '@/src/services';
 import {NextApiRequest, NextApiResponse} from 'next';
 
+type queryValuesType = {isSteamId64: string; steamid: string; isForceUpdate: boolean};
 export const pricesCache: PriceCacheType = {prices: null, lastUpdated: null};
 export const inventoryCache: InventoryCacheType = {};
 
@@ -15,11 +16,7 @@ const handleError = async (e: {response?: {status?: number}} = {}, steamid: stri
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const {steamid, isForceUpdate} = req.query as unknown as {
-    isSteamId64: string;
-    steamid: string;
-    isForceUpdate: boolean;
-  };
+  const {steamid, isForceUpdate} = req.query as unknown as queryValuesType;
   const isSteamId64 = JSON.parse(req.query.isSteamId64 as string);
 
   if (!steamid) {
