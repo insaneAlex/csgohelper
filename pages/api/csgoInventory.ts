@@ -3,6 +3,7 @@ import {InventoryCacheType, PriceCacheType, fetchCsPrices} from '@/src/services'
 import {NextApiRequest, NextApiResponse} from 'next';
 
 type queryValuesType = {isSteamId64: string; steamid: string; isForceUpdate: boolean};
+
 export const pricesCache: PriceCacheType = {prices: null, lastUpdated: null};
 export const inventoryCache: InventoryCacheType = {};
 
