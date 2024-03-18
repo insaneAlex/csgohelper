@@ -1,4 +1,3 @@
-import {AWS_REGION, CUSTOM_URL_INDEX, INVENTORY_TABLE, RECORD_ALREADY_SAVED_EXCEPTION} from './constants';
 import {AWSConfigType, AmazonResponseType, InventoryCacheType, NoPriceInventory, PricesType} from './types';
 import {FeedbackType, InitialInventoryResponseType, SteamProfileType} from '@/core/types';
 import {DynamoDBDocumentClient, QueryCommand, UpdateCommand} from '@aws-sdk/lib-dynamodb';
@@ -6,6 +5,14 @@ import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
 import {calculateInventoryWithPrices} from '@/server-helpers';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {ENV} from '../environment';
+import {
+  RECORD_ALREADY_SAVED_EXCEPTION,
+  CUSTOM_URL_INDEX,
+  INVENTORY_TABLE,
+  AWS_REGION,
+  CUSTOM_URL,
+  STEAM_ID
+} from './constants';
 
 export const awsConfig: AWSConfigType = {
   region: AWS_REGION,
@@ -28,7 +35,7 @@ export class AWSServices {
     inventoryCache: InventoryCacheType,
     prices: PricesType
   ) {
-    const id = isSteamId64 ? 'steamid' : 'customUrl';
+    const id = isSteamId64 ? STEAM_ID : CUSTOM_URL;
 
     const command = new QueryCommand({
       TableName: INVENTORY_TABLE,

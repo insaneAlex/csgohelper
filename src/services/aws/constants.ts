@@ -3,3 +3,5 @@ export const INVENTORY_TABLE = 'inventories';
 export const CUSTOM_URL_INDEX = 'customUrlIndex';
 
 export const RECORD_ALREADY_SAVED_EXCEPTION = 'ConditionalCheckFailedException';
+export const STEAM_ID = 'steamid';
+export const CUSTOM_URL = 'customUrl';

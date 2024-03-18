@@ -33,8 +33,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json(response);
     } catch (e) {
       console.error(e);
-
       const error = await handleError(e as {response?: {status?: number}}, steamid, isSteamId64);
+
       res.status(error.status).json(error.response);
     }
   } else {

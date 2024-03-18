@@ -9,7 +9,6 @@ export const getSavedInventory = async (
 ) => {
   if (inventoryId in cache) {
     const {inventory, update_time, profile} = cache[inventoryId];
-
     return {
       profile,
       update_time,
@@ -18,7 +17,5 @@ export const getSavedInventory = async (
       inventory: JSON.stringify(calculateInventoryWithPrices(inventory as NoPriceInventory, pricesCache.prices))
     };
   }
-  const response = await awsServices.fetchFromDynamoDB(inventoryId, isSteamId64, cache, pricesCache.prices);
-
-  return response;
+  return await awsServices.fetchFromDynamoDB(inventoryId, isSteamId64, cache, pricesCache.prices);
 };
