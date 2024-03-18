@@ -1,14 +1,8 @@
 /* eslint-disable max-depth */
+import {InventoryCacheType, PriceCacheType, fetchCsPrices, inventoryApi, awsServices} from '@/src/services';
 import {calculateInventoryWithPrices, getFormattedDate, minimizeInventory} from '@/server-helpers';
+import {getSavedInventory} from '@/server-helpers/get-saved-inventory';
 import {NextApiRequest, NextApiResponse} from 'next';
-import {
-  InventoryCacheType,
-  NoPriceInventory,
-  PriceCacheType,
-  fetchCsPrices,
-  inventoryApi,
-  awsServices
-} from '@/src/services';
 
 const THIRD_OF_THE_DAY = 8 * 60 * 60 * 1000;
 export const pricesCache: PriceCacheType = {prices: null, lastUpdated: null};
@@ -70,31 +64,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       if (error?.response?.status === 403) {
         return res.status(403).json({inventory: '[]'});
       }
-
-      if (!(steamid in inventoryCache)) {
-        const response = await awsServices.fetchFromDynamoDB(steamid, isSteamId64, inventoryCache, pricesCache.prices);
-        return res.status(response.statusCode).json(response);
-      }
-      const {inventory, update_time, profile} = inventoryCache[steamid];
-      return res.status(201).json({
-        profile,
-        update_time: update_time,
-        shouldSaveSteamId: true,
-        inventory: JSON.stringify(calculateInventoryWithPrices(inventory as NoPriceInventory, pricesCache.prices))
-      });
+      const response = await getSavedInventory(inventoryCache, pricesCache, steamid, isSteamId64);
+      return res.status(response?.statusCode || 201).json(response);
     }
   } else {
-    if (steamid in inventoryCache) {
-      const {inventory, update_time, profile} = inventoryCache[steamid];
-      return res.status(201).json({
-        profile,
-        update_time,
-        shouldSaveSteamId: true,
-        inventory: JSON.stringify(calculateInventoryWithPrices(inventory as NoPriceInventory, pricesCache.prices))
-      });
-    }
-    const response = await awsServices.fetchFromDynamoDB(steamid, isSteamId64, inventoryCache, pricesCache.prices);
-    return res.status(response.statusCode).json(response);
+    const response = await getSavedInventory(inventoryCache, pricesCache, steamid, isSteamId64);
+    return res.status(response?.statusCode || 201).json(response);
   }
 };
 
