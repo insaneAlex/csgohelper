@@ -22,8 +22,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!steamid) {
     return res.status(400).json({inventory: '[]', error: 'BAD_REQUEST'});
   }
-
-  getShouldFetchPrices(new Date(), pricesCache) && (await fetchCsPrices({cache: pricesCache}));
+  if (getShouldFetchPrices(new Date(), pricesCache)) {
+    await fetchCsPrices({cache: pricesCache});
+  }
 
   if (isForceUpdate) {
     try {
