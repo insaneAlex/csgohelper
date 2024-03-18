@@ -34,7 +34,7 @@ describe('SteamInventory', () => {
     it('should call onGetItems action', () => {
       render(<SteamInventory {...defaultProps} inventoryItems={[]} />);
       expect(onGetItemsMock).toHaveBeenCalledTimes(1);
-      expect(onGetItemsMock).toHaveBeenCalledWith({steamid: 'steamid'});
+      expect(onGetItemsMock).toHaveBeenCalledWith({steamid: {value: 'steamid', isSteamId64: false}});
     });
   });
 });

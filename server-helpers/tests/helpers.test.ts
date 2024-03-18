@@ -1,10 +1,10 @@
 import {InventoryGlobalType, InventoryItemType, TagsTypeIndex} from '@/src/services/steam-inventory';
 import {calculateInventoryWithPrices} from '../calculate-inventory-with-prices';
-import {NoPriceInventory} from '@/pages/api/csgoInventory';
 import {minimizeInventory} from '../minimize-inventory';
 import {getFormattedDate} from '../get-formatted-date';
-import {PricesType} from '@/src/services/aws/types';
 import {getByTagName} from '../get-by-tag-name';
+import {NoPriceInventory} from '@/src/services';
+import {PricesType} from '@/src/services/aws';
 
 describe('helpers', () => {
   describe('getByTagName', () => {
