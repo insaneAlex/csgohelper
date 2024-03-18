@@ -19,6 +19,8 @@ jest.mock('@aws-sdk/lib-dynamodb', () => ({
 }));
 
 const requestFailError = new Error('request fail');
+const steamid = '3245234632463246';
+const isSteamId64 = true;
 describe('AWSServices', () => {
   let awsServices: AWSServices;
   beforeEach(() => {
@@ -47,13 +49,18 @@ describe('AWSServices', () => {
     });
   });
   describe('updateDynamoInventoryRecord', () => {
-    const steamid = '123';
     const update_time = '2023-11-17T12:00:00';
     const profile = {avatarfull: '', personaname: '', profileurl: ''};
     describe('on success', () => {
       it('should be called with command', async () => {
         sendMock.mockResolvedValue({$metadata: {httpStatusCode: 200}});
-        const result = await awsServices.updateDynamoInventoryRecord(steamid, items, update_time, profile);
+        const result = await awsServices.updateDynamoInventoryRecord(
+          {steamid, steamId64: ''},
+          isSteamId64,
+          items,
+          update_time,
+          profile
+        );
         expect(UpdateCommand).toHaveBeenCalledWith({
           Key: {steamid},
           TableName: 'inventories',
@@ -62,7 +69,8 @@ describe('AWSServices', () => {
             ':inventory': JSON.stringify(items),
             ':update_time': update_time,
             ':profile': profile
-          }
+          },
+          ConditionExpression: 'inventory <> :inventory'
         });
         expect(result).toEqual({isSaved: true});
       });
@@ -70,7 +78,13 @@ describe('AWSServices', () => {
     describe('on fail', () => {
       it('should return isSaved: false prop', async () => {
         sendMock.mockRejectedValueOnce(requestFailError);
-        const result = await awsServices.updateDynamoInventoryRecord(steamid, items, update_time, profile);
+        const result = await awsServices.updateDynamoInventoryRecord(
+          {steamid, steamId64: ''},
+          isSteamId64,
+          items,
+          update_time,
+          profile
+        );
         expect(UpdateCommand).toHaveBeenCalledWith({
           Key: {steamid},
           TableName: 'inventories',
@@ -79,21 +93,21 @@ describe('AWSServices', () => {
             ':inventory': JSON.stringify(items),
             ':update_time': update_time,
             ':profile': profile
-          }
+          },
+          ConditionExpression: 'inventory <> :inventory'
         });
         expect(result).toEqual({isSaved: false});
       });
     });
   });
   describe('fetchFromDynamoDB', () => {
-    const steamid = '123';
     const inventoryCache = {};
     const prices = null;
     const responseItem = {update_time: '2023-11-17T12:00:00', inventory: '[]'};
     describe('on success and existed item', () => {
       it('should return Item', async () => {
-        sendMock.mockResolvedValueOnce({Item: responseItem});
-        const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
+        sendMock.mockResolvedValueOnce({Items: [responseItem]});
+        const result = await awsServices.fetchFromDynamoDB(steamid, isSteamId64, inventoryCache, prices);
         expect(result).toEqual({
           statusCode: 201,
           shouldSaveSteamId: true,
@@ -104,8 +118,8 @@ describe('AWSServices', () => {
     });
     describe('on success and not existed item', () => {
       it('should return with 404 error', async () => {
-        sendMock.mockResolvedValueOnce({Item: null});
-        const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
+        sendMock.mockResolvedValueOnce({Items: null});
+        const result = await awsServices.fetchFromDynamoDB(steamid, isSteamId64, inventoryCache, prices);
         expect(result).toEqual({statusCode: 404, inventory: '[]'});
       });
     });
@@ -113,7 +127,7 @@ describe('AWSServices', () => {
       it('should return with 404 error', async () => {
         sendMock.mockRejectedValueOnce(requestFailError);
         const mockConsoleError = jest.spyOn(console, 'error').mockImplementation();
-        const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
+        const result = await awsServices.fetchFromDynamoDB(steamid, isSteamId64, inventoryCache, prices);
         expect(mockConsoleError).toHaveBeenCalledWith(requestFailError);
         expect(result).toEqual({statusCode: 404, inventory: '[]'});
       });
@@ -123,8 +137,8 @@ describe('AWSServices', () => {
         const prices = {'qwe': {price: 'ITEM_PRICE'}} as unknown as PricesType;
         const itemValue = {market_hash_name: 'qwe'};
         const responseItem = {update_time: '2023-11-17T12:00:00', inventory: JSON.stringify([itemValue])};
-        sendMock.mockResolvedValueOnce({Item: responseItem});
-        const result = await awsServices.fetchFromDynamoDB(steamid, inventoryCache, prices);
+        sendMock.mockResolvedValueOnce({Items: [responseItem]});
+        const result = await awsServices.fetchFromDynamoDB(steamid, isSteamId64, inventoryCache, prices);
         const withPrices = JSON.stringify([{...itemValue, prices: prices?.[itemValue.market_hash_name]?.price}]);
         expect(result).toEqual({
           statusCode: 201,

@@ -12,7 +12,7 @@ jest.mock('@/src/services', () => ({
 }));
 
 describe('getInventoryTask', () => {
-  const fetchInventoryPayload = {steamid: '123', isForceUpdate: true};
+  const fetchInventoryPayload = {steamid: {isSteamId64: true, value: '123'}, isForceUpdate: true};
   const profile = {avatarfull: '', personaname: '', profileurl: ''};
   it('should dispatch getItemsSuccess on successful fetchInventory', async () => {
     const expectedResponse = {inventory: '[]', update_time: 'asdad', profile};

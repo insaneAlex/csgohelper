@@ -17,6 +17,15 @@ class InventoryApi {
 
     return this.parse(data, tradable);
   }
+  async getSteamIdByCustomUrl({steamid}: GetInventoryParams) {
+    const getSteamId64Url = `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${ENV.STEAM_WEB_API}&vanityurl=${steamid}`;
+    try {
+      const {data} = await axios.get(getSteamId64Url);
+      return data;
+    } catch (e) {
+      return steamid;
+    }
+  }
   async getProfile({steamid}: {steamid: string}) {
     const url = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${ENV.STEAM_WEB_API}&steamids=${steamid}`;
 

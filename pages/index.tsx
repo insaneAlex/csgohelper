@@ -1,6 +1,6 @@
 import {inventoryStatusSelector, itemsSelector, getItemsStart, RootState} from '@/src/redux';
+import {SearchInventory, InventoryLayout, getSteamid} from '@/src/components/steam';
 import {GetInventoryPayloadType, InventoryStatuses} from '@/src/redux/features';
-import {SearchInventory, InventoryLayout} from '@/src/components/steam';
 import {InventoryItemType} from '@/src/services/steam-inventory';
 import {ErrorAlert} from '@/src/components/ui';
 import {storage} from '@/src/services';
@@ -21,7 +21,7 @@ export const SteamInventory: FC<Props> = ({onGetItems, inventoryItems, status}) 
   const hasNoItems = inventoryItems.length === 0;
 
   useEffect(() => {
-    hasNoItems && steamid && onGetItems({steamid});
+    hasNoItems && steamid && onGetItems({steamid: getSteamid(steamid)});
   }, []);
 
   const renderError = () => {

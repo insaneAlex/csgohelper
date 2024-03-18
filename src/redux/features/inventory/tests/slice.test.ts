@@ -3,14 +3,15 @@ import {InventoryItemType} from '@/src/services';
 import {InventoryStatuses} from '../types';
 
 describe('Inventory Slice', () => {
+  const steamid = {isSteamId64: true, value: 'qwe'};
   it('should handle getItemsStart action with isForceUpdate true', () => {
     const initialState = {items: [], update_time: null, status: InventoryStatuses.IDLE, profile: null};
-    const newState = inventoryReducer(initialState, getItemsStart({isForceUpdate: true, steamid: 'qwe'}));
+    const newState = inventoryReducer(initialState, getItemsStart({isForceUpdate: true, steamid}));
     expect(newState.status).toEqual(InventoryStatuses.FORCE_LOAD);
   });
   it('should handle getItemsStart action with isForceUpdate false', () => {
     const initialState = {items: [], update_time: null, status: InventoryStatuses.IDLE, profile: null};
-    const newState = inventoryReducer(initialState, getItemsStart({isForceUpdate: false, steamid: 'qwe'}));
+    const newState = inventoryReducer(initialState, getItemsStart({isForceUpdate: false, steamid}));
     expect(newState.status).toEqual(InventoryStatuses.INIT_LOAD);
   });
   it('should handle getItemsSuccess action', () => {

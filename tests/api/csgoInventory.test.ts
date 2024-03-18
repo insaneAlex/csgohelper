@@ -20,16 +20,18 @@ jest.mock('@/src/services', () => ({
 }));
 
 describe('api/csgoInventory', () => {
-  const steamid = 'stmid';
+  const isSteamId64 = 'true';
+  const steamid = '345345254235432';
   const cachedSteamid = 'dsdf';
   inventoryCache[cachedSteamid] = {};
+
   afterEach(() => {
     jest.resetAllMocks();
     pricesCache.prices = null;
   });
   describe('when no steamid', () => {
     it('should return 400 status', async () => {
-      const {req, res} = createMocks({method: 'GET', query: {}});
+      const {req, res} = createMocks({method: 'GET', query: {isSteamId64}});
       await handler(req, res);
       expect(res._getStatusCode()).toBe(400);
     });
@@ -37,7 +39,7 @@ describe('api/csgoInventory', () => {
   describe('when no cached data', () => {
     it('should call fetchCsPrices', async () => {
       fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
-      const {req, res} = createMocks({method: 'GET', query: {steamid}});
+      const {req, res} = createMocks({method: 'GET', query: {steamid, isSteamId64}});
       await handler(req, res);
       expect(fetchCsPricesMock).toHaveBeenCalled();
     });
@@ -47,7 +49,7 @@ describe('api/csgoInventory', () => {
       fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
       pricesCache.prices = {};
       pricesCache.lastUpdated = new Date();
-      const {req, res} = createMocks({method: 'GET', query: {steamid}});
+      const {req, res} = createMocks({method: 'GET', query: {steamid, isSteamId64}});
       await handler(req, res);
       expect(fetchCsPricesMock).not.toHaveBeenCalled();
     });
@@ -55,7 +57,7 @@ describe('api/csgoInventory', () => {
   describe('when its not force update and have saved cache', () => {
     it('should return 201', async () => {
       fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
-      const {req, res} = createMocks({method: 'GET', query: {steamid: cachedSteamid}});
+      const {req, res} = createMocks({method: 'GET', query: {steamid: cachedSteamid, isSteamId64}});
       await handler(req, res);
       expect(res._getStatusCode()).toBe(201);
     });
@@ -64,7 +66,7 @@ describe('api/csgoInventory', () => {
     it('should call getInventory', async () => {
       fetchDynamoMock.mockResolvedValueOnce({statusCode: 200});
       jest.spyOn(console, 'error').mockImplementation(noop);
-      const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true}});
+      const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true, isSteamId64}});
       await handler(req, res);
       expect(getInventoryMock).toHaveBeenCalled();
     });
@@ -74,7 +76,7 @@ describe('api/csgoInventory', () => {
       const statusCode = 200;
       fetchDynamoMock.mockResolvedValueOnce({statusCode});
       getInventoryMock.mockResolvedValueOnce(items);
-      const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true}});
+      const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true, isSteamId64}});
       await handler(req, res);
       expect(getInventoryMock).toHaveBeenCalled();
       expect(updateDynamoMock).toHaveBeenCalled();
@@ -85,7 +87,7 @@ describe('api/csgoInventory', () => {
     describe('with 404 code', () => {
       it('should return 404 status code', async () => {
         getInventoryMock.mockRejectedValueOnce({response: {status: 404}});
-        const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true}});
+        const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true, isSteamId64}});
         await handler(req, res);
         expect(res._getStatusCode()).toBe(404);
       });
@@ -93,7 +95,7 @@ describe('api/csgoInventory', () => {
     describe('with 403 code', () => {
       it('should return 403 status code', async () => {
         getInventoryMock.mockRejectedValueOnce({response: {status: 403}});
-        const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true}});
+        const {req, res} = createMocks({method: 'GET', query: {steamid, isForceUpdate: true, isSteamId64}});
         await handler(req, res);
         expect(res._getStatusCode()).toBe(403);
       });
@@ -101,7 +103,10 @@ describe('api/csgoInventory', () => {
     describe('when inventory is saved in cache', () => {
       it('should return 201 status', async () => {
         getInventoryMock.mockResolvedValueOnce(items);
-        const {req, res} = createMocks({method: 'GET', query: {steamid: cachedSteamid, isForceUpdate: true}});
+        const {req, res} = createMocks({
+          method: 'GET',
+          query: {steamid: cachedSteamid, isForceUpdate: true, isSteamId64}
+        });
         await handler(req, res);
         expect(res._getStatusCode()).toBe(201);
       });

@@ -9,7 +9,7 @@ describe('core requests', () => {
       const {signal} = new AbortController();
       const result = 'result';
       mockSuccessGet(result);
-      const results = await fetchInventory({signal, steamid: 'id'});
+      const results = await fetchInventory({signal, steamid: {isSteamId64: true, value: 'id'}});
       expect(fetch.get).toHaveBeenCalledTimes(1);
       expect(results).toEqual(result);
     });

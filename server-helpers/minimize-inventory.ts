@@ -1,6 +1,6 @@
 import {InventoryGlobalType} from '@/src/services/steam-inventory';
-import {NoPriceInventory} from '@/pages/api/csgoInventory';
 import {getByTagName} from './get-by-tag-name';
+import {NoPriceInventory} from '@/src/services';
 
 export const minimizeInventory = (inventory: InventoryGlobalType[]): NoPriceInventory =>
   inventory.map(({assetid, name, market_hash_name, name_color, icon_url, tags}) => {

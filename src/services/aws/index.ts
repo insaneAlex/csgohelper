@@ -1,2 +1,2 @@
 export {awsServices} from './aws';
-export type {PricesType} from './types';
+export type {PricesType, InventoryCacheType, NoPriceInventory} from './types';

@@ -8,5 +8,6 @@ export {filterInventory} from './filter-inventory';
 export {modifyInventory} from './modify-inventory';
 export {areEqualArrays} from './are-equal-arrays';
 export {getUniqueItems} from './get-unique-items';
+export {getSteamid} from './get-steamid';
 export {paginate} from './paginate';
 export {isEmpty} from './is-empty';

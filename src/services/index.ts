@@ -5,4 +5,4 @@ export {fetchCsPrices} from './fetch-prices';
 export {createMediaQuery} from './helpers';
 
 export {storage} from './storage';
-export {awsServices} from './aws';
+export {awsServices, type InventoryCacheType, type NoPriceInventory} from './aws';

@@ -36,15 +36,12 @@
     "no-useless-call": "error",
     "yoda": "error",
     "no-console": "error",
-
     "complexity": ["error", 10],
     "max-params": ["error", 5],
     "max-depth": ["error", 2],
     "max-statements": ["error", 16],
     "max-nested-callbacks": ["error", 4],
-
     "react-hooks/rules-of-hooks": "error",
-
     "no-undef-init": "error"
   },
   "overrides": [
