@@ -68,9 +68,10 @@ describe('AWSServices', () => {
           ExpressionAttributeValues: {
             ':inventory': JSON.stringify(items),
             ':update_time': update_time,
-            ':profile': profile
+            ':profile': profile,
+            ':customUrl': ''
           },
-          ConditionExpression: 'inventory <> :inventory'
+          ConditionExpression: 'inventory <> :inventory OR customUrl <> :customUrl'
         });
         expect(result).toEqual({isSaved: true});
       });
@@ -92,9 +93,10 @@ describe('AWSServices', () => {
           ExpressionAttributeValues: {
             ':inventory': JSON.stringify(items),
             ':update_time': update_time,
-            ':profile': profile
+            ':profile': profile,
+            ':customUrl': ''
           },
-          ConditionExpression: 'inventory <> :inventory'
+          ConditionExpression: 'inventory <> :inventory OR customUrl <> :customUrl'
         });
         expect(result).toEqual({isSaved: false});
       });

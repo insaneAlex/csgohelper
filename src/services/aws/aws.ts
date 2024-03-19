@@ -1,8 +1,8 @@
-import {AWSConfigType, AmazonResponseType, InventoryCacheType, NoPriceInventory, PricesType} from './types';
-import {FeedbackType, InitialInventoryResponseType, SteamProfileType} from '@/core/types';
 import {DynamoDBDocumentClient, QueryCommand, UpdateCommand} from '@aws-sdk/lib-dynamodb';
+import {AWSConfigType, InventoryCacheType, NoPriceInventory, PricesType} from './types';
 import {SESClient, SendEmailCommand} from '@aws-sdk/client-ses';
 import {calculateInventoryWithPrices} from '@/server-helpers';
+import {FeedbackType, SteamProfileType} from '@/core/types';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import {ENV} from '../environment';
 import {
@@ -46,7 +46,7 @@ export class AWSServices {
 
     try {
       const response = await this.docClient.send(command);
-      const item = response?.Items?.[0] as InitialInventoryResponseType;
+      const item = response?.Items?.[0];
 
       if (item) {
         const {update_time, inventory, profile} = item;
@@ -76,17 +76,17 @@ export class AWSServices {
     const command = new UpdateCommand({
       Key: {steamid: isSteamId64 ? steamid : steamId64},
       TableName: INVENTORY_TABLE,
-      ConditionExpression: 'inventory <> :inventory',
+      ConditionExpression: 'inventory <> :inventory OR customUrl <> :customUrl',
       UpdateExpression: isSteamId64 ? UPDATE_EXPRESSION : UPDATE_EXPRESSION + ', customUrl=:customUrl',
       ExpressionAttributeValues: {
         ':inventory': JSON.stringify(inventory),
         ':update_time': update_time,
         ':profile': profile,
-        ...(!isSteamId64 ? {':customUrl': steamid} : {})
+        ':customUrl': !isSteamId64 ? steamid : ''
       }
     });
     try {
-      const response = (await this.docClient.send(command)) as AmazonResponseType;
+      const response = await this.docClient.send(command);
       return {isSaved: response?.$metadata?.httpStatusCode === 200};
     } catch (e) {
       console.error(e);
