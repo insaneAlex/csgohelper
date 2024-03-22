@@ -1,4 +1,4 @@
-import handler, {inventoryCache, pricesCache} from '../../pages/api/csgoInventory';
+import handler, {inventoryCache, pricesCache} from '../../pages/api/csInventory';
 import {createMocks} from 'node-mocks-http';
 import items from '../../mocks/items.json';
 import {noop} from '@/src/services';
@@ -19,7 +19,7 @@ jest.mock('@/src/services', () => ({
   fetchCsPrices: () => fetchCsPricesMock()
 }));
 
-describe('api/csgoInventory', () => {
+describe('api/csInventory', () => {
   const isSteamId64 = 'true';
   const steamid = '345345254235432';
   const cachedSteamid = 'dsdf';
