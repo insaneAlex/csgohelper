@@ -1,7 +1,7 @@
 import {InventoryCacheType, PriceCacheType, awsServices, inventoryApi} from '@/src/services';
+import {calculateInventoryWithPrices} from './calculate-inventory-with-prices';
 import {minimizeInventory} from './minimize-inventory';
 import {getFormattedDate} from './get-formatted-date';
-import {calculateInventoryWithPrices} from './calculate-inventory-with-prices';
 
 export const getUpdatedInventory = async (
   steamid: string,
@@ -30,7 +30,7 @@ export const getUpdatedInventory = async (
     profile
   );
 
-  cache[steamId64 || steamid] = {inventory: minimizedInventory, update_time, profile};
+  cache[isSteamId64 ? steamId64 : steamid] = {inventory: minimizedInventory, update_time, profile};
 
   return {profile, shouldSaveSteamId: isSaved, inventory: JSON.stringify(withPrices)};
 };
