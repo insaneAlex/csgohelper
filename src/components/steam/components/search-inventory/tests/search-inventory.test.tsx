@@ -15,8 +15,8 @@ describe('SearchInventory', () => {
   describe('when user submit form with saved steamId', () => {
     it('should call getItemsStart action', () => {
       render(<SearchInventory inventoryStatus={InventoryStatuses.IDLE} />);
-      const submitButton = screen.getByText('Search inventory');
-      fireEvent.click(submitButton);
+      const form = screen.getByTestId('search-form');
+      fireEvent.submit(form);
       expect(dispatchMock).toHaveBeenCalledWith(getItemsStart({isForceUpdate: true, steamid}));
     });
   });
@@ -25,9 +25,9 @@ describe('SearchInventory', () => {
       render(<SearchInventory inventoryStatus={InventoryStatuses.IDLE} />);
       const expectedValue = 'changedValue';
       const input = screen.getByPlaceholderText('Enter your SteamID');
-      const submitButton = screen.getByText('Search inventory');
+      const form = screen.getByTestId('search-form');
       fireEvent.input(input, {target: {value: expectedValue}});
-      fireEvent.click(submitButton);
+      fireEvent.submit(form);
       expect(dispatchMock).toHaveBeenCalledWith(
         getItemsStart({isForceUpdate: true, steamid: {isSteamId64: false, value: expectedValue}})
       );
