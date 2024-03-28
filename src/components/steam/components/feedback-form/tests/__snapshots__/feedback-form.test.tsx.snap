@@ -2,17 +2,17 @@
 
 exports[`FeedbackForm should render correctly 1`] = `
 <div>
-  <section
-    class="wrapper"
+  <form
+    class="form"
+    data-testid="feedback-form"
   >
     <h1
       class="header"
     >
       Have any thoughts or ideas? Share them with us below
     </h1>
-    <form
-      class="form"
-      data-testid="feedback-form"
+    <fieldset
+      class="fieldset"
     >
       <input
         class="input"
@@ -37,7 +37,7 @@ exports[`FeedbackForm should render correctly 1`] = `
       >
         Submit
       </button>
-    </form>
-  </section>
+    </fieldset>
+  </form>
 </div>
 `;

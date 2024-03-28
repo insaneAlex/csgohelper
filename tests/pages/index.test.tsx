@@ -27,7 +27,7 @@ const defaultProps = {
 describe('SteamInventory', () => {
   it('should render elements', () => {
     render(<SteamInventory {...defaultProps} />);
-    expect(screen.getByTestId('search-block')).toBeInTheDocument();
+    expect(screen.getByTestId('search-form')).toBeInTheDocument();
   });
 
   describe('when there is no items and steamid applied', () => {
