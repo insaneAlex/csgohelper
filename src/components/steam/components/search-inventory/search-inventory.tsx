@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react';
 import {InventoryStatuses} from '@/src/redux/features';
 import {Button, Separator} from '@/src/components/ui';
 import {getSteamid, isEmpty} from '../../helpers';
@@ -17,7 +17,11 @@ export const SearchInventory: FC<{inventoryStatus: string}> = ({inventoryStatus}
   const isForceLoading = inventoryStatus === InventoryStatuses.INIT_LOAD;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSteamid(e.target.value.trim());
-  const handleSearch = () => dispatch(getItemsStart({steamid: getSteamid(steamid), isForceUpdate: true}));
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    dispatch(getItemsStart({steamid: getSteamid(steamid), isForceUpdate: true}));
+  };
 
   useEffect(() => {
     setSteamid(storage.localStorage.get(STEAMID_PARAM) || '');
@@ -27,9 +31,9 @@ export const SearchInventory: FC<{inventoryStatus: string}> = ({inventoryStatus}
 
   return (
     <>
-      <div className={styles.wrapper}>
-        <div className={styles.fields}>
-          <label htmlFor={STEAMID_PARAM} data-testid="search-block">
+      <form className={styles.form} onSubmit={handleSubmit} data-testid="search-form">
+        <fieldset className={styles.fieldset}>
+          <label htmlFor={STEAMID_PARAM}>
             <input
               type="text"
               value={steamid}
@@ -39,13 +43,13 @@ export const SearchInventory: FC<{inventoryStatus: string}> = ({inventoryStatus}
               placeholder="Enter your SteamID"
             />
           </label>
-          <Button disabled={isDisabled} onClick={handleSearch} loading={isInitLoading}>
+          <Button disabled={isDisabled} isSubmit loading={isInitLoading}>
             <p className={styles.buttonText}>Search inventory</p>
           </Button>
-        </div>
+        </fieldset>
 
         <p className={styles.note}>Enter your SteamID, nickname of profile link to calculate inventory value</p>
-      </div>
+      </form>
 
       <Separator />
     </>

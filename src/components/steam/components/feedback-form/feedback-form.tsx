@@ -41,10 +41,10 @@ export const FeedbackForm: FC = () => {
   const errorAnimateProps = {className: styles.error, initial: {opacity: 0}, animate: {opacity: 1}, exit: {opacity: 0}};
   return (
     <>
-      <section className={styles.wrapper}>
+      <form className={styles.form} data-testid="feedback-form" onSubmit={handleSubmit}>
         <h1 className={styles.header}>Have any thoughts or ideas? Share them with us below</h1>
 
-        <form className={styles.form} onSubmit={handleSubmit} data-testid="feedback-form">
+        <fieldset className={styles.fieldset}>
           <input
             id={NAME_FIELD}
             name={NAME_FIELD}
@@ -68,8 +68,8 @@ export const FeedbackForm: FC = () => {
           <Button isSubmit loading={isLoading} disabled={isLoading}>
             Submit
           </Button>
-        </form>
-      </section>
+        </fieldset>
+      </form>
     </>
   );
 };

@@ -1,6 +1,7 @@
 @import 'styles/index';
 
-.wrapper {
+.form {
+  border: none;
   flex-direction: column;
   min-height: 350px;
   width: 650px;
@@ -24,7 +25,8 @@
     @include body-short;
   }
 
-  .form {
+  .fieldset {
+    border: none;
     display: flex;
     flex-direction: column;
     gap: 10px;

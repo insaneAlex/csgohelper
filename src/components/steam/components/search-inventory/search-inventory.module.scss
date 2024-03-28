@@ -1,6 +1,6 @@
 @import 'styles/index';
 
-.wrapper {
+.form {
   flex-direction: column;
   width: 600px;
   margin: 10px auto;
@@ -10,7 +10,8 @@
     margin: 10px;
   }
 
-  .fields {
+  .fieldset {
+    border: none;
     display: flex;
     gap: 10px;
 
